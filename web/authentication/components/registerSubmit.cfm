@@ -62,7 +62,7 @@
 <!-- retrieve the user id for the new user -->
 
 <cfquery name="UID" datasource="webwarecl">
-	SELECT id FROM Users WHERE confirm_id='#cid#'
+	SELECT id FROM users WHERE confirm_id='#cid#'
 </cfquery>
 
 <cfquery name="cf1" datasource="webwarecl">

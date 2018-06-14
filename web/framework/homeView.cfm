@@ -6,7 +6,7 @@
 <wwaficon>pi-16x16.png</wwaficon>
 -->
 <cfquery name="profile" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#url.calledByUser#
+	SELECT * FROM users WHERE id=#url.calledByUser#
 </cfquery>
 
 <cfoutput query="profile">

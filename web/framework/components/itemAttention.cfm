@@ -1,5 +1,5 @@
 <cfquery name="gInbox" datasource="webwarecl">
-SELECT messageInbox.id AS msgid, messageInbox.tbody, messageInbox.tsubject, messageInbox.tdate, messageInbox.tread, Users.username FROM messageInbox INNER JOIN Users ON Users.id=messageInbox.fromuser WHERE messageInbox.touser=#url.calledByUser# AND messageInbox.tread='no' ORDER BY messageInbox.tdate
+SELECT messageInbox.id AS msgid, messageInbox.tbody, messageInbox.tsubject, messageInbox.tdate, messageInbox.tread, Users.username FROM messageinbox INNER JOIN Users ON Users.id=messageInbox.fromuser WHERE messageInbox.touser=#url.calledByUser# AND messageInbox.tread='no' ORDER BY messageInbox.tdate
 </cfquery>
 <table width="100%">
   <cfif #url.unreadMail# GT 0>

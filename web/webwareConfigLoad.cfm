@@ -1,5 +1,5 @@
     <cfquery name="unreadQ" datasource="#session.datasource#">
-    SELECT * FROM messageInbox WHERE touser=#session.userid# AND tread='no'
+    SELECT * FROM messageinbox WHERE touser=#session.userid# AND tread='no'
     </cfquery>
     <cfset session.unread=#unreadQ.recordcount#>
     <cfquery name="odc" datasource="#session.datasource#">
@@ -18,14 +18,14 @@
     SELECT viewed FROM projects WHERE viewed=0 AND stage=0 AND site_id=#session.current_site_id#
     </cfquery>
 	<cfquery name="mhV" datasource="#session.datasource#">
-		SELECT masthead_closed FROM Users WHERE id=#session.userid#
+		SELECT masthead_closed FROM users WHERE id=#session.userid#
 	</cfquery>
     <cfquery name="gllp" datasource="#session.datasource#">
-    	SELECT last_loaded_page FROM Users WHERE id=#session.userid#
+    	SELECT last_loaded_page FROM users WHERE id=#session.userid#
     </cfquery>
 
 	<cfquery name="grp" datasource="#session.datasource#">
-    	SELECT remember_page FROM Users WHERE id=#session.userid#   
+    	SELECT remember_page FROM users WHERE id=#session.userid#   
     </cfquery>
     
     <cfset session.remember_page=#grp.remember_page#>
@@ -82,6 +82,6 @@
 	<cfset session.jobreceiver="#getConfig.jobapprover#">
 
 <cfquery name="profile" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#session.userid#   
+	SELECT * FROM users WHERE id=#session.userid#   
 </cfquery>
 <cfset session.webware_admin="#profile.webware_admin#">

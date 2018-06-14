@@ -3,7 +3,7 @@
 <cfparam name="ColColor" default="white">
 
 <cfquery name="gUsers" datasource="webwarecl">
-	SELECT * FROM Users ORDER BY type DESC, longName ASC
+	SELECT * FROM users ORDER BY type DESC, longName ASC
 </cfquery>
 
 <cfquery name="gCompanies" datasource="webwarecl">

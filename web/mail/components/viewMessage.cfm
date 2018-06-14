@@ -12,7 +12,7 @@ pre {
 }
 </style>
 <cfquery name="m" datasource="webwarecl">
-	SELECT messageInbox.id AS msgid, messageInbox.readReceipt, messageInbox.tread, messageInbox.touser, messageInbox.tsubject, messageInbox.tdate, messageInbox.tbody, messageInbox.refJobID, messageInbox.fromuser, Users.longName FROM messageInbox INNER JOIN Users ON Users.id=messageInbox.fromuser WHERE messageInbox.id=#url.id#
+	SELECT messageInbox.id AS msgid, messageInbox.readReceipt, messageInbox.tread, messageInbox.touser, messageInbox.tsubject, messageInbox.tdate, messageInbox.tbody, messageInbox.refJobID, messageInbox.fromuser, Users.longName FROM messageinbox INNER JOIN Users ON Users.id=messageInbox.fromuser WHERE messageInbox.id=#url.id#
 </cfquery>
 
 <cfif #m.readReceipt# EQ 1 AND #m.tread# EQ "no">

@@ -1,5 +1,5 @@
 <cfquery name="gP" datasource="webwarecl">
-	SELECT longName, picture FROM Users WHERE id=#attributes.userid#
+	SELECT longName, picture FROM users WHERE id=#attributes.userid#
 </cfquery>
 <style type="text/css">
 <!--

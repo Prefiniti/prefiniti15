@@ -6,7 +6,7 @@
 </script>
 
 <cfquery name="getUserName" datasource="webwarecl">
-	SELECT longName FROM Users WHERE id=#url.emp_id#
+	SELECT longName FROM users WHERE id=#url.emp_id#
 </cfquery>
 
 <form name="dateSel">

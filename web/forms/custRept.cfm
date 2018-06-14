@@ -7,7 +7,7 @@
 
 <body>
 <cfquery name="c" datasource="webwarecl">
-	SELECT * FROM Users WHERE type=0
+	SELECT * FROM users WHERE type=0
 </cfquery>
 <table width="800" border="0">
 	<tr>

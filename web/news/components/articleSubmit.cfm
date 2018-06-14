@@ -6,7 +6,7 @@
 </cfquery>
 
 <cfquery name="gSMS" datasource="webwarecl">
-	SELECT * FROM Users WHERE smsNumber != ""
+	SELECT * FROM users WHERE smsNumber != ""
 </cfquery>
 
 <cfoutput query="gSMS">

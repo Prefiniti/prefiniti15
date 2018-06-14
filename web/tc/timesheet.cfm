@@ -7,7 +7,7 @@
 <link href="../css/gecko.css" rel="stylesheet" type="text/css" />
 
 <cfquery name="userinfo" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#URL.userid#
+	SELECT * FROM users WHERE id=#URL.userid#
 </cfquery>
 
 <cfquery name="qJobNumbers" datasource="webwarecl">

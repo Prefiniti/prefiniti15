@@ -1,5 +1,5 @@
 <cfquery name="getUsers" datasource="webwarecl">
-	SELECT * FROM Users WHERE type=1 ORDER BY longName
+	SELECT * FROM users WHERE type=1 ORDER BY longName
 </cfquery>
 
 <cfquery name="getCrewMembers" datasource="webwarecl">

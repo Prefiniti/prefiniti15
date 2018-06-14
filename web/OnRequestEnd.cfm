@@ -12,7 +12,7 @@
 
 <cfif #session.loggedIn# EQ "yes">
 <cfquery name="gPic" datasource="webwarecl">
-	SELECT picture FROM Users WHERE id=#session.userid#
+	SELECT picture FROM users WHERE id=#session.userid#
 </cfquery> 
 
 <cfoutput>

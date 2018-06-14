@@ -1,7 +1,7 @@
 <!-- confirm the account -->
 
 <cfquery name="getAccountID" datasource="webwarecl">
-	SELECT * FROM Users WHERE confirm_id='#url.cid#'
+	SELECT * FROM users WHERE confirm_id='#url.cid#'
 </cfquery>
 
 <cfquery name="setAccountConfirmed" datasource="webwarecl">

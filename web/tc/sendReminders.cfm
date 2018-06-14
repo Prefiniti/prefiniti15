@@ -1,5 +1,5 @@
 <cfquery name="smsUsers" datasource="webwarecl">
-	SELECT * FROM Users WHERE type=1 AND receives_timesheet_reminders=1
+	SELECT * FROM users WHERE type=1 AND receives_timesheet_reminders=1
 </cfquery>
 
 

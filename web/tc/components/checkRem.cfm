@@ -3,7 +3,7 @@
 </cfquery>
 
 <cfquery name="u" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#attributes.userid#
+	SELECT * FROM users WHERE id=#attributes.userid#
 </cfquery>
 
 <cfoutput>#u.longName# #u.smsNumber#<br></cfoutput>

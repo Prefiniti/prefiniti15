@@ -128,7 +128,7 @@
     <cfargument name="search_value" type="string" required="yes">
     
     <cfquery name="s" datasource="webwarecl">
-    	SELECT * FROM Users WHERE allowSearch=1 AND #search_field# LIKE '%#search_value#%' ORDER BY lastName, firstName
+    	SELECT * FROM users WHERE allowSearch=1 AND #search_field# LIKE '%#search_value#%' ORDER BY lastName, firstName
 	</cfquery>
     
     <cfreturn #s#>        
@@ -148,7 +148,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
     
     <cfquery name="gu" datasource="webwarecl">
-    	SELECT LTRIM(username) AS UN FROM Users WHERE id=#user_id#
+    	SELECT LTRIM(username) AS UN FROM users WHERE id=#user_id#
     </cfquery>
     
     <cfreturn #gu.UN#>
@@ -158,7 +158,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
 
 	<cfquery name="ghh" datasource="webwarecl">
-    	SELECT gender FROM Users WHERE id=#user_id#
+    	SELECT gender FROM users WHERE id=#user_id#
     </cfquery>
     
     <cfif ghh.gender EQ "M">
@@ -171,7 +171,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
     
     <cfquery name="gp" datasource="webwarecl">
-    	SELECT picture, username, gender FROM Users WHERE id=#user_id#
+    	SELECT picture, username, gender FROM users WHERE id=#user_id#
     </cfquery>        
     
     <cfif #gp.picture# EQ "">
@@ -193,7 +193,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
     
 	<cfquery name="go" datasource="webwarecl">
-    	SELECT online FROM Users WHERE id=#user_id#
+    	SELECT online FROM users WHERE id=#user_id#
 	</cfquery>
     
     <cfif #go.online# EQ 1>
@@ -207,7 +207,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
     
     <cfquery name="gl" datasource="webwarecl">
-    	SELECT longName FROM Users WHERE id=#user_id#
+    	SELECT longName FROM users WHERE id=#user_id#
 	</cfquery>
     
     <cfreturn #gl.longName#>
@@ -217,7 +217,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
     
     <cfquery name="gl" datasource="webwarecl">
-    	SELECT birthday FROM Users WHERE id=#user_id#
+    	SELECT birthday FROM users WHERE id=#user_id#
 	</cfquery>
     
     <cfreturn #gl.birthday#>
@@ -345,7 +345,7 @@
     <cfargument name="file_name" type="string" required="yes">
     
     <cfquery name="gpp" datasource="webwarecl">
-    	SELECT picture FROM Users WHERE id=#user_id#
+    	SELECT picture FROM users WHERE id=#user_id#
     </cfquery>
     
     <cfif #gpp.picture# EQ #file_name#>
@@ -360,6 +360,6 @@
     <cfargument name="file_name" type="string" required="yes">
    
    	<cfquery name="spp" datasource="webwarecl">
-   		UPDATE Users SET picture='#file_name#' WHERE id=#user_id#
+   		UPDATE users SET picture='#file_name#' WHERE id=#user_id#
 	</cfquery>
 </cffunction>            

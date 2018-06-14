@@ -89,7 +89,7 @@
 
 <cfif #url.emp_id# NEQ "noUserFilter">
 	<cfquery name="getUserName" datasource="webwarecl">
-		SELECT longName FROM Users WHERE id=#url.emp_id#
+		SELECT longName FROM users WHERE id=#url.emp_id#
 	</cfquery>
 </cfif>
 <div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">

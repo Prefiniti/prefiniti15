@@ -1,5 +1,5 @@
 <cfquery name="getFrom" datasource="webwarecl">
-	SELECT longName FROM Users WHERE id=#url.fromid#
+	SELECT longName FROM users WHERE id=#url.fromid#
 </cfquery>
 
 <cfquery name="createIM" datasource="webwarecl">

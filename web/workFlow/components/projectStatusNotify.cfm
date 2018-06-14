@@ -1,7 +1,7 @@
 <cfinclude template="/notifications/notification_udf.cfm">
 <cfinclude template="/authentication/authentication_udf.cfm">
 <cfquery name="c" datasource="webwarecl">
-	SELECT * FROM Users WHERE id='#attributes.clientID#'
+	SELECT * FROM users WHERE id='#attributes.clientID#'
 </cfquery>
 
 <cfparam name="pstatval" default="">

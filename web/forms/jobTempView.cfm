@@ -6,7 +6,7 @@ SELECT * FROM projects WHERE id='#URL.jobid#'
 SELECT * FROM files WHERE projectID='#url.jobid#'
 </cfquery>
 <cfquery name="qryGetCustInf" datasource="#session.datasource#">
-SELECT * FROM Users WHERE id='#url.custid#'
+SELECT * FROM users WHERE id='#url.custid#'
 </cfquery>
 <cfquery name="jc" datasource="#session.datasource#">
 SELECT id FROM jobNotes WHERE jobid='#url.jobid#'

@@ -2,7 +2,7 @@
 <cfset sms_confid=Left(CreateUUID(), 6)>
 
 <cfquery name="udsc" datasource="webwarecl">
-	UPDATE Users SET sms_conf='#sms_confid#' WHERE id=#url.userid#
+	UPDATE users SET sms_conf='#sms_confid#' WHERE id=#url.userid#
 </cfquery>
 
 <cfmail from="sms@webwarecl.com" to="#url.number#@teleflip.com" subject="Prefiniti SMS Confirmation">Reply with 'CONF #sms_confid#' to confirm.</cfmail>

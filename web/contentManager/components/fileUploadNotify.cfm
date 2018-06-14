@@ -1,6 +1,6 @@
 
 <cfquery name="c" datasource="webwarecl">
-	SELECT * FROM Users WHERE id='#attributes.clientID#'
+	SELECT * FROM users WHERE id='#attributes.clientID#'
 </cfquery>
 
 <cfquery name="p" datasource="webwarecl">

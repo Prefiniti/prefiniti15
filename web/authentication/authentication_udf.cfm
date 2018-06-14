@@ -81,7 +81,7 @@
 	<cfargument name="user_id" type="numeric" required="yes">
     
 	<cfquery name="gbi" datasource="webwarecl">
-    	SELECT * FROM Users WHERE id=#user_id#
+    	SELECT * FROM users WHERE id=#user_id#
     </cfquery>    
     
     <cfreturn #gbi#>

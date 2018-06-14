@@ -3,7 +3,7 @@
 <cfinclude template="/authentication/authentication_udf.cfm">
 
 <cfquery name="qryUsers" datasource="webwarecl">
-	SELECT id, longName FROM Users ORDER BY longName
+	SELECT id, longName FROM users ORDER BY longName
 </cfquery>
 <!---JOB ORDER FORM--->
 <!--

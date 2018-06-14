@@ -1,7 +1,7 @@
 <cfinclude template="/authentication/authentication_udf.cfm">
 	
     <cfquery name="gUsers" datasource="webwarecl">
-		SELECT longName, id FROM Users WHERE type=1 ORDER BY lastName, firstName
+		SELECT longName, id FROM users WHERE type=1 ORDER BY lastName, firstName
 	</cfquery>
 
 				<cfquery name="qjnv" datasource="webwarecl">

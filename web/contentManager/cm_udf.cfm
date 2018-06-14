@@ -31,7 +31,7 @@
     <cfparam name="q" default="">
     
     <cfquery name="gpq" datasource="webwarecl">
-    	SELECT project_quota FROM Users WHERE id=#user_id#
+    	SELECT project_quota FROM users WHERE id=#user_id#
     </cfquery>
     
     <cfset q=gpq.project_quota*1024>

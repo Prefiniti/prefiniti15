@@ -11,7 +11,7 @@
 <body>
 
 <cfquery name="c" datasource="#session.datasource#">
-	SELECT * FROM Users WHERE id='#form.clientID#'
+	SELECT * FROM users WHERE id='#form.clientID#'
 </cfquery>
 	
 <cfquery name="insertOrder" datasource="#session.datasource#">

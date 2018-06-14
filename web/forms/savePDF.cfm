@@ -4,7 +4,7 @@
 </cfdocument>
 
 <cfquery name="postPDF" datasource="webwarecl">
-	UPDATE Users SET newpdf=1 WHERE id=#url.user_id#
+	UPDATE users SET newpdf=1 WHERE id=#url.user_id#
 </cfquery>    
 
 <cfquery name="pp2" datasource="webwarecl">

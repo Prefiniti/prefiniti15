@@ -6,7 +6,7 @@
 </cfquery>
 
 <cfquery name="gAU" datasource="webwarecl">
-	SELECT * FROM Users WHERE type=1
+	SELECT * FROM users WHERE type=1
 </cfquery>
 		
 <cfif #projectInfo.maint_lock# EQ 1 AND #url.calledByUser# NEQ 1>

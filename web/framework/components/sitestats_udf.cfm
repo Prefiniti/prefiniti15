@@ -5,7 +5,7 @@
 	<cfparam  name="siteStats" default="">
     <cfset siteStats=StructNew()>
     <cfquery name="unreadMail" datasource="webwarecl">
-    	SELECT * FROM messageInbox WHERE touser=#user_id# AND tread='no' AND deleted_inbox=0
+    	SELECT * FROM messageinbox WHERE touser=#user_id# AND tread='no' AND deleted_inbox=0
     </cfquery>
     
     <cfquery name="delinquentJobs" datasource="webwarecl">
@@ -37,7 +37,7 @@
 	</cfquery>  
     
     <cfquery name="newPDFs" datasource="webwarecl">
-    	SELECT newpdf FROM Users WHERE id=#user_id#
+    	SELECT newpdf FROM users WHERE id=#user_id#
     </cfquery>
     
     <cfset siteStats.unreadMail=#unreadMail.RecordCount#>

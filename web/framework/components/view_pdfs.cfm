@@ -1,5 +1,5 @@
 <cfquery name="upd" datasource="webwarecl">
-	UPDATE Users SET newpdf=0 WHERE id=#url.calledByUser#
+	UPDATE users SET newpdf=0 WHERE id=#url.calledByUser#
 </cfquery>
     
 <cfquery name="getPDFS" datasource="webwarecl">

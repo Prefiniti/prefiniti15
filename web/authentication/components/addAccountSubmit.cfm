@@ -16,7 +16,7 @@
 </cfquery>
 
 <cfquery name="gA" datasource="webwarecl">
-	SELECT * FROM Users WHERE confirm_id='#cid#'
+	SELECT * FROM users WHERE confirm_id='#cid#'
 </cfquery>
 
 <cfoutput>

@@ -1,7 +1,7 @@
 
 <cfinclude template="/socialnet/socialnet_udf.cfm">
 <cfquery name="profile" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#url.userid#
+	SELECT * FROM users WHERE id=#url.userid#
 </cfquery>
 
 <cfoutput>

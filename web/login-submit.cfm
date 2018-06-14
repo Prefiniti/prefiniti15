@@ -7,7 +7,7 @@
 
 <body>
 	<cfquery name="qryGetLogin" datasource="#session.datasource#">
-		SELECT * FROM Users WHERE username='#form.username#' AND password='#Hash(form.password)#'
+		SELECT * FROM users WHERE username='#form.username#' AND password='#Hash(form.password)#'
 	</cfquery>
 	
 	<cfquery name="siteStatus" datasource="#session.datasource#">
@@ -15,7 +15,7 @@
 	</cfquery>
 	
 	<cfquery name="eventUsers" datasource="#session.datasource#">
-		SELECT id FROM Users
+		SELECT id FROM users
 	</cfquery>
 	
 	<cfif #qryGetLogin.RecordCount# GT 0>
@@ -53,7 +53,7 @@
 				SELECT duedate FROM projects WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) > duedate AND SubStatus <> "Closed";
 			</cfquery>
 			<cfquery name="setOnline" datasource="#session.datasource#">
-				UPDATE Users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#
+				UPDATE users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#
 			</cfquery>
 			
 			<cfoutput query="eventUsers">

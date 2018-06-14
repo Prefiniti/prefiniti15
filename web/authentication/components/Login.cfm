@@ -17,7 +17,7 @@
 </style>
 
 <cfquery name="SiteInfo" datasource="sites">
-	SELECT * FROM Sites WHERE SiteID='#attributes.siteid#'
+	SELECT * FROM sites WHERE SiteID='#attributes.siteid#'
 </cfquery>
 
 <cfquery name="getStatus" datasource="webwarecl">

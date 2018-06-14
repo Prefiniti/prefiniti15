@@ -1,5 +1,5 @@
 <cfquery name="getFromAddress" datasource="webwarecl">
-	SELECT * FROM Users WHERE smsnumber='#attributes.from#'
+	SELECT * FROM users WHERE smsnumber='#attributes.from#'
 </cfquery>
 
 <cfparam name="cid" default="">
@@ -8,11 +8,11 @@
 	<cfset cid="#Mid(attributes.project, 6, 6)#">
 	
 	<cfquery name="getConf" datasource="webwarecl">
-		SELECT * FROM Users WHERE sms_conf='#UCase(cid)#'
+		SELECT * FROM users WHERE sms_conf='#UCase(cid)#'
 	</cfquery>
 	
 	<cfquery name="udSMS" datasource="webwarecl">
-		UPDATE Users SET smsnumber='#attributes.from#' WHERE id=#getConf.id#
+		UPDATE users SET smsnumber='#attributes.from#' WHERE id=#getConf.id#
 	</cfquery>
 	
 	<cfoutput><cfmail from="sms@webwarecl.com" to="#attributes.from#" subject="Prefiniti Text Messaging Setup">Congratulations, #getConf.longName#! Your Prefiniti account is now set up to receive SMS notifications.</cfmail></cfoutput>

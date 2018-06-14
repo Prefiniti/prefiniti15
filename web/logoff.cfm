@@ -14,7 +14,7 @@
 	</cfoutput>
     <cfif #session.userid# NEQ "">
 		<cfquery name="setOffline" datasource="webwarecl">
-			UPDATE Users SET online=0 WHERE id=#session.userid#
+			UPDATE users SET online=0 WHERE id=#session.userid#
 		</cfquery>
 	</cfif>
 <cfset suid=session.userid>

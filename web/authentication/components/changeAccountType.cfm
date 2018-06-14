@@ -1,5 +1,5 @@
 <cfquery name="accountInfo" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#URL.id#
+	SELECT * FROM users WHERE id=#URL.id#
 </cfquery>
 
 <cfquery name="getCompanies" datasource="webwarecl">

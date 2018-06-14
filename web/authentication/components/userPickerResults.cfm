@@ -1,5 +1,5 @@
 <cfquery name="usres" datasource="webwarecl">
-	SELECT longName, id FROM Users WHERE longName LIKE '%#URL.namePart#%'
+	SELECT longName, id FROM users WHERE longName LIKE '%#URL.namePart#%'
 </cfquery>
 
 <cfparam name="RowNum" default="0">

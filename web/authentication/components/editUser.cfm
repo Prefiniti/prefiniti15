@@ -1,7 +1,7 @@
 
 
 <cfquery name="gUI" datasource="webwarecl">
-	SELECT * FROM Users WHERE id=#url.id#
+	SELECT * FROM users WHERE id=#url.id#
 </cfquery>
 <cfoutput>
 

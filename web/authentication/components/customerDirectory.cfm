@@ -3,7 +3,7 @@
 -->
 
 <cfquery name="gDir" datasource="webwarecl">
-	SELECT * FROM Users WHERE type=0 AND account_enabled=1 ORDER BY longName
+	SELECT * FROM users WHERE type=0 AND account_enabled=1 ORDER BY longName
 </cfquery>
 
 <cfparam name="RowNum" default="0">
