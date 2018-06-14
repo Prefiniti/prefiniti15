@@ -1,5 +1,5 @@
 <cfquery name="ps" datasource="webwarecl">
-	SELECT id, clsJobNumber, jobtype, subdivision, lot, block, section, township, range, SubdivisionOrDeed, FilingType, PlatCabinetBook, PageOrSlide, PageSlide, specialinstructions, address, city, state, zip FROM projects WHERE id=#url.id#
+	SELECT id, clsJobNumber, jobtype, subdivision, lot, block, section, township, 'range', SubdivisionOrDeed, FilingType, PlatCabinetBook, PageOrSlide, PageSlide, specialinstructions, address, city, state, zip FROM projects WHERE id=#url.id#
 </cfquery>
 
 <table width="100%" cellspacing="0" cellpadding="4">
