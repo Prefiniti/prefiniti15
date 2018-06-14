@@ -6,14 +6,16 @@
     
     <cfparam name="ssum" default="0">
     
-    <cfdirectory action="list" directory="D:\Inetpub\WebWareCL\UserContent\#getUsername(url.user_id)#\#basedir#\" name="p">
+    <cfset dir = expandPath(getUsername(url.user_id) & "/" & basedir & "/")>
+
+    <cfdirectory action="list" directory="#dir#" name="p">
 
 	<cfoutput query="p">
-    	<cfset ssum=ssum+#p.size#>
+    	<cfset ssum = ssum + #p.size#>
     </cfoutput>
     
-    <cfset ssum=ssum/1024>
-    <cfreturn #Round(ssum)#>
+    <cfset ssum = Round(ssum / 1024)>
+    <cfreturn ssum>
 </cffunction>
 
 <cffunction name="cmsUserFileSize" returntype="numeric">
@@ -63,9 +65,9 @@
     	SELECT * FROM user_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="D:\Inetpub\WebWareCL\UserContent\#getUsername(cufp.user_id)#\#cufp.basedir#\#cufp.filename#">
-    
-    <cfreturn #tmp#>
+    <cfset dir = expandPath("/UserContent/" & getUsername(cufp.user_id) & "/" & cufp.basedir) & "/" & cufp.filename>
+   
+    <cfreturn dir>
 </cffunction> 
 
 <cffunction name="cmsSiteFilePath" returntype="string">
@@ -77,11 +79,12 @@
     	SELECT * FROM site_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="D:\Inetpub\WebWareCL\SiteContent\#cssfp.site_id#\#cssfp.basedir#">
+    <cfset tmp= expandPath("/SiteContent/" & cssfp.site_id & "/" & cssfp.basedir)>
+
     <cfif cssfp.subdir NEQ "">
-    	<cfset tmp="#tmp#\#cssfp.subdir#">
+    	<cfset tmp="#tmp#/#cssfp.subdir#">
 	</cfif>
-    <cfset tmp="#tmp#\#cssfp.filename#">
+    <cfset tmp="#tmp#/#cssfp.filename#">
     
     <cfreturn #tmp#>
 </cffunction>  
@@ -115,7 +118,7 @@
     	SELECT * FROM user_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="D:\Inetpub\WebWareCL\UserContent\#getUsername(cufp.user_id)#\#cufp.basedir#">
+    <cfset tmp = expandPath("/UserContent/" & getUsername(cufp.user_id) & "/" & cufp.basedir)>
     
     <cfreturn #tmp#>
 </cffunction> 
@@ -129,9 +132,10 @@
     	SELECT * FROM site_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="D:\Inetpub\WebWareCL\SiteContent\#site_id#\#csfp.basedir#">
+    <cfset tmp = expandPath("/SiteContent/" & site_id & "/" & csfp.basedir)>
+    
     <cfif cufp.subdir NEQ "">
-    	<cfset tmp="#tmp#\#csfp.subdir#">
+    	<cfset tmp="#tmp#/#csfp.subdir#">
 	</cfif>        
     
     <cfreturn #tmp#>
@@ -141,7 +145,7 @@
 	<cfargument name="user_id" required="yes" type="numeric">
     
     <cfparam name="tmp" default="">
-    <cfset tmp="D:\Inetpub\WebWareCL\UserContent\#getUsername(user_id)#">
+    <cfset tmp = expandPath("/UserContent/" & getUsername(user_id))>
     
     <cfreturn #tmp#>
 </cffunction>
@@ -150,7 +154,7 @@
 	<cfargument name="site_id" required="yes" type="numeric">
     
     <cfparam name="tmp" default="">
-    <cfset tmp="D:\Inetpub\WebWareCL\SiteContent\#site_id#">
+    <cfset tmp = expandPath("/SiteContent/" & site_id)>
     
     <cfreturn #tmp#>
 </cffunction>
@@ -164,7 +168,7 @@
     	SELECT filename FROM user_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfreturn #cufn.filename#>        
+    <cfreturn cufn.filename>        
 </cffunction>
 
 <cffunction name="cmsUserFileDescription" returntype="string">
@@ -206,7 +210,7 @@
     	SELECT * FROM user_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="http://www.webwarecl.com/UserContent/#getUsername(cufu.user_id)#/#cufu.basedir#/#URLEncodedFormat(cufu.filename)#">
+    <cfset tmp="http://prefiniti15.prefiniti.com/UserContent/#getUsername(cufu.user_id)#/#cufu.basedir#/#URLEncodedFormat(cufu.filename)#">
     
     <cfreturn #tmp#>
 </cffunction>
@@ -220,7 +224,7 @@
     	SELECT * FROM site_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="http://www.webwarecl.com/SiteContent/#csfu.site_id#/#csfu.basedir#">
+    <cfset tmp="http://prefiniti15.prefiniti.com/SiteContent/#csfu.site_id#/#csfu.basedir#">
     <cfif csfu.subdir NEQ "">
     	<cfset tmp="#tmp#/#csfu.subdir#/">
 	<cfelse>
@@ -415,9 +419,9 @@
     
 	<cfset site_base_folder=cmsSiteBasePath(site_id)>
 
-	<cfdirectory action="create" directory="#site_base_folder#\project_files\#project_name#">
+	<cfdirectory action="create" directory="#site_base_folder#/project_files/#project_name#">
     
-    <cfset tmp="#DateFormat(Now(), 'mm/dd/yyyy')# #TimeFormat(Now(), 'h:mm tt')# created staging area for #project_name# in site #site_id# @ #site_base_folder#\project_files\#project_name#">
+    <cfset tmp="#DateFormat(Now(), 'mm/dd/yyyy')# #TimeFormat(Now(), 'h:mm tt')# created staging area for #project_name# in site #site_id# @ #site_base_folder#/project_files/#project_name#">
     
     <cfreturn tmp>
 </cffunction> 
@@ -435,8 +439,8 @@
     <cfset base_path=cmsUserFileBasePath(#file_id#)>
     <cfset orig_name=cmsUserFileName(#file_id#)>
     
-    <cfset r_src=base_path + "\" + orig_name>
-    <cfset r_dst=base_path + "\" + #new_name#>
+    <cfset r_src=base_path + "/" + orig_name>
+    <cfset r_dst=base_path + "/" + #new_name#>
     
     <cffile action="rename" source="#r_src#" destination="#r_dst#">
     
@@ -458,8 +462,8 @@
     <cfset base_path=cmsSiteFileBasePath(#file_id#)>
     <cfset orig_name=cmsSiteFileName(#file_id#)>
     
-    <cfset r_src=base_path + "\" + orig_name>
-    <cfset r_dst=base_path + "\" + #new_name#>
+    <cfset r_src=base_path + "/" + orig_name>
+    <cfset r_dst=base_path + "/" + #new_name#>
     
     <cffile action="rename" source="#r_src#" destination="#r_dst#">
     

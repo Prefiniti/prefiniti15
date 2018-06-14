@@ -145,30 +145,27 @@ function getUploader(filter, filter_description, max_files, post_target)
 }
 
 
-/*glob_uploader = getUploader('*.*', 'All Files', 10, '/contentmanager/components/process_upload.cfm?mode=yay');*/
+/*glob_uploader = getUploader('*.*', 'All Files', 10, '/contentManager/components/process_upload.cfm?mode=yay');*/
 /*filter, filter_description, max_files, post_target)*/
 function cmsPrepareUploader(filter, filter_description, mode, site_id, user_id, basedir, subdir)
 {
 	var url;
-	url = '/contentmanager/components/process_upload.cfm?mode=' + escape(mode);
+	url = '/contentManager/components/html5UploadForm.cfm?mode=' + escape(mode);
 	url += '&site_id=' + escape(site_id);
 	url += '&user_id=' + escape(user_id);
 	url += '&basedir=' + escape(basedir);
 	url += '&subdir=' + escape(subdir);
 	
-	//url += '&user_id_n=' + glob_userid;
-	
 	showDiv('browseButton');
 	
-	glob_uploader = getUploader(filter, filter_description, 10, url);
-	//glob_uploader.selectFiles();
+	AjaxLoadPageToDiv('tcTarget', url);
 }
 
 function cmsBrowseFolder(user_id, basedir, subdir, mode, search_criteria)
 {
 	var url;
 	
-	url = '/contentmanager/components/cms_browse.cfm?user_id=' + escape(user_id);
+	url = '/contentManager/components/cms_browse.cfm?user_id=' + escape(user_id);
 	url += '&basedir=' + escape(basedir);
 	url += '&mode=' + escape(mode);
 	url += '&subdir=' + escape(subdir);
@@ -186,7 +183,7 @@ function cmsBrowseFolder(user_id, basedir, subdir, mode, search_criteria)
 function cmsDlgAddAssociation(file_id, file_name, mode)
 {
 	var url;
-	url = '/contentmanager/components/cms_add_association.cfm?file_id=' + escape(file_id);
+	url = '/contentManager/components/cms_add_association.cfm?file_id=' + escape(file_id);
 	url += '&file_name=' + escape(file_name);
 	url += '&mode=' + escape(mode);
 	
@@ -197,7 +194,7 @@ function cmsDlgAddAssociation(file_id, file_name, mode)
 function cmsAddAssociation(file_id, project_id, scope, description, releasable)
 {
 	var url;
-	url = '/contentmanager/components/cms_add_association_sub.cfm?file_id=' + escape(file_id);
+	url = '/contentManager/components/cms_add_association_sub.cfm?file_id=' + escape(file_id);
 	url += '&project_id=' + escape(project_id);
 	if (scope == "user") {
 		url += '&assoc_type=0';
@@ -256,7 +253,7 @@ function cmsSelectFile(id, mode, hideDelete)
 
 function cmsViewFile(file_id, mode)
 {
-	window.open('/contentmanager/components/cms_view_file.cfm?file_id=' + escape(file_id) + '&mode=' + escape(mode) + '&site_id=' + glob_current_site_id);
+	window.open('/contentManager/components/cms_view_file.cfm?file_id=' + escape(file_id) + '&mode=' + escape(mode) + '&site_id=' + glob_current_site_id);
 }
 
 function cmsDeleteFile(file_id, mode)
@@ -267,7 +264,7 @@ function cmsDeleteFile(file_id, mode)
 	if (ans)
 	{
 		var url;
-		url = '/contentmanager/components/cms_file_delete.cfm?file_id=' + escape(file_id);
+		url = '/contentManager/components/cms_file_delete.cfm?file_id=' + escape(file_id);
 		url += "&mode=" + escape(mode);
 		AjaxNullRequest(url);
 		
@@ -278,7 +275,7 @@ function cmsDeleteFile(file_id, mode)
 function cmsRenameFile(file_id, mode, new_name)
 {
 	var url;
-	url = '/contentmanager/components/cms_file_rename.cfm?file_id=' + escape(file_id);
+	url = '/contentManager/components/cms_file_rename.cfm?file_id=' + escape(file_id);
 	url += '&mode=' + escape(mode);
 	url += '&new_name=' + escape(new_name);
 	
@@ -288,7 +285,7 @@ function cmsRenameFile(file_id, mode, new_name)
 function cmsDescribeFile(file_id, mode, description)
 {
 	var url;
-	url = '/contentmanager/components/cms_file_describe.cfm?file_id=' + escape(file_id);
+	url = '/contentManager/components/cms_file_describe.cfm?file_id=' + escape(file_id);
 	url += '&mode=' + escape(mode);
 	url += '&description=' + escape(description);
 	
@@ -298,7 +295,7 @@ function cmsDescribeFile(file_id, mode, description)
 function cmsLoadMiniBrowser(file_id_target, name_target)
 {
 	var url;
-	url = '/contentmanager/components/cms_minibrowser.cfm?file_id_target=' + escape(file_id_target);
+	url = '/contentManager/components/cms_minibrowser.cfm?file_id_target=' + escape(file_id_target);
 	url += '&name_target=' + escape(name_target);
 	
 	AjaxLoadPageToDiv('cms_minibrowser_area', url);

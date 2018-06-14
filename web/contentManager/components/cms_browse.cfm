@@ -1,7 +1,7 @@
 <!--
 	<wwafcomponent>Browse Files</wwafcomponent>
 -->
-<cfinclude template="/contentmanager/cm_udf.cfm">
+<cfinclude template="/contentManager/cm_udf.cfm">
 <cfinclude template="/authentication/authentication_udf.cfm">
 
 
@@ -21,7 +21,9 @@
             <option value="project_files" <cfif url.basedir EQ "project_files">selected</cfif>>Project files</option>
 		</select> 
         </label>
-	</span></cfoutput>    
+	</span>
+
+</cfoutput>    
 <cfif url.mode EQ "site" and url.basedir NEQ "profile_images">
     <span>
     	<label>Project:
@@ -69,7 +71,7 @@
 		<h3 class="stdHeader" style="padding:10px;"><img src="/graphics/globe-compass-48x48.png" align="top"> Content Management</h3>
 	</div>
 	<div align="right">
-    <cfmodule template="/contentmanager/components/quota_check.cfm" user_id="#url.calledByUser#">
+    <cfmodule template="/contentManager/components/quota_check.cfm" user_id="#url.calledByUser#">
     </div>
     <div style="padding:10px; width:100%; clear:left;">
     <cfif url.mode EQ "user">
@@ -80,9 +82,9 @@
         <br><strong>Folder Size: #Round(getDirectorySize(url.calledByUser, url.basedir) / 1024)#MB</strong></div>
 </div>    
 <cfif url.mode EQ "user">
-	<cfmodule template="/contentmanager/components/cms_user_files.cfm" user_id="#url.calledByUser#" mode="#url.mode#" basedir="#url.basedir#" search_criteria="#url.search_criteria#">
+	<cfmodule template="/contentManager/components/cms_user_files.cfm" user_id="#url.calledByUser#" mode="#url.mode#" basedir="#url.basedir#" search_criteria="#url.search_criteria#">
 <cfelse>
-	<cfmodule template="/contentmanager/components/cms_site_files.cfm" site_id="#url.current_site_id#" user_id="#url.calledByUser#" mode="#url.mode#" basedir="#url.basedir#" subdir="#url.subdir#" search_criteria="#url.search_criteria#">
+	<cfmodule template="/contentManager/components/cms_site_files.cfm" site_id="#url.current_site_id#" user_id="#url.calledByUser#" mode="#url.mode#" basedir="#url.basedir#" subdir="#url.subdir#" search_criteria="#url.search_criteria#">
 </cfif>
 </cfoutput>
 	

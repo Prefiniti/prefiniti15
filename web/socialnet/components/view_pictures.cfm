@@ -70,7 +70,7 @@
 
 <cfoutput query="pc">
 	<cfif basedir EQ "profile_images">
-    	<cfimage action="info" source="#cmsUserFileURL(id)#" structname="imgInfo">
+    	<cfimage action="info" source="#cmsUserFilePath(id)#" structname="imgInfo">
 		<cfset p_url=cmsUserFileURL(id)>
 		<cfparam name="hide_delete" default="">
         <cfif url.calledByUser NEQ #user_id#>
@@ -86,7 +86,7 @@
     <!---<cfimage action="info" source="#p_url#" structname="imgInfo">--->
     
     
-    <cfimage source="#p_url#" name="myImage">
+    <cfimage source="#cmsUserFilePath(id)#" name="myImage">
 	<!--- Turn on antialiasing to improve image quality. --->
     <cfset ImageSetAntialiasing(myImage,"on")>
     <cfset ImageScaleToFit(myImage,200,200, "NEAREST")>
@@ -100,10 +100,7 @@
 	</tr>
     <tr>
     	<td style="background-color:##EFEFEF;"><strong>Aspect Ratio:</strong></td>
-        <td style="background-color:##EFEFEF;">
-        <div style="display:none;"><cf_fraction number="#NumberFormat(cmsImageAspectRatio(imgInfo.width, imgInfo.height), "_._")#"></div>
-        <!---#intpart# #num# #denom#--->
-        #intpart + num#:#num#
+        <td style="background-color:##EFEFEF;">#NumberFormat(cmsImageAspectRatio(imgInfo.width, imgInfo.height), "_._")#
         </td>
 	</tr>
     <tr>

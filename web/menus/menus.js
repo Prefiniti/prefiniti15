@@ -35,7 +35,7 @@ custTools[1]='<a href="compose.cfm">Write a Message</a>'
 custTools[2]='<a href="inbox.cfm?mailbox=inbox">MyCL Mail</a>';
 
 var ordersMenu=new Array()
-ordersMenu[0]='<img src="/graphics/cart_go.png"><a href="javascript:AjaxLoadPageToDiv(\'tcTarget\', \'/workflow/components/surveyorderform.cfm\');">Place Order...</a>'
+ordersMenu[0]='<img src="/graphics/cart_go.png"><a href="javascript:AjaxLoadPageToDiv(\'tcTarget\', \'/workflow/components/surveyOrderForm.cfm\');">Place Order...</a>'
 if (glob_order_processor == 1) {
 	ordersMenu[1]='<img src="/graphics/package_go.png"><a href="javascript:setListView;AjaxLoadPageToDiv(\'tcTarget\', \'jobViews/newJobs.cfm\');">Process New Orders...</a>'
 }
@@ -98,7 +98,7 @@ if (glob_site_maintainer == 1) {
 }
 
 var custOrdersMenu=new Array()
-custOrdersMenu[0]='<a href="javascript:AjaxLoadPageToDiv(\'tcTarget\', \'/workflow/components/surveyorderform.cfm\');">Request Services...</a>'
+custOrdersMenu[0]='<a href="javascript:AjaxLoadPageToDiv(\'tcTarget\', \'/workflow/components/surveyOrderForm.cfm\');">Request Services...</a>'
 custOrdersMenu[1]='<a href="javascript:AjaxLoadPageToDiv(\'tcTarget\', \'jobViews/priorityCustomer.cfm?clientid=' + escape(glob_userid) + '\');">Priority Projects...</a>'
 
 var custAcctMenu=new Array()

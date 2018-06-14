@@ -1,4 +1,4 @@
-<cfinclude template="/contentmanager/cm_udf.cfm">
+<cfinclude template="/contentManager/cm_udf.cfm">
 
 <cfparam name="basePath" default="">
 
@@ -6,10 +6,10 @@
 
 <cfswitch expression="#url.mode#">
 	<cfcase value="user">
-		<cfset basePath="#cmsUserBasePath(url.user_id)#\#url.basedir#">
+		<cfset basePath="#cmsUserBasePath(url.user_id)#/#url.basedir#">
     </cfcase>
     <cfcase value="site">
-    	<cfset basePath="#cmsSiteBasePath(url.site_id)#\#url.basedir#\#url.subdir#">
+    	<cfset basePath="#cmsSiteBasePath(url.site_id)#/#url.basedir#/#url.subdir#">
     
     </cfcase>
 </cfswitch>
@@ -17,6 +17,8 @@
 
 <cffile action="upload" filefield="Filedata" destination="#basePath#"  nameconflict="makeunique">
 <cfoutput>Complete.</cfoutput>
+
+<cfset filename = cffile.serverFile>
 
 <cfif url.mode EQ "user">
 	<cfoutput>#cmsCreateUserFile(url.user_id, filename, url.basedir, filename)#</cfoutput>

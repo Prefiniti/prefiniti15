@@ -1248,7 +1248,7 @@ function savePDF(ctlDiv, srcDiv, fileName)
 {
 	var url;
 	
-	url = "http://www.webwarecl.com/forms/savePDF.cfm?filename=" + escape(fileName) + ".pdf";
+	url = "//forms/savePDF.cfm?filename=" + escape(fileName) + ".pdf";
 	url += "&username=" + escape(glob_userName);
 	url += "&user_id=" + escape(glob_userid);
 	url += "&content=" + escape(GetInnerHTML(srcDiv));

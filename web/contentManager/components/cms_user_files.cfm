@@ -1,4 +1,4 @@
-<cfinclude template="/contentmanager/cm_udf.cfm">
+<cfinclude template="/contentManager/cm_udf.cfm">
 
 <cfparam name="RowNum" default="0">
 <cfparam name="ColOdd" default="">
@@ -35,9 +35,15 @@
 	<cfset sc="#url.search_criteria#">
 </cfif>  
 
+<cfif sc EQ "">
+    <cfset searching = false>
+<cfelse>
+    <cfset searching = true>
+</cfif>
+
 <cfset fCount=0>
 
-<cfset res=cmsGetUserFiles(#attributes.user_id#)>
+<cfset res = cmsGetUserFiles(#attributes.user_id#)>
 
 <table width="100%" cellspacing="0" class="fileField">
 <tr>
@@ -53,45 +59,46 @@
 <cfoutput query="res">
 	       
 	<cfif basedir EQ attributes.basedir>
-    <cfset name_result=FindNoCase(search_criteria, filename)>
-    <cfset description_result=FindNoCase(search_criteria, description)>
-    <cfif sc NEQ "" AND name_result NEQ 0 OR description_result NEQ 0>
-    <cfparam name="hide_delete" default="">
-    
-	<cfif url.calledByUser NEQ #user_id#>
-    	<cfset hide_delete=true>
-	<cfelse>
-    	<cfset hide_delete=false>
-	</cfif>                			
-    <tr id="fileLine_#id#" onclick="cmsSelectFile(#id#, 'user', #hide_delete#);"> 
-		<cfset fCount=fCount+1>
-        <td>
-            <input type="text" id="filename_#id#" value="#filename#"> <a href="javascript:cmsRenameFile(#id#, 'user',   GetValue('filename_#id#'));"><img src="/graphics/disk.png" border="0" align="absmiddle"></a>
-        </td>    
-        <td>
-            <input type="text" id="description_#id#" value="#description#"> <a href="javascript:cmsDescribeFile(#id#, 'user', GetValue('description_#id#'));"><img src="/graphics/disk.png" border="0" align="absmiddle"></a>
-        </td>
-        <td>#DateFormat(creation_date, "mm/dd/yyyy")# #TimeFormat(creation_date, "h:mm tt")#</td>
-        <td><a href="javascript:cmsDlgAddAssociation(#id#, '#filename#', 'user')"><img src="/graphics/link_add.png" border="0" align="absmiddle"></a> <cfmodule template="/contentmanager/components/cms_view_associations.cfm" file_id="#id#">
-        
-        </td>
-        <td>
-        	<!---#Round(cmsUserFileSize(id)/1024)#KB	--->
-        </td>
-       	<cfif sc NEQ "">
-        <td>
-        	<cfif name_result NEQ 0>
-            	Name @ column #name_result#<br />
-            </cfif>
-            <cfif description_result NEQ 0>
-            	Description @ column #name_result#
-            </cfif>
+        <cfset name_result=FindNoCase(search_criteria, filename)>
+        <cfset description_result=FindNoCase(search_criteria, description)>
+        <!---<cfif sc NEQ "" AND name_result NEQ 0 OR description_result NEQ 0>--->
+        <cfif true EQ true>
+            <cfparam name="hide_delete" default="">
             
-        </td>
-        </cfif>
-            
-	</tr>
-	</cfif>
+        	<cfif url.calledByUser NEQ #user_id#>
+            	<cfset hide_delete=true>
+        	<cfelse>
+            	<cfset hide_delete=false>
+        	</cfif>                			
+            <tr id="fileLine_#id#" onclick="cmsSelectFile(#id#, 'user', #hide_delete#);"> 
+        		<cfset fCount=fCount+1>
+                <td>
+                    <input type="text" id="filename_#id#" value="#filename#"> <a href="javascript:cmsRenameFile(#id#, 'user',   GetValue('filename_#id#'));"><img src="/graphics/disk.png" border="0" align="absmiddle"></a>
+                </td>    
+                <td>
+                    <input type="text" id="description_#id#" value="#description#"> <a href="javascript:cmsDescribeFile(#id#, 'user', GetValue('description_#id#'));"><img src="/graphics/disk.png" border="0" align="absmiddle"></a>
+                </td>
+                <td>#DateFormat(creation_date, "mm/dd/yyyy")# #TimeFormat(creation_date, "h:mm tt")#</td>
+                <td><a href="javascript:cmsDlgAddAssociation(#id#, '#filename#', 'user')"><img src="/graphics/link_add.png" border="0" align="absmiddle"></a> <cfmodule template="/contentManager/components/cms_view_associations.cfm" file_id="#id#">
+                
+                </td>
+                <td>
+                	<!---#Round(cmsUserFileSize(id)/1024)#KB	--->
+                </td>
+               	<cfif sc NEQ "">
+                <td>
+                	<cfif name_result NEQ 0>
+                    	Name @ column #name_result#<br />
+                    </cfif>
+                    <cfif description_result NEQ 0>
+                    	Description @ column #name_result#
+                    </cfif>
+                    
+                </td>
+                </cfif>
+                    
+        	</tr>
+    	</cfif>
     </cfif>
     
 </cfoutput>
