@@ -3,7 +3,7 @@
 	<cfparam name="sln" default="">
 	
 	<cfquery name="eventUsers" datasource="webwarecl">
-		SELECT * FROM Users
+		SELECT * FROM users
 	</cfquery>
 	
 	<cfoutput query="eventUsers">

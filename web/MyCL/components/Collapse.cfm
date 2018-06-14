@@ -19,7 +19,7 @@
 	<div class="cWrap">
 
 				<span class="HeaderBox" id="#attributes.DivName#Btn" align="left" ><cfif IsDefined("attributes.SideImage")>
-						<img src="http://www.webwarecl.com/graphics/#attributes.SideImage#" align="absmiddle"/>
+						<img src="/graphics/#attributes.SideImage#" align="absmiddle"/>
 					</cfif>
 					<a href="javascript:SwapShown('#attributes.DivName#')" >
 						#attributes.HeaderText#

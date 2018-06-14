@@ -4,10 +4,10 @@
 <script type="text/javascript" src="/workFlow/components/projectStatus.js"></script>
 <script type="text/javascript" src="/workFlow/projects.js"></script>
 <script type="text/javascript" src="/MyCL/components/collapse.js"></script>
-<script type="text/javascript" src="/formValidate.js"></script>
+<!--<script type="text/javascript" src="/formValidate.js"></script>-->
 <script type="text/javascript" src="/contentManager/contentManager.js"></script>
-<script type="text/javascript" src="/contentmanager/swfupload.js"></script>
-<script type="text/javascript" src="/contentmanager/handlers.js"></script>
+<script type="text/javascript" src="/contentManager/swfupload.js"></script>
+<script type="text/javascript" src="/contentManager/handlers.js"></script>
 
 <cfif cgi.HTTP_HOST EQ "www.webwarecl.com">
 	<!--Google Maps API key for webwarecl.com-->
@@ -39,8 +39,7 @@
 <script type="text/javascript" src="/globals.js"></script>
 <script type="text/javascript" src="/mail/mail.js"></script>
 <script type="text/javascript" src="/scheduling/scheduling.js"></script>
-<script type="text/javascript" src="/notification/notification.js"></script>
-<script type="text/javascript" src="/orderWizard/orderwizard.js"></script>
+<!--<script type="text/javascript" src="/orderWizard/orderwizard.js"></script>-->
 <script type="text/javascript" src="/help/help.js"></script>
 <script type="text/javascript" src="/soundmanager.js"></script>
 <script type="text/javascript" src="/netsearch/netsearch.js"></script>
@@ -49,5 +48,5 @@
 <script language="javascript" type="text/javascript" src="/datetimepicker.js"></script>
 <script type="text/javascript" src="/controls/date_picker.js"></script>
 <script type="text/javascript" src="/controls/record_scroller.js"></script>
-<script type="text/javascript" src="/FCKeditor/fckeditor.js"></script>
+<!--<script type="text/javascript" src="/FCKeditor/fckeditor.js"></script>-->
 <script type="text/javascript" src="/notifications/notifications.js"></script>

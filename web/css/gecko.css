@@ -7,7 +7,7 @@
 	border-left-style: none;
 	height: 16px;
 	background-attachment: fixed;
-	background-image: url(http://www.webwarecl.com/MyCL/components/tabgrad.gif);
+	background-image: url(/MyCL/components/tabgrad.gif);
 	background-repeat: repeat-x;
 }
 
@@ -116,7 +116,7 @@ th {
 	font-size: x-small;
 	background-color: #3399CC;
 	color: #FFFFFF;
-	background-image: url(http://www.webwarecl.com/MyCL/components/tabgrad.gif);
+	background-image: url(/MyCL/components/tabgrad.gif);
 	padding: 3px;
 	/*text-align: left;*/
 }
@@ -194,7 +194,7 @@ td {
 	padding-right: 10px;
 	padding-bottom: 0px;
 	padding-left: 10px;
-	/*background-image: url(http://www.webwarecl.com/MyCL/components/tabgrad.gif);*/
+	
 	border:none;
 }
 
@@ -507,7 +507,7 @@ select {
 	font-style: normal;
 	padding: 0px;
 	text-align: right;
-	/*background-image: url(http://www.webwarecl.com/MyCL/components/tabgrad.gif);*/
+
 }
 #sMsg {
 	z-index: 200;
@@ -671,7 +671,7 @@ select {
 	margin-right:5px;
 	display:inline;
 	float:left;
-	/*background-image: url(http://www.webwarecl.com/MyCL/components/tabgrad.gif);*/
+	
 	font-weight: normal;
 	}
 	.HeaderBox table
@@ -729,7 +729,7 @@ select {
 	border-top:1px solid #CCCCCC;
 	border-left:1px solid #CCCCCC;
 	border-right:1px solid #CCCCCC;
-	/*background-image: url(http://www.webwarecl.com/MyCL/components/tabgrad.gif);*/
+	
 	font-weight: normal;
 	}
 	.TabBox table

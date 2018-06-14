@@ -106,6 +106,10 @@
         </div>
     	<cfset session.framework_loaded="1">
         <cfoutput>
+            <cfquery name="qryGetLogin" datasource="#session.datasource#">
+                SELECT * FROM users WHERE username="#session.username#"
+            </cfquery>
+            <cfset session.pwdiff=DateDiff("d", qryGetLogin.last_pwchange, Now())>
             <cfif #session.pwdiff# GE 30>
                 <script language="javascript">
                     AjaxLoadPageToDiv('tcTarget', '/authentication/components/changePassword.cfm?id=#session.userid#&expired=true');

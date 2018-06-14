@@ -18,7 +18,7 @@
 <table width="800" style="border-top:1px solid #EFEFEF; margin-top:30px;">
 	<tr>
     	<td align="left"><img src="/graphics/webware-16x16.png" /></td>
-    	<td align="right">Copyright &copy; 2007, Center Line Services, LLC<br />All Rights Reserved</td> 
+    	<td align="right">Copyright &copy; 2007, Center Line Services, LLC<br />Copyright &copy; 2018, Coherent Logic Development LLC<br />All Rights Reserved</td> 
 	</tr>
 </table>         
 </div>         

@@ -1,5 +1,5 @@
 <cfquery name="setInitialPW" datasource="webwarecl">
-	UPDATE Users
+	UPDATE users
 	SET		password='#Hash(url.password)#',
     		last_pwchange=#CreateODBCDateTime(Now())#
 	WHERE	id=#url.id#

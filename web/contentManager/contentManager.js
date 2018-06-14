@@ -119,7 +119,7 @@ function getUploader(filter, filter_description, max_files, post_target)
 		file_upload_limit : max_files,
 
 		// Flash Settings
-		flash_url : "/contentmanager/swfupload.swf",	// Relative to this file
+		flash_url : "/contentManager/swfupload.swf",	// Relative to this file
 
 		// UI Settings
 		ui_container_id : "stdUpload",		
