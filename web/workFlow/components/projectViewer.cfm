@@ -2,7 +2,7 @@
 <cfinclude template="/authentication/authentication_udf.cfm">
 
 <cfquery name="projectInfo" datasource="webwarecl">
-    SELECT * FROM projects WHERE id=#url.id# AND site_id=#url.current_site_id#
+    SELECT * FROM projects WHERE id=#url.id#
 </cfquery>
 
 <cfquery name="gAU" datasource="webwarecl">
@@ -51,10 +51,6 @@
 -->
 </cfoutput>
 
-
-
-		
-
 <div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">
         <div style="float:left">
             <h3 class="stdHeader" style="padding:10px;"><img src="/graphics/globe-compass-48x48.png" align="top"> View Project</h3>
@@ -95,7 +91,7 @@
         	<table width="100%" cellspacing="0" class="projTabl">     
 	            <tr>
     		        <td><strong>Ordered By:</strong></td>
-            		<td><cfmodule template="/jobViews/components/custNameByIDMenu.cfm" id="#projectInfo.clientid#"></td>
+            		<td><cfmodule template="/jobViews/components/custNameByIDMenu.cfm" id="#projectInfo.clientID#"></td>
             	</tr>
             	<tr>
 		            <td><strong>Description:</strong></td>

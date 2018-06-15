@@ -31,7 +31,7 @@
         </cfloop>
 	</select>
     <select name="#attributes.ctlname#_year" id="#attributes.ctlname#_year" size="1" onchange="dp_copy('#attributes.ctlname#');">
-    	<cfloop from="1900" to="2010" index="i">
+    	<cfloop from="1940" to="2020" index="i">
         	<option value="#i#" <cfif i EQ sd_year>selected</cfif>>#i#</option>
         </cfloop>
 	</select>

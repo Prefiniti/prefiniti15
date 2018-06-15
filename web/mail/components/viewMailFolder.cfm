@@ -5,39 +5,39 @@
 <cfquery name="mail" datasource="webwarecl">
 	<cfswitch expression="#url.mailbox#">
 		<cfcase value="inbox">
-			SELECT 		messageInbox.id AS msgid, 
-            			messageInbox.tbody, 
-                    	messageInbox.tsubject, 
-                    	messageInbox.tdate, 
-                    	messageInbox.tread, 
-                    	Users.id AS sender_id, 
-                    	Users.username, 
-                    	Users.longName 
-			FROM 		messageInbox 
-            INNER JOIN 	Users 
-            ON 			Users.id=messageInbox.fromuser 
-            WHERE 		messageInbox.touser=#url.userid# 
-            AND 		messageInbox.deleted_inbox=0 
-            ORDER BY 	messageInbox.tdate 
+			SELECT 		messageinbox.id AS msgid, 
+            			messageinbox.tbody, 
+                    	messageinbox.tsubject, 
+                    	messageinbox.tdate, 
+                    	messageinbox.tread, 
+                    	users.id AS sender_id, 
+                    	users.username, 
+                    	users.longName 
+			FROM 		messageinbox 
+            INNER JOIN 	users 
+            ON 			users.id=messageinbox.fromuser 
+            WHERE 		messageinbox.touser=#url.userid# 
+            AND 		messageinbox.deleted_inbox=0 
+            ORDER BY 	messageinbox.tdate 
             DESC
 		</cfcase>
 		<cfcase value="sent messages">
-			SELECT  	messageInbox.id AS msgid, 
-            			messageInbox.tbody, 
-                    	messageInbox.tsubject, 
-                    	messageInbox.tdate, 
-                    	messageInbox.tread, 
-                        messageInbox.touser,
-                    	Users.username, 
-                    	Users.longName, 
-                    	Users.id AS sender_id 
-			FROM 		messageInbox 
-            INNER JOIN 	Users 
-            ON 			Users.id=messageInbox.fromuser 
-            WHERE 		messageInbox.fromuser=#url.userid# 
-            AND			messageInbox.deleted_outbox=0
-            ORDER BY 	messageInbox.tread, 
-            			messageInbox.tdate 
+			SELECT  	messageinbox.id AS msgid, 
+            			messageinbox.tbody, 
+                    	messageinbox.tsubject, 
+                    	messageinbox.tdate, 
+                    	messageinbox.tread, 
+                        messageinbox.touser,
+                    	users.username, 
+                    	users.longName, 
+                    	users.id AS sender_id 
+			FROM 		messageinbox 
+            INNER JOIN 	users 
+            ON 			users.id=messageinbox.fromuser 
+            WHERE 		messageinbox.fromuser=#url.userid# 
+            AND			messageinbox.deleted_outbox=0
+            ORDER BY 	messageinbox.tread, 
+            			messageinbox.tdate 
             DESC
 		</cfcase>
 	</cfswitch>	

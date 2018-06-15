@@ -2,7 +2,7 @@
 <cfset treq_id="#CreateUUID()#">
 <cfoutput>#url.refJobID#</cfoutput>
 <cfquery name="sendMessage" datasource="webwarecl">
-	INSERT INTO messageInbox 
+	INSERT INTO messageinbox 
 		(fromuser,
 		touser,
 		tsubject,

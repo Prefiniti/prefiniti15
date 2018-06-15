@@ -29,12 +29,13 @@
                     </tr>
                 </table>
             </form>
-        </cfoutput>        
-
-        <iframe style="border: 0;" name="html5upload" id="html5upload">
-            Foo!
-        </iframe>
+        </cfoutput>                
     </div>
+
+
+    <iframe style="border: 0; background-image: none;" name="html5upload" id="html5upload">
+            
+    </iframe>
 
     
 </div>

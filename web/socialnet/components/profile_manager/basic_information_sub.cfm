@@ -1,7 +1,7 @@
 <cfinclude template="/socialnet/socialnet_udf.cfm">
 
 <cfquery name="ubi" datasource="webwarecl">
-	UPDATE Users
+	UPDATE users
    	SET		firstName='#url.firstName#',
     		middleInitial='#url.middleInitial#',
             lastName='#url.lastName#',
