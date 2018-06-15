@@ -67,9 +67,10 @@ background-color:#CCCCCC;
 	</cfoutput>
 </script>
 
+<div id="menuBarWrapper">
 <table width="100%" class="menuTable">
 	<tr>
-		<td align="left" class="menuTable" valign="middle" >
+		<td align="left" valign="middle" >
 			<cfoutput query="getMenus">
                 <div class="navBtn">
                     <a href="default.htm"  onclick="return clickreturnvalue()" onmouseover="dropdownmenu(this, event, #handle#, '150px')" onmouseout="delayhidemenu()">#caption#</a>			
@@ -79,12 +80,19 @@ background-color:#CCCCCC;
                 #getMenuItems(id, handle)#
                 				               
                 
-            </cfoutput>
+            </cfoutput>            
 		</td>
 	</tr>
-</table>                                    
+</table> 
+</div>                                   
                 
 <script type="text/javascript">
+
+var appMenu=new Array();
+appMenu[0]='<img src="/graphics/help.png"><a href="javascript:loadHelp(\'About Prefiniti\', \'about.html\', \'\');">About Prefiniti...</a>';
+appMenu[1]='<img src="/graphics/page_refresh.png"><a href="javascript:location.reload()">Refresh</a>';
+appMenu[2]='<img src="/graphics/lock_go.png"><a href="logoff.cfm" >Sign out...</a>';
+appMenu[3]='<img src="/graphics/door.png"><a href="javascript:self.close()">Exit</a>';
 
 var menuwidth='185px' //default menu width
 var menubgcolor='white'  //menu bgcolor

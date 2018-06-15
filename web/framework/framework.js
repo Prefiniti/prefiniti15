@@ -795,7 +795,7 @@ function insertHistoryItem(h_item)
 		
 	}
 	
-	SetInnerHTML('historyList', hd);
+	//SetInnerHTML('historyList', hd);
 	
 	
 	if (skipHistoryInsert == true) {
@@ -1085,48 +1085,25 @@ function setCurrentTabContents(document_title, document_url)
 
 function handleAppResize()
 {
-	var refContentBar;
-	var refSideBar;
-	var refApp;
-	var refTaskBar;
-	
-	var refTCTarget = document.getElementById('tcTarget');
-	
-	var pelWidth;
-	
-	var appArea_top;
-	var taskBar_top;
-	
-	//var appArea_height;
-	var refScrBot;
-	
-	refContentBar = document.getElementById('stWrapper');
-	refSideBar = document.getElementById('sbWrapper');
-	refApp = document.getElementById('appArea'); 
-	//refScrBot = document.getElementById('scrBot');
-	
+	var heights = {
+		headbar: $("#headBar").outerHeight(),
+		menubar: $("#menuBarWrapper").outerHeight(),
+		siteselect: $("#siteSelectWrapper").outerHeight(),
+		sbt: $("#sbtTarget").outerHeight()
+	}
 
-	appArea_top = findPosY(refApp);
+	var totalHeaderHeight = heights.headbar + heights.menubar + heights.siteselect + heights.sbt;
+	var winHeight = $(document).height();
+	var winWidth = $(document).width();
 	
-	//alert(appArea_top + " " + findPosY(refScrBot));
-	
-	//appArea_height = parseInt(f_clientHeight()) - parseInt(appArea_top);
+	var contentWidth = winWidth - 260;
+	var remainingHeight = winHeight - totalHeaderHeight;
 
-	
-	pelWidth = f_clientWidth() - parseInt(refSideBar.style.width) - 60;
-	
-	
-	//alert(parseInt(refSideBar.style.width));
-//	alert(pelWidth);
-	
-	refContentBar.style.width = pelWidth.toString() + "px";
 
-	refContentBar.style.height = "570px";
-	refContentBar.style.overflow = "hidden";
-	refTCTarget.style.height = "500px";
-	refTCTarget.style.overflow = "auto";
-//refApp.style.height = appArea_height.toString() + "px";
-	
+	$("#stWrapper").width(contentWidth);
+	$("#stWrapper").height(remainingHeight);
+	$("#sbWrapper").height(remainingHeight);
+
 }
 
 function handleAppUnload()

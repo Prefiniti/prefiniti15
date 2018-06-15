@@ -50,8 +50,7 @@
 				glob_isAdmin = true;
 			<cfelse>
 				glob_isAdmin = false;
-</cfif>
-			hideDiv('mastHead');
+            </cfif>			
 			glob_usertype = #session.usertype#;
 			glob_isTCAdmin = '#session.tcadmin#';
 			glob_unreadMail = '#unreadQ.RecordCount#';
@@ -65,14 +64,8 @@
 			glob_newJobs = '#session.newJobs#';
 			glob_current_association = #session.current_association#;
 			glob_current_site_id = #session.current_site_id#;
-			glob_browser = '#session.browserType#';
+			glob_browser = '#session.browserType#';					
 			
-			soundManagerInit();
-			<cfif #session.browsertype# NEQ "Microsoft Internet Explorer">
-				//enableRTEventListener();
-			<cfelse>
-				showMessage('Browser Warning', 'You are running Internet Explorer.<br>Event notifications disabled.');
-			</cfif>
 		</script>
 	</cfoutput>	
     
@@ -85,3 +78,7 @@
 	SELECT * FROM users WHERE id=#session.userid#   
 </cfquery>
 <cfset session.webware_admin="#profile.webware_admin#">
+
+<cfquery name="qryGetLogin" datasource="#session.datasource#">
+    SELECT * FROM users WHERE username="#session.username#"
+</cfquery>

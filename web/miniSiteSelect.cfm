@@ -2,7 +2,7 @@
 	SELECT * FROM site_associations WHERE user_id=#session.userid#
 </cfquery>
 
-<div style="width:100%; background-color:#EFEFEF;">
+<div id="siteSelectWrapper" style="width:100%; background-color:#EFEFEF;">
 <form name="siteSelect" action="/siteSelectSubmit.cfm" method="post" style="display:inline;">
 	<label style="font-size:xx-small;">Current Site:
     <select name="siteAssociation" style="width:200px;">
