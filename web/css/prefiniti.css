@@ -2,6 +2,11 @@ body, html {
 	margin: 0;
 	padding: 0;
 }
+
+body {
+	
+}
+
 #headBar {
 	width: 100%;
 	background-color: #3399CC;
@@ -138,8 +143,7 @@ th {
 	font-size: medium;
 }
 body {
-	font-family: "Segoe UI", "Lucida Grande", Tahoma, Verdana, Arial, Helvetica, sans-serif;
-	font-size: x-small;
+	
 	color:#666666;
 	margin:0px;
 	padding:0px;

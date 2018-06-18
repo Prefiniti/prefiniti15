@@ -56,16 +56,10 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 	}
 	catch (e) {
 	}
-	SetInnerHTML('statTarget', '');
 	
-	fwStatus('Prefiniti Application Framework 1.0');
-	
-	fwStatus('Invalidating component...');
 	invalidateComponent();
 	hideDiv('file_action');
-	
-	fwStatus('Generating request headers...');
-	
+		
 	if (PageURL.indexOf('?') != -1) {
 		if(PageURL.indexOf('calledByUser') == -1) {
 			PageURL += "&calledByUser=" + escape(glob_userid);
@@ -132,7 +126,6 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 
 	console.log("AjaxLoadPageToDiv():  final url = %s", PageURL);
 
-	fwStatus('Requesting component...');
 	var xmlHttp;
 	xmlHttp = AjaxGetXMLHTTP();
 
@@ -143,136 +136,11 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 		
 		switch(xmlHttp.readyState) {
 			case 4:
-				SetInnerHTML('statTarget', '');
-				fwStatus('Prefiniti Application Framework loaded ' + xmlHttp.responseText.length + ' bytes.');
-			    // regexp which parses text for value between <title> .. </title> tags
-        		var re_title = new RegExp("<wwafcomponent>[\n\r\s]*(.*)[\n\r\s]*</wwafcomponent>", "gmi");
-        		// page text
-        		var content = xmlHttp.responseText;
-        		var title = re_title.exec(content);											
-
 				document.getElementById(DivID).innerHTML = xmlHttp.responseText;
 				
-				if (title != null) {
-					
-					var llpURL;
-					llpURL='/framework/components/saveLastLoad.cfm?last_loaded_page=';
-					llpURL += escape(PageURL);
-					llpURL += "&calledByUser=" + glob_userid;
-										
-					AjaxNullRequest(llpURL);
-					
-					AjaxAppendToList('history', title[1], PageURL);
-					insertHistoryItem(PageURL);
-					SetInnerHTML('documentName', title[1]);
-					lastLoadedURL = PageURL;
-					
-					if (DivID == 'tcTarget') {
-						addTabButton(title[1], PageURL);
-					}
-					
-				}
-	
-				
-				var re_sidebar = new RegExp("<wwafsidebar>[\n\r\s]*(.*)[\n\r\s]*</wwafsidebar>", "gmi");
-				var sidebar = re_sidebar.exec(content);
-				
-				var re_packageName = new RegExp("<wwafpackage>[\n\r\s]*(.*)[\n\r\s]*</wwafpackage>", "gmi");
-				var packageName = re_packageName.exec(content);
-				
-				var re_packageIcon = new RegExp("<wwaficon>[\n\r\s]*(.*)[\n\r\s]*</wwaficon>", "gmi");
-				var packageIcon = re_packageIcon.exec(content);
-				
-				if (packageName != null) {
-					SetInnerHTML('packageName', packageName[1]);
-				}
-				
-				if (packageIcon != null) {
-					SetInnerHTML('packageIcon', '<img align="absmiddle" src="/graphics/' + packageIcon[1] + '">');
-				}
-				
-				var re_definesmap = new RegExp("<wwafdefinesmap>[\n\r\s]*(.*)[\n\r\s]*</wwafdefinesmap>", "gmi");
-				var definesmap = re_definesmap.exec(content);
-				
-				try {
-				if (definesmap[1] == 'false') {
-					//hideDiv('mapViewBtn');
-				}
-				else {
-					showDiv('mapViewBtn');
-				}
-				}
-				catch (error) {
-				}
-				
-				//var re_script = new RegExp("<wwafscript>[\n\r\s]*(.*)[\n\r\s]*</wwafscript>", "gmi");
-				var wscript = document.getElementById(DivID).getElementsByTagName('wwafscript');
-				
-				if (wscript != null) {
-					//alert(wscript);
-					//eval(wscript[1]);
-				}
-				
-				if (sidebar != null) {
-					nextToClose=null;
-					//alert(sidebar[1]);
-					AjaxSilentLoad('sbtTarget', '/framework/s' + sidebar[1]);
-				}
-				//alert(document.getElementById('pageScriptContent').innerHTML);
-				//eval(document.getElementById('pageScriptContent').innerHTML);
-				try {
-					//setMapView();
-				}
-				catch (error) {
-					//alert(error);
-				}
-				try {
-					
-					
-					eval(document.getElementById('pageScriptContent').innerHTML);
-					
-					var d = document.getElementById('pageScriptContent').parentNode;
-  					var olddiv = document.getElementById('pageScriptContent');
-  					d.removeChild(olddiv);
-					
-					//setListView();
-				}
-				catch (error)
-				{
-					//alert("Prefiniti Application Framework error - " + error);
-					//setListView();
-				}
-				
+
 				loadSiteStats();
-				
-				if (glob_browser != "Microsoft Internet Explorer") {
-					shiftOpacity(DivID, 300);
-				}
-				
-				//setTimeout(shiftOpacity('framework_status', 5000), 20000);
-				
-				//handleAppResize();
-				//document.getElementById(nextToClose).style.display="none";
-				break;
-			case 1:
-				//shiftOpacity('framework_status', 100)
-				if (glob_browser != "Microsoft Internet Explorer") {
-				
-					if (document.getElementById(DivID).filters) {
-						try {
-							document.getElementById(DivID).filters.item("DXImageTransform.Microsoft.Alpha").opacity = '0';
-						} 
-						catch (e) {
-							// If it is not set initially, the browser will throw an error.  This will set it if it is not set yet.
-							document.getElementById(DivID).style.filter = "progid:DXImageTransform.Microsoft.Alpha(opacity=0)";
-						}
-					} 
-					else {
-						document.getElementById(DivID).style.opacity = 0;
-					}
-				}
-				fwStatus('Downloading component from server...');
-				//document.getElementById('statTarget').innerHTML = '<center><p style="background-color:#C0C0C0;color:#3399CC;-moz-border-radius:5px;margin:20px;width:100px;padding:8px; height:auto; opacity:0.90;"><img src="/graphics/webware-16x16.png" style="padding-bottom:10px; clear:right;"><br><br><img src="/graphics/progress.gif" align="absmiddle"> <strong>Please wait...</strong></p></center>';
+								
 				break;
 		}
 	}
@@ -404,6 +272,9 @@ function AjaxLoadPageToValueCtl(CtlID, PageURL)
 
 function AjaxSilentLoad(CtlID, PageURL)
 {
+
+	console.log("AjaxSilentLoad(): id = %s, url = %s", CtlID, PageURL);
+
 	var xmlHttp;
 	xmlHttp = AjaxGetXMLHTTP();
 	
