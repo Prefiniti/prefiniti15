@@ -21,11 +21,11 @@ function showDivC(which)
 	
 	document.getElementById(which).style.display="inline";
 	nextToClose=which;
-	soundManager.play('click');
+	//soundManager.play('click');
 }
 function hideDivC(which) 
 {
-	soundManager.play('click');
+	//soundManager.play('click');
 	document.getElementById(which).style.display="none";
 	
 	
