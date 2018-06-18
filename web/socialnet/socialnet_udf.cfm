@@ -184,9 +184,17 @@
         </cfif>
     <cfelse>
         <cfreturn "#gp.picture#">
-    </cfif>
-    
-    
+    </cfif>    
+</cffunction>
+
+<cffunction name="getPictureRecord" returntype="string">
+    <cfargument name="user_id" type="numeric" required="yes">
+
+    <cfquery name="getPictureRecord" datasource="webwarecl">
+        SELECT picture FROM users WHERE id=#arguments.user_id#
+    </cfquery>
+
+    <cfreturn getPictureRecord.picture>
 </cffunction>    
 
 <cffunction name="getOnline" returntype="string">

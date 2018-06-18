@@ -1,4 +1,11 @@
-<title>Prefiniti</title>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Prefiniti</title>
+    <link rel="stylesheet" href="css/prefiniti.css">
+</head>
+<body>
 <div style="padding-left:30px;">
 
 
@@ -26,3 +33,5 @@
 <script language="javascript">
 	shiftOpacity('plogo', 6000);
 </script>
+</body>
+</html>

@@ -26,7 +26,6 @@
     <cfreturn #dq.size#>
 </cffunction>
 
-
 <cffunction name="getQuota" returntype="numeric">
 	<cfargument name="user_id" type="numeric" required="yes">
     
@@ -42,16 +41,14 @@
     
 </cffunction>
 
-
-
 <cffunction name="getPercent" returntype="numeric">
 	<cfargument name="g_val" type="numeric" required="yes">
     <cfargument name="m_val" type="numeric" required="yes">
     
     <cfparam name="w" default="">
-    <cfset w=g_val*100/m_val>
     
-    <cfset w=Round(w)>
+    <cfset w = g_val * 100 / m_val>
+    <cfset w = Round(w)>
     
     <cfreturn #w#>
 </cffunction>
@@ -92,7 +89,13 @@
 <cffunction name="cmsDeleteUserFile" returntype="void">
 	<cfargument name="file_id" required="yes" type="numeric">
     
-    <cffile action="delete" file="#cmsUserFilePath(file_id)#">
+    <cftry>
+        <cffile action="delete" file="#cmsUserFilePath(file_id)#">
+
+        <cfcatch type="any">
+
+        </cfcatch>
+    </cftry>
 
     <cfquery name="dffd" datasource="webware_cms">
     	DELETE FROM user_files WHERE id=#file_id#
@@ -102,8 +105,13 @@
 <cffunction name="cmsDeleteSiteFile" returntype="void">
 	<cfargument name="file_id" required="yes" type="numeric">
     
-    <cffile action="delete" file="#cmsSiteFilePath(file_id)#">
+    <cftry>
+        <cffile action="delete" file="#cmsSiteFilePath(file_id)#">
+        <cfcatch type="any">
 
+        </cfcatch>
+    </cftry>
+    
     <cfquery name="dffd" datasource="webware_cms">
     	DELETE FROM site_files WHERE id=#file_id#
 	</cfquery>

@@ -49,6 +49,8 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 {
 	//AjaxNullRequest('/framework/components/syncScriptVariables.cfm');
 	
+	console.log("AjaxLoadPageToDiv():  id = %s, base url = %s", DivID, PageURL);
+
 	try {
 	document.getElementById(nextToClose).style.display="none";
 	}
@@ -128,6 +130,8 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 		PageURL += "&current_site_id=" + escape(glob_current_site_id);
 	}
 
+	console.log("AjaxLoadPageToDiv():  final url = %s", PageURL);
+
 	fwStatus('Requesting component...');
 	var xmlHttp;
 	xmlHttp = AjaxGetXMLHTTP();
@@ -136,6 +140,7 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 
 	xmlHttp.onreadystatechange = function()
 	{
+		
 		switch(xmlHttp.readyState) {
 			case 4:
 				SetInnerHTML('statTarget', '');
@@ -144,9 +149,8 @@ function AjaxLoadPageToDiv(DivID, PageURL)
         		var re_title = new RegExp("<wwafcomponent>[\n\r\s]*(.*)[\n\r\s]*</wwafcomponent>", "gmi");
         		// page text
         		var content = xmlHttp.responseText;
-        		var title = re_title.exec(content);
-				
-				
+        		var title = re_title.exec(content);											
+
 				document.getElementById(DivID).innerHTML = xmlHttp.responseText;
 				
 				if (title != null) {
@@ -155,8 +159,7 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 					llpURL='/framework/components/saveLastLoad.cfm?last_loaded_page=';
 					llpURL += escape(PageURL);
 					llpURL += "&calledByUser=" + glob_userid;
-					
-					
+										
 					AjaxNullRequest(llpURL);
 					
 					AjaxAppendToList('history', title[1], PageURL);

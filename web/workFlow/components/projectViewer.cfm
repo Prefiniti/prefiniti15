@@ -361,25 +361,7 @@ Plat
     </td>
     
 </tr>
-</table>    <!---    
- 
-			
-							 				<tr>
-		  	
-		  
-		  <tr>
-		  	<th align="left">Other Project Information</th>
-			<th align="right" id="otherStat" style="color:##33FF00; font-weight:lighter;">No changes made since last save.</th>
-				
-		    <th align="right">
-				<cfif getPermissionByKey("WF_EDIT", #url.current_association#) EQ true>
-				<a href="javascript:updateOtherInfo('otherStat', #url.id#, GetValue('specialinstructions'));">
-				<img src="/graphics/database_save.png" border="0"/>				</a></cfif> </th>           						  </tr>
-		   <tr>
-            <td class="int">Special Instructions:</td>
-            <td colspan="2" class="int"><textarea name="specialinstructions" cols="50" rows="8" class="inputText" id="specialinstructions" onkeyup="invalidateSection('otherStat');">#projectInfo.specialinstructions#</textarea></td>
-          </tr>
-						</table>--->
+</table>    
 						
 
 <div id="pageScriptContent">

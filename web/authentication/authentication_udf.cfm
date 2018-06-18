@@ -266,3 +266,19 @@
 
 	<cfreturn #wwdm1.manager_id#>
 </cffunction>                
+
+<cffunction name="getUserIDs" returntype="array">
+
+    <cfquery name="getUsers" datasource="webwarecl">
+        SELECT id FROM users
+    </cfquery>
+
+    <cfset outputArray = arrayNew()>
+
+    <cfloop query="#getUsers#">
+        <cfset outputArray.append(getUsers.id)>
+    </cfloop>
+
+    <cfreturn outputArray>
+
+</cffunction>

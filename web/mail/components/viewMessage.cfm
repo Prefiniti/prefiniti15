@@ -12,12 +12,12 @@ pre {
 }
 </style>
 <cfquery name="m" datasource="webwarecl">
-	SELECT messageInbox.id AS msgid, messageInbox.readReceipt, messageInbox.tread, messageInbox.touser, messageInbox.tsubject, messageInbox.tdate, messageInbox.tbody, messageInbox.refJobID, messageInbox.fromuser, Users.longName FROM messageinbox INNER JOIN Users ON Users.id=messageInbox.fromuser WHERE messageInbox.id=#url.id#
+	SELECT messageinbox.id AS msgid, messageinbox.readReceipt, messageinbox.tread, messageinbox.touser, messageinbox.tsubject, messageinbox.tdate, messageinbox.tbody, messageinbox.refJobID, messageinbox.fromuser, users.longName FROM messageinbox INNER JOIN users ON users.id=messageinbox.fromuser WHERE messageinbox.id=#url.id#
 </cfquery>
 
 <cfif #m.readReceipt# EQ 1 AND #m.tread# EQ "no">
 	<cfquery name="srr" datasource="webwarecl">
-	INSERT INTO messageInbox 
+	INSERT INTO messageinbox 
 		(fromuser,
 		touser,
 		tsubject,
@@ -39,7 +39,7 @@ pre {
 </cfif>
 
 <cfquery name="udread" datasource="webwarecl">
-	UPDATE messageInbox SET tread='yes' WHERE id=#url.id#
+	UPDATE messageinbox SET tread='yes' WHERE id=#url.id#
 </cfquery>
 
 <cfparam name="attList" default="">
