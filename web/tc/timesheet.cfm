@@ -7,7 +7,7 @@
 <link href="../css/gecko.css" rel="stylesheet" type="text/css" />
 
 <cfquery name="userinfo" datasource="webwarecl">
-	SELECT * FROM users WHERE id=#URL.userid#
+	SELECT * FROM users WHERE id=#session.userid#
 </cfquery>
 
 <cfquery name="qJobNumbers" datasource="webwarecl">
@@ -25,7 +25,7 @@
 		<form name="tsNew" action="tc/newts_sub.cfm" method="post">
 			<cfoutput>
 				<input type="hidden" name="submitID" id="submitID" value="#CreateUUID()#" />
-				<input type="hidden" name="emp_id" id="emp_id" value="#url.userid#" />
+				<input type="hidden" name="emp_id" id="emp_id" value="#session.userid#" />
 			</cfoutput>
 <div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">
         <div style="float:left">

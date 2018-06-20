@@ -302,7 +302,8 @@ function AjaxSilentLoad(CtlID, PageURL)
 	{
 		switch(xmlHttp.readyState) {
 			case 4:
-				document.getElementById(CtlID).innerHTML = xmlHttp.responseText;
+				
+				$("#" + CtlID).html(xmlHttp.responseText);
 				break;
 		}
 	}

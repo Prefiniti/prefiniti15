@@ -298,12 +298,14 @@
             filename,
             basedir,
             description,
-            creation_date)
+            creation_date,
+            last_access)
 		VALUES
         	(#user_id#,
             '#filename#',
             '#basedir#',
             '#description#',
+            #CreateODBCDateTime(Now())#,
             #CreateODBCDateTime(Now())#)
 	</cfquery>
 </cffunction> 

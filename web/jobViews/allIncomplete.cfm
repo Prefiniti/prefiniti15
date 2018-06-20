@@ -4,7 +4,7 @@
 <wwaficon>report.png</wwaficon>
 -->
 <cfquery name="getCustAndJob" datasource="webwarecl">
-	SELECT Users.longName, Users.customerNumber, projects.description, projects.status, projects.SubStatus,projects.clsJobNumber, projects.address, projects.city, projects.state, projects.zip, projects.id AS jobid, Users.id AS custid, projects.duedate FROM projects INNER JOIN Users ON Users.id=projects.clientid WHERE projects.status=0 ORDER BY Users.LongName
+	SELECT users.longName, users.customerNumber, projects.description, projects.status, projects.SubStatus,projects.clsJobNumber, projects.address, projects.city, projects.state, projects.zip, projects.id AS jobid, users.id AS custid, projects.duedate FROM projects INNER JOIN users ON users.id=projects.clientid WHERE projects.status=0 ORDER BY users.LongName
 </cfquery>
 
 

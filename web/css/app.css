@@ -1,0 +1,7 @@
+.override-inline {
+
+}
+
+.override-inline .form-control {
+    width: 100%;
+}

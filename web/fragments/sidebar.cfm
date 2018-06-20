@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="dropdown">
-                        <a class="btn btn-secondary dropdown-toggle" href="##" role="button" data-toggle="dropdown" id="user-menu">#longName#</a>
+                        <a class="btn btn-secondary dropdown-toggle float-right" href="##" role="button" data-toggle="dropdown" id="user-menu">#longName#</a>
                         <div class="dropdown-menu" aria-labelledby="user-menu">
                             <a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Edit Profile</a>
                             <a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View Profile</a>
@@ -31,11 +31,11 @@
                             <a class="dropdown-item" href="##" onclick="cmsBrowseFolder(#session.userid#, 'project_files', '', 'user', '');">My Files</a>
                             <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/my_departments.cfm');">My Departments</a>
                             <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/scheduling/my_schedule.cfm?date=#DateFormat(Now(), "yyyy/mm/dd")#');">My Schedule</a>
-                            <a class="dropdown-item" href="##" onclick="logoff.cfm">Sign Out</a>
+                            <a class="dropdown-item" href="logoff.cfm">Sign Out</a>
                         </div>
                     </div>
-                    <div id="currentStats" align="left"></div>
-                    <div id="statTarget" align="left" style="color:red; font-weight:bold;"></div>
+                    <div id="currentStats" align="left" class="float-right"></div>
+                    <div id="statTarget" align="left" class="float-right" style="color:red; font-weight:bold;"></div>
                     
                 </div>
 

@@ -36,14 +36,15 @@
 	</cfquery>    
 
 	<cfif #getASite.enabled# EQ 1>
-		<cflocation url="prefiniti_framework_base.cfm" addtoken="no">
+		<cflocation url="prefiniti_bootstrap_base.cfm" addtoken="no">
 	<cfelse>
 		<center>
 	    <div align="center" style="margin:30px; padding:30px; width:300px; border:1px solid #EFEFEF;">
 			<img src="/graphics/webware.png" style="padding-bottom:20px;"/>
 			<h3 class="stdHeader">Site Disabled</h3>
 	        
-	        <p>Logins to this site have been disabled by the Prefiniti administration team.</p><p>Please try again later.</p>
+	        <p>Logins to this site have been disabled by the Prefiniti administration team.</p>
+	        <p>Please try again later.</p>
 		</div>
 		</center>
 	</cfif> 

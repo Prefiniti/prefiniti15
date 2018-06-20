@@ -1,8 +1,8 @@
 <cfif #session.logins_disabled# EQ 1>
 	<cfif #session.site_maintainer# NEQ 1>
 		<cfif #session.loggedin# EQ "yes">
-		<cfset session.loggedin="no">
-		<cfset session.message='Our site is currently undergoing maintenance. Please try again later.'>
+		  <cfset session.loggedin="no">
+		  <cfset session.message='Our site is currently undergoing maintenance. Please try again later.'>
 		</cfif>
 	</cfif>
 </cfif>

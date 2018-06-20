@@ -64,7 +64,7 @@
 </cffunction>
 
 <cffunction name="getSiteNameByID" returntype="string">
-	<cfargument name="site_id" required="yes">
+	<cfargument name="site_id" type="numeric" required="yes">
     
     <cfquery name="gSiteName" datasource="sites">
     	SELECT SiteName FROM sites WHERE SiteID=#site_id#
@@ -282,3 +282,24 @@
     <cfreturn outputArray>
 
 </cffunction>
+
+<cffunction name="getSiteAssociations" returntype="query">
+    <cfargument name="user_id" type="numeric" required="true">
+
+    <cfquery name="getSiteAssociations" datasource="sites">
+        SELECT * FROM site_associations WHERE user_id=#arguments.user_id#
+    </cfquery>
+
+    <cfreturn getSiteAssociations>
+</cffunction>
+
+<cffunction name="getLastSite" returntype="numeric">
+    <cfargument name="user_id" type="numeric" required="true">
+
+    <cfquery name="getLastSite" datasource="webwarecl">
+        SELECT last_site_id FROM users WHERE id=#arguments.user_id# 
+    </cfquery> 
+
+    <cfreturn getLastSite.last_site_id>
+</cffunction>
+
