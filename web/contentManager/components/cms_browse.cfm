@@ -7,7 +7,7 @@
     <h1>My Files</h1>
 
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div id="cms-file-upload" class="card">
                 <div class="card-header">
                     <i class="fa fa-upload"></i> Upload File
@@ -40,7 +40,7 @@
             </div>
 
         </div>
-        <div class="col-md-10">
+        <div class="col-md-9">
 
             <table class="table table-striped">
                 <thead>

@@ -5,3 +5,8 @@
 .override-inline .form-control {
     width: 100%;
 }
+
+.edit-icon {
+    font-size: 12pt; 
+    color: #c0c0c0;
+}

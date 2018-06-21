@@ -598,6 +598,11 @@
             <cfset ts.description="Plain Text Document">
             <cfset ts.code="TXT">
 		</cfcase>  
+        <cfcase value="MP3">
+            <cfset ts.icon="/graphics/music.png">
+            <cfset ts.description="MPEG Audio Layer 3">
+            <cfset ts.code="MP3">
+        </cfcase>
         <cfdefaultcase>
 			<cfset ts.icon="/graphics/page_white.png">
 	            <cfset ts.description="Unknown Type">

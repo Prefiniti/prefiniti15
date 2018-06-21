@@ -371,3 +371,18 @@
    		UPDATE users SET picture='#file_name#' WHERE id=#user_id#
 	</cfquery>
 </cffunction>            
+
+<cffunction name="setStatus" returntype="string">
+    <cfargument name="user_id" type="numeric" required="true">
+    <cfargument name="newStatus" type="string" required="true">
+
+    <cfquery name="setStatus" datasource="webwarecl">
+        UPDATE users SET status="#arguments.newStatus#" WHERE id=#arguments.user_id#
+    </cfquery>
+
+    <cfset eventText = getLongname(user_id) & "'s status is now <b>" & arguments.newStatus & "</b>">
+
+    <cfset writeUserEvent(arguments.user_id, "newspaper.png", eventText)>
+
+    <cfreturn newStatus>
+</cffunction>

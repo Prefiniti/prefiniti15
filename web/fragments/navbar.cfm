@@ -39,13 +39,21 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown-user-menu">
                     <cfoutput>
-                        <a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Edit Profile</a>
-                        <a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View Profile</a>
+                        <a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Edit My Profile</a>
+                        <a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View My Profile</a>                    
                         <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/search_users.cfm');">Friend Search</a>
-                        <a class="dropdown-item" href="##" onclick="viewPictures(#session.userid#, true);">Pictures</a>
+                        <div role="separator" class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href="##" onclick="viewPictures(#session.userid#, true);">My Pictures</a>
                         <a class="dropdown-item" href="##" onclick="cmsBrowseFolder(#session.userid#, 'project_files', '', 'user', '');">My Files</a>
+                        
+                        <div role="separator" class="dropdown-divider"></div>
+
                         <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/my_departments.cfm');">My Departments</a>
                         <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/scheduling/my_schedule.cfm?date=#DateFormat(Now(), "yyyy/mm/dd")#');">My Schedule</a>
+                        
+                        <div role="separator" class="dropdown-divider"></div>
+
                         <a class="dropdown-item" href="logoff.cfm">Sign Out</a>
                     </cfoutput>
                 </div>
