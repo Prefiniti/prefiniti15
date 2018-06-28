@@ -5,7 +5,6 @@
     </cfquery>
     
     <cfreturn #ntat#>
-
 </cffunction>
 
 <cffunction name="ntIDByKey" returntype="numeric">
@@ -28,8 +27,7 @@
         AND		notification_id=#event_id#
 	</cfquery>        
     
-    <cfreturn #ntum#>
-	
+    <cfreturn #ntum#>	
 </cffunction>    
                  
 <cffunction name="ntNotify" returntype="void">
@@ -41,30 +39,27 @@
     <cfquery name="ntn_contact" datasource="webwarecl">
     	SELECT email, smsNumber FROM users WHERE id=#user_id#
 	</cfquery>        
-    
-    
-    
+        
     <cfparam name="nt_header" default="">
-    
     <cfparam name="event_id" default="">
     <cfparam name="methods" default="">
     <cfparam name="event_name" default="">
     
-	<cfset event_id=ntIDByKey(event_key)>
-    <cfset methods=ntUserMethods(user_id, event_id)>
+	<cfset event_id = ntIDByKey(event_key)>
+    <cfset methods = ntUserMethods(user_id, event_id)>
     
     <cfquery name="ntn_eventname" datasource="webwarecl">
     	SELECT description FROM notifications WHERE id=#event_id#
 	</cfquery>
-    <cfset event_name="#ntn_eventname.description#">        
     
-    
+    <cfset event_name = ntn_eventname.description>        
+        
     <cfoutput query="methods">
     	<cfswitch expression="#method#">
         	<cfcase value="0">		<!--Prefiniti Mail-->
             
             	<cfquery name="ntn_write_message" datasource="webwarecl">
-                    INSERT INTO messageInbox 
+                    INSERT INTO messageinbox 
                         (fromuser,
                         touser,
                         tsubject,
@@ -75,7 +70,7 @@
                         readReceipt
                         )
                     VALUES
-                        (143,
+                        (0,
                         #user_id#,
                         '#event_name#',
                         '#body_text# <br><a href="javascript:#event_link#">View Event</a>',
@@ -83,7 +78,7 @@
                         'no',
                         '',
                         0)
-					</cfquery>                        
+				</cfquery>                        
             
             </cfcase>
             <cfcase value="1">		<!--Internet E-Mail-->
@@ -146,7 +141,6 @@
     <cfquery name="gbe" datasource="sites">
     	SELECT * FROM department_events
 	</cfquery>
-    
     
     <cfoutput query="gbe">
     	<cfquery name="ioe" datasource="webwarecl">

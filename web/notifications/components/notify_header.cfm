@@ -39,7 +39,7 @@
 	
 	<table width="600" cellpadding="0" cellspacing="0" align="center">
     	<tr>
-        	<td style="padding:10px; height:80px; background-image:url(http://www.webwarecl.com/graphics/binary-bg.jpg); background-repeat:no-repeat;"><img src="http://www.prefiniti.com/graphics/prefiniti-small.png" /></td>
+        	<td style="padding:10px; height:80px; background-image:url(http://prefiniti15.prefiniti.com/graphics/binary-bg.jpg); background-repeat:no-repeat;"><img src="http://prefiniti15.prefiniti.com/graphics/prefiniti-small.png" /></td>
             <td align="right" valign="top" style="padding:10px;"><h1>Prefiniti Notification</h1></td>
         </tr>
         <tr>
@@ -48,7 +48,7 @@
             	
                 
                 <p style="padding-left:10px; color:black; font-size:medium;">#attributes.body_text#</p> 
-				<a style="padding-left:10px;" href="http://www.webwarecl.com/prefiniti_framework_base.cfm?event_redir=#attributes.event_link#">View Event</a>
+				<a style="padding-left:10px;" href="http://prefiniti15.prefiniti.com/prefiniti_bootstrap_base.cfm?event_redir=#attributes.event_link#">View Event</a>
 				</cfoutput> 
                 <p style="color:red;">This is an automatically generated notification. Please do not reply.</p>  
             </td>

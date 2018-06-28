@@ -2,47 +2,8 @@
 
 
 <cfinclude template="/mail/mail_udf.cfm">
-<cfquery name="mail" datasource="webwarecl">
-	<cfswitch expression="#url.mailbox#">
-		<cfcase value="inbox">
-			SELECT 		messageinbox.id AS msgid, 
-            			messageinbox.tbody, 
-                    	messageinbox.tsubject, 
-                    	messageinbox.tdate, 
-                    	messageinbox.tread, 
-                    	users.id AS sender_id, 
-                    	users.username, 
-                    	users.longName 
-			FROM 		messageinbox 
-            INNER JOIN 	users 
-            ON 			users.id=messageinbox.fromuser 
-            WHERE 		messageinbox.touser=#url.userid# 
-            AND 		messageinbox.deleted_inbox=0 
-            ORDER BY 	messageinbox.tdate 
-            DESC
-		</cfcase>
-		<cfcase value="sent messages">
-			SELECT  	messageinbox.id AS msgid, 
-            			messageinbox.tbody, 
-                    	messageinbox.tsubject, 
-                    	messageinbox.tdate, 
-                    	messageinbox.tread, 
-                        messageinbox.touser,
-                    	users.username, 
-                    	users.longName, 
-                    	users.id AS sender_id 
-			FROM 		messageinbox 
-            INNER JOIN 	users 
-            ON 			users.id=messageinbox.fromuser 
-            WHERE 		messageinbox.fromuser=#url.userid# 
-            AND			messageinbox.deleted_outbox=0
-            ORDER BY 	messageinbox.tread, 
-            			messageinbox.tdate 
-            DESC
-		</cfcase>
-	</cfswitch>	
-	
-</cfquery>
+
+<cfset mail = getMailbox(session.user.id, url.mailbox)>
 
 <style type="text/css">
 	.mView th {

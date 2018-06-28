@@ -35,3 +35,4 @@
 <cfparam name="session.framework_loaded" default="0">
 
 <cfinclude template="/authentication/authentication_udf.cfm">
+<cfinclude template="/notifications/notification_udf.cfm">

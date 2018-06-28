@@ -38,8 +38,7 @@
                     <cfoutput><img src="#profilePicture#" width="22" class="img-fluid rounded-circle"> #longName#</cfoutput>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown-user-menu">
-                    <cfoutput>
-                        <a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Edit My Profile</a>
+                    <cfoutput>                        
                         <a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View My Profile</a>                    
                         <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/search_users.cfm');">Friend Search</a>
                         <div role="separator" class="dropdown-divider"></div>
@@ -53,7 +52,9 @@
                         <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/scheduling/my_schedule.cfm?date=#DateFormat(Now(), "yyyy/mm/dd")#');">My Schedule</a>
                         
                         <div role="separator" class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Settings</a>
 
+                        <div role="separator" class="dropdown-divider"></div>
                         <a class="dropdown-item" href="logoff.cfm">Sign Out</a>
                     </cfoutput>
                 </div>
@@ -81,11 +82,30 @@
                 <li class="nav-item dropdown">
 
                     <a class="nav-link dropdown-toggle" id="dropdown-#id#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#caption#</a>
-                    <div class="dropdown-menu" arial-labelledby="dropdown-#id#">
+                    <div class="dropdown-menu" aria-labelledby="dropdown-#id#">
                         #getMenuItems(id, handle)#
                     </div>
                 </li>
             </cfoutput>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="dropdown-mail" data-toggle="dropdown" href="#"><i class="fa fa-envelope"></i> <sup><span class="badge badge-secondary" id="badge-messages"></span></sup></a>
+                <div class="dropdown-menu" aria-labelledby="dropdown-mail">
+                    <div id="dropdown-mail-menu">
+                        
+                    </div>
+                    <div role="separator" class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#" onclick="viewMailFolder('inbox', 1);">View All Messages</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/friend_requests.cfm');"><i class="fa fa-user-plus"></i> <sup><span class="badge badge-secondary" id="badge-friend-requests"></span></sup></a>
+                
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="messages"><i class="fa fa-bell"></i> <sup><span class="badge badge-secondary" id="badge-notifications"></span></sup></a>
+                
+            </li>
 
         </ul>
 

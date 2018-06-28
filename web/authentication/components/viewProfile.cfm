@@ -1,13 +1,46 @@
 <cfinclude template="/socialnet/socialnet_udf.cfm">
 <cfinclude template="/authentication/authentication_udf.cfm">
 
-<cfquery name="profile" datasource="webwarecl">
-	SELECT * FROM users WHERE id=#url.userid#
-</cfquery>
+<cfset profileUser = new Prefiniti.Authentication.UserAccount({id: url.userid}, false)>
 
-<cfset comments = getComments(url.userid)>
-<cfset friends = getFriends(url.userid)>
+<cfset profile = profileUser.profileQuery>
+<cfset friends = profileUser.getFriends()>
 <cfset connections = getAssociationsByUser(url.userid)>
+<cfset posts = profileUser.getUserPosts()>
+
+<cfif url.userid EQ session.userid>
+	<cfset isSelf = true>
+	<cfset canWrite = true>
+	<cfset canFriend = false>
+	<cfset canUnfriend = false>
+	<cfset canMessage = false>
+	<cfset canComment = true>
+<cfelse>
+	<cfset isSelf = false>
+	<cfset canWrite = false>
+	<cfset canMessage = true>
+</cfif>
+
+<cfif isFriend(session.userid, url.userid)>
+	<cfset canFriend = false>
+	<cfif NOT isSelf>
+		<cfset canUnfriend = true>
+		<cfset canComment = true>
+	</cfif>	
+<cfelse>
+	<cfset canFriend = true>
+	<cfset canUnfriend = false>
+	<cfif NOT isSelf>
+		<cfset canComment = false>
+	</cfif>
+</cfif>
+
+<cfif NOT isSelf>
+	<cfset incrementView(url.userid)>	
+</cfif>
+
+<cfset visits = getVisits(url.userid)>
+
 
 <div class="wrapper">
 	<div class="row">
@@ -48,7 +81,13 @@
 									<td>
 										<i class="fa fa-clock"></i>
 									</td>
-									<td>Last login #DateFormat(last_login, "mm/dd/yyyy")# #TimeFormat(last_login, "h:mm tt")#</td>
+									<td>Last login #DateFormat(last_login, "d mmm yyyy")# #TimeFormat(last_login, "h:mm tt")#</td>
+								</tr>
+								<tr>
+									<td>
+										<i class="fa fa-eye"></i>
+									</td>
+									<td>#profile_views# profile views</td>
 								</tr>
 							</tbody>
 						</table>
@@ -56,18 +95,57 @@
 				</div>
 			</div> <!-- profile intro -->
 
-			<div class="card mt-3">
-				<div class="card-header">
-					<i class="fa fa-tag"></i> Interests
-				</div>
-				<div class="card-body">
-					<cfset interests = profile.interests.split(",")>
+			<cfif profile.bio NEQ "">
+				<div class="card mt-3">
+					<div class="card-header">
+						<i class="fa fa-info-circle"></i> Bio
+					</div>
+					<div class="card-body">
+						<cfoutput>#profile.bio#</cfoutput>
+					</div>
+				</div> <!-- bio -->
+			</cfif>
 
-					<cfloop array="#interests#" item="interest">
-						<cfoutput><span class="badge badge-secondary">#interest#</span></cfoutput>
-					</cfloop>					
-				</div>
-			</div> <!-- interests -->
+			<cfif profile.background NEQ "">
+				<div class="card mt-3">
+					<div class="card-header">
+						<i class="fa fa-book"></i> Background
+					</div>
+					<div class="card-body">
+						<cfoutput>#profile.background#</cfoutput>
+					</div>
+				</div> <!-- background -->
+			</cfif>
+
+			<cfif profile.interests NEQ "">
+				<div class="card mt-3">
+					<div class="card-header">
+						<i class="fa fa-tag"></i> Interests
+					</div>
+					<div class="card-body">
+						<cfset interests = profile.interests.split(",")>
+
+						<cfloop array="#interests#" item="interest">
+							<cfoutput><span class="badge badge-secondary">#interest#</span></cfoutput>
+						</cfloop>					
+					</div>
+				</div> <!-- interests -->
+			</cfif>
+
+			<cfif profile.music NEQ "">
+				<div class="card mt-3">
+					<div class="card-header">
+						<i class="fa fa-music"></i> Music
+					</div>
+					<div class="card-body">
+						<cfset music = profile.music.split(",")>
+
+						<cfloop array="#music#" item="group">
+							<cfoutput><span class="badge badge-secondary">#group#</span></cfoutput>
+						</cfloop>	
+					</div>
+				</div> <!-- music -->
+			</cfif>
 			
 			<div class="card mt-3">
 				<div class="card-header">
@@ -76,20 +154,51 @@
 				<div class="card-body">
 					<cfset count = 0>
 					<div class="row">
-						<cfoutput query="#friends#">
-							<div class="col-md-4">
-								<cfset friendPic = getPicture(target_id)>
-								<cfset friendName = getLongname(target_id)>
-								
-								<a href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/authentication/components/viewProfile.cfm?userid=#target_id#');">
-									<img src="#friendPic#" width="60" height="60"><br>
-									<small>#friendName#</small>
-								</a>
-							</div>
-						</cfoutput>
+						<cfloop array="#friends#" item="friend">
+							<cfoutput>
+								<div class="col-md-4">
+									<cfset friendPic = friend.getPicture()>
+									<cfset friendName = friend.longName>
+									
+									<a href="##" onclick="Prefiniti.viewProfile(#friend.id#);">
+										<img src="#friendPic#" width="60" height="60"><br>
+										<small>#friendName#</small>
+									</a>
+								</div>
+							</cfoutput>
+						</cfloop>
 					</div>
 				</div>
 			</div> <!-- friends -->
+
+			<div class="card mt-3">
+				<div class="card-header">
+					<i class="fa fa-book-open"></i> Visitors
+				</div>
+				<div class="card-body">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Visitor</th>
+								<th>Age</th>
+								<th>Date</th>
+							</tr>
+						</thead>
+						<tbody>
+							<cfoutput query="visits" maxrows="20">
+								<cfif not isFriend(url.userid, source_id)>
+									<tr>
+										<td>#getLongname(source_id)#</td>
+										<td>#source_age#</td>
+										<td>#dateFormat(visit_date, "d mmm yyyy")#</td>
+									</tr>
+								</cfif>
+							</cfoutput>
+						</tbody>
+					</table>
+					<small class="text-muted">Visitor Age represents the visitor's age at the time of the visit.</small>
+				</div>
+			</div> <!-- guestbook -->
 
 			<div class="card mt-3">
 				<div class="card-header">
@@ -134,17 +243,22 @@
 						</div>
 						<div class="col-md-10">
 							<h1>#getLongname(url.userid)#</h1>
-							<h3 onmouseenter="Prefiniti.showEditIcon('user-status');" onmouseleave="Prefiniti.hideEditIcon('user-status');" id="user-status-view"><span id="user-status-content">#profile.status#</span> <span id="user-status-editicon" style="display: none;"><i onclick="Prefiniti.beginEditingField('user-status');" class="fa fa-edit edit-icon"></i></span></h3>
-							<input class="form-control" id="user-status-edit" type="text" style="display: none;">
-							<div class="btn-group float-right" role="group" aria-label="Basic example">
-								<cfif NOT isFriend(session.userid, url.userid)>
-									<button type="button" class="btn btn-light btn-sm">Send Friend Request</button>
-								<cfelse>
+							<h3 <cfif canWrite>onmouseenter="Prefiniti.showEditIcon('user-status');" onmouseleave="Prefiniti.hideEditIcon('user-status');"</cfif> id="user-status-view"><span id="user-status-content">#profile.status#</span> <span id="user-status-editicon" style="display: none;"><i <cfif canWrite>onclick="Prefiniti.beginEditingField('user-status');"</cfif> class="fa fa-edit edit-icon"></i></span></h3>
+							<cfif canWrite>
+								<input class="form-control mb-2" id="user-status-edit" type="text" style="display: none;">
+							</cfif>
+							<div class="btn-group float-right" role="group" aria-label="Friend Operations">
+								<cfif canFriend>
+									<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.requestFriend(#session.user.id#, #url.userid#);">Send Friend Request</button>
+								</cfif>
+								<cfif canUnfriend>
 									<button type="button" class="btn btn-light btn-sm">Unfriend</button>
 								</cfif>
-							  	<button type="button" class="btn btn-light btn-sm">Send Message</button>
-							  	<cfif isFriend(session.userid, url.userid)>
-							  		<button type="button" class="btn btn-light btn-sm">Post Comment</button>
+								<cfif canMessage>
+							  		<button type="button" class="btn btn-light btn-sm" onclick="mailTo(#profileUser.id#, '#profileUser.longName#');">Send Message</button>
+							  	</cfif>
+							  	<cfif canComment>
+							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.revealCommentBox();">New Post</button>
 								</cfif>
 							</div>
 						</div>
@@ -153,18 +267,31 @@
 			</cfoutput>
 			<hr>
 
-			<cfoutput query="comments">
-				<div class="card mb-2">
-					<div class="card-body">
-						<p>							
-							<img src="#getPicture(from_id)#" class="img-fluid rounded-circle" width="30">						
-							<b><a href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/authentication/components/viewProfile.cfm?userid=#from_id#')">#getLongname(from_id)#</a></b>
-						</p>
-						<p>#body#</p>
-						<small class="float-right">#dateFormat(sent_date, "d mmm yyyy")# | <a href="##">Reply</a></small>
+			<cfif canComment>
+				<div class="row" id="user-post-comment" style="display: none;" class="mb-5">
+					<div class="col-md-12">
+						<form id="user-post-comment-form">
+							<cfoutput>
+								<input type="hidden" id="comment-parent" name="parent_post_id" value="0">
+								<input type="hidden" id="comment-from" name="author_id" value="#session.userid#">
+								<input type="hidden" id="comment-to" name="recipient_id" value="#url.userid#">
+							</cfoutput>
+							<div class="input-group mb-5">
+								<input class="form-control" type="text" id="comment-body-copy" name="body_copy" placeholder="Enter your post...">
+								<div class="input-group-append">
+									<button type="button" class="btn btn-primary" onclick="Prefiniti.submitComment();">Post</button>
+									<button type="button" class="btn btn-primary" onclick="Prefiniti.cancelComment();">Cancel</button>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
-			</cfoutput>
+			</cfif>
+			
+			<cfloop array="#posts#" item="post">
+				<cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
+			</cfloop>
+			
 
 		</div>
 		

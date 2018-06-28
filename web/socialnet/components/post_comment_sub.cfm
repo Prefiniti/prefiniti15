@@ -1,15 +1,11 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
+<cfscript>
+post = new Prefiniti.SocialNetworking.Post();
 
-<cfoutput>#postComment(url.fromid, url.toid, url.body_copy)#</cfoutput>
+post.post_class = "USER";
+post.parent_post_id = form.parent_post_id;
+post.author_id = form.author_id;
+post.recipient_id = form.recipient_id;
+post.body_copy = form.body_copy;
 
-<table width="100%">
-	<tr>
-    	<td align="center">
-        	<h1>Comment Posted.</h1>
-            
-            <cfoutput>
-            <p class="VPLink"><a href="javascript:viewProfile(#url.toid#);">Return to #getLongname(url.toid)#'s profile</a></p>
-			</cfoutput>
-		</td>
-	</tr>
-</table>                                
+post.create();
+</cfscript>

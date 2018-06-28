@@ -1,10 +1,14 @@
 <cfinclude template="/notifications/notification_udf.cfm">
 
-<!---<cffunction name="ntNotify" returntype="void">
-	<cfargument name="user_id" type="numeric" required="yes">
-    <cfargument name="event_key" type="string" required="yes">
-    <cfargument name="body_text" type="string" required="yes">
-    <cfargument name="event_link" type="string" required="no">--->
+<cffunction name="getProfile" returntype="query">
+    <cfargument name="user_id" type="numeric" required="yes">
+
+    <cfquery name="getProfile" datasource="webwarecl">
+        SELECT * FROM users WHERE id=#arguments.user_id#
+    </cfquery>
+
+    <cfreturn getProfile>
+</cffunction>
 
 <cffunction name="requestFriend" returntype="void">
 	<cfargument name="source_id" type="numeric" required="yes">
@@ -166,25 +170,14 @@
     <cfelse>
     	<cfreturn "her">
 	</cfif>        
-</cffunction>    
+</cffunction>  
+
 <cffunction name="getPicture" returntype="string">
 	<cfargument name="user_id" type="numeric" required="yes">
     
-    <cfquery name="gp" datasource="webwarecl">
-    	SELECT picture, username, gender FROM users WHERE id=#user_id#
-    </cfquery>        
-    
-    <cfif #gp.picture# EQ "">
-		<cfif #gp.gender# EQ "M">
-            <cfreturn "/graphics/genpicmale.png">
-        <cfelseif #gp.gender# EQ "F">
-            <cfreturn "/graphics/genpicfemale.png">
-        <cfelse>
-            <cfreturn "/graphics/genpicmale.png">
-        </cfif>
-    <cfelse>
-        <cfreturn "#gp.picture#">
-    </cfif>    
+    <cfset user = new Prefiniti.Authentication.UserAccount({id: arguments.user_id}, false)>
+
+    <cfreturn user.getPicture()>
 </cffunction>
 
 <cffunction name="getPictureRecord" returntype="string">
@@ -229,6 +222,47 @@
 	</cfquery>
     
     <cfreturn #gl.birthday#>
+</cffunction>
+
+<cffunction name="getAge" returntype="numeric">
+    <cfargument name="user_id" type="numeric" required="yes">
+
+    <cfset birthday = getBirthday(user_id)>
+
+    <cfreturn dateDiff("yyyy", birthday, now())>
+</cffunction>
+
+<cffunction name="incrementView" returntype="void">
+    <cfargument name="user_id" type="numeric" required="true">
+
+    <cfquery name="iv" datasource="webwarecl">
+        UPDATE users SET profile_views = profile_views + 1 WHERE id=#arguments.user_id#
+    </cfquery>
+
+    <cfquery name="createView" datasource="webwarecl">
+        INSERT INTO profile_visits
+                    (source_id,
+                    target_id,
+                    visit_date,
+                    source_age,
+                    target_age)
+        VALUES
+                    (#session.userid#,
+                    #arguments.user_id#,
+                    #CreateODBCDateTime(Now())#,
+                    #getAge(session.userid)#,
+                    #getAge(arguments.user_id)#)
+    </cfquery>
+</cffunction>
+
+<cffunction name="getVisits" returntype="query">
+    <cfargument name="user_id" type="numeric" required="true">
+
+    <cfquery name="getVisits" datasource="webwarecl">
+        SELECT * FROM profile_visits WHERE target_id=#arguments.user_id# ORDER BY visit_date DESC
+    </cfquery>
+
+    <cfreturn getVisits>
 </cffunction>
 
 <cffunction name="getComments" returntype="query">

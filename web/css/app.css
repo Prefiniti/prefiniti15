@@ -10,3 +10,52 @@
     font-size: 12pt; 
     color: #c0c0c0;
 }
+
+.avatar {
+    width: 60px;
+}
+
+.avatar-sm {
+    width: 30px;
+}
+
+.reply .avatar {
+    width: 30px;
+}
+
+.thumbnail {
+    padding:0px;
+}
+.card {
+    position:relative;
+}
+.card>.card-header:after,.card>.card-header:before{
+    position:absolute;
+    top:11px;left:-16px;
+    right:100%;
+    width:0;
+    height:0;
+    display:block;
+    content:" ";
+    border-color:transparent;
+    border-style:solid solid outset;
+    pointer-events:none;
+}
+.card>.card-header:after{
+    border-width:7px;
+    border-right-color:#f7f7f7;
+    margin-top:1px;
+    margin-left:2px;
+}
+.card>.card-header:before{
+    border-right-color:#ddd;
+    border-width:8px;
+}
+
+.post-buttons {
+    font-size: 13px;
+}
+
+.reply {
+    margin-left: 10px;
+}

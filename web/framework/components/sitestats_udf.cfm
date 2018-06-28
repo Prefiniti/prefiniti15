@@ -34,7 +34,11 @@
     
     <cfquery name="newComments" datasource="webwarecl">
     	SELECT id FROM comments WHERE to_id=#user_id# AND c_read=0
-	</cfquery>  
+	</cfquery> 
+
+    <cfquery name="newPosts" datasource="webwarecl">
+        SELECT id FROM posts WHERE recipient_id=#user_id# AND post_read=0
+    </cfquery>   
     
     <cfquery name="newPDFs" datasource="webwarecl">
     	SELECT newpdf FROM users WHERE id=#user_id#
@@ -49,6 +53,7 @@
     <cfset siteStats.newComments=#newComments.RecordCount#>
     <cfset siteStats.newPDF=#newPDFs.newPDF#>
     <cfset siteStats.newRFP=#newRFP.RecordCount#>
+    <cfset siteStats.newPosts=newPosts.recordCount>
     
     <cfreturn #siteStats#>
  </cffunction>
