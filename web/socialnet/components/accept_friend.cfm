@@ -1,4 +1,6 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
+<cfscript>
+    source = new Prefiniti.Authentication.UserAccount({id: form.source_id}, false);
+    target = new Prefiniti.Authentication.UserAccount({id: form.target_id}, false);
 
-<cfoutput>#acceptFriendRequest(url.req_id)#</cfoutput>
-<font color="green">Accepted.</font>
+    target.acceptFriendRequest(source);
+</cfscript>

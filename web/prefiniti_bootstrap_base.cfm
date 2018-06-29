@@ -26,13 +26,10 @@
     <cfinclude template="fragments/navbar.cfm">
 
 
-    <main role="main" class="container-fluid mt-0 mb-0 ml-0 mr-0">
-        <div class="mt-0 mb-0 ml-0 mr-0" style="padding-top: 80px; padding-left: 0;">
-            <div class="row">
-                
+    <main role="main" class="container-fluid mt-2 mb-0 ml-0 mr-0">        
+            <div class="row">                
                 <div class="col-sm-12" id="tcTarget"></div>
-            </div>
-        </div>
+            </div>        
     </main>
 
 

@@ -252,7 +252,7 @@
 									<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.requestFriend(#session.user.id#, #url.userid#);">Send Friend Request</button>
 								</cfif>
 								<cfif canUnfriend>
-									<button type="button" class="btn btn-light btn-sm">Unfriend</button>
+									<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.deleteFriend(#url.userid#);">Unfriend</button>
 								</cfif>
 								<cfif canMessage>
 							  		<button type="button" class="btn btn-light btn-sm" onclick="mailTo(#profileUser.id#, '#profileUser.longName#');">Send Message</button>

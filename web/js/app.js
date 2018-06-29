@@ -46,6 +46,10 @@ var Prefiniti = {
             $("#dropdown-mail-menu").html(data);
         });
 
+        $.get("/socialnet/components/friend_requests_dropdown.cfm", function(data) {
+            $("#dropdown-friend-requests-menu").html(data);
+        })
+
     },
 
     onLoad: function() {
@@ -202,6 +206,52 @@ var Prefiniti = {
             encode: true
         }).done(function(data) {
             Prefiniti.viewProfile(target_id);
+        });
+    },
+
+    acceptFriend: function(source_id, target_id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/socialnet/components/accept_friend.cfm",
+            data: {
+                source_id: source_id,
+                target_id: target_id
+            },
+            encode: true
+        }).done(function(data) {
+            console.log(data);
+        });
+
+    },
+
+    rejectFriend: function(source_id, target_id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/socialnet/components/reject_friend.cfm",
+            data: {
+                source_id: source_id,
+                target_id: target_id
+            },
+            encode: true
+        }).done(function(data) {
+            console.log(data);
+        });
+
+    },
+
+    deleteFriend: function(friend_id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/socialnet/components/delete_friend.cfm",
+            data: {
+                friend_id: friend_id
+            },
+            encode: true
+        }).done(function(data) {
+            console.log(data);
         });
     },
 

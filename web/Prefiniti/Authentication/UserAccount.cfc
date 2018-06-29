@@ -257,11 +257,30 @@ component extends="Prefiniti.Base" output="false" {
     
         ntNotify(arguments.requester.id, "SN_FRIEND_REJECT", "#this.longName# has rejected your friend request.", "");
 
-        var eventText  = this.longName & " has rejected " & arguments.requester.longName & "'s friend request.";
+        var eventText = this.longName & " has rejected " & arguments.requester.longName & "'s friend request.";
         
         writeUserEvent(this.id, "heart_delete.png", eventText);
         if(this.id != arguments.requester.id) {
             writeUserEvent(arguments.requester.id, "heart_delete.png", eventText);
+        }
+
+    }
+
+    public void function deleteFriend(required Prefiniti.Authentication.UserAccount friend) {
+
+        var qrySql = "DELETE FROM friends WHERE source_id=:source_id AND target_id=:target_id";
+        queryExecute(qrySql, {source_id=this.id, target_id=arguments.friend.id}, {datasource="webwarecl"});
+
+        qrySql = "DELETE FROM friends WHERE source_id=:target_id AND target_id=:source_id";
+        queryExecute(qrySql, {source_id=this.id, target_id=arguments.friend.id}, {datasource="webwarecl"});
+
+        ntNotify(arguments.friend.id, "SN_FRIEND_DELETE", "#this.longName# has deleted you as a friend.", "");
+
+        var eventText = this.longName & " and " & arguments.friend.longName & " are no longer friends.";
+        
+        writeUserEvent(this.id, "heart_delete.png", eventText);
+        if(this.id != arguments.friend.id) {
+            writeUserEvent(arguments.friend.id, "heart_delete.png", eventText);
         }
 
     }

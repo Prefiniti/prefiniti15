@@ -148,6 +148,16 @@
     <cfreturn #gr#>
 </cffunction>
 
+<cffunction name="getRequestById" returntype="query">
+    <cfargument name="request_id" type="numeric" requried="yes">
+
+    <cfquery name="grid" datasource="webwarecl">
+        SELECT * FROM friends WHERE id=#arguments.request_id#
+    </cfquery>
+
+    <cfreturn grid>
+</cffunction>
+
 <cffunction name="getUsername" returntype="string">
 	<cfargument name="user_id" type="numeric" required="yes">
     
@@ -327,8 +337,12 @@
     <cfquery name="if" datasource="webwarecl">
     	SELECT id FROM friends WHERE source_id=#sourceid# AND target_id=#targetid# AND confirmed=1
     </cfquery>
+
+    <cfquery name="of" datasource="webwarecl">
+        SELECT id FROM friends WHERE source_id=#targetid# AND target_id=#sourceid# AND confirmed=1
+    </cfquery>
     
-    <cfif if.RecordCount EQ 0>
+    <cfif if.RecordCount EQ 0 OR of.recordCount EQ 0>
     	<cfreturn false>
     <cfelse>
     	<cfreturn true>

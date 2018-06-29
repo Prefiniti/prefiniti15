@@ -26,8 +26,8 @@
     </form>
 </div>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#" onclick="loadHomeView();"><img src="graphics/prefiniti-logo-white.png" alt="Prefiniti logo"></a>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" onclick="loadHomeView();"><img src="graphics/pi-16x16.png" alt="Prefiniti logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,7 +38,8 @@
                     <cfoutput><img src="#profilePicture#" width="22" class="img-fluid rounded-circle"> #longName#</cfoutput>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown-user-menu">
-                    <cfoutput>                        
+                    <cfoutput>                     
+                        <a class="dropdown-item" href="##" onclick="loadHomeView();">Home</a>   
                         <a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View My Profile</a>                    
                         <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/search_users.cfm');">Friend Search</a>
                         <div role="separator" class="dropdown-divider"></div>
@@ -94,14 +95,23 @@
                     <div id="dropdown-mail-menu">
                         
                     </div>
-                    <div role="separator" class="dropdown-divider"></div>
+                    
                     <a class="dropdown-item" href="#" onclick="viewMailFolder('inbox', 1);">View All Messages</a>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/friend_requests.cfm');"><i class="fa fa-user-plus"></i> <sup><span class="badge badge-secondary" id="badge-friend-requests"></span></sup></a>
-                
-            </li>
+            </li> <!-- mail dropdown -->
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="dropdown-friend-requests" data-toggle="dropdown" href="#"><i class="fa fa-user-plus"></i> <sup><span class="badge badge-secondary" id="badge-friend-requests"></span></sup></a>
+                <div class="dropdown-menu" aria-labelledby="dropdown-friend-requests">
+                    <div id="dropdown-friend-requests-menu">
+                        <!-- friend requests go here -->
+                    </div>
+                    
+                    <a class="dropdown-item" href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/friend_requests.cfm');">View All Friend Requests</a>
+                </div>
+            </li> <!-- friend requests dropdown -->
+
+
             <li class="nav-item">
                 <a class="nav-link" href="messages"><i class="fa fa-bell"></i> <sup><span class="badge badge-secondary" id="badge-notifications"></span></sup></a>
                 
