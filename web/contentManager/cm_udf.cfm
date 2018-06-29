@@ -176,7 +176,11 @@
     	SELECT filename FROM user_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfreturn cufn.filename>        
+    <cfif cufn.recordCount EQ 1>
+        <cfreturn cufn.filename>    
+    <cfelse>
+        <cfreturn "File no longer exists">
+    </cfif>
 </cffunction>
 
 <cffunction name="cmsUserFileDescription" returntype="string">

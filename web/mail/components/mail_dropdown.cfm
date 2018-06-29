@@ -1,4 +1,4 @@
-<cfset prefiniti = new Prefiniti.LegacyAPI()>
+<cfset prefiniti = new Prefiniti.Base()>
 
 <cfset mail = prefiniti.getMailbox(session.user.id, "inbox", 10)>
 
@@ -10,20 +10,28 @@
     <cfelse>
         <cfset pic = "/graphics/pi.png">
     </cfif>
-    <div class="container-fluid">
-        <div class="row m-1">
-            <div class="col-sm-1">
-                <div class="text-center mt-3">
-                    <a href="##" onclick="Prefiniti.viewProfile(#user.id#);">
-                        <img class="rounded-circle avatar-sm" src="#pic#">
-                    </a>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <a class="dropdown-item" href="##" onclick="Prefiniti.viewProfile(#user.id#);"><small><b>#user.longName#</b></small></a>
-                <a class="dropdown-item" href="##" onclick="viewMessage(#msgid#);"><small>#tsubject#</small></a>
+
+    <li>
+        <div class="dropdown-messages-box">
+            <a class="dropdown-item float-left" href="##" onclick="Prefiniti.viewProfile(#user.id#);">
+                <img alt="image" class="rounded-circle avatar-sm" src="#pic#">
+            </a>
+            <div class="media-body" onclick="viewMessage(#msgid#);">
+                <small class="float-right">#user.longName#</small>
+                <strong>#tsubject#</strong> <br>
+                <small class="text-muted">#prefiniti.getFriendlyDuration(tdate)# at #timeFormat(tdate, "h:mm tt")# - #dateFormat(tdate, "m.dd.yyyy")#</small>
             </div>
         </div>
-    </div>
-    <div role="separator" class="dropdown-divider"></div>
+    </li>
+    <li class="dropdown-divider"></li>
 </cfoutput>
+
+<li>
+    <cfoutput>
+    <div class="text-center link-block">
+        <a href="##" class="dropdown-item" onclick="viewMailFolder('inbox', 1);">
+            <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
+        </a>
+    </div>
+    </cfoutput>
+</li>

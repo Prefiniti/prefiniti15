@@ -22,9 +22,9 @@
 		<cfif getPermissionByKey('#perm_key#', #session.current_association#) EQ true>
 
             <cfif direct EQ 0>
-                <a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '#target#');"><img src="/graphics/#image#"> #caption#</a>
+                <li><a href="##" onclick="AjaxLoadPageToDiv('tcTarget', '#target#');">#caption#</a></li>
             <cfelse>
-                <a class="dropdown-item" href="#target#"><img src="/graphics/#image#"> #caption#</a>        						
+                <li><a href="#target#">#caption#</a></li>
 			</cfif>				
 
         </cfif>

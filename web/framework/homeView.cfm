@@ -1,3 +1,8 @@
+<div class="wwaf-metadata">
+    <wwaftitle>Prefiniti Home</wwaftitle>
+    <wwafbreadcrumbs>Prefiniti,Home</wwafbreadcrumbs>
+</div>
+
 <cfset prefiniti = new Prefiniti.LegacyAPI()>
 
 <cfset friends = session.user.getFriends()>

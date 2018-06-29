@@ -1,7 +1,9 @@
 var Prefiniti = {
     
     state: {
-        userId: glob_userid
+        userId: glob_userid,
+        currentPage: null,
+        history: []
     },
 
     getNotifications: function () {
@@ -16,17 +18,13 @@ var Prefiniti = {
             notifyTotal -= data.UNREADMAIL;
             notifyTotal -= data.NEWFRIENDREQUESTS;
 
-            $("#badge-messages").html(data.UNREADMAIL);
+            $("#badge-messages-unread-side").html(data.UNREADMAIL);
+            $("#badge-messages-unread-top").html(data.UNREADMAIL);
+            //$("#badge-messages-total").html(data.TOTALMAIL);
             $("#badge-friend-requests").html(data.NEWFRIENDREQUESTS);
             $("#badge-notifications").html(notifyTotal);
 
-            if(data.UNREADMAIL === 0) {
-                $("#badge-messages").hide();
-            }
-            else {
-                $("#badge-messages").show();
-            }
-
+            
             if(data.NEWFRIENDREQUESTS === 0) {
                 $("#badge-friend-requests").hide();
             }
@@ -58,6 +56,10 @@ var Prefiniti = {
 
 
         loadHomeView();
+    },
+
+    reload: function() {
+        AjaxLoadPageToDiv('tcTarget', Prefiniti.state.currentPage);
     },
 
     setAssociation: function(assocId) {

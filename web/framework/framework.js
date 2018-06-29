@@ -126,6 +126,8 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 
 	console.log("AjaxLoadPageToDiv():  final url = %s", PageURL);
 
+	Prefiniti.state.currentPage = PageURL;
+
 	var xmlHttp;
 	xmlHttp = AjaxGetXMLHTTP();
 
@@ -136,8 +138,25 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 		
 		switch(xmlHttp.readyState) {
 			case 4:
-				document.getElementById(DivID).innerHTML = xmlHttp.responseText;
-				
+				let metadata = parseFragmentMetadata(xmlHttp.responseText);				
+
+				if(!metadata.title) {
+					$("#wwaf-page-title").hide();
+				}
+				else {
+					$("#wwaf-page-title").show();
+					$("#wwaf-page-title").html(metadata.title);
+				}
+
+				if(!metadata.breadcrumbs) {
+					$("#wwaf-breadcrumbs").hide();
+				}
+				else {
+					$("#wwaf-breadcrumbs").show();
+					$("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
+				}
+
+				document.getElementById(DivID).innerHTML = xmlHttp.responseText;				
 
 				loadSiteStats();
 								
@@ -148,6 +167,44 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 	xmlHttp.send(null);
 	
 } /* AjaxLoadPageToDiv() */
+
+function parseFragmentMetadata(html) {
+
+	let re_title = new RegExp("<wwaftitle>[\n\r\s]*(.*)[\n\r\s]*</wwaftitle>", "gmi");
+	let re_breadcrumbs = new RegExp("<wwafbreadcrumbs>[\n\r\s]*(.*)[\n\r\s]*</wwafbreadcrumbs>", "gmi");
+
+	let title = re_title.exec(html);
+	var breadcrumbs = re_breadcrumbs.exec(html);
+
+	var result = {};
+
+	if(title) {
+		result.title = title[1];
+	}
+	else {
+		result.title = null;
+	}
+
+
+	if(breadcrumbs) {
+		breadcrumbs = breadcrumbs[1].split(",");
+		var bchtml = "";
+
+		for(i in breadcrumbs) {
+			bc = breadcrumbs[i];
+
+			bchtml += '<li class="breadcrumb-item"><a href="##">' + bc + '</a></li>';
+		}
+
+		result.breadcrumbs = bchtml;
+	}
+	else {
+		result.breadcrumbs = null;
+	}
+
+
+	return result;
+}
 
 function opacity(id, opacStart, opacEnd, millisec) {
     //speed for each frame

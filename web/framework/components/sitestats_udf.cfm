@@ -7,6 +7,10 @@
     <cfquery name="unreadMail" datasource="webwarecl">
     	SELECT * FROM messageinbox WHERE touser=#user_id# AND tread='no' AND deleted_inbox=0
     </cfquery>
+
+    <cfquery name="totalMail" datasource="webwarecl">
+        SELECT id FROM messageinbox WHERE touser=#user_id#
+    </cfquery>
     
     <cfquery name="delinquentJobs" datasource="webwarecl">
     	SELECT clsJobNumber FROM projects WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) > duedate AND SubStatus <> 'Closed'  AND site_id=#site_id#
@@ -45,6 +49,7 @@
     </cfquery>
     
     <cfset siteStats.unreadMail=#unreadMail.RecordCount#>
+    <cfset siteStats.totalMail=totalMail.recordCount>
     <cfset siteStats.delinquentJobs=#delinquentJobs.RecordCount#>
     <cfset siteStats.tsNeedApproval=#tsNeedApproval.RecordCount#>
     <cfset siteStats.tsNeedSign=#tsNeedSign.RecordCount#>

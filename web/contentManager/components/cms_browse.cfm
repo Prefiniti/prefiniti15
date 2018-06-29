@@ -1,10 +1,14 @@
 <cfinclude template="/contentManager/cm_udf.cfm">
 <cfinclude template="/authentication/authentication_udf.cfm">
 
+<div class="wwaf-metadata">
+    <wwaftitle>My Files</wwaftitle>
+    <wwafbreadcrumbs>Prefiniti,Content Management,My Files</wwafbreadcrumbs>
+</div>
+
 <cfset userFiles = cmsGetUserFiles(session.userid)>
 
-<div class="wrapper">
-    <h1>My Files</h1>
+<div class="wrapper">    
 
     <div class="row">
         <div class="col-md-3">
@@ -46,7 +50,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Associations</th>
+                        <th>Associated Projects</th>
                         <th>Last Access</th>
                         <th>Size</th>
                     </tr>

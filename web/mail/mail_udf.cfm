@@ -67,3 +67,40 @@
 
 </cffunction> 
 
+<cffunction name="getMessage" returntype="query">
+    <cfargument name="msgid" type="numeric" required="yes">
+
+    <cfquery name="m" datasource="webwarecl">
+    SELECT messageinbox.id AS msgid, messageinbox.readReceipt, messageinbox.tread, messageinbox.touser, messageinbox.tsubject, messageinbox.tdate, messageinbox.tbody, messageinbox.refJobID, messageinbox.fromuser, users.longName FROM messageinbox INNER JOIN users ON users.id=messageinbox.fromuser WHERE messageinbox.id=#arguments.msgid#
+    </cfquery>
+
+    <cfif #m.readReceipt# EQ 1 AND #m.tread# EQ "no">
+        <cfquery name="srr" datasource="webwarecl">
+        INSERT INTO messageinbox 
+            (fromuser,
+            touser,
+            tsubject,
+            tbody,
+            tdate,
+            tread,
+            req_id
+            )
+        VALUES
+            (#m.touser#,
+            #m.fromuser#,
+            'Read Receipt - #m.tsubject#',
+            'Your message was read on #DateFormat(Now(), "mm/dd/yyyy")# at #TimeFormat(Now(), "h:mm tt")#',
+            #CreateODBCDateTime(Now())#,
+            'no',
+            '#CreateUUID()#'
+            )       
+        </cfquery>
+    </cfif>
+
+    <cfquery name="udread" datasource="webwarecl">
+        UPDATE messageinbox SET tread='yes' WHERE id=#arguments.msgid#
+    </cfquery>
+
+    <cfreturn m>
+</cffunction>
+

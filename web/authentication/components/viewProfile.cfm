@@ -3,6 +3,13 @@
 
 <cfset profileUser = new Prefiniti.Authentication.UserAccount({id: url.userid}, false)>
 
+<div class="wwaf-metadata">
+	<cfoutput>
+		<wwaftitle>User Profile</wwaftitle>
+		<wwafbreadcrumbs>Prefiniti,Social Networking,User Profiles,#profileUser.longName#</wwafbreadcrumbs>
+	</cfoutput>
+</div>
+
 <cfset profile = profileUser.profileQuery>
 <cfset friends = profileUser.getFriends()>
 <cfset connections = getAssociationsByUser(url.userid)>
@@ -40,7 +47,6 @@
 </cfif>
 
 <cfset visits = getVisits(url.userid)>
-
 
 <div class="wrapper">
 	<div class="row">

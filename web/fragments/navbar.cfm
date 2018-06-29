@@ -79,15 +79,7 @@
                 </div>
             </li>
 
-            <cfoutput query="menus">
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link dropdown-toggle" id="dropdown-#id#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#caption#</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown-#id#">
-                        #getMenuItems(id, handle)#
-                    </div>
-                </li>
-            </cfoutput>
+            
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="dropdown-mail" data-toggle="dropdown" href="#"><i class="fa fa-envelope"></i> <sup><span class="badge badge-secondary" id="badge-messages"></span></sup></a>
