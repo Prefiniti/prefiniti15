@@ -26,7 +26,7 @@
                         <img alt="image" class="rounded-circle avatar" src="#session.user.getPicture()#"/>                    
                     <a data-toggle="dropdown" class="dropdown-toggle" href="##">
                         <span class="block m-t-xs font-bold">#session.user.longName#</span>
-                        <span class="text-muted text-xs block">#session.user.status# <b class="caret"></b></span>
+                        <span class="text-muted text-xs block"><cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
@@ -34,6 +34,21 @@
                         <li><a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View My Profile</a></li>
                         <li><a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/search_users.cfm');">Friend Search</a></li>
                         <li><div role="separator" class="dropdown-divider"></div></li>
+
+                        <cfoutput query="siteAssociations">
+                            <li>
+                                <a class="dropdown-item <cfif site_id EQ session.current_site_id>active</cfif>" href="##" onclick="Prefiniti.setAssociation(#id#);">#getSiteNameByID(site_id)# - 
+                                    <cfif #assoc_type# EQ 0>
+                                        Customer
+                                    <cfelse>
+                                        Employee
+                                    </cfif>                                
+                                </a>
+                            </li>
+                        </cfoutput>
+
+                        <li><div role="separator" class="dropdown-divider"></div></li>
+
 
                         <li><a class="dropdown-item" href="##" onclick="viewPictures(#session.userid#, true);">My Pictures</a></li>
                         <li><a class="dropdown-item" href="##" onclick="cmsBrowseFolder(#session.userid#, 'project_files', '', 'user', '');">My Files</a></li>
@@ -56,31 +71,11 @@
                 </div>
             </li>
 
-            <li>
-                <a href="#"><i class="fa fa-building"></i> <span class="nav-label">Sites</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse">
-                
-                    <cfoutput query="siteAssociations">
-                        <li>
-                            <a class="dropdown-item" href="##" onclick="Prefiniti.setAssociation(#id#);">#getSiteNameByID(site_id)# - 
-                                <cfif #assoc_type# EQ 0>
-                                    Customer
-                                <cfelse>
-                                    Employee
-                                </cfif>
-                                <cfif id EQ lastSite>
-                                    &nbsp;<strong>(Current)</strong>
-                                </cfif>
-                            </a>
-                        </li>
-                    </cfoutput>
-                
-                </ul>
-            </li>
+            
             
             
             <li>
-                <a href="##" onclick="viewMailFolder('inbox', 1);"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
+                <a href="##"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li><a href="##" onclick="viewMailFolder('inbox', 1);">Inbox</a></li>
                     <li><a href="##" onclick="viewMailFolder('sent messages', 1);">Sent Mail</a></li>
@@ -88,6 +83,31 @@
                 </ul>
             </li>
 
+            <li>
+                <a href="##"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level collapse">
+                    <cfif getPermissionByKey('WW_SITEMAINTAINER', #session.current_association#) EQ true>
+                        <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/authentication/components/associationManager.cfm');">Manage Accounts</a></li>
+                    </cfif>
+                    <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
+                    <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>                    
+                </ul>
+            </li>
+
+            <cfif session.user.webware_admin EQ 1>
+                <li>
+                    <a href="##"><i class="fa fa-cogs"></i> <span class="nav-label">Global Admin</span><span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level collapse">
+                        <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/manageSites.cfm');">Manage Sites</a></li>
+                        <!--<li><a href="#">Manage Accounts</a></li>-->
+                        <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/postWebgram.cfm');">Post WebGram</a></li>
+                    </ul>
+                </li>
+            </cfif>
+
+
+
+            <!---
             <cfoutput query="menus">
                 <cfif caption NEQ "Mail">
                     <li>
@@ -97,7 +117,8 @@
                         </ul>
                     </li>
                 </cfif>
-            </cfoutput>            
+            </cfoutput> 
+            --->           
            
         </ul>
 

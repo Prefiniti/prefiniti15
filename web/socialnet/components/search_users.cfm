@@ -1,15 +1,9 @@
 <cfinclude template="/socialnet/socialnet_udf.cfm">
 <!--
-<wwafcomponent>Friend Search</wwafcomponent>
+<wwaftitle>Friend Search</wwaftitle>
+<wwafbreadcrumbs>Prefiniti,Social Networking,Friend Search</wwafbreadcrumbs>
 -->
 
-<div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">
-        <div style="float:left">
-            <h3 class="stdHeader" style="padding:10px;"><img src="/graphics/globe-compass-48x48.png" align="top"> Friend Search</h3>
-        </div>
-    </div>
-    <br />
-    <br />
 
 <div style="padding-left:30px;">
     <form name="searchUsers" id="searchUsers" method="post" action="/socialnet/components/search_users_sub.cfm">

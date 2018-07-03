@@ -15,17 +15,17 @@ var Prefiniti = {
                 notifyTotal += data[key];
             }
 
-            notifyTotal -= data.UNREADMAIL;
-            notifyTotal -= data.NEWFRIENDREQUESTS;
+            notifyTotal -= data.unreadMail;
+            notifyTotal -= data.newFriendRequests;
 
-            $("#badge-messages-unread-side").html(data.UNREADMAIL);
-            $("#badge-messages-unread-top").html(data.UNREADMAIL);
+            $("#badge-messages-unread-side").html(data.unreadMail);
+            $("#badge-messages-unread-top").html(data.unreadMail);
             //$("#badge-messages-total").html(data.TOTALMAIL);
-            $("#badge-friend-requests").html(data.NEWFRIENDREQUESTS);
+            $("#badge-friend-requests").html(data.newFriendRequests);
             $("#badge-notifications").html(notifyTotal);
 
             
-            if(data.NEWFRIENDREQUESTS === 0) {
+            if(data.newFriendRequests === 0) {
                 $("#badge-friend-requests").hide();
             }
             else {
@@ -257,6 +257,22 @@ var Prefiniti = {
         });
     },
 
+    loadPersonDetail: function(id, mode) {
+
+        $.ajax({
+            type: "GET",
+            url: "/businessnet/components/person_detail.cfm",
+            data: {
+                user_id: id,
+                mode: mode
+            },
+            encode: true
+        }).done(function(data) {
+            $("#contact-detail").html(data);
+        });
+
+    },
+
     showEditIcon: function(baseId) {
         let el = "#" + baseId + "-editicon";
 
@@ -294,6 +310,85 @@ var Prefiniti = {
         $(viewEl).hide();
         $(editEl).show();
         $(editEl).select();
+    },
+
+    deleteLocation: function(id) {
+
+        $.ajax({
+            type: "POST",
+            url: "/socialnet/components/profile_manager/location_delete_sub.cfm",
+            data: {id: id},
+            dataType: "json",
+            encode: true
+        }).done(function(data) {
+            if(data.ok) {
+                $("#location-row-" + id).hide();
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+
+                toastr.success(data.message);
+            }
+            else {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+                
+                toastr.error(data.message);
+            }
+        });
+
+    },
+
+    submitForm: function(formId) {
+        let selector = "#" + formId;
+        let formDataInput = $(selector).serializeArray();
+        let method = $(selector).attr("method");
+        let action = $(selector).attr("action");
+
+        var formData = {};
+
+        for(index in formDataInput) {
+            formData[formDataInput[index].name] = formDataInput[index].value;
+        }
+
+        console.log("Submitting form %s (method = %s, action = %s)", formId, method, action);
+        console.log("Form data: %o", formData);
+
+        $.ajax({
+            type: method,
+            url: action,
+            data: formData,
+            dataType: "json",
+            encode: true
+        }).done(function(data) {
+            if(data.ok) {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+
+                toastr.success(data.message);
+            }
+            else {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+                
+                toastr.error(data.message);
+            }
+        });
     }
 
 

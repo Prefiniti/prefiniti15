@@ -1,113 +1,89 @@
-<cfinclude template="/authentication/authentication_udf.cfm">
+<cfset prefiniti = new Prefiniti.Base()>
+<cfset u = prefiniti.getUserLocations(attributes.user_id)>
 
-<div class="homeHeader"><img src="/graphics/map.png" align="absmiddle" /> My Locations</div>
-
-<cfparam name="u" default="">
-<cfset u=getUserLocations(#attributes.user_id#)>
-
-
-        
-	<cfoutput query="u">
-    	
-   		<form name="#id#_form" id="#id#_form">	
-        <input type="hidden" name="location_id" id="location_id" value="#id#" />
-        <div style="border:1px solid ##EFEFEF; margin-top:20px; padding:5px; background-color:##EFEFEF; width:300px; -moz-border-radius-topleft:5px; -moz-border-radius-topright:5px;">
-        
-        <input type="text" id="description" name="description" value="#description#" />
-        <label><input type="checkbox" name="public_location" id="public_location" <cfif #public_location# EQ 1>checked</cfif> />Show in profile</label>
-		</div>
-		<div style="border:1px solid ##EFEFEF; margin-bottom:20px; padding:0px;">
-    	<table width="550">
-        	
-            <tr>
-            	<td>Location Options:</td>
-                <td>
-                	<label><input type="checkbox" name="billing" id="billing" value="1" <cfif #billing# EQ 1>checked</cfif>>Use this location for billing</label>
-                </td>
-			</tr>
-            <tr>
-            	<td></td>
-                <td>
-                	<label><input type="checkbox" name="mailing" id="mailing" value="1" <cfif #mailing# EQ 1>checked</cfif>>Use this location for mailing</label>
-                </td>
-			</tr>                  
-            <tr>
-            	<td>Address:</td>
-                <td><input type="text" id="address" name="address" value="#address#" /></td>
-            </tr>
-            <tr>
-            	<td>City:</td>
-                <td><label><input type="text" id="city" name="city" value="#city#" maxchars="255"/></label>
-                <label>State: <input type="text" id="state" name="state" width="2" maxchars="2" value="#state#"/></label>
-                <label>ZIP: <input type="text" id="zip" name="zip" maxchars="11" value="#zip#" /></label>
-                </td>
-            </tr>   
-            <tr>	
-            	<td align="left"><div id="loc_#id#"></div></td>
-            	<td align="right">
-                	<input type="button" class="normalButton" name="submit_#id#" value="Save Changes" onclick="AjaxSubmitForm(AjaxGetElementReference('#id#_form'), '/socialnet/components/profile_manager/location_edit_sub.cfm', 'loc_#id#');">
-				</td>
-			</tr>                
-
-                 
+<button type="button" class="btn btn-primary" onclick="$('#newloc-row').show(); $('#description-new').focus();"><i class="fa fa-map-marker-alt"></i> Add Location</button>
+<table class="table table-striped table-bordered table-hover" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>ZIP</th>            
+            <th>Billing</th>
+            <th>Mailing</th>
+            <th>Public</th>
+            <th><i class="fa fa-wrench"></i></th>            
+        </tr>
+    </thead>
+    <tbody>
+        <cfoutput query="u">
             
-		</table>                
-        </div>
-        </form>
-        
-    </cfoutput>
-    
-</div>
-
-<img src="/graphics/map_add.png" align="absmiddle"/> <strong><a href="javascript:showDiv('addLocDiv');">Add Location</a></strong>
-<div style="border:1px solid #EFEFEF; display:none;" id="addLocDiv">
-	<form name="newLoc" id="newLoc">
-   
-<cfoutput>       <input type="hidden" name="user_id" id="user_id" value="#url.calledByUser#" /></cfoutput>
-		<div style="border:1px solid ##EFEFEF; margin-bottom:20px; padding:0px;">
-    	<table width="550">
-        	<tr>
-            	<td>Description:</td>
-				<td><input type="text" id="description" name="description"/>
-                </td>								            </tr>      
-            <tr>
-            	<td>Location Options:</td>
+            <form name="#id#_form" id="#id#_form" method="POST" action="/socialnet/components/profile_manager/location_edit_sub.cfm">
+                <tr id="location-row-#id#">
+                    <input type="hidden" name="location_id" id="location_id" value="#id#">
+                    <td>
+                        <input type="text" id="description" name="description" value="#description#">
+                    </td>
+                    <td>
+                        <input type="text" id="address" name="address" value="#address#">
+                    </td>
+                    <td>
+                        <input type="text" id="city" name="city" value="#city#">
+                    </td>
+                    <td>
+                        <input type="text" id="state" name="state" value="#state#">
+                    </td>
+                    <td>
+                        <input type="text" id="zip" name="zip" value="#zip#">
+                    </td>
+                    <td>
+                        <input type="checkbox" name="billing" id="billing" value="1" <cfif billing EQ 1>checked</cfif>>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="mailing" id="mailing" value="1" <cfif #mailing# EQ 1>checked</cfif>>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="public_location" id="public_location" <cfif #public_location# EQ 1>checked</cfif>>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-sm btn-success" name="submit" onclick="Prefiniti.submitForm('#id#_form');"><i class="fa fa-save"></i></button>
+                        <button type="button" class="btn btn-sm btn-danger" name="delete" onclick="Prefiniti.deleteLocation(#id#);"><i class="fa fa-trash-alt"></i></button>
+                    </td>
+                </tr> 
+            </form>
+                   
+        </cfoutput>
+        <tr id="newloc-row" style="display:none;">
+            <form name="newloc-form" id="newloc-form" method="POST" action="/socialnet/components/profile_manager/location_add_sub.cfm">
                 <td>
-                	<label><input type="checkbox" name="billing" id="billing" value="1">Use this location for billing</label>
+                    <input placeholder="Location Name" type="text" id="description-new" name="description">
                 </td>
-			</tr>
-            <tr>
-            	<td></td>
                 <td>
-                	<label><input type="checkbox" name="mailing" id="mailing" value="1">Use this location for mailing</label>
+                    <input placeholder="Street Address" type="text" id="address" name="address">
                 </td>
-			</tr>
-            <tr>
-            	<td></td>
-                <td><label><input type="checkbox" name="public_location" id="public_location" />Show in profile</label></td>				
-            </tr>                 
-            <tr>
-            	<td>Address:</td>
-                <td><input type="text" id="address" name="address"  /></td>
-            </tr>
-            <tr>
-            	<td>City:</td>
-                <td><label><input type="text" id="city" name="city"  maxchars="255"/></label>
-                <label>State: <input type="text" id="state" name="state" width="2" maxchars="2" /></label>
-                <label>ZIP: <input type="text" id="zip" name="zip" maxchars="11"  /></label>
+                <td>
+                    <input placeholder="City" type="text" id="city" name="city">
                 </td>
-            </tr>   
-            <tr>	
-            	<td align="left"><div id="addLoc"></div></td>
-            	<td align="right">
-                	<input type="button" class="normalButton" name="submit_#id#" value="Save Changes" onclick="AjaxSubmitForm(AjaxGetElementReference('newLoc'), '/socialnet/components/profile_manager/location_add_sub.cfm', 'addLoc');">
-				</td>
-			</tr>                
-
-                 
-            
-		</table>  
-        </div>             
-     
-        </form>
-        </div>
+                <td>
+                    <input placeholder="State" type="text" id="state" name="state">
+                </td>
+                <td>
+                    <input placeholder="ZIP" type="text" id="zip" name="zip">
+                </td>
+                <td>
+                    <input type="checkbox" name="billing" id="billing" value="1">
+                </td>
+                <td>
+                    <input type="checkbox" name="mailing" id="mailing" value="1">
+                </td>
+                <td>
+                    <input type="checkbox" name="public_location" id="public_location">
+                </td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-success" name="submit" onclick="Prefiniti.submitForm('newloc-form');"><i class="fa fa-save"></i></button>
+                </td>
+            </form>
+        </tr>
+    </tbody>
+</table>

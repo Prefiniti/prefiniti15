@@ -1,31 +1,23 @@
-<div id="pageScriptContent" style="display:none">
-// 
-		
-        var glob_editor = new FCKeditor( 'w_body' ) ;
-        glob_editor.BasePath = "/FCKeditor/" ;
-        glob_editor.ToolbarSet = "Basic" ;
-		glob_editor.ReplaceTextarea() ;
-// 
+<div class="wwaf-metadata">
+    <wwaftitle>Post WebGram</wwaftitle>
+    <wwafbreadcrumbs>Prefiniti,System Admin,Post WebGram</wwafbreadcrumbs>
 </div>
 
-<h3 class="stdHeader">Post WebGram</h3>
 
 <cfoutput>
-<div style="padding-left:30px;">
-	<form id="postWebgram" name="postWebgram">
-    	<table width="100%">
-        <tr>
-        <td>
-        <input type="hidden" id="user_id" name="user_id" value="#url.calledByUser#" />
-    	<textarea name="w_body" cols="80" rows="12" id="w_body"></textarea>
-        </td>
-        </tr>
-        <tr>
-        <td align="right">
-        <input type="button" class="normalButton" onClick="checkEditor(); AjaxSubmitForm(AjaxGetElementReference('postWebgram'), '/socialnet/components/post_webgram_sub.cfm', 'tcTarget');" value="Post WebGram" />
-        </td>
-        </tr>
-        </table>
+    <form name="post-webgram" id="post-webgram" method="POST" action="/socialnet/components/post_webgram_sub.cfm">
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Webgram Body</label>
+            <div class="col-lg-10">
+                <textarea name="webgram_body" class="form-control summernote" rows="15">
+                   
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('post-webgram');">Post WebGram</button>
+            </div>
+        </div>
     </form>
-</div>
 </cfoutput>

@@ -212,7 +212,17 @@
 	</cfquery>
     
     <cfreturn #wwgebs#>
-</cffunction>            
+</cffunction>    
+
+<cffunction name="wwGetCustomersBySite" returntype="query">
+    <cfargument name="site_id" type="numeric" required="yes">
+    
+    <cfquery name="wwgebs" datasource="sites">
+        SELECT * FROM site_associations WHERE site_id=#site_id# AND assoc_type=0
+    </cfquery>
+    
+    <cfreturn #wwgebs#>
+</cffunction>         
 
                             
 <cffunction name="wwIsUserInDepartment" returntype="boolean">

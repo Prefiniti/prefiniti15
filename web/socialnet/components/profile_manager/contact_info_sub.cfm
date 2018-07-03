@@ -1,17 +1,27 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
+<cfheader name="Content-Type" value="application/json">
+<cfsilent>
+    <cfset prefiniti = new Prefiniti.Base()>
+    <cfset result = {}>
 
-<cfquery name="uci" datasource="webwarecl">
-	UPDATE users
-    SET		phone='#url.phone#',
-    		smsNumber='#url.smsNumber#',
-            fax='#url.fax#'
-	WHERE	id=#url.user_id#            
-</cfquery>
+    <cftry>
+        <cfquery name="ubi" datasource="webwarecl">
+            UPDATE users
+            SET     phone='#form.phone#',
+                    smsNumber='#form.smsNumber#',
+                    fax='#form.fax#'
+            WHERE   id=#session.user.id# 
+        </cfquery>        
 
-Profile updated.
+        <cfset eventText = prefiniti.getLongname(session.user.id) & " has updated " & prefiniti.getHisHer(session.user.id) & " contact information.">
+        <cfset prefiniti.writeUserEvent(session.user.id, "phone.png", eventText)>
 
-<cfoutput>
-	<cfparam name="et" default="">
-    <cfset et="#getLongname(url.user_id)# has updated #getHisHer(url.user_id)# contact information.">
-	#writeUserEvent(url.user_id, "phone.png", et)#
-</cfoutput>                                
+        <cfset result.ok = true>
+        <cfset result.message = "Your contact information has been updated.">
+
+        <cfcatch type="any">
+            <cfset result.ok = false>
+            <cfset result.message = "Error updating your contact information">  
+        </cfcatch>
+    </cftry>
+</cfsilent>
+<cfoutput>#serializeJson(result)#</cfoutput>

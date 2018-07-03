@@ -126,7 +126,7 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 
 	console.log("AjaxLoadPageToDiv():  final url = %s", PageURL);
 
-	Prefiniti.state.currentPage = PageURL;
+	if(DivID === 'tcTarget') Prefiniti.state.currentPage = PageURL;
 
 	var xmlHttp;
 	xmlHttp = AjaxGetXMLHTTP();
@@ -138,27 +138,40 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 		
 		switch(xmlHttp.readyState) {
 			case 4:
-				let metadata = parseFragmentMetadata(xmlHttp.responseText);				
+				if(DivID === 'tcTarget') {
+					let metadata = parseFragmentMetadata(xmlHttp.responseText);				
 
-				if(!metadata.title) {
-					$("#wwaf-page-title").hide();
-				}
-				else {
-					$("#wwaf-page-title").show();
-					$("#wwaf-page-title").html(metadata.title);
+					if(!metadata.title) {
+						$("#wwaf-page-title").hide();
+					}
+					else {
+						$("#wwaf-page-title").show();
+						$("#wwaf-page-title").html(metadata.title);
+					}
+
+					if(!metadata.breadcrumbs) {
+						$("#wwaf-breadcrumbs").hide();
+					}
+					else {
+						$("#wwaf-breadcrumbs").show();
+						$("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
+					}
 				}
 
-				if(!metadata.breadcrumbs) {
-					$("#wwaf-breadcrumbs").hide();
-				}
-				else {
-					$("#wwaf-breadcrumbs").show();
-					$("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
-				}
+				$("#" + DivID).html(xmlHttp.responseText);
+				
+				$('.summernote').summernote({
+					height: 300
+				});
 
-				document.getElementById(DivID).innerHTML = xmlHttp.responseText;				
+				$('.tagsinput').tagsinput({
+					tagClass: 'badge badge-primary'
+				});
 
-				loadSiteStats();
+				$('.datatables').DataTable({
+					pageLength: 25,
+					responsive: true
+				});
 								
 				break;
 		}
@@ -390,7 +403,7 @@ function AjaxLoadPageToPopup(PageURL)
 function AjaxLoadPageToWindow(url, title)
 {
 	SetInnerHTML('gen_window_title', title);
-	showDiv('gen_window_frame');
+	$("#generic-window").modal();
 	
 	AjaxLoadPageToDiv('gen_window_area', url);
 }

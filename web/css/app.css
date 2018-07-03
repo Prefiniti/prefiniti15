@@ -15,6 +15,10 @@
     color: #c0c0c0;
 }
 
+.avatar-lg {
+    width: 130px;
+}
+
 .avatar {
     width: 60px;
 }

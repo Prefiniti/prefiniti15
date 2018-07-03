@@ -1,73 +1,55 @@
-<cfoutput>
-<!--
-<wwafcomponent>Edit Profile - #url.longName#</wwafcomponent>
--->
-</cfoutput>
+<cfset prefiniti = new Prefiniti.Base()>
 
-<div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">
-        <div style="float:left">
-            <h3 class="stdHeader" style="padding:10px;"><img src="/graphics/globe-compass-48x48.png" align="top"> Edit Profile</h3>
+<div class="wwaf-metadata">
+    <wwaftitle> Settings</wwaftitle>
+    <wwafbreadcrumbs>Prefiniti,Settings</wwafbreadcrumbs>
+</div>
+
+<div class="wrapper wrapper-content animated fadeIn">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="tabs-container">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li><a class="nav-link active" data-toggle="tab" href="#settings-basic"><i class="fa fa-info-circle"></i> Identity</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#settings-bkgd"><i class="fa fa-tag"></i> Background</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#settings-contact"><i class="fa fa-address-card"></i> Contact Information</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#settings-locations"><i class="fa fa-map-marker-alt"></i> Locations</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#settings-notify"><i class="fa fa-bell"></i> Notifications</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#settings-privacy"><i class="fa fa-shield-alt"></i> Privacy</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" id="settings-basic" class="tab-pane active">
+                        <div class="panel-body">
+                            <cfmodule template="/socialnet/components/profile_manager/basic_information.cfm" user_id="#url.calledByUser#">
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="settings-bkgd" class="tab-pane">
+                        <div class="panel-body">
+                            <cfmodule template="/socialnet/components/profile_manager/background.cfm" user_id="#url.calledByUser#">
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="settings-contact" class="tab-pane">
+                        <div class="panel-body">
+                            <cfmodule template="/socialnet/components/profile_manager/contact_info.cfm" user_id="#url.calledByUser#">
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="settings-locations" class="tab-pane">
+                        <div class="panel-body">
+                            <cfmodule template="/socialnet/components/profile_manager/locations.cfm" user_id="#url.calledByUser#">
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="settings-notify" class="tab-pane">
+                        <div class="panel-body">
+                            <cfmodule template="/socialnet/components/profile_manager/notifications.cfm" user_id="#url.calledByUser#">
+                        </div>
+                    </div>
+                    <div role="tabpanel" id="settings-privacy" class="tab-pane">
+                        <div class="panel-body">
+                            <cfmodule template="/socialnet/components/profile_manager/privacy.cfm" user_id="#url.calledByUser#">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <br />
-    <br />
-
-<table width="100%">
-	<tr>
-    	<td valign="top" width="200">
-        	<cfoutput>
-        	<div style="width:200px; background-color:##EFEFEF; -moz-border-radius:5px; padding:5px; margin:5px;">
-            	<cfif url.section NEQ "basic_information.cfm">
-                <div style="padding-bottom:4px;">
-                	<img src="/graphics/page.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'basic_information.cfm');">Basic Information</a>
-                </div>
-                </cfif>
-                <cfif url.section NEQ "background.cfm">
-                <div style="padding-bottom:4px;">
-	                <img src="/graphics/user.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'background.cfm');">Background &amp; Interests</a>
-    			</div>
-                </cfif>
-                <cfif url.section NEQ "contact_info.cfm">
-                <div style="padding-bottom:4px;">
-	                <img src="/graphics/phone.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'contact_info.cfm');">Contact Information</a>
-    			</div>
-                </cfif>
-                <cfif url.section NEQ "locations.cfm">
-                <div style="padding-bottom:4px;">
-	                <img src="/graphics/map.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'locations.cfm');">My Locations</a>
-    			</div>
-                </cfif>
-                <cfif url.section NEQ "memberships.cfm">
-                <div style="padding-bottom:4px;">
-	                <img src="/graphics/link_edit.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'memberships.cfm');">Site Memberships</a>
-    			</div>
-                </cfif>
-                <cfif url.section NEQ "notifications.cfm">
-                <div style="padding-bottom:4px;">
-	                <img src="/graphics/newspaper.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'notifications.cfm');">Notifications</a>
-    			</div>
-                </cfif>
-                <cfif url.section NEQ "privacy.cfm">
-				<div style="padding-bottom:4px;">
-	                <img src="/graphics/lock.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'privacy.cfm');">Privacy Settings</a>
-    			</div>
-                </cfif>
-                <cfif url.section NEQ "file_storage.cfm">
-                <div style="padding-bottom:4px;">
-	                <img src="/graphics/disk_multiple.png" align="absmiddle"> <a href="javascript:editUser(#url.calledByUser#, 'file_storage.cfm');">File Storage</a>
-    			</div>            
-                </cfif>
-            	<div id="userActionTarget">
-            	</div>    
-            </div>
-            
-			</cfoutput>            
-        </td>
-		<td valign="top">
-        	<cfmodule template="/socialnet/components/profile_manager/#url.section#" user_id="#url.calledByUser#">
-        </td>
-    </tr>        
-</table>
-
-
-
+</div>

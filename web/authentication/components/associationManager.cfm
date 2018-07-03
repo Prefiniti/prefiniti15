@@ -1,6 +1,7 @@
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="AS_VIEW">
 <!--
-<wwafcomponent>Manage Memberships</wwafcomponent>
+<wwaftitle>Manage Site Memberships</wwaftitle>
+<wwafbreadcrumbs>Prefiniti,Manage Site Membershipts</wwafbreadcrumbs>
 -->
 
 <cfquery name="getAssocs" datasource="sites">
@@ -11,13 +12,6 @@
 <cfparam name="ColOdd" default="">
 <cfparam name="ColColor" default="white">
 
-<div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">
-        <div style="float:left">
-            <h3 class="stdHeader" style="padding:10px;"><img src="/graphics/globe-compass-48x48.png" align="top"> Site Memberships</h3>
-        </div>
-    </div>
-    <br />
-    <br />
 
 <div style="padding-left:30px;">
 <table width="100%" cellspacing="0">

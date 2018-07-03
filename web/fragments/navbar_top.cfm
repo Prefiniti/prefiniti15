@@ -10,12 +10,12 @@
 <cfset lastSite = getLastSite(session.userid)>
 
 <div class="row border-bottom">
-    <nav class="navbar navbar-static-top  " role="navigation" style="margin-bottom: 0">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
             <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
             <form role="search" class="navbar-form-custom" action="search_results.html">
                 <div class="form-group">
-                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                    <input type="text" placeholder="Search" class="form-control" name="top-search" id="top-search">
                 </div>
             </form>
         </div>
@@ -28,54 +28,7 @@
                     <i class="fa fa-envelope"></i>  <span id="badge-messages-unread-top" class="label label-warning">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages" id="dropdown-mail-menu">
-                    <li>
-                        <div class="dropdown-messages-box">
-                            <a class="dropdown-item float-left" href="profile.html">
-                                <img alt="image" class="rounded-circle" src="img/a7.jpg">
-                            </a>
-                            <div class="media-body">
-                                <small class="float-right">46h ago</small>
-                                <strong>Mike Loreipsum</strong> started following <strong>Monica Smith</strong>. <br>
-                                <small class="text-muted">3 days ago at 7:58 pm - 10.06.2014</small>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                        <div class="dropdown-messages-box">
-                            <a class="dropdown-item float-left" href="profile.html">
-                                <img alt="image" class="rounded-circle" src="img/a4.jpg">
-                            </a>
-                            <div class="media-body ">
-                                <small class="float-right text-navy">5h ago</small>
-                                <strong>Chris Johnatan Overtunk</strong> started following <strong>Monica Smith</strong>. <br>
-                                <small class="text-muted">Yesterday 1:21 pm - 11.06.2014</small>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                        <div class="dropdown-messages-box">
-                            <a class="dropdown-item float-left" href="profile.html">
-                                <img alt="image" class="rounded-circle" src="img/profile.jpg">
-                            </a>
-                            <div class="media-body ">
-                                <small class="float-right">23h ago</small>
-                                <strong>Monica Smith</strong> love <strong>Kim Smith</strong>. <br>
-                                <small class="text-muted">2 days ago at 2:30 am - 11.06.2014</small>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li>
-                        <cfoutput>
-                        <div class="text-center link-block">
-                            <a href="##" class="dropdown-item" onclick="viewMailFolder('inbox', 1);">
-                                <i class="fa fa-envelope"></i> <strong>Read All Messages</strong>
-                            </a>
-                        </div>
-                        </cfoutput>
-                    </li>
+                    <!-- to be filled by AJAX call -->
                 </ul>
             </li>
             <li class="dropdown">

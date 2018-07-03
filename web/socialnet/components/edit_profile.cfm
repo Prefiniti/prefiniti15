@@ -19,9 +19,6 @@
 	                <img src="/graphics/map.png" align="absmiddle"> <a href="##">My Locations</a><br>
     			</div>
                 <div style="padding-bottom:4px;">
-	                <img src="/graphics/link_edit.png" align="absmiddle"> <a href="##">Site Memberships</a><br>
-    			</div>
-                <div style="padding-bottom:4px;">
 	                <img src="/graphics/newspaper.png" align="absmiddle"> <a href="##">Notifications</a><br>
     			</div>
 				<div style="padding-bottom:4px;">

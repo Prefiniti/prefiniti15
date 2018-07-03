@@ -1,48 +1,47 @@
-<cfinclude template="/authentication/authentication_udf.cfm">
+<cfset user = new Prefiniti.Authentication.UserAccount({id: attributes.user_id}, false)>
 
-<div class="homeHeader"><img src="/graphics/page.png" align="absmiddle" /> Basic Information</div>
-
-<cfparam name="u" default="">
-<cfset u=getUserInformation(#attributes.user_id#)>
-
-<cfoutput query="u">
-<div style="padding-left:20px;">
-<form name="updateBasic" id="updateBasic">
-<input type="hidden" name="user_id" id="user_id" value="#attributes.user_id#" />
-	<table width="100%">
-    	<tr>
-        	<td>First Name:</td>
-    		<td>
-            	<input type="text" name="firstName" id="firstName" maxlength="255"  value="#firstName#"/>
-                <label>Middle Initial: <input name="middleInitial" type="text" id="middleInitial" width="2" maxlength="1" value="#middleInitial#"/></label>
-                <label>Last: <input type="text" name="lastName" id="lastName" maxlength="255" value="#lastName#"/></label>
-            </td>
-		</tr>            
-    	<tr>
-        	<td>Gender:</td>
-            <td>
-            	<p>
-			    <label>
-			      <input type="radio" name="gender" value="M" <cfif gender EQ "M">checked</cfif>>
-			      Male</label>
-			    <br>
-			    <label>
-			      <input type="radio" name="gender" value="F"  <cfif gender EQ "F">checked</cfif>>
-			      Female</label>
-			    <br>
-			    </p>
-            </td>
-		</tr>            
-        <tr>
-			<td>Birthday:</td>
-			<td><cfmodule template="/controls/date_picker.cfm" ctlname="birthday" startdate="#birthday#"></td>
-		</tr>
-        <tr>
-        	<td colspan="2" align="right">
-            	<input type="button" class="normalButton" name="submit" value="Save Changes" onclick="AjaxSubmitForm(AjaxGetElementReference('updateBasic'), '/socialnet/components/profile_manager/basic_information_sub.cfm', 'userActionTarget');" />
-            </td>
-		</tr>            
-    </table>
-</form>
-</div>
+<cfoutput>
+    <form name="update-basic" id="update-basic" method="POST" action="/socialnet/components/profile_manager/basic_information_sub.cfm">
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">First Name</label>
+            <div class="col-lg-10">
+                <input type="text" name="firstName" id="firstName" class="form-control" value="#user.firstName#">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Middle Initial</label>
+            <div class="col-lg-10">
+                <input type="text" name="middleInitial" id="middleInitial" class="form-control" value="#user.middleInitial#">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Last Name</label>
+            <div class="col-lg-10">
+                <input type="text" name="lastName" id="lastName" class="form-control" value="#user.lastName#">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Gender:</label>
+            <div class="col-lg-10">
+                <cfset gender = user.gender>
+                <select name="gender" class="form-control">
+                    <option value="M" <cfif gender EQ "M">selected</cfif>>Male</option>
+                    <option value="F" <cfif gender EQ "F">selected</cfif>>Female</option>
+                    <option value="O" <cfif gender EQ "O">selected</cfif>>Other</option>
+                    <option value="" <cfif gender EQ "">selected</cfif>>Prefer not to say</option>                    
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Date of Birth</label>
+            <div class="col-lg-10">
+                <input type="date" name="birthday" id="birthday" class="form-control" value="#dateFormat(user.birthday, "yyyy-mm-dd")#">
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-offset-2 col-lg-10">
+                <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('update-basic');">Save Changes</button>
+            </div>
+        </div>
+    </form>
 </cfoutput>

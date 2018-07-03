@@ -1,53 +1,22 @@
-<cfinclude template="/notifications/notification_udf.cfm">
+<cfset prefiniti = new Prefiniti.Base()>
 
-<style type="text/css">
-	.notifyTable {
-		width:100%;
-		
+<cfset ntypes = prefiniti.ntAllTypes()>
 
-	}
-	
-	.notifyTable th {
-		text-align:left;
-		font-weight:bold;
-		background-image:none;
-		background-color:#C0C0C0;
-		color:#3399CC;
-	}
-	
-	.notifyTable td {
-		padding:3px;
-	}
-</style>
-
-<cfparam name="RowNum" default="0">
-<cfparam name="ColOdd" default="">
-<cfparam name="ColColor" default="white">
-
-<cfparam name="ntypes" default="">
-<cfset ntypes=ntAllTypes()>
-<div style="height:250px; border:1px solid #EFEFEF; overflow:auto; width:500px;">
-<table class="notifyTable" cellspacing="0">
-	<tr>
-    	<th>When this event occurs:</th>
-        <th>I want to be notified by:</th>
-    </tr>
-	<cfoutput query="ntypes">
-    	<cfset RowNum=RowNum + 1>
-		<cfset ColOdd=RowNum mod 2>
-		
-		<cfswitch expression="#ColOdd#">
-			<cfcase value=1>
-				<cfset ColColor="##EFEFEF">
-			</cfcase>
-			<cfcase value=0>
-				<cfset ColColor="white">
-			</cfcase>
-		</cfswitch>
+<table class="table table-striped table-bordered table-hover datatables" cellspacing="0">
+	<thead>
 		<tr>
-        	<td style="background-color:#ColColor#">#description#</td>
-            <td style="background-color:#ColColor#"><cfmodule template="/notifications/components/notify_methods.cfm" user_id="#attributes.user_id#" event_id="#id#"></td>
-		</tr>
-	</cfoutput>
-</table>                        
-</div>
+	    	<th>Event</th>
+	        <th>Prefiniti Mail</th>
+	        <th>E-Mail</th>
+	        <th>Text Message</th>
+	    </tr>
+	</thead>
+	<tbody>
+		<cfoutput query="ntypes">
+	    	<tr>
+	        	<td>#description#</td>
+	            <cfmodule template="/notifications/components/notify_methods.cfm" user_id="#attributes.user_id#" event_id="#id#">
+			</tr>
+		</cfoutput>
+	</tbody>
+</table>

@@ -1,41 +1,56 @@
+<!--
+    <wwaftitle>Manage Sites</wwaftitle>
+    <wwafbreadcrumbs>Prefiniti,Sites,Manage Sites</wwafbreadcrumbs>
+-->
+
 <cfquery name="getSiteList" datasource="sites">
 	SELECT * FROM sites
 </cfquery>
-<div align="left" style="margin:30px; padding:30px; width:800px; border:1px solid #EFEFEF;">
-	<h3 class="stdHeader">Manage Prefiniti Sites</h3>
 
-	<cfparam name="RowNum" default="0">
-    <cfparam name="ColOdd" default="">
-	<cfparam name="ColColor" default="white">
-
-	<img src="/graphics/group_add.png"> <a href="addSite.cfm">Add New Site</a>
-	<table width="100%" cellspacing="0">
-    	<tr>
-        	<th>Site</th>
-            <th>&nbsp;</th>
-        </tr>
-        
-        <cfoutput query="getSiteList">
-			<cfset RowNum=RowNum + 1>
-            <cfset ColOdd=RowNum mod 2>
-            
-            <cfswitch expression="#ColOdd#">
-                <cfcase value=1>
-                    <cfset ColColor="silver">
-                </cfcase>
-                <cfcase value=0>
-                    <cfset ColColor="white">
-                </cfcase>
-            </cfswitch>
-        	<tr>
-            	<td style="background-color:#ColColor#; padding-top:3px; padding-bottom:3px;">#SiteName#</td>
-            	<td align="right" style="background-color:#ColColor#; padding-top:3px; padding-bottom:3px;">
-                	<img src="/graphics/group_edit.png" align="absmiddle"> <a href="editSite.cfm?id=#siteid#">Edit Site</a><br>
-                    <img src="/graphics/link_edit.png" align="absmiddle"> <a href="getAssociations.cfm?site_id=#siteid#">Manage Associations</a>
-					
-                </td>
-        	</tr>
-        </cfoutput>
-	</table>        
-
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="ibox" style="width: 100%;">
+            <div class="ibox-title">
+                <h5>All Sites</h5>
+                <div class="ibox-tools">
+                    <a class="collapse-link">
+                        <i class="fa fa-chevron-up"></i>
+                    </a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-wrench"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/addSite.cfm');">Add New Site</a></li>
+                    </ul>
+                    <a class="close-link">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover datatables">
+                        <thead>
+                        	<tr>
+                            	<th>Site</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <cfoutput query="getSiteList">
+                            	<tr>
+                                	<td>#SiteName#</td>
+                                	<td align="right">
+                                    	<button type="button" class="btn btn-sm btn-primary" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/editSite.cfm?id=#siteid#');"><i class="fa fa-file"></i> Edit</button>
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/getAssociations.cfm?site_id=#siteid#');"><i class="fa fa-user-tie"></i> Members</button>
+                        				
+                                    </td>
+                            	</tr>
+                            </cfoutput>
+                        </tbody>
+                    </table>        
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

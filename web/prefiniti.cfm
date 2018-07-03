@@ -12,6 +12,13 @@
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!---<link href="/font-awesome/css/font-awesome.css" rel="stylesheet">--->
+    <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+
+    <!-- Toastr style -->
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
+    <link href="css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
 
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
@@ -66,6 +73,20 @@
     <script src="js/inspinia.js"></script>
     <script src="js/plugins/pace/pace.min.js"></script>
 
+    <!-- iCheck -->
+    <script src="js/plugins/iCheck/icheck.min.js"></script>
+
+    <!-- SUMMERNOTE -->
+    <script src="js/plugins/summernote/summernote-bs4.js"></script>
+
+    <!-- DataTables -->
+    <script src="js/plugins/dataTables/datatables.min.js"></script>
+    <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
+
+    <!-- Toastr -->
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
+    
     <!-- Prefiniti javascript -->
     <script src="/framework/framework.js"></script>
     <script src="/search/search.js"></script>
@@ -94,6 +115,11 @@
     <script src="/controls/record_scroller.js"></script>
     <script src="/notifications/notifications.js"></script>
     <script src="js/app.js"></script>
+
+    <cfinclude template="cms_add_file_assoc_wrapper.cfm">
+    <cfinclude template="cms_minibrowser_wrapper.cfm">
+    <cfinclude template="windowWrapper.cfm">
+
 
 </body>
 

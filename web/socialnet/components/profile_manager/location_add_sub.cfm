@@ -1,46 +1,61 @@
+<cfheader name="Content-Type" value="application/json">
+<cfsilent>
+    <cfset prefiniti = new Prefiniti.Base()>
+    <cfset result = {}>
 
-
-<cfquery name="addLoc" datasource="webwarecl">
-	INSERT INTO locations
-    	(user_id,
-        description,
-        address,
-        city,
-        state,
-        zip,
-        mailing,
-       	billing,
-        public_location)
-	VALUES
-    	(#url.user_id#,        
-        '#url.description#',
-        '#url.address#',
-        '#url.city#',
-        '#url.state#',
-        '#url.zip#',
-        <cfif url.mailing EQ true>
-        	1,
+    <cftry>
+        <cfif form.public_location>
+            <cfset locationPrivacy = "public">
         <cfelse>
-        	0,
-		</cfif>
-        <cfif url.billing EQ true>
-        	1,
-        <cfelse>
-        	0,
-		</cfif>
-        <cfif url.public_location EQ true>
-        	1)
-		<cfelse>
-        	0)
-		</cfif>                                    
-        
-</cfquery>
-Location added.
+            <cfset locationPrivacy = "private">
+        </cfif>
 
-<cfoutput>
-<div id="pageScriptContent" style="display:none">
-// 
-		editProfile(#url.user_id#, "locations.cfm");
-// 
-</div>
-</cfoutput>
+        <cfquery name="addLoc" datasource="webwarecl">
+            INSERT INTO locations
+                (user_id,
+                description,
+                address,
+                city,
+                state,
+                zip,
+                mailing,
+                billing,
+                public_location)
+            VALUES
+                (#form.user_id#,        
+                '#form.description#',
+                '#form.address#',
+                '#form.city#',
+                '#form.state#',
+                '#form.zip#',
+                <cfif form.mailing EQ true>
+                    1,
+                <cfelse>
+                    0,
+                </cfif>
+                <cfif form.billing EQ true>
+                    1,
+                <cfelse>
+                    0,
+                </cfif>
+                <cfif form.public_location EQ true>
+                    1)
+                <cfelse>
+                    0)
+                </cfif>                                    
+                
+        </cfquery>
+
+        <cfset eventText = prefiniti.getLongname(session.user.id) & " has added a new " & locationPrivacy & " location to " & prefiniti.getHisHer(session.user.id) & " profile.">
+        <cfset prefiniti.writeUserEvent(session.user.id, "map.png", eventText)>
+
+        <cfset result.ok = true>
+        <cfset result.message = "Your location information has been updated.">
+
+        <cfcatch type="any">
+            <cfset result.ok = false>
+            <cfset result.message = "Error updating your location information (" & cfcatch.message & ")">  
+        </cfcatch>
+    </cftry>
+</cfsilent>
+<cfoutput>#serializeJson(result)#</cfoutput>

@@ -208,9 +208,9 @@
 	</cfquery>
     
     <cfif #go.online# EQ 1>
-    	<cfreturn "User online">
+    	<cfreturn "User Online">
     <cfelse>
-    	<cfreturn "User offline">
+    	<cfreturn "User Offline">
 	</cfif>                
 </cffunction>
 

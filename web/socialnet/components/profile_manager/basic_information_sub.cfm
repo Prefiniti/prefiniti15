@@ -1,23 +1,34 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
+<cfheader name="Content-Type" value="application/json">
+<cfsilent>
+    <cfset prefiniti = new Prefiniti.Base()>
+    <cfset result = {}>
 
-<cfquery name="ubi" datasource="webwarecl">
-	UPDATE users
-   	SET		firstName='#url.firstName#',
-    		middleInitial='#url.middleInitial#',
-            lastName='#url.lastName#',
-            <cfif url.middleInitial EQ "">
-				longName='#url.firstName# #url.lastName#',
-            <cfelse>
-				longName='#url.firstName# #url.middleInitial#. #url.lastName#',
-			</cfif>
-            gender='#url.gender#',
-            birthday=#CreateODBCDate(url.birthday)#
-	WHERE	id=#url.user_id#
-</cfquery>
-Profile updated.
+    <cftry>
+        <cfquery name="ubi" datasource="webwarecl">
+        	UPDATE users
+           	SET		firstName='#form.firstName#',
+            		middleInitial='#form.middleInitial#',
+                    lastName='#form.lastName#',
+                    <cfif form.middleInitial EQ "">
+        				longName='#form.firstName# #form.lastName#',
+                    <cfelse>
+        				longName='#form.firstName# #form.middleInitial#. #form.lastName#',
+        			</cfif>
+                    gender='#form.gender#',
+                    birthday=#CreateODBCDate(form.birthday)#
+        	WHERE	id=#session.user.id#
+        </cfquery>        
 
-<cfoutput>
-	<cfparam name="et" default="">
-    <cfset et="#getLongname(url.user_id)# has updated #getHisHer(url.user_id)# basic information.">
-	#writeUserEvent(url.user_id, "user.png", et)#
-</cfoutput>                                
+        <cfset eventText = prefiniti.getLongname(session.user.id) & " has updated " & prefiniti.getHisHer(session.user.id) & " identity information.">
+        <cfset prefiniti.writeUserEvent(session.user.id, "user.png", eventText)>
+
+        <cfset result.ok = true>
+        <cfset result.message = "Your identity information has been updated.">
+
+        <cfcatch type="any">
+            <cfset result.ok = false>
+            <cfset result.message = "Error updating your identity information (" & cfcatch.message & ")">  
+        </cfcatch>
+    </cftry>
+</cfsilent>
+<cfoutput>#serializeJson(result)#</cfoutput>                                

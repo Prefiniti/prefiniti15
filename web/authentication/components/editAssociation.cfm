@@ -1,6 +1,7 @@
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="AS_EDIT">
 <!--
-<wwafcomponent>Edit Membership Permissions</wwafcomponent>
+<wwaftitle>Edit Site Member Permissions</wwaftitle>
+<wwafbreadcrumbs>Prefiniti,Sites,Edit Site Member Permissions</wwafbreadcrumbs>
 -->
 <cfparam name="RowNum" default="0">
 <cfparam name="ColOdd" default="">
@@ -18,13 +19,6 @@
 	SELECT * FROM permissions ORDER BY perm_key
 </cfquery>    
 
-<div style="width:100%; background:url(/graphics/binary-bg.jpg); background-repeat:no-repeat; height:80px; border-bottom:2px solid ##EFEFEF; clear:right; ">
-        <div style="float:left">
-            <h3 class="stdHeader" style="padding:10px;"><img src="/graphics/globe-compass-48x48.png" align="top"> Edit Membership Permissions</h3>
-        </div>
-    </div>
-    <br />
-    <br />
 
 <table width="500" cellspacing="0" cellpadding="5">
     <tr>
