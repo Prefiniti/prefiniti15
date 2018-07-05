@@ -1,5 +1,45 @@
 var refreshTimer;
 
+function updateEmployeeForm()
+{
+	let employment_status = $("#employment_status").val();
+
+	console.log(employment_status);
+
+	if(employment_status != "Terminated") {
+		$("#termination-date-div").hide();
+	}
+	else {
+		$("#termination-date-div").show();
+	}
+
+	let wage_basis = $("#wage_basis").val();
+	let payroll_frequency = $("#payroll_frequency").val();
+
+	if(wage_basis == "Contractor" && payroll_frequency != "Per Job") {
+		toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeout: 5000
+        };
+        
+        toastr.warning("A contractor is typically paid per job. You're currently paying this contractor " + payroll_frequency + ".");
+	}
+	
+	
+	if(payroll_frequency == "Per Job" && wage_basis != "Contractor") {
+		toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            showMethod: 'slideDown',
+            timeout: 5000
+        };
+        
+        toastr.warning("Non-contract employees are not normally paid per job.");
+	}
+}
+
 function editUser(id, section)
 {
 	var url;

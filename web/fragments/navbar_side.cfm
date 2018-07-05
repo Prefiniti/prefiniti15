@@ -25,7 +25,12 @@
                     <cfoutput>
                         <img alt="image" class="rounded-circle avatar" src="#session.user.getPicture()#"/>                    
                     <a data-toggle="dropdown" class="dropdown-toggle" href="##">
-                        <span class="block m-t-xs font-bold">#session.user.longName#</span>
+                        <span class="block m-t-xs font-bold">                            
+                            #session.user.longName#
+                            <cfif session.user.webware_admin EQ 1>
+                                &nbsp;<i class="fa fa-shield-alt"></i>
+                            </cfif>
+                        </span>
                         <span class="text-muted text-xs block"><cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -39,7 +44,7 @@
                             <li>
                                 <a class="dropdown-item <cfif site_id EQ session.current_site_id>active</cfif>" href="##" onclick="Prefiniti.setAssociation(#id#);">#getSiteNameByID(site_id)# - 
                                     <cfif #assoc_type# EQ 0>
-                                        Customer
+                                        Client
                                     <cfelse>
                                         Employee
                                     </cfif>                                
@@ -70,9 +75,6 @@
                     <img src="/graphics/pi-16x16.png">
                 </div>
             </li>
-
-            
-            
             
             <li>
                 <a href="##"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
@@ -86,9 +88,6 @@
             <li>
                 <a href="##"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <cfif getPermissionByKey('WW_SITEMAINTAINER', #session.current_association#) EQ true>
-                        <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/authentication/components/associationManager.cfm');">Manage Accounts</a></li>
-                    </cfif>
                     <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
                     <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>                    
                 </ul>

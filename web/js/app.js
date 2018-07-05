@@ -346,7 +346,7 @@ var Prefiniti = {
 
     },
 
-    submitForm: function(formId) {
+    submitForm: function(formId, onSuccess, onError) {
         let selector = "#" + formId;
         let formDataInput = $(selector).serializeArray();
         let method = $(selector).attr("method");
@@ -377,6 +377,10 @@ var Prefiniti = {
                 };
 
                 toastr.success(data.message);
+
+                if(onSuccess) {
+                    onSuccess(data);
+                }
             }
             else {
                 toastr.options = {
@@ -389,6 +393,27 @@ var Prefiniti = {
                 toastr.error(data.message);
             }
         });
+    },
+
+    searchPeople: function() {
+        let searchTerms = $("#search-people").val().toLowerCase();
+
+        $(".person-row").each(function(index) {
+            let name = $(this).attr("data-person-full-name").toLowerCase();
+
+            if(name.includes(searchTerms)) {
+                $(this).show();
+            }
+            else {
+                $(this).hide();
+            }
+        });
+    },
+
+    projectCreated: function(data) {
+        $("#generic-window").modal('hide');
+
+        AjaxLoadPageToDiv('tcTarget', '/pm/components/view_project.cfm?id=' + data.project_id);
     }
 
 

@@ -32,35 +32,58 @@
                 <div class="ibox-content">
                     <h2><cfoutput>#mode# of #prefiniti.getSiteNameByID(session.current_site_id)#</cfoutput></h2>                    
                     <div class="input-group">
-                        <cfoutput><input type="text" placeholder="Search #mode#" class="input form-control"></cfoutput>
+                        <cfoutput><input id="search-people" onkeyup="Prefiniti.searchPeople();" type="text" placeholder="Search #mode#" class="input form-control"></cfoutput>
                         <span class="input-group-append">
-                            <button type="button" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
+                            <button type="button" class="btn btn btn-primary" onclick="Prefiniti.searchPeople();"> <i class="fa fa-search"></i> Search</button>
                         </span>
                     </div>
                     <div class="clients-list">
                         <span class="float-right small text-muted"><cfoutput>#qPeople.recordCount# #mode#</cfoutput> </span>
                         <ul class="nav nav-tabs">
-                            <li><a class="nav-link active" data-toggle="tab" href="#tab-1"><i class="fa fa-user"></i> People</a></li>
+                            <li><a class="nav-link active" data-toggle="tab" href="#tab-people"><i class="fa fa-user"></i> People</a></li>
                         </ul>
                         <div class="tab-content">
-                            <div id="tab-1" class="tab-pane active">
+                            <div id="tab-people" class="tab-pane active">
                                 
-                                <table class="table table-striped table-hover datatable">
+                                <table class="table table-striped table-hover">
                                     <tbody>
                                         <cfloop array="#people#" item="person">
+                                            <cfset roles = person.getRoles()>
+
                                             <cfoutput>
-                                                <tr>
+                                                <tr id="person-row-#person.id#" class="person-row" data-person-full-name="#person.longName#" data-person-online="#person.online#" data-person-first-name="#person.firstName#" data-person-last-name="#person.lastName#" data-person-email="#person.email#">
                                                     <td class="client-avatar"><img alt="image" src="#person.getPicture()#"> </td>
                                                     <td><a href="##" onclick="Prefiniti.loadPersonDetail(#person.id#, '#mode#');" class="client-link">#person.longName#</a></td>
                                                     <td></td>
                                                     <td class="contact-type"><i class="fa fa-envelope"></i></td>
                                                     <td>#person.email#</td>
                                                     <td class="client-status">
+                                                        <cfif mode EQ "Employees">
+                                                            <cfset key = "employee">
+                                                        <cfelse>
+                                                            <cfset key = "client">
+                                                        </cfif>
+                                                        <cfset role_id = roles[session.current_site_id][key]>
+                                                        <cfif mode EQ "Employees">
+                                                            <cfset employee = prefiniti.getEmployeeRecord(role_id)>
+
+                                                            <cfif employee.employment_status EQ "Active">
+                                                                <span class="label label-success">Active</span>
+                                                            <cfelse>
+                                                                <span class="label label-warning">#employee.employment_status#</span>
+                                                            </cfif>
+                                                        </cfif>
                                                         <cfif person.online EQ 1>
                                                             <span class="label label-primary">Online</span>
                                                         <cfelse>
                                                             <span class="label label-warning">Offline</span>
                                                         </cfif>
+                                                        <cfif getPermissionByKey('WW_SITEMAINTAINER', role_id) EQ true>
+                                                            <span class="label label-success">Site Admin</span>
+                                                        </cfif>      
+                                                        <cfif person.webware_admin EQ 1>
+                                                            <span class="label label-info">Global Admin</span>
+                                                        </cfif>                                                  
                                                     </td>
                                                 </tr>  
                                             </cfoutput>  

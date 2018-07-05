@@ -177,6 +177,24 @@ component extends="Prefiniti.Base" output="false" {
         return this;
     }
 
+    public struct function getRoles() output=false {
+        var result = {};
+
+        var qry = this.getAssociationsByUser(this.id);
+
+        for(row in qry) {
+           
+            if(row.assoc_type == 0) {
+                result[row.site_id].client = row.id;
+            }
+            if(row.assoc_type == 1) {
+                result[row.site_id].employee = row.id;
+            }
+        }
+
+        return result;
+    }
+
     public array function getUserPosts() output=false {
 
         var result = [];

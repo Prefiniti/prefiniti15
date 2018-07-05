@@ -13,5 +13,5 @@
     <cfinclude template="/socialnet/socialnet_udf.cfm">
     <cfinclude template="/businessnet/businessnet_udf.cfm">
     <cfinclude template="/contentManager/cm_udf.cfm">
-    
+    <cfinclude template="/pm/pm_udf.cfm">
 </cfcomponent>

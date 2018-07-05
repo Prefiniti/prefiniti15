@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!---<link href="/font-awesome/css/font-awesome.css" rel="stylesheet">--->
     <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+    <link href="css/plugins/steps/jquery.steps.css" rel="stylesheet">
 
     <!-- Toastr style -->
     <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
@@ -87,6 +88,9 @@
     <script src="js/plugins/toastr/toastr.min.js"></script>
     <script src="js/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js"></script>
     
+    <!-- Steps -->
+    <script src="js/plugins/steps/jquery.steps.min.js"></script>
+
     <!-- Prefiniti javascript -->
     <script src="/framework/framework.js"></script>
     <script src="/search/search.js"></script>

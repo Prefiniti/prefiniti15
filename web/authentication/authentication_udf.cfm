@@ -1,3 +1,13 @@
+<cffunction name="getUserByAssociationID" returntype="Prefiniti.Authentication.UserAccount">
+    <cfargument name="n_assoc_id" type="numeric" required="yes">
+
+    <cfquery name="getUserID" datasource="sites">
+        SELECT user_id FROM site_associations WHERE id=#arguments.n_assoc_id#
+    </cfquery>
+
+    <cfreturn new Prefiniti.Authentication.UserAccount({id: getUserID.user_id}, false)>
+</cffunction>
+
 <cffunction name="getPermissionByKey" returntype="boolean">
 	<cfargument name="sz_key" type="string" required="yes">
     <cfargument name="n_assoc_id" type="numeric" required="yes">
@@ -17,7 +27,7 @@
     <cfif get_entry.RecordCount EQ 0>
     	<cfreturn "false">
     <cfelse>
-    	<cfreturn "true" >
+    	<cfreturn "true">
 	</cfif>                
 </cffunction>
 
@@ -41,6 +51,23 @@
         	(#n_assoc_id#,
             #tperm_id#)
 	</cfquery>
+</cffunction>
+
+<cffunction name="getEmployeeRecord" returntype="query">
+    <cfargument name="assoc_id" type="numeric" required="yes">
+
+    <cfquery name="chkRecord" datasource="sites">
+        SELECT * FROM employees WHERE assoc_id=#arguments.assoc_id#
+    </cfquery>
+
+    <cfif chkRecord.RecordCount GT 0>
+        <cfreturn chkRecord>
+    <cfelse>
+        <cfquery name="createRecord" datasource="sites">
+            INSERT INTO employees (assoc_id) VALUES (#arguments.assoc_id#)
+        </cfquery>
+        <cfreturn getEmployeeRecord(arguments.assoc_id)>
+    </cfif>
 </cffunction>
 
 <cffunction name="getAssociationsByUser" returntype="query">
