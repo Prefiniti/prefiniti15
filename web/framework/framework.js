@@ -161,7 +161,7 @@ function AjaxLoadPageToDiv(DivID, PageURL)
 				$("#" + DivID).html(xmlHttp.responseText);
 				
 				$('.summernote').summernote({
-					height: 300
+					height: 200
 				});
 
 				$('.tagsinput').tagsinput({
@@ -401,11 +401,10 @@ function AjaxLoadPageToPopup(PageURL)
 }
 
 function AjaxLoadPageToWindow(url, title)
-{
-	SetInnerHTML('gen_window_title', title);
+{	
 	$("#generic-window").modal();
 	
-	AjaxLoadPageToDiv('gen_window_area', url);
+	AjaxLoadPageToDiv('gen-window-area', url);
 }
 	
 

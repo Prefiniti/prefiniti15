@@ -9,6 +9,7 @@
 USE webwarecl;
 
 DROP TABLE IF EXISTS pm_projects;
+DROP TABLE IF EXISTS pm_project_tags;
 DROP TABLE IF EXISTS pm_tasks;
 DROP TABLE IF EXISTS pm_deliverables;
 DROP TABLE IF EXISTS pm_locations;
@@ -24,13 +25,23 @@ CREATE TABLE pm_projects
     employee_assoc BIGINT(20) NOT NULL,
     client_assoc BIGINT(20) NOT NULL,
     template_id BIGINT(20) NOT NULL DEFAULT 0,
+    project_priority TINYINT NOT NULL DEFAULT 0,
     project_name VARCHAR(45) NOT NULL,
+    project_status VARCHAR(45) NOT NULL,
     project_start_date DATETIME NULL,
     project_due_date DATETIME NULL,
     project_description TEXT,
     project_created DATETIME NOT NULL,
     create_id VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`))
+    ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- project tags table
+CREATE TABLE pm_project_tags
+    (id BIGINT(20) NOT NULL AUTO_INCREMENT,
+    project_id BIGINT(20) NOT NULL,
+    tag_text VARCHAR(45) NOT NULL,
+    PRIMARY KEY(`id`))
     ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- tasks table
@@ -48,6 +59,7 @@ CREATE TABLE pm_deliverables
     (id BIGINT(20) NOT NULL AUTO_INCREMENT,
     project_id BIGINT(20) NOT NULL,
     deliverable_name VARCHAR(45) NOT NULL,
+    deliverable_uploaded TINYINT NOT NULL DEFAULT 0,
     deliverable_file_id BIGINT(20) NULL,
     create_id VARCHAR(255) NOT NULL,
     PRIMARY KEY(`id`))
@@ -116,9 +128,10 @@ CREATE TABLE pm_travel_entries
     (id BIGINT(20) NOT NULL AUTO_INCREMENT,
     project_id BIGINT(20) NOT NULL,
     assoc_id BIGINT(20) NOT NULL,
+    travel_date DATETIME NOT NULL,
     odometer_start DOUBLE NOT NULL DEFAULT 0,
     odometer_end DOUBLE NOT NULL DEFAULT 0,
-    close TINYINT NOT NULL DEFAULT 0,
+    closed TINYINT NOT NULL DEFAULT 0,
     create_id VARCHAR(255) NOT NULL,
     PRIMARY KEY(`id`))
     ENGINE=InnoDB DEFAULT CHARSET=utf8;

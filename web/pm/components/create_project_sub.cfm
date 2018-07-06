@@ -12,6 +12,7 @@
         <cfset project.project_start_date = createODBCDateTime(form.project_start_date)>
         <cfset project.project_due_date = createODBCDateTime(form.project_due_date)>
         <cfset project.project_description = form.project_description>
+        <cfset project.project_priority = form.project_priority>
         
         <cfset project.save()>
 
@@ -24,7 +25,8 @@
 
         <cfcatch type="any">
             <cfset result.ok = false>
-            <cfset result.message = "Error updating employee information. " & cfcatch.detail & " HARK HARK HARK!">  
+            <cfset result.message = "Error creating project.">  
+            <cfset result.error = {message: cfcatch.message, detail: cfcatch.detail}>
         </cfcatch>
     </cftry>
 </cfsilent>

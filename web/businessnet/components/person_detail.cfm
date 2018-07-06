@@ -12,7 +12,9 @@
 <cfset role_id = roles[session.current_site_id][key]>
 <cfif url.mode EQ "Employees">
     <cfset employee = prefiniti.getEmployeeRecord(role_id)>
+    <cfset projects = prefiniti.getProjectsByEmployeeAssoc(role_id)>
 <cfelse>
+    <cfset projects = prefiniti.getProjectsByClientAssoc(role_id)>
     <!-- TODO: get client record -->
 </cfif>
 
@@ -159,10 +161,32 @@
                 </div>
             </cfif>
 
+
         <cfelse>
 
         </cfif>
-        <hr/>
+        <hr>
+        <strong>Projects</strong>
+        <table class="table table-striped">
+            <thead>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Due Date</th>
+            </thead>
+            <tbody>
+                <cfloop array="#projects#" item="project">
+                    <cfoutput>
+                        <cfset projectLink = "Prefiniti.Projects.view(#project.id#);">
+                        <tr>
+                            <td><a href="##" onclick="#projectLink#">#project.project_name#</a></td>
+                            <td>#project.getStatus()#</td>
+                            <td>#dateFormat(project.project_due_date, "mmm d, yyyy")#</td>
+                        </tr>
+                    </cfoutput>
+                </cfloop>
+            </tbody>
+        </table>
+        <hr>
         <strong>Timeline activity</strong>
         <div id="vertical-timeline" class="vertical-container dark-timeline">
             <cfoutput query="userEvents" maxrows="10">

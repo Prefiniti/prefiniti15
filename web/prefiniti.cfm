@@ -118,8 +118,10 @@
     <script src="/controls/date_picker.js"></script>
     <script src="/controls/record_scroller.js"></script>
     <script src="/notifications/notifications.js"></script>
-    <script src="js/app.js"></script>
 
+    <script src="js/app.js"></script>
+    <script src="pm/pm.js"></script>
+    
     <cfinclude template="cms_add_file_assoc_wrapper.cfm">
     <cfinclude template="cms_minibrowser_wrapper.cfm">
     <cfinclude template="windowWrapper.cfm">

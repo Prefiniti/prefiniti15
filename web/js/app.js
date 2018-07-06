@@ -90,29 +90,50 @@ var Prefiniti = {
         AjaxLoadPageToDiv('tcTarget', '/authentication/components/viewProfile.cfm?userid=' + userid);
     },
 
-    loadPage: function(url, opts) {
-        let success = opts.onSuccess || function() { return true };
-        let error = opts.onError || function() { return true };
+    loadPage: function(url, onLoaded, onError) {
+        
+        onLoaded = onLoaded || function (){};
+        onError = onError || function (){};
+
+        $.ajax({
+            url: url,
+            method: "GET", 
+            success: function(data) {
+                Prefiniti.state.currentPage = url;
+
+                $("#tcTarget").html(data);
+
+                onLoaded(data);
+            },
+            error: function(data) {
+                $("#tcTarget").html(data);
+
+                onError(data);
+            }
+        });
 
     },
 
-    revealCommentBox: function() {
-        $('#user-post-comment').show(); 
-        $('#comment-body-copy').select();
+    revealCommentBox: function(baseId) {
+        $('#user-post-comment-' + baseId).show(); 
+        $('#comment-body-copy-' + baseId).select();
     },
 
-    cancelComment: function() {
-        $('#comment-body-copy').val("");
-        $('#user-post-comment').hide();
+    cancelComment: function(baseId) {
+        $('#comment-body-copy-' + baseId).val("");
+        $('#user-post-comment-' + baseId).hide();
     },
 
-    submitComment: function() {
+    submitComment: function(baseId) {
         let formData = {
-            parent_post_id: $("#comment-parent").val(),
-            author_id: $("#comment-from").val(),
-            recipient_id: $("#comment-to").val(),
-            body_copy: $("#comment-body-copy").val()
+            parent_post_id: $("#comment-parent-" + baseId).val(),
+            author_id: $("#comment-from-" + baseId).val(),
+            recipient_id: $("#comment-to-" + baseId).val(),
+            body_copy: $("#comment-body-copy-" + baseId).val(),
+            post_class: $("#comment-post-class-" + baseId).val()
         };
+
+        console.log(formData);
 
         $.ajax({
             type: "POST",
@@ -122,7 +143,7 @@ var Prefiniti = {
         }).done(function(data) {
             console.log(data);
 
-            Prefiniti.viewProfile(formData.recipient_id);
+            Prefiniti.reload();
         });
     },
 
@@ -136,7 +157,8 @@ var Prefiniti = {
             parent_post_id: $("#post-reply-parent-" + id).val(),
             author_id: $("#post-reply-author-" + id).val(),
             recipient_id: $("#post-reply-recipient-" + id).val(),
-            body_copy: $("#post-reply-body-" + id).val()
+            body_copy: $("#post-reply-body-" + id).val(),
+            post_class: $("#post-reply-post-class-" + id).val()
         };
 
         $.ajax({
@@ -145,7 +167,7 @@ var Prefiniti = {
             data: formData,
             encode: true
         }).done(function(data) {
-            Prefiniti.viewProfile(formData.recipient_id);
+            Prefiniti.reload();
         });
     },
 
@@ -160,7 +182,7 @@ var Prefiniti = {
             },
             encode: true
         }).done(function(data) {
-            Prefiniti.viewProfile(userId);
+            Prefiniti.reload();
         });
 
     },
@@ -176,7 +198,7 @@ var Prefiniti = {
             },
             encode: true
         }).done(function(data) {
-            Prefiniti.viewProfile(userId);
+            Prefiniti.reload();
         });
 
     },
@@ -191,7 +213,7 @@ var Prefiniti = {
             },
             encode: true
         }).done(function(data) {
-            Prefiniti.viewProfile(userId);
+            Prefiniti.reload();
         });
 
     },
@@ -408,12 +430,6 @@ var Prefiniti = {
                 $(this).hide();
             }
         });
-    },
-
-    projectCreated: function(data) {
-        $("#generic-window").modal('hide');
-
-        AjaxLoadPageToDiv('tcTarget', '/pm/components/view_project.cfm?id=' + data.project_id);
     }
 
 

@@ -5,7 +5,12 @@ component output=false extends="Prefiniti.LegacyAPI" displayname="Base" {
     }
 
     public numeric function getPercentage(numeric given, numeric max) output=false {
-        return int((given * 100) / max);
+        if(max > 0) {
+            return int((given * 100) / max);
+        }
+        else {
+            return 0;
+        }
     }
 
     public void function validateStruct(required struct s, required array r) output=false {
@@ -42,5 +47,7 @@ component output=false extends="Prefiniti.LegacyAPI" displayname="Base" {
         if(yearDiff >= 2) return yearDiff & " years ago"; 
 
     }
+
+   
 
 }

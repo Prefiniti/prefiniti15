@@ -22,11 +22,11 @@
                     </p>
                     <div class="float-right post-buttons mb-3">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.likePost(#post.id#, #url.userid#);"><i class="fa fa-thumbs-up"></i> <span class="badge">#post.reactionCount("like")#</span></button>
-                            <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.dislikePost(#post.id#, #url.userid#);"><i class="fa fa-thumbs-down"></i> <span class="badge">#post.reactionCount("dislike")#</span></button>
+                            <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.likePost(#post.id#, #post.recipient_id#);"><i class="fa fa-thumbs-up"></i> <span class="badge">#post.reactionCount("like")#</span></button>
+                            <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.dislikePost(#post.id#, #post.recipient_id#);"><i class="fa fa-thumbs-down"></i> <span class="badge">#post.reactionCount("dislike")#</span></button>
                             <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.revealPostReply(#post.id#);"><i class="fa fa-reply"></i></button>  
                             <cfif post.author_id EQ session.user.id OR post.recipient_id EQ session.user.id>
-                                <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.deletePost(#post.id#, #url.userid#);"><i class="fa fa-trash-alt"></i></button>                          
+                                <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.deletePost(#post.id#, #post.recipient_id#);"><i class="fa fa-trash-alt"></i></button>                          
                             </cfif>
                         </div>
                     </div>
@@ -41,7 +41,8 @@
                         <cfoutput>
                             <input type="hidden" id="post-reply-parent-#post.id#" value="#post.id#">
                             <input type="hidden" id="post-reply-author-#post.id#" value="#session.userid#">
-                            <input type="hidden" id="post-reply-recipient-#post.id#" value="#url.userid#">
+                            <input type="hidden" id="post-reply-recipient-#post.id#" value="#post.recipient_id#">
+                            <input type="hidden" id="post-reply-post-class-#post.id#" value="#post.post_class#">
                         </cfoutput>
                         <div class="input-group mb-1">
                             <input class="form-control" type="text" id="post-reply-body-#post.id#" name="body_copy" placeholder="Enter your reply...">

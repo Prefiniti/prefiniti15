@@ -276,20 +276,7 @@
 			<cfif canComment>
 				<div class="row" id="user-post-comment" style="display: none;" class="mb-5">
 					<div class="col-md-12">
-						<form id="user-post-comment-form">
-							<cfoutput>
-								<input type="hidden" id="comment-parent" name="parent_post_id" value="0">
-								<input type="hidden" id="comment-from" name="author_id" value="#session.userid#">
-								<input type="hidden" id="comment-to" name="recipient_id" value="#url.userid#">
-							</cfoutput>
-							<div class="input-group mb-5">
-								<input class="form-control" type="text" id="comment-body-copy" name="body_copy" placeholder="Enter your post...">
-								<div class="input-group-append">
-									<button type="button" class="btn btn-primary" onclick="Prefiniti.submitComment();">Post</button>
-									<button type="button" class="btn btn-primary" onclick="Prefiniti.cancelComment();">Cancel</button>
-								</div>
-							</div>
-						</form>
+						<cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#url.userid#" post_class="USER">						
 					</div>
 				</div>
 			</cfif>
