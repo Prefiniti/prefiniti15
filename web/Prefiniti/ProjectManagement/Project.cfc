@@ -150,6 +150,7 @@
                 <cfscript>
                     tmp = {
                         type: stakeholder_type,
+                        id: id,
                         user: this.getUserByAssociationID(assoc_id)
                     };
 
@@ -166,7 +167,7 @@
         <cfargument name="assoc_id" type="numeric" required="true">
         <cfargument name="stakeholder_type" type="string" required="true">
 
-        <cfset this.removeStakeholder(arguments.assoc_id)>
+        <cfset this.removeStakeholder(arguments.assoc_id, arguments.stakeholder_type)>
 
         <cfquery name="addStakeholder" datasource="webwarecl">
             INSERT INTO pm_stakeholders (create_id, project_id, assoc_id, stakeholder_type)
@@ -178,12 +179,22 @@
 
     <cffunction name="removeStakeholder" returntype="void" output="false">
         <cfargument name="assoc_id" type="numeric" required="true">
+        <cfargument name="stakeholder_type" type="string" required="true">
 
         <cfquery name="removeStakeholder" datasource="webwarecl">
-            DELETE FROM pm_stakeholders WHERE project_id=#this.id# and assoc_id=#arguments.assoc_id#
+            DELETE FROM pm_stakeholders WHERE project_id=#this.id# AND assoc_id=#arguments.assoc_id# AND stakeholder_type="#arguments.stakeholder_type#"
         </cfquery>
 
          <cfset this.removeTag(this.getUserByAssociationID(arguments.assoc_id).longName)>
+    </cffunction>
+
+    <cffunction name="removeStakeholderByID" returntype="void" output="false">
+        <cfargument name="stakeholder_id" type="numeric" required="true">
+        
+        <cfquery name="removeStakeholderById" datasource="webwarecl">
+            DELETE FROM pm_stakeholders WHERE id=#arguments.stakeholder_id#
+        </cfquery>
+         
     </cffunction>
 
 
@@ -229,6 +240,82 @@
 
         <cfquery name="removeTask" datasource="webwarecl">
             UPDATE pm_tasks SET task_complete=#arguments.completion# WHERE id=#arguments.task_id#
+        </cfquery>
+    </cffunction>
+
+    <cffunction name="getLocations" returntype="query" output="false">
+
+        <cfquery name="getLocations" datasource="webwarecl">
+            SELECT * FROM pm_locations WHERE project_id=#this.id# ORDER BY location_name
+        </cfquery>
+
+        <cfreturn getLocations>
+
+    </cffunction>
+
+    <cffunction name="addLocation" returntype="void" output="false">
+        <cfargument name="location_name" type="string" required="yes">
+        <cfargument name="address" type="string" required="yes">
+        <cfargument name="city" type="string" required="yes">
+        <cfargument name="state" type="string" required="yes">
+        <cfargument name="zip" type="string" required="yes">
+        <cfargument name="subdivision" type="string" required="yes">
+        <cfargument name="lot" type="string" required="yes">
+        <cfargument name="block" type="string" required="yes">
+        <cfargument name="trs_section" type="string" required="yes">
+        <cfargument name="trs_township" type="string" required="yes">
+        <cfargument name="trs_range" type="string" required="yes">
+        <cfargument name="trs_meridian" type="string" required="yes">
+        <cfargument name="latitude" type="string" required="yes">
+        <cfargument name="longitude" type="string" required="yes">
+        <cfargument name="elevation" type="string" required="yes">
+        
+        <cfset create_id = createUUID()>
+
+        <cfquery name="addLocation" datasource="webwarecl">
+            INSERT INTO pm_locations
+                        (project_id,
+                        location_name,
+                        address,
+                        city,
+                        state,
+                        zip,
+                        subdivision,
+                        lot,
+                        block,
+                        trs_section,
+                        trs_township,
+                        trs_range,
+                        trs_meridian,
+                        latitude,
+                        longitude,
+                        elevation,
+                        create_id)
+            VALUES      (#this.id#,
+                        "#arguments.location_name#",
+                        "#arguments.address#",
+                        "#arguments.city#",
+                        "#arguments.state#",
+                        "#arguments.zip#",
+                        "#arguments.subdivision#",
+                        "#arguments.lot#",
+                        "#arguments.block#",
+                        "#arguments.trs_section#",
+                        "#arguments.trs_township#",
+                        "#arguments.trs_range#",
+                        "#arguments.trs_meridian#",
+                        "#arguments.latitude#",
+                        "#arguments.longitude#",
+                        "#arguments.elevation#",
+                        "#create_id#")
+        </cfquery>        
+    </cffunction>
+
+    <cffunction name="removeLocation" returntype="void" output="false">
+        <cfargument name="location_id" type="numeric" required="true">
+
+        <cfquery name="removeLocation" datasource="webwarecl">
+            DELETE FROM pm_locations WHERE id=#arguments.location_id#
         </cfquery>
     </cffunction>
 
@@ -331,6 +418,29 @@
         </cfscript>
 
     </cffunction>
+
+    <cffunction name="isOverdue" returntype="boolean" output="false">
+
+        <cfif this.project_status EQ "Closed">
+            <cfreturn false>
+        </cfif>
+
+        <cfset diff = dateCompare(now(), this.project_due_date)>
+
+        <cfif diff EQ 0>
+            <cfreturn true>
+        </cfif>
+
+        <cfif diff EQ 1>
+            <cfreturn true>
+        </cfif>
+
+        <cfif diff EQ -1>
+            <cfreturn false>
+        </cfif>
+
+    </cffunction>    
+
 
     <cffunction name="getPriority" returntype="string" output="false">
 

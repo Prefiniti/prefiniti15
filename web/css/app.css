@@ -17,18 +17,22 @@
 
 .avatar-lg {
     width: 130px;
+    height: 130px;
 }
 
 .avatar {
     width: 60px;
+    height: 60px;
 }
 
 .avatar-sm {
     width: 30px;
+    height: 30px;
 }
 
 .reply .avatar {
     width: 30px;
+    height: 30px;
 }
 
 .thumbnail {

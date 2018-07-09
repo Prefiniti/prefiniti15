@@ -3,7 +3,19 @@ var Prefiniti = {
     state: {
         userId: glob_userid,
         currentPage: null,
+        currentPageOnLoad: null,
+        currentPageOnError: null,
         history: []
+    },
+
+    extend: function(componentName, component) {
+        if(!Prefiniti[componentName]) {
+            Prefiniti[componentName] = component;
+            console.log("Prefiniti framework extended with component [%s].", componentName);
+        }
+        else {
+            throw("Prefiniti.extend():  name conflict [%s]; cannot extend.", componentName);
+        }
     },
 
     getNotifications: function () {
@@ -55,11 +67,11 @@ var Prefiniti = {
         setInterval(Prefiniti.getNotifications, 3000);
 
 
-        loadHomeView();
+        Prefiniti.Dashboard.load();
     },
 
     reload: function() {
-        AjaxLoadPageToDiv('tcTarget', Prefiniti.state.currentPage);
+        Prefiniti.loadPage(Prefiniti.state.currentPage, Prefiniti.state.currentPageOnLoad, Prefiniti.state.currentPageOnError);
     },
 
     setAssociation: function(assocId) {
@@ -100,8 +112,41 @@ var Prefiniti = {
             method: "GET", 
             success: function(data) {
                 Prefiniti.state.currentPage = url;
+                Prefiniti.state.currentPageOnLoad = onLoaded;
+                Prefiniti.state.currentPageOnError = onError;
+
+                let metadata = Prefiniti.parseFragmentMetadata(data);             
+
+                if(!metadata.title) {
+                    $("#wwaf-page-title").hide();
+                }
+                else {
+                    $("#wwaf-page-title").show();
+                    $("#wwaf-page-title").html(metadata.title);
+                }
+
+                if(!metadata.breadcrumbs) {
+                    $("#wwaf-breadcrumbs").hide();
+                }
+                else {
+                    $("#wwaf-breadcrumbs").show();
+                    $("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
+                }
 
                 $("#tcTarget").html(data);
+
+                $('.summernote').summernote({
+                    height: 200
+                });
+
+                $('.tagsinput').tagsinput({
+                    tagClass: 'badge badge-primary'
+                });
+
+                $('.datatables').DataTable({
+                    pageLength: 25,
+                    responsive: true
+                });
 
                 onLoaded(data);
             },
@@ -112,6 +157,44 @@ var Prefiniti = {
             }
         });
 
+    },
+
+    parseFragmentMetadata: function(html) {
+
+        let re_title = new RegExp("<wwaftitle>[\n\r\s]*(.*)[\n\r\s]*</wwaftitle>", "gmi");
+        let re_breadcrumbs = new RegExp("<wwafbreadcrumbs>[\n\r\s]*(.*)[\n\r\s]*</wwafbreadcrumbs>", "gmi");
+
+        let title = re_title.exec(html);
+        var breadcrumbs = re_breadcrumbs.exec(html);
+
+        var result = {};
+
+        if(title) {
+            result.title = title[1];
+        }
+        else {
+            result.title = null;
+        }
+
+
+        if(breadcrumbs) {
+            breadcrumbs = breadcrumbs[1].split(",");
+            var bchtml = "";
+
+            for(i in breadcrumbs) {
+                bc = breadcrumbs[i];
+
+                bchtml += '<li class="breadcrumb-item"><a href="##">' + bc + '</a></li>';
+            }
+
+            result.breadcrumbs = bchtml;
+        }
+        else {
+            result.breadcrumbs = null;
+        }
+
+
+        return result;
     },
 
     revealCommentBox: function(baseId) {
@@ -405,6 +488,10 @@ var Prefiniti = {
                 }
             }
             else {
+                if(data.error) {
+                    console.log("Error detail: %o", data.error);
+                }
+
                 toastr.options = {
                     closeButton: true,
                     progressBar: true,
@@ -434,3 +521,8 @@ var Prefiniti = {
 
 
 };
+
+function todo()
+{
+        AjaxLoadPageToWindow('/framework/components/todo.cfm', '');
+}

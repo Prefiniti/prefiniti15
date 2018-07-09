@@ -1,5 +1,5 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
+<cfset prefiniti = new Prefiniti.Base()>
 
 <cfoutput>
-	<img src="#getPicture(url.user_id)#" width="220" border="0" />
+	<img src="#session.user.getPicture()#" class="rounded-circle avatar" title="profile photo">
 </cfoutput>    

@@ -385,7 +385,8 @@
     	SELECT DISTINCT 
         	user_events.event_text, 
         	user_events.event_date,
-            user_events.event_icon    
+            user_events.event_icon,
+            user_events.user_id    
         FROM 		user_events 
         INNER JOIN 	friends 
         ON 			friends.target_id=user_events.user_id 

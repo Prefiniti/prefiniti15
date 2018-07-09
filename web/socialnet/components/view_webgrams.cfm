@@ -1,27 +1,28 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
+<cfset prefiniti = new Prefiniti.Base()>
 
 <cfquery name="gwg" datasource="webwarecl">
 	SELECT * FROM webgrams ORDER BY post_date DESC
 </cfquery>
 
-<cfset mr = attributes.maxrows>
+<div>
+    <cfif gwg.recordCount GT 0>
+        <div class="feed-activity-list">
+            <cfoutput query="gwg" maxrows="#attributes.maxrows#">
+                <div class="feed-element">
+                    <a class="float-left" href="##" onclick="viewProfile(#user_id#);">
+                        <img alt="image" class="rounded-circle" src="#prefiniti.getPicture(user_id)#">
+                    </a>
+                    <div class="media-body ">
+                        <small class="float-right">#prefiniti.getFriendlyDuration(post_date)#</small>
+                        #w_body#
+                        <small class="text-muted">#timeFormat(post_date, "h:mm tt")# - #dateFormat(post_date, "mmmm d, yyyy")#</small>
 
-<cfif gwg.RecordCount EQ 0>
-	<div style="padding-left:30px;"><strong>No WebGrams</strong></div>
-<cfelse>
-	<cfoutput query="gwg" maxrows="#mr#">
-    	<div class="row mb-3">
-            <div class="col-sm-2">
-              	<img src="#getPicture(user_id)#" class="rounded-circle avatar-sm">
-            </div>
-            <div class="col-sm-10">
-                <strong>#DateFormat(post_date, "mm/dd/yyyy")# #TimeFormat(post_date, "h:mm tt")#</strong><br>
-                	#w_body#
-            </div>
+                    </div>
+                </div>
+            </cfoutput>
         </div>
-    </cfoutput>
-</cfif>    
-
-
-
+    <cfelse>
+        <strong>No WebGrams</strong>
+    </cfif>
+</div>
 

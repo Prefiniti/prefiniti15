@@ -1,7 +1,5 @@
-<cfinclude template="/socialnet/socialnet_udf.cfm">
-<cfparam name="et" default="">
-<cfset et="#getLongname(url.user_id)# has changed #getHisHer(url.user_id)# profile photo">
-<cfoutput>
-	#setProfilePicture(url.user_id, "#url.filename#")#
-    #writeUserEvent(url.user_id, "photos.png", et)#
-</cfoutput>
+<cfset prefiniti = new Prefiniti.Base()>
+<cfset eventText = session.user.longName & " has changed " & prefiniti.getHisHer(session.user.id) & " profile photo">
+<cfset prefiniti.setProfilePicture(url.user_id, url.filename)>
+<cfset prefiniti.writeUserEvent(session.user.id, "photos.png", eventText)>
+<cfset session.user = new Prefiniti.Authentication.UserAccount({id: url.user_id}, false)>

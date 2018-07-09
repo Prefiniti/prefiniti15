@@ -42,3 +42,27 @@
 
     <cfreturn result>
 </cffunction>
+
+
+<cffunction name="getProjectsByAssoc" returntype="array">
+    <cfargument name="assoc_id" type="numeric" required="yes">
+
+    <cfset result = []>
+
+    <cfquery name="getProjectsByAssoc" datasource="webwarecl">
+        SELECT project_id, stakeholder_type FROM pm_stakeholders WHERE assoc_id=#arguments.assoc_id#
+    </cfquery>
+
+    <cfsilent>
+        <cfoutput query="getProjectsByAssoc">
+            <cfset tmp = {
+                project_role: stakeholder_type,
+                project: new Prefiniti.ProjectManagement.Project(project_id)
+            }>
+
+            <cfset result.append(tmp)>
+        </cfoutput>
+    </cfsilent>
+
+    <cfreturn result>
+</cffunction>

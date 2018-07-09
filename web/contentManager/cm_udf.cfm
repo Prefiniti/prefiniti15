@@ -544,27 +544,27 @@
 		</cfcase>
         <cfcase value="JPG">
         	<cfset ts.icon="/graphics/page_white_picture.png">
-            <cfset ts.description="JPEG Image">
+            <cfset ts.description="Image">
             <cfset ts.code="JPG">
 		</cfcase>
         <cfcase value="PEG">
         	<cfset ts.icon="/graphics/page_white_picture.png">
-            <cfset ts.description="JPEG Image">
+            <cfset ts.description="Image">
             <cfset ts.code="JPG">
 		</cfcase>
         <cfcase value="PNG">
         	<cfset ts.icon="/graphics/page_white_picture.png">
-            <cfset ts.description="PNG Image">
+            <cfset ts.description="Image">
             <cfset ts.code="PNG">
         </cfcase>
         <cfcase value="GIF">
         	<cfset ts.icon="/graphics/page_white_picture.png">
-            <cfset ts.description="GIF Image">
+            <cfset ts.description="Image">
             <cfset ts.code="GIF">
         </cfcase>
         <cfcase value="BMP">
         	<cfset ts.icon="/graphics/page_white_picture.png">
-            <cfset ts.description="Windows Bitmap Image">
+            <cfset ts.description="Image">
             <cfset ts.code="BMP">
         </cfcase>                
         <cfcase value="HTM">

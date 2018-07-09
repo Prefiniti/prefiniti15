@@ -80,8 +80,10 @@ CREATE TABLE pm_locations
     trs_section VARCHAR(45) NULL,
     trs_township VARCHAR(45) NULL,
     trs_range VARCHAR(45) NULL,
+    trs_meridian VARCHAR(45) NULL,
     latitude VARCHAR(45) NULL,
     longitude VARCHAR(45) NULL,
+    elevation VARCHAR(45) NULL,
     create_id VARCHAR(255) NOT NULL,
     PRIMARY KEY(`id`))
     ENGINE=InnoDB DEFAULT CHARSET=utf8;

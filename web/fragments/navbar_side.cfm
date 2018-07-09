@@ -23,7 +23,7 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                     <cfoutput>
-                        <img alt="image" class="rounded-circle avatar" src="#session.user.getPicture()#"/>                    
+                        <span id="profile-photo"><img alt="image" class="rounded-circle avatar" src="#session.user.getPicture()#"/></span>                    
                     <a data-toggle="dropdown" class="dropdown-toggle" href="##">
                         <span class="block m-t-xs font-bold">                            
                             #session.user.longName#
@@ -35,7 +35,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
-                        <li><a class="dropdown-item" href="##" onclick="loadHomeView();">Home</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();">Home</a></li>
                         <li><a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View My Profile</a></li>
                         <li><a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/search_users.cfm');">Friend Search</a></li>
                         <li><div role="separator" class="dropdown-divider"></div></li>

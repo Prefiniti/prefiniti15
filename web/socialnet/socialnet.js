@@ -76,8 +76,15 @@ function setProfilePicture(user_id, filename)
 	url = '/socialnet/components/set_profile_picture.cfm?user_id=' + escape(user_id);
 	url += '&filename=' + escape(filename);
 	
-	AjaxNullRequest(url);
-	AjaxLoadPageToDiv('mainPic', '/socialnet/components/default_pic.cfm?user_id=' + escape(user_id));
+	$.get(url)
+	.done(function(data) {
+		var picUrl = '/socialnet/components/default_pic.cfm?user_id=' + escape(user_id);
+
+		$.get(picUrl)
+		.done(function(data) {
+			$("#profile-photo").html(data);
+		});
+	});
 
 }
 

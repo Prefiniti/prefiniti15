@@ -46,23 +46,37 @@
         </div>
         <div class="col-md-9">
 
-            <table class="table table-striped">
+            <table class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Associated Projects</th>
                         <th>Last Access</th>
                         <th>Size</th>
+                        <th><i class="fa fa-cogs"></i></th>
                     </tr>
                 </thead>
                 <tbody>
                     <cfoutput query="userFiles">
                         <cfset fileType = cmsFileType(id)>
+                        <cfset fileURL = "http://#cgi.server_name#/UserContent/#session.username#/#basedir#/#filename#">
                         <tr>
-                            <td><img src="#fileType.icon#"> <a href="http://#cgi.server_name#/UserContent/#session.username#/#basedir#/#filename#" target="_blank">#filename#</a></td>
+                            <td><img src="#fileType.icon#"> <a href="#fileURL#" target="_blank">#filename#</a></td>
                             <td></td>
                             <td>#dateFormat(last_access, "mmm d, yyyy")#</td>
                             <td>#cmsUserFileSize(id)#</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
+                                <div class="dropdown-menu">   
+                                    <button class="dropdown-item" type="button" onclick="todo();">Associate Project...</button>
+                                    <div class="dropdown-divider"></div>                            
+                                    <cfif fileType.description EQ "Image">
+                                        <button class="dropdown-item" type="button" onclick="setProfilePicture(#session.user.id#, '#fileURL#');">Make Profile Photo</button>
+                                        <div class="dropdown-divider"></div>
+                                    </cfif>
+                                    <button class="dropdown-item" type="button" onclick="todo();">Delete File</button>
+                                </div>
+                            </td>
                         </tr>
                     </cfoutput>
                 </tbody>

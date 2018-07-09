@@ -1,5 +1,11 @@
+<cfset project = new Prefiniti.ProjectManagement.Project(url.id)>
+
 <div class="modal-header">
+    <i class="fa fa-list-alt modal-icon"></i>
     <h4 class="modal-title">Add Task</h4>
+    <cfoutput>
+        <small class="font-bold">This will add a new task to project <em>#project.project_name#</em>.</small>
+    </cfoutput>
 </div>
 <div class="modal-body">
     <cfoutput>
