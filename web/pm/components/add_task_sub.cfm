@@ -5,7 +5,7 @@
     <cfset result = {}>
 
     <cftry>
-        <cfset project.addTask(form.task_name)>
+        <cfset project.addTask(form.task_name, form.assignee_assoc_id, form.task_priority)>
 
         <cfset eventText = prefiniti.getLongname(session.user.id) & " has added a task to project " & project.project_name & ".">
         <cfset prefiniti.writeUserEvent(session.user.id, "timeline_marker.png", eventText)>

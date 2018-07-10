@@ -276,13 +276,13 @@
 			<cfif canComment>
 				<div class="row" id="user-post-comment" style="display: none;" class="mb-5">
 					<div class="col-md-12">
-						<cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#url.userid#" post_class="USER">						
+						<cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#url.userid#" post_class="USER" base_id="user-posts-form">						
 					</div>
 				</div>
 			</cfif>
 			
 			<cfloop array="#posts#" item="post">
-				<cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
+				<cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#" base_id="user-posts-view">
 			</cfloop>
 			
 

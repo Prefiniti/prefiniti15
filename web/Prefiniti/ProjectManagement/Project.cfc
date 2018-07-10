@@ -118,10 +118,20 @@
 
     </cffunction>
 
+    <cffunction name="getInProgressTaskCount" returntype="numeric" output="false">
+        
+        <cfquery name="getInProgressTaskCount" datasource="webwarecl">
+            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_complete=1
+        </cfquery>
+    
+        <cfreturn getInProgressTaskCount.recordCount>
+
+    </cffunction>
+
     <cffunction name="getCompleteTaskCount" returntype="numeric" output="false">
         
         <cfquery name="getCompleteTaskCount" datasource="webwarecl">
-            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_complete=1
+            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_complete=2
         </cfquery>
     
         <cfreturn getCompleteTaskCount.recordCount>
@@ -210,12 +220,14 @@
 
     <cffunction name="addTask" returntype="numeric" output="false">
         <cfargument name="task_name" type="string" required="true">
+        <cfargument name="assignee_assoc_id" type="numeric" required="true">
+        <cfargument name="task_priority" type="string" required="true">
 
         <cfset create_id = createUUID()>
 
         <cfquery name="addTask" datasource="webwarecl">
-            INSERT INTO pm_tasks (project_id, task_name, create_id)
-            VALUES (#this.id#, "#arguments.task_name#", "#create_id#")
+            INSERT INTO pm_tasks (project_id, task_name, assignee_assoc_id, task_priority, create_id)
+            VALUES (#this.id#, "#arguments.task_name#", #arguments.assignee_assoc_id#, "#arguments.task_priority#", "#create_id#")
         </cfquery>
 
         <cfquery name="getTaskID" datasource="webwarecl">

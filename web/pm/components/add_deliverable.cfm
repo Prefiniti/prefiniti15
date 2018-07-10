@@ -4,7 +4,7 @@
     <i class="fa fa-list-alt modal-icon"></i>
     <h4 class="modal-title">Add Deliverable</h4>
     <cfoutput>
-        <small class="font-bold">This will add a new deliverable to project <em>#project.project_name#</em>. A deliverable is a file that will be delivered to the customer.</small>
+        <small class="font-bold">This will add a new deliverable to project <em>#project.project_name#</em>.<br>A deliverable is a file that will be delivered to the customer.</small>
     </cfoutput>
 </div>
 <div class="modal-body">
@@ -14,7 +14,7 @@
                 <form id="add-deliverable" method="POST" action="/pm/components/add_deliverable_sub.cfm">
                     <input type="hidden" name="project_id" value="#url.id#">
                     <div class="form-group row">
-                        <label class="col-lg-2 col-form-label">Deliverable:</label>
+                        <label class="col-lg-2 col-form-label">Name</label>
                         <div class="col-lg-10">
                             <input type="text" id="deliverable_name" name="deliverable_name" class="form-control">
                         </div>

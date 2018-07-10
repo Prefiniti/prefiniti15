@@ -48,8 +48,11 @@ CREATE TABLE pm_project_tags
 CREATE TABLE pm_tasks
     (id BIGINT(20) NOT NULL AUTO_INCREMENT,
     project_id BIGINT(20) NOT NULL,
+    assignee_assoc_id BIGINT(20) NULL,
     task_name VARCHAR(45) NOT NULL,
     task_complete TINYINT NOT NULL DEFAULT 0,
+    task_resolution VARCHAR(45) NOT NULL DEFAULT "",
+    task_priority VARCHAR(45) NOT NULL DEFAULT "Normal",
     create_id VARCHAR(255) NOT NULL,
     PRIMARY KEY (`id`))
     ENGINE=InnoDB DEFAULT CHARSET=utf8;
