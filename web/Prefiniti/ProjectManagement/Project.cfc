@@ -218,6 +218,29 @@
 
     </cffunction>
 
+    <cffunction name="getTasksByCompletion" returntype="query" output="false">
+        <cfargument name="completion" type="numeric" required="true">
+
+        <cfquery name="getTasksByCompletion" datasource="webwarecl">
+            SELECT * FROM pm_tasks WHERE project_id=#this.id# AND task_complete=#arguments.completion# ORDER BY task_priority
+        </cfquery>
+
+        <cfreturn getTasksByCompletion>
+    </cffunction>
+
+    <cffunction name="getTaskByID" returntype="query" output="false">
+        <cfargument name="id" type="numeric" required="true">
+
+        <cfquery name="getTaskByID" datasource="webwarecl">
+            SELECT * FROM pm_tasks WHERE id=#arguments.id#
+        </cfquery>
+
+        <cfreturn getTaskByID>
+    </cffunction>
+
+
+
+
     <cffunction name="addTask" returntype="numeric" output="false">
         <cfargument name="task_name" type="string" required="true">
         <cfargument name="assignee_assoc_id" type="numeric" required="true">

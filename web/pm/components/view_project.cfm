@@ -10,6 +10,11 @@
 <cfset tags = project.getTags()>
 <cfset tasks = project.getTasks()>
 <cfset tasksTotal = tasks.recordCount>
+
+<cfset todoProjects = project.getTasksByCompletion(0)>
+<cfset inProgressProjects = project.getTasksByCompletion(1)>
+<cfset doneProjects = project.getTasksByCompletion(2)>
+
 <cfset stakeholders = project.getStakeholders()>
 <cfset locations = project.getLocations()>
 
@@ -190,7 +195,50 @@
 
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="tab-tasks">
+                                                <div class="row">
+                                                    <div class="col-sm-4">
+                                                        <div class="ibox">
+                                                            <div class="ibox-content">
+                                                                <h3>To-Do</h3>
 
+                                                                <ul class="sortable-list connectList agile-list" id="todo">
+                                                                    <cfoutput query="todoProjects">
+                                                                        <cfmodule template="/pm/components/agile_view_task.cfm" id="#id#" project_id="#url.id#">
+                                                                    </cfoutput>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="ibox">
+                                                            <div class="ibox-content">
+                                                                <h3>In Progress</h3>
+
+                                                                <ul class="sortable-list connectList agile-list" id="in-progress">
+                                                                    <cfoutput query="inProgressProjects">
+                                                                        <cfmodule template="/pm/components/agile_view_task.cfm" id="#id#" project_id="#url.id#">
+                                                                    </cfoutput>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-4">
+                                                        <div class="ibox">
+                                                            <div class="ibox-content">
+                                                                <h3>Done</h3>
+
+                                                                <ul class="sortable-list connectList agile-list" id="done">
+                                                                    <cfoutput query="doneProjects">
+                                                                        <cfmodule template="/pm/components/agile_view_task.cfm" id="#id#" project_id="#url.id#">
+                                                                    </cfoutput>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!---
                                                 <cfoutput query="tasks">
 
                                                     <cfset taskComments = project.getTaskComments(id)>
@@ -236,6 +284,7 @@
                                                         </div>
                                                     </div>
                                                 </cfoutput>
+                                                --->
 
                                             </div>
 
