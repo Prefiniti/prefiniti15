@@ -3,7 +3,7 @@
 
 <div class="wwaf-metadata">
     <wwaftitle>My Files</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,Content Management,My Files</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph PM,Content Management,My Files</wwafbreadcrumbs>
 </div>
 
 <cfset userFiles = cmsGetUserFiles(session.userid)>
@@ -59,7 +59,7 @@
                 <tbody>
                     <cfoutput query="userFiles">
                         <cfset fileType = cmsFileType(id)>
-                        <cfset fileURL = "http://#cgi.server_name#/UserContent/#session.username#/#basedir#/#filename#">
+                        <cfset fileURL = "https://#cgi.server_name#/UserContent/#session.user.username#/#basedir#/#filename#">
                         <tr>
                             <td><img src="#fileType.icon#"> <a href="#fileURL#" target="_blank">#filename#</a></td>
                             <td></td>

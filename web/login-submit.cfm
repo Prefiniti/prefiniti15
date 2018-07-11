@@ -50,10 +50,7 @@
 			<cfset session.pwdiff=DateDiff("d", qryGetLogin.last_pwchange, Now())>
 
 			<cfset session.user = new Prefiniti.Authentication.UserAccount({username: session.username}, false)>
-            
-			<cfquery name="od" datasource="#session.datasource#">
-				SELECT duedate FROM projects WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) > duedate AND SubStatus <> "Closed";
-			</cfquery>
+            			
 			<cfquery name="setOnline" datasource="#session.datasource#">
 				UPDATE users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#
 			</cfquery>

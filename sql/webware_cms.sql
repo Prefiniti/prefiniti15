@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.60, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
 --
 -- Host: localhost    Database: webware_cms
 -- ------------------------------------------------------
--- Server version	5.5.60-0+deb8u1
+-- Server version	5.7.22-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -190,7 +190,7 @@ CREATE TABLE `user_files` (
   `SWFUploadFileID` varchar(255) DEFAULT NULL,
   `last_access` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1312 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1315 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -199,7 +199,7 @@ CREATE TABLE `user_files` (
 
 LOCK TABLES `user_files` WRITE;
 /*!40000 ALTER TABLE `user_files` DISABLE KEYS */;
-INSERT INTO `user_files` VALUES (1293,'project_files','905alamo.png','2018-06-18 11:43:57',724,'905alamo.png',1,NULL,NULL,'2018-06-20 15:58:31'),(1294,'profile_images','john-square.jpg','2018-06-18 16:50:59',724,'john-square.jpg',1,NULL,NULL,'2018-06-20 15:58:31'),(1296,'project_files','1830cdr1.jpg','2018-06-20 16:56:14',724,'1830cdr1.jpg',1,NULL,NULL,'2018-06-20 16:56:14'),(1297,'project_files','1830cdr2.jpg','2018-06-20 16:56:37',724,'1830cdr2.jpg',1,NULL,NULL,'2018-06-20 16:56:37'),(1298,'profile_images','22291848_1913802568631749_396492327_n.jpg','2018-06-20 17:01:05',724,'22291848_1913802568631749_396492327_n.jpg',1,NULL,NULL,'2018-06-20 17:01:05'),(1299,'profile_images','22854902_1941759102502762_767748919_n.jpg','2018-06-20 17:02:40',724,'22854902_1941759102502762_767748919_n.jpg',1,NULL,NULL,'2018-06-20 17:02:40'),(1300,'project_files','22854902_1941759102502762_767748919_n.jpg','2018-06-20 17:08:23',724,'22854902_1941759102502762_767748919_n.jpg',1,NULL,NULL,'2018-06-20 17:08:23'),(1301,'project_files','22773326_1937737649571574_59557589_n.jpg','2018-06-20 17:08:44',724,'22773326_1937737649571574_59557589_n.jpg',1,NULL,NULL,'2018-06-20 17:08:44'),(1302,'project_files','1980_Mark_VI_Signature_Series.jpg','2018-06-20 17:12:48',724,'1980_Mark_VI_Signature_Series.jpg',1,NULL,NULL,'2018-06-20 17:12:48'),(1303,'project_files','22426203_10210433877071190_4995810009167125697_o.jpg','2018-06-20 17:14:57',724,'22426203_10210433877071190_4995810009167125697_o.jpg',1,NULL,NULL,'2018-06-20 17:14:57'),(1304,'project_files','1830cdr3.jpg','2018-06-20 17:17:19',724,'1830cdr3.jpg',1,NULL,NULL,'2018-06-20 17:17:19'),(1305,'project_files','22773326_1937737649571574_59557589_n1.jpg','2018-06-20 17:19:28',724,'22773326_1937737649571574_59557589_n1.jpg',1,NULL,NULL,'2018-06-20 17:19:28'),(1306,'profile_images','1980_Mark_VI_Signature_Series.jpg','2018-06-20 17:20:23',724,'1980_Mark_VI_Signature_Series.jpg',1,NULL,NULL,'2018-06-20 17:20:23'),(1307,'project_files','Screen Shot 2018-06-09 at 3.08.08 PM.png','2018-06-20 20:47:02',724,'Screen Shot 2018-06-09 at 3.08.08 PM.png',1,NULL,NULL,'2018-06-20 20:47:02'),(1309,'project_files','Prefiniti15-ViewProfile.png','2018-06-21 16:49:05',724,'Prefiniti15-ViewProfile.png',1,NULL,NULL,'2018-06-21 16:49:05'),(1310,'project_files','Prefiniti15_ProjectLocator.png','2018-06-21 16:50:25',724,'Prefiniti15_ProjectLocator.png',1,NULL,NULL,'2018-06-21 16:50:25'),(1311,'profile_images','sugar-beardo.jpg','2018-07-10 09:45:42',1,'sugar-beardo.jpg',1,NULL,NULL,'2018-07-10 09:45:42');
+INSERT INTO `user_files` VALUES (1312,'profile_images','john-hard.jpg','2018-07-11 12:01:16',724,'john-hard.jpg',1,NULL,NULL,'2018-07-11 12:01:16'),(1313,'profile_images','anthony.jpg','2018-07-11 15:16:18',725,'anthony.jpg',1,NULL,NULL,'2018-07-11 15:16:18'),(1314,'profile_images','jesse.jpg','2018-07-11 15:26:09',734,'jesse.jpg',1,NULL,NULL,'2018-07-11 15:26:09');
 /*!40000 ALTER TABLE `user_files` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -212,4 +212,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-11 11:11:51
+-- Dump completed on 2018-07-11 17:13:53

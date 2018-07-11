@@ -320,6 +320,21 @@
 
 </cffunction>
 
+<cffunction name="userIDExists" returntype="boolean">
+    <cfargument name="user_id" type="numeric" required="true">
+
+    <cfquery name="userIDExists" datasource="webwarecl">
+    SELECT id FROM users WHERE id=#arguments.user_id#
+    </cfquery>
+
+    <cfif userIDExists.RecordCount GT 0>
+        <cfreturn true>
+    <cfelse>
+        <cfreturn false>
+    </cfif>
+
+</cffunction>
+
 <cffunction name="getSiteAssociations" returntype="query">
     <cfargument name="user_id" type="numeric" required="true">
 

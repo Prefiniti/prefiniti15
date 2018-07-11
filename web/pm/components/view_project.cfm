@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>View Project</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,View Project</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph PM,View Project</wwafbreadcrumbs>
 -->
 <cfset prefiniti = new Prefiniti.Base()>
 <cfset project = new Prefiniti.ProjectManagement.Project(url.id)>
@@ -135,7 +135,7 @@
                                     <div class="col-sm-8 text-sm-left">
                                         <dd class="project-people mb-1">
                                             <cfloop array="#stakeholders#" item="stakeholder">
-                                                <a href="##" data-toggle="tooltip" data-placement="bottom" onclick="viewProfile(#stakeholder.user.id#);" title="#stakeholder.user.longName# (#stakeholder.type#)"><img alt="image" class="rounded-circle" src="#stakeholder.user.getPicture()#"></a>
+                                                <a href="##" data-toggle="tooltip" data-placement="bottom" onclick="Prefiniti.Social.loadProfile(#stakeholder.user.id#);" title="#stakeholder.user.longName# (#stakeholder.type#)"><img alt="image" class="rounded-circle" src="#stakeholder.user.getPicture()#"></a>
                                             </cfloop>
                                         </dd>
                                     </div>

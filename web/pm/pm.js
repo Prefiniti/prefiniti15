@@ -20,6 +20,10 @@ Prefiniti.extend("Projects", {
         Prefiniti.dialog(url);
     },
 
+    viewTask: function(taskId) {
+        Prefiniti.loadPage("/pm/components/view_task.cfm?id=" + taskId + "&project_id=" + Prefiniti.Projects.current);
+    },
+
     addTask: function() {
         let url = "/pm/components/add_task.cfm?id=" + Prefiniti.Projects.current;
 

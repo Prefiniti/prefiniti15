@@ -1,6 +1,6 @@
 <!--
   <wwaftitle>Edit Site</wwaftitle>
-  <wwafbreadcrumbs>Prefiniti,Sites,Edit Site</wwafbreadcrumbs>
+  <wwafbreadcrumbs>Geodigraph PM,Sites,Edit Site</wwafbreadcrumbs>
 -->
 
 <cfquery name="getSiteList" datasource="sites">

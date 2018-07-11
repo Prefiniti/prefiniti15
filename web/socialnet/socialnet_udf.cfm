@@ -96,8 +96,12 @@
 	<cfargument name="sourceid" type="numeric" required="yes">
     <cfargument name="targetid" type="numeric" required="yes">
     
-     <cfoutput>#ntNotify(targetid, "SN_FRIEND_DELETE", "#getLongname(sourceid)# has deleted you as a friend.", "")#</cfoutput>
-    
+    <cftry>
+        <cfoutput>#ntNotify(targetid, "SN_FRIEND_DELETE", "#getLongname(sourceid)# has deleted you as a friend.", "")#</cfoutput>
+        <cfcatch type="any">
+
+        </cfcatch>
+    </cftry>
     <cfparam name="et" default="">
     <cfset et="#getLongname(sourceid)# and #getLongname(targetid)# are no longer friends.">
     

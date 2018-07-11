@@ -1,6 +1,6 @@
 <!--
   <wwaftitle>Add Site</wwaftitle>
-  <wwafbreadcrumbs>Prefiniti,Sites,Add Site</wwafbreadcrumbs>
+  <wwafbreadcrumbs>Geodigraph PM,Sites,Add Site</wwafbreadcrumbs>
 -->
 
 <div class="modal-header">

@@ -3,15 +3,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Prefiniti 1.5.2">
+
+    <meta name="description" content="Geodigraph PM">
     <meta name="author" content="John P. Willis">
-    <link rel="shortcut icon" href="favicon.ico?v=2">
+    <link rel="shortcut icon" href="/graphics/geodigraph_icon.png?v=3">
 
-    <title>Prefiniti 1.5.2 Login</title>
+    <title>Geodigraph PM | Login</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/signin.css">
+    
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+   
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
     <cfquery name="SiteInfo" datasource="sites">
         SELECT * FROM sites WHERE SiteID='WebWareCL'
@@ -26,35 +30,57 @@
     </cfif>
 
 </head>
-<body class="text-center">
+<body class="gray-bg">
+
+    <cfset errorMessage = "">
     <cfoutput>
-        <form class="form-signin" method="post" action="/login-submit.cfm">
-            <cfif IsDefined("url.redir")>
-                <input type="hidden" name="doRedirect" value="true" />
-                <input type="hidden" name="redir" value="#url.redir#" />
-            <cfelse>
-                <input type="hidden" name="doRedirect" value="false" />
-            </cfif>
 
-            <img class="mb-0" src="/graphics/prefiniti.png">
-            <p class="mt-0 mb-4 text-muted"><small>Prefiniti 1.5.2 (BETA)</small></p>
+        <div class="middle-box text-center loginscreen animated fadeInDown">
+            <div>
+                <div>
+                    <h1 class="logo-name"><img src="graphics/login-header.png"></h1>
+                </div>
+                <h3>Geodigraph PM</h3>
+                <span style="color:red;"><cfoutput>#errorMessage#</cfoutput></span>
 
-            <input type="hidden" name="siteid" value="WebWareCL">
+                <form class="m-t" method="post" action="/login-submit.cfm">
+                    <cfif IsDefined("url.redir")>
+                        <input type="hidden" name="doRedirect" value="true" />
+                        <input type="hidden" name="redir" value="#url.redir#" />
+                    <cfelse>
+                        <input type="hidden" name="doRedirect" value="false" />
+                    </cfif>
 
-            <label for="UserName" class="sr-only">Username</label>
-            <input type="text" class="form-control" name="UserName" placeholder="Username" id="UserName" <cfif #cookie.wwcl_rememberMe# EQ "true">value="#cookie.wwcl_username#"</cfif>>
-            <label for="Password" class="sr-only">Password</label>
-            <input type="password" id="Password" class="form-control" placeholder="Password" name="Password" <cfif #cookie.wwcl_rememberMe# EQ "true">value="#cookie.wwcl_password#"</cfif>>
+                    <input type="hidden" name="siteid" value="WebWareCL">
 
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="rememberMe" <cfif #cookie.wwcl_rememberMe# EQ "true">checked</cfif>/>Remember me
-                </label>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="UserName" placeholder="Username" id="UserName" <cfif #cookie.wwcl_rememberMe# EQ "true">value="#cookie.wwcl_username#"</cfif>>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="Password" class="form-control" placeholder="Password" name="Password">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox mb-3">
+                            <label>
+                                <input type="checkbox" name="rememberMe" <cfif #cookie.wwcl_rememberMe# EQ "true">checked</cfif>/>Remember me
+                            </label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary block full-width m-b" name="submit">Login</button>
+
+                    <a href="##"><small>Forgot password?</small></a>
+                    <p class="text-muted text-center"><small>Do not have an account?</small></p>
+                    <a class="btn btn-sm btn-white btn-block" href="register.cfm">Create an account</a>
+
+                </form>
+                <p class="m-t"> <small>Copyright &copy; 2018 Coherent Logic Development LLC</small> </p>
             </div>
-
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            <p class="mt-5 mb-3 text-muted">Copyright &copy; 2007-2018<br>Coherent Logic Development LLC</p>
-        </form>
+        </div>
+        <!-- Mainly scripts -->
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script> 
     </cfoutput>
 </body>                         
 </html>

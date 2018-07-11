@@ -34,11 +34,13 @@ component extends="Prefiniti.Base" output="false" {
 
         var author = new Prefiniti.Authentication.UserAccount({id: this.author_id}, false);
 
-        if(this.parent_post_id == 0) {
-            ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has posted on your profile.", "Prefiniti.viewProfile(#this.recipient_id#);");
-        }
-        else {
-            ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has replied to a post that you follow.", "Prefiniti.viewProfile(#this.recipient_id#);");
+        if(this.post_class EQ "USER") {
+            if(this.parent_post_id == 0) {
+                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has posted on your profile.", "Prefiniti.viewProfile(#this.recipient_id#);");
+            }
+            else {
+                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has replied to a post that you follow.", "Prefiniti.viewProfile(#this.recipient_id#);");
+            }
         }
 
         return this;

@@ -6,7 +6,7 @@
 <div class="wwaf-metadata">
 	<cfoutput>
 		<wwaftitle>User Profile</wwaftitle>
-		<wwafbreadcrumbs>Prefiniti,Social Networking,User Profiles,#profileUser.longName#</wwafbreadcrumbs>
+		<wwafbreadcrumbs>Geodigraph PM,Social Networking,User Profiles,#profileUser.longName#</wwafbreadcrumbs>
 	</cfoutput>
 </div>
 
@@ -166,7 +166,7 @@
 									<cfset friendPic = friend.getPicture()>
 									<cfset friendName = friend.longName>
 									
-									<a href="##" onclick="Prefiniti.viewProfile(#friend.id#);">
+									<a href="##" onclick="Prefiniti.Social.loadProfile(#friend.id#);">
 										<img src="#friendPic#" width="60" height="60"><br>
 										<small>#friendName#</small>
 									</a>

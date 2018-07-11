@@ -2,7 +2,7 @@
 
 <div class="wwaf-metadata">
     <wwaftitle>Compose Mail</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,Mailbox,Compose Mail</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph PM,Mailbox,Compose Mail</wwafbreadcrumbs>
 </div>
 
 <cfset friends = session.user.getFriends()>

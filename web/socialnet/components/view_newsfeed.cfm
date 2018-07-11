@@ -6,7 +6,7 @@
         <div class="feed-activity-list">
             <cfoutput query="events" maxrows="#attributes.count#">
                 <div class="feed-element">
-                    <a class="float-left" href="##" onclick="viewProfile(#user_id#);">
+                    <a class="float-left" href="##" onclick="Prefiniti.Social.loadProfile(#user_id#);">
                         <img alt="image" class="rounded-circle" src="#prefiniti.getPicture(user_id)#">
                     </a>
                     <div class="media-body ">

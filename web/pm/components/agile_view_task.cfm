@@ -24,6 +24,7 @@ switch(task.task_complete) {
 	<cfset assignee = project.getUserByAssociationID(assignee_assoc_id)>
 
 	<li class="#class#" id="agile-task-#id#">
+        <a href="##" onclick="Prefiniti.Projects.viewTask(#id#);">#attributes.project_id#-#id#</a>
         #task_name#
         <div class="agile-detail pb-4">
             Assigned to <strong>#assignee.longName#</strong>.

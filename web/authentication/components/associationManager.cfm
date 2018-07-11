@@ -1,7 +1,7 @@
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="AS_VIEW">
 <!--
 <wwaftitle>Manage Site Memberships</wwaftitle>
-<wwafbreadcrumbs>Prefiniti,Manage Site Membershipts</wwafbreadcrumbs>
+<wwafbreadcrumbs>Geodigraph PM,Manage Site Membershipts</wwafbreadcrumbs>
 -->
 
 <cfquery name="getAssocs" datasource="sites">

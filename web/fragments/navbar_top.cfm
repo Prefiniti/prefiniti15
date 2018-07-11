@@ -1,13 +1,9 @@
-<cfinclude template="/menus/menu_udf.cfm">
-<cfinclude template="/socialnet/socialnet_udf.cfm">
-<cfinclude template="/workFlow/workflow_udf.cfm">
-<cfinclude template="/authentication/authentication_udf.cfm">
+<cfset prefiniti = new Prefiniti.Base()>
 
-<cfset profilePicture = getPicture(session.userid)>
-<cfset longName = getLongname(session.userid)>
-<cfset projects = getProjectsBySite(session.current_site_id)>
-<cfset siteAssociations = getSiteAssociations(session.userid)>
-<cfset lastSite = getLastSite(session.userid)>
+<cfset profilePicture = prefiniti.getPicture(session.user.id)>
+<cfset longName = prefiniti.getLongname(session.user.id)>
+<cfset siteAssociations = prefiniti.getSiteAssociations(session.user.id)>
+<cfset lastSite = prefiniti.getLastSite(session.user.id)>
 
 <div class="row border-bottom">
     <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -21,7 +17,7 @@
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li>
-                <span class="m-r-sm text-muted welcome-message">Welcome to Prefiniti 1.5.2 (BETA)</span>
+                <span class="m-r-sm text-muted welcome-message">Welcome to Geodigraph PM</span>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -55,8 +51,8 @@
 
 
             <li>
-                <a href="login.html">
-                    <i class="fa fa-sign-out"></i> Log out
+                <a href="/logoff.cfm">
+                    <i class="fa fa-door-open"></i> Log out
                 </a>
             </li>
         </ul>

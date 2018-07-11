@@ -8,12 +8,12 @@
     <cfif user.id NEQ 0 AND user.id NEQ 143>
         <cfset pic = user.getPicture()>
     <cfelse>
-        <cfset pic = "/graphics/pi.png">
+        <cfset pic = "/graphics/geodigraph_icon.png">
     </cfif>
 
     <li>
         <div class="dropdown-messages-box">
-            <a class="dropdown-item float-left" href="##" onclick="Prefiniti.viewProfile(#user.id#);">
+            <a class="dropdown-item float-left" href="##" onclick="Prefiniti.Social.loadProfile(#user.id#);">
                 <img alt="image" class="rounded-circle avatar-sm" src="#pic#">
             </a>
             <div class="media-body" onclick="viewMessage(#msgid#);">

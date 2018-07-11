@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading" id="wwaf-page-heading">
     <div class="col-sm-4">
-        <h2 id="wwaf-page-title">Prefiniti</h2>
+        <h2 id="wwaf-page-title">Geodigraph PM</h2>
         
         <ol class="breadcrumb" id="wwaf-breadcrumbs">
             

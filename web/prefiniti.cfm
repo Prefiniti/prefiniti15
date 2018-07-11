@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Prefiniti 1.5.2 (BETA)</title>
+    <title>Geodigraph PM</title>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -31,10 +31,6 @@
 
     <cfif session.userid EQ "">
         <cflocation url="/default.cfm" addtoken="no">
-    </cfif>
-
-    <cfif #session.loggedin# EQ "yes">
-        <cfinclude template="webwareConfigLoad.cfm">
     </cfif>
 
     <div id="wrapper">
@@ -132,10 +128,7 @@
     <!-- Prefiniti javascript -->
     <script src="/framework/framework.js"></script>
     <script src="/search/search.js"></script>
-    <script src="/tc/timecard.js"></script>
     <script src="/calendar2.js"></script>
-    <script src="/workFlow/components/projectStatus.js"></script>
-    <script src="/workFlow/projects.js"></script>
     <script src="/MyCL/components/collapse.js"></script>
     <script src="/contentManager/contentManager.js"></script>
     <script src="/contentManager/swfupload.js"></script>
@@ -148,13 +141,7 @@
     <script src="/mail/mail.js"></script>
     <script src="/scheduling/scheduling.js"></script>
     <script src="/help/help.js"></script>
-    <script src="/soundmanager.js"></script>
-    <script src="/netsearch/netsearch.js"></script>
-    <script src="/chat/chat.js"></script>
     <script src="/socialnet/socialnet.js"></script>
-    <script src="/datetimepicker.js"></script>
-    <script src="/controls/date_picker.js"></script>
-    <script src="/controls/record_scroller.js"></script>
     <script src="/notifications/notifications.js"></script>
 
     <script src="js/app.js"></script>

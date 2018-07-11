@@ -1,11 +1,11 @@
 <!--
 <wwaftitle>Friend Search Results</wwaftitle>
-<wwafbreadcrumbs>Prefiniti,Social Networking,Friend Search,Results</wwafbreadcrumbs>
+<wwafbreadcrumbs>Geodigraph PM,Social Networking,Friend Search,Results</wwafbreadcrumbs>
 -->
 
 <cfset prefiniti = new Prefiniti.Base()>
 
-<cfset searchRes = prefiniti.searchUsers(url.search_field, url.search_value)>
+<cfset searchRes = prefiniti.searchUsers(form.search_field, form.search_value)>
 
 
 <div class="wrapper wrapper-content animated fadeInRight">

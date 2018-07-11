@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>Get Associations</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,Sites,Get Associations</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph PM,Sites,Get Associations</wwafbreadcrumbs>
 -->
 
 <cfquery name="getAssoc" datasource="sites">

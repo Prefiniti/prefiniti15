@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>Dashboard</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,Dashboard</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph PM,Dashboard</wwafbreadcrumbs>
 -->
 
 <cfset prefiniti = new Prefiniti.Base()>
@@ -147,21 +147,13 @@
                         <div class="ibox-title">
                             <h5>Friends Online</h5>
                             <div class="ibox-tools">
-                                <a class="collapse-link" href="">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
                                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                     <i class="fa fa-wrench"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link" href="">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                                    <li><a href="#" class="dropdown-item" onclick="Prefiniti.Social.friendSearch();">Friend Search...</a>
+                                    </li>                                   
+                                </ul>                                
                             </div>
                         </div>
                         <div class="ibox-content no-padding">
@@ -170,24 +162,7 @@
                     </div>
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>News Feed</h5>
-                            <div class="ibox-tools">
-                                <a class="collapse-link" href="">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item">Config option 1</a>
-                                    </li>
-                                    <li><a href="#" class="dropdown-item">Config option 2</a>
-                                    </li>
-                                </ul>
-                                <a class="close-link" href="">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
+                            <h5>News Feed</h5>                            
                         </div>
                         <div class="ibox-content">
                             <cfmodule template="/socialnet/components/view_newsfeed.cfm" count="10">

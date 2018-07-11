@@ -1,8 +1,8 @@
 <cfset prefiniti = new Prefiniti.Base()>
 
 <div class="wwaf-metadata">
-    <wwaftitle> Settings</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,Settings</wwafbreadcrumbs>
+    <wwaftitle>Account Settings</wwaftitle>
+    <wwafbreadcrumbs>Geodigraph PM,Account Settings</wwafbreadcrumbs>
 </div>
 
 <div class="wrapper wrapper-content animated fadeIn">

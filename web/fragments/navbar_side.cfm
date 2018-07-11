@@ -1,15 +1,11 @@
-<cfinclude template="/menus/menu_udf.cfm">
-<cfinclude template="/socialnet/socialnet_udf.cfm">
-<cfinclude template="/workFlow/workflow_udf.cfm">
-<cfinclude template="/authentication/authentication_udf.cfm">
+<cfset prefiniti = new Prefiniti.Base()>
 
-<cfset profilePicture = getPicture(session.userid)>
-<cfset longName = getLongname(session.userid)>
-<cfset projects = getProjectsBySite(session.current_site_id)>
-<cfset siteAssociations = getSiteAssociations(session.userid)>
-<cfset lastSite = getLastSite(session.userid)>
+<cfset profilePicture = prefiniti.getPicture(session.user.id)>
+<cfset longName = prefiniti.getLongname(session.user.id)>
+<cfset siteAssociations = prefiniti.getSiteAssociations(session.user.id)>
+<cfset lastSite = prefiniti.getLastSite(session.user.id)>
 
-<cfset menus = getMenus()>
+<cfset menus = prefiniti.getMenus()>
 
 <div class="display: none;">
     <form id="ss-form" method="post" action="/siteSelectSubmit.cfm">
@@ -35,14 +31,14 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();"><cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> Dashboard</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Social.loadProfile(#session.userid#);">View My Profile</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/socialnet/components/search_users.cfm');">Friend Search</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();"><i class="fa fa-th-large"></i> <cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> PM Dashboard</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Social.loadProfile(#session.userid#);"><i class="fa fa-user-circle"></i> View My Profile</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Social.friendSearch();"><i class="fa fa-users"></i> Friend Search...</a></li>
                         <li><div role="separator" class="dropdown-divider"></div></li>
 
                         <cfoutput query="siteAssociations">
                             <li>
-                                <a class="dropdown-item <cfif site_id EQ session.current_site_id>active</cfif>" href="##" onclick="Prefiniti.setAssociation(#id#);">#getSiteNameByID(site_id)# - 
+                                <a class="dropdown-item <cfif site_id EQ session.current_site_id>active</cfif>" href="##" onclick="Prefiniti.setAssociation(#id#);"><i class="fa fa-building"></i> #getSiteNameByID(site_id)# - 
                                     <cfif #assoc_type# EQ 0>
                                         Client
                                     <cfelse>
@@ -55,19 +51,14 @@
                         <li><div role="separator" class="dropdown-divider"></div></li>
 
 
-                        <li><a class="dropdown-item" href="##" onclick="viewPictures(#session.userid#, true);">My Pictures</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="cmsBrowseFolder(#session.userid#, 'project_files', '', 'user', '');">My Files</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="viewPictures(#session.userid#, true);"><i class="fa fa-images"></i> My Pictures</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="cmsBrowseFolder(#session.userid#, 'project_files', '', 'user', '');"><i class="fa fa-folder-open"></i> My Files</a></li>                                                
                         
                         <li><div role="separator" class="dropdown-divider"></div></li>
-
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/businessnet/components/my_departments.cfm');">My Departments</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/scheduling/my_schedule.cfm?date=#DateFormat(Now(), "yyyy/mm/dd")#');">My Schedule</a></li>
-                        
-                        <li><div role="separator" class="dropdown-divider"></div></li>
-                        <li><a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Settings</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');"><i class="fa fa-cogs"></i> Settings</a></li>
 
                         <li><div role="separator" class="dropdown-divider"></div></li>
-                        <li><a class="dropdown-item" href="logoff.cfm">Sign Out</a></li>
+                        <li><a class="dropdown-item" href="logoff.cfm"><i class="fa fa-door-open"></i> Sign Out...</a></li>
                     </ul>
                     </cfoutput>
                 </div>

@@ -3,7 +3,7 @@
 
 <!--
     <wwaftitle>Pending Friend Requests</wwaftitle>
-    <wwafbreadcrumbs>Prefiniti,Social Networking,Friend Requests</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph PM,Social Networking,Friend Requests</wwafbreadcrumbs>
 -->
 
 

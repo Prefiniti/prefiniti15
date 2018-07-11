@@ -21,7 +21,7 @@
 <cfoutput>
 <!--
 <wwaftitle>#mode#</wwaftitle>
-<wwafbreadcrumbs>Prefiniti,#mode#</wwafbreadcrumbs>
+<wwafbreadcrumbs>Geodigraph PM,#mode#</wwafbreadcrumbs>
 -->
 </cfoutput>
 
