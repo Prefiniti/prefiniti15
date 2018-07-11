@@ -31,11 +31,18 @@
                             </div>
                         </div>
                     </div> 
+                    <div class="form-group row">
+                        <label class="col lg-2 col-form-label">Description:</label>
+                        <div class="col-lg-10">
+                            <textarea name="task_description" class="form-control summernote" data-summernote-height="100">
 
+                            </textarea>
+                        </div>
+                    </div>
                     <div class="form-group row">                                       
                         <label class="col-lg-2 col-form-label">Assign To:</label>
                         <div class="col-lg-10">
-                            <cfmodule template="/businessnet/components/user_picker.cfm" height="200" element_name="assignee_assoc_id">
+                            <cfmodule template="/businessnet/components/user_picker.cfm" height="150" element_name="assignee_assoc_id">
                         </div>
                     </div>                      
                 </form>
@@ -44,6 +51,7 @@
     </cfoutput>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
     <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('add-task', Prefiniti.Projects.itemCreated);">Add Task</button>
+    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+    
 </div>

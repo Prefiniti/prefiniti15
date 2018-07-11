@@ -51,6 +51,7 @@ CREATE TABLE pm_tasks
     assignee_assoc_id BIGINT(20) NULL,
     task_name VARCHAR(45) NOT NULL,
     task_complete TINYINT NOT NULL DEFAULT 0,
+    task_description TEXT NULL,
     task_resolution VARCHAR(45) NOT NULL DEFAULT "",
     task_priority VARCHAR(45) NOT NULL DEFAULT "Normal",
     create_id VARCHAR(255) NOT NULL,

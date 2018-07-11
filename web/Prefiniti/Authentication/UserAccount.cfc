@@ -317,4 +317,41 @@ component extends="Prefiniti.Base" output="false" {
 
     }
 
+    public numeric function addSiteAssociation(required numeric site_id, required string assoc_type) {
+
+        var assocType = "";
+
+        switch(arguments.assoc_type) {
+            case "employee": assocType = 1; break;
+            case "client": assocType = 0; break;
+        }
+
+        var confID = createUUID();
+        var qrySql = "INSERT INTO site_associations (user_id, site_id, assoc_type, conf_id) ";
+        qrySql = qrySql & "VALUES (:user_id, :site_id, :assoc_type, :conf_id)";
+
+        var res = queryExecute(qrySql, {user_id=this.id, site_id=arguments.site_id, assoc_type=assocType, conf_id=confID}, {datasource="sites"});
+
+        qrySql = "SELECT id FROM site_associations WHERE conf_id=:conf_id";
+
+        var result = queryExecute(qrySql, {conf_id=confID}, {datasource="sites"});
+
+        return result.id;
+
+    }
+
+    public void function removeSiteAssociation(required numeric site_id, required string assoc_type) {
+
+        var assocType = "";
+
+        switch(arguments.assoc_type) {
+            case "employee": assocType = 1; break;
+            case "client": assocType = 0; break;
+        }
+
+        var qrySql = "DELETE FROM site_associations WHERE site_id=:site_id AND assoc_type=:assoc_type";
+        var res = queryExecute(qrySql, {site_id=arguments.site_id, assoc_type=assocType}, {datasource="sites"});
+
+    }
+
 }

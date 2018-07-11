@@ -35,9 +35,9 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();">Home</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="viewProfile(#session.userid#);">View My Profile</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/search_users.cfm');">Friend Search</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();"><cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> Dashboard</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Social.loadProfile(#session.userid#);">View My Profile</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/socialnet/components/search_users.cfm');">Friend Search</a></li>
                         <li><div role="separator" class="dropdown-divider"></div></li>
 
                         <cfoutput query="siteAssociations">
@@ -60,8 +60,8 @@
                         
                         <li><div role="separator" class="dropdown-divider"></div></li>
 
-                        <li><a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/my_departments.cfm');">My Departments</a></li>
-                        <li><a class="dropdown-item" href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/scheduling/my_schedule.cfm?date=#DateFormat(Now(), "yyyy/mm/dd")#');">My Schedule</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/businessnet/components/my_departments.cfm');">My Departments</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/scheduling/my_schedule.cfm?date=#DateFormat(Now(), "yyyy/mm/dd")#');">My Schedule</a></li>
                         
                         <li><div role="separator" class="dropdown-divider"></div></li>
                         <li><a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');">Settings</a></li>
@@ -88,8 +88,8 @@
             <li>
                 <a href="##"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
-                    <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>                    
+                    <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
+                    <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>                    
                 </ul>
             </li>
 
@@ -97,9 +97,9 @@
                 <li>
                     <a href="##"><i class="fa fa-cogs"></i> <span class="nav-label">Global Admin</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/manageSites.cfm');">Manage Sites</a></li>
+                        <li><a href="#" onclick="Prefiniti.loadPage('/webware_admin/manageSites.cfm');">Manage Sites</a></li>
                         <!--<li><a href="#">Manage Accounts</a></li>-->
-                        <li><a href="#" onclick="AjaxLoadPageToDiv('tcTarget', '/socialnet/components/postWebgram.cfm');">Post WebGram</a></li>
+                        <li><a href="#" onclick="Prefiniti.loadPage('/socialnet/components/postWebgram.cfm');">Post WebGram</a></li>
                     </ul>
                 </li>
             </cfif>

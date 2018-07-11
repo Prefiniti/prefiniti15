@@ -1,6 +1,6 @@
 <!---<cfoutput>#getPermissionByKey("AS_LOGIN", session.current_association)#</cfoutput>--->
 <cfinclude template="/authentication/authentication_udf.cfm">
-<cfif getPermissionByKey("#attributes.perm_key#", #url.current_association#) EQ false>
+<cfif getPermissionByKey("#attributes.perm_key#", #session.current_association#) EQ false>
 	<center>
     <div style="margin:30px; padding:30px; width:450px; border:1px solid #EFEFEF;" align="center">
         <img src="/graphics/webware.png" style="padding-bottom:20px;">

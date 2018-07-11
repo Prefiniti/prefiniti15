@@ -17,13 +17,13 @@ Prefiniti.extend("Projects", {
             url += "?client_assoc_id=" + clientAssoc;
         }
 
-        AjaxLoadPageToWindow(url, '');
+        Prefiniti.dialog(url);
     },
 
     addTask: function() {
         let url = "/pm/components/add_task.cfm?id=" + Prefiniti.Projects.current;
 
-        AjaxLoadPageToWindow(url, '');
+        Prefiniti.dialog(url);
     },
 
     deleteTask: function(taskId) {
@@ -51,7 +51,7 @@ Prefiniti.extend("Projects", {
     addStakeholder: function() {
         let url = "/pm/components/add_stakeholder.cfm?id=" + Prefiniti.Projects.current;
 
-        AjaxLoadPageToWindow(url, '');
+        Prefiniti.dialog(url);
     },
 
     deleteStakeholder: function(stakeholderId) {
@@ -81,19 +81,19 @@ Prefiniti.extend("Projects", {
     addDeliverable: function() {
         let url = "/pm/components/add_deliverable.cfm?id=" + Prefiniti.Projects.current;
 
-        AjaxLoadPageToWindow(url, '');
+        Prefiniti.dialog(url);
     },
 
     addFiledDocument: function() {
         let url = "/pm/components/add_filed_document.cfm?id=" + Prefiniti.Projects.current;
 
-        AjaxLoadPageToWindow(url, '');
+        Prefiniti.dialog(url);
     },
 
     addLocation: function() {
         let url = "/pm/components/add_location.cfm?id=" + Prefiniti.Projects.current;
 
-        AjaxLoadPageToWindow(url, '');
+        Prefiniti.dialog(url);
     },
 
     deleteLocation: function(locationId) {
@@ -148,6 +148,31 @@ Prefiniti.extend("Projects", {
             }
         });
     },
+
+    setTaskPriority: function(taskId, priority) {
+        let url = "/pm/components/set_task_priority.cfm";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: taskId,
+                priority: priority,
+                project_id: Prefiniti.Projects.current
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                    Prefiniti.Projects.itemCreated();
+                }
+                else {
+                    console.log(data);
+                }
+            }
+        });
+    },
+
 
     setWorkflow: function(stage) {
         let url = "/pm/components/set_workflow.cfm";

@@ -238,19 +238,17 @@
         <cfreturn getTaskByID>
     </cffunction>
 
-
-
-
     <cffunction name="addTask" returntype="numeric" output="false">
         <cfargument name="task_name" type="string" required="true">
+        <cfargument name="task_description" type="string" required="true">
         <cfargument name="assignee_assoc_id" type="numeric" required="true">
         <cfargument name="task_priority" type="string" required="true">
 
         <cfset create_id = createUUID()>
 
         <cfquery name="addTask" datasource="webwarecl">
-            INSERT INTO pm_tasks (project_id, task_name, assignee_assoc_id, task_priority, create_id)
-            VALUES (#this.id#, "#arguments.task_name#", #arguments.assignee_assoc_id#, "#arguments.task_priority#", "#create_id#")
+            INSERT INTO pm_tasks (project_id, task_name, task_description, assignee_assoc_id, task_priority, create_id)
+            VALUES (#this.id#, "#arguments.task_name#", "#arguments.task_description#", #arguments.assignee_assoc_id#, "#arguments.task_priority#", "#create_id#")
         </cfquery>
 
         <cfquery name="getTaskID" datasource="webwarecl">
@@ -275,6 +273,15 @@
 
         <cfquery name="removeTask" datasource="webwarecl">
             UPDATE pm_tasks SET task_complete=#arguments.completion# WHERE id=#arguments.task_id#
+        </cfquery>
+    </cffunction>
+
+    <cffunction name="setTaskPriority" returntype="void" output="false">
+        <cfargument name="task_id" type="numeric" required="true">
+        <cfargument name="priority" type="string" required="true">
+
+        <cfquery name="setTaskPriority" datasource="webwarecl">
+            UPDATE pm_tasks SET task_priority="#arguments.priority#" WHERE id=#arguments.task_id#
         </cfquery>
     </cffunction>
 

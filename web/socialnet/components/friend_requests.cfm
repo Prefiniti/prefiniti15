@@ -1,32 +1,47 @@
+<cfset Prefiniti = new Prefiniti.Base()>
+<cfset requests = prefiniti.getRequests(session.user.id)>
 
-<cfinclude template="/socialnet/socialnet_udf.cfm">
-<h3 class="stdHeader">Friend Requests</h3>
+<!--
+    <wwaftitle>Pending Friend Requests</wwaftitle>
+    <wwafbreadcrumbs>Prefiniti,Social Networking,Friend Requests</wwafbreadcrumbs>
+-->
 
-<cfparam name="fReq" default="">
-<cfset fReq=StructNew()>
-<cfset fReq=getRequests(#url.calledByUser#)>
 
-<cfoutput query="fReq">
-	<div style="padding:5px; margin:10px; background-color:##EFEFEF; -moz-border-radius:5px; width:200px; float:left;">
-    	<table width="100%" cellspacing="0">
-        	<tr>
-            	<td width="50" rowspan="2" style="background-color:##EFEFEF">
-        			<img src="#getPicture(fReq.source_id)#" width="50" height="50" />  
-                    #getOnline(fReq.source_id)#
-				
-                      		</td>
-				<td align="right" valign="top">              
-                    <strong><a href="javascript:viewProfile('#fReq.source_id#');">#getLongname(fReq.source_id)#</a></strong><br>
-                    #DateDiff("yyyy", getBirthday(fReq.source_id), Now())# years old<br>
-                    Request sent on #DateFormat(fReq.request_date, "mm/dd/yyyy")#
-                    <br><span id="frBlock_#fReq.id#"><a href="javascript:acceptFriend(#fReq.id#)">Accept Friend</a> | <a href="javascript:rejectFriend(#fReq.id#)">Reject Friend</a></span>
-                    				</td>
-			</tr>
-        	<tr>
-        	  <td align="right" valign="bottom">
-              <a href="javascript:mailTo(#id#, '#longName#');">Send Message</a></td>
-      	  </tr>
-		</table>                                            
-	</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
 
-</cfoutput>
+        <cfoutput query="requests">
+            <cfset user = new Prefiniti.Authentication.UserAccount({id: source_id}, false)>
+            <div class="col-lg-4">
+                <div class="contact-box">
+                    <a class="row" href="##" onclick="viewProfile('#source_id#');">
+                        <div class="col-4">
+                            <div class="text-center">
+                                <img alt="image" class="rounded-circle m-t-xs img-fluid avatar-lg" src="#user.getPicture()#">
+                                <div class="m-t-xs font-bold">#user.status#</div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <h3><strong>#user.longName#</strong></h3>
+
+                            <p><i class="fa fa-map-marker"></i> 
+                                <cfswitch expression="#user.online#">
+                                    <cfcase value="0"><font color="red">User Offline</font></cfcase>
+                                    <cfcase value="1"><font color="green">User Online</font></cfcase>
+                                </cfswitch>
+
+                            </p>                            
+                            <div onclick="event.stopPropagation();">
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.acceptFriend(#source_id#, #target_id#); event.stopPropagation();"><i class="fa fa-user-plus"></i> Accept</button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.rejectFriend(#source_id#, #target_id#); event.stopPropagation();"><i class="fa fa-user-minus"></i> Reject</button>
+                                
+                                <button type="button" class="btn btn-sm btn-primary" onclick="mailTo(#source_id#, '#user.longName#');"><i class="fa fa-envelope"></i> Send Message</button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </cfoutput>
+        
+    </div>
+</div>

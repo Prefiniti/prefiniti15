@@ -1,6 +1,7 @@
 
 <cfscript>
 
+if(!isDefined("attributes.all_users")) {
     people = [];
 
     prefiniti = new Prefiniti.Base();
@@ -27,6 +28,24 @@
 
         people.append(tmp);
     }
+}
+else {
+    people = [];
+
+    prefiniti = new Prefiniti.Base();
+
+    user_ids = prefiniti.getUserIDs();
+
+    for(id in user_ids) {
+        tmp = {
+            type: "User",
+            assoc_id: id,
+            user: new Prefiniti.Authentication.UserAccount({id: id}, false)
+        };
+
+        people.append(tmp);
+    }
+}
 
 </cfscript>
 

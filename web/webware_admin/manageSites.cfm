@@ -20,7 +20,7 @@
                         <i class="fa fa-wrench"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="##" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/addSite.cfm');">Add New Site</a></li>
+                        <li><a href="##" onclick="Prefiniti.dialog('/webware_admin/addSite.cfm');">Add New Site</a></li>
                     </ul>
                     <a class="close-link">
                         <i class="fa fa-times"></i>
@@ -41,8 +41,8 @@
                             	<tr>
                                 	<td>#SiteName#</td>
                                 	<td align="right">
-                                    	<button type="button" class="btn btn-sm btn-primary" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/editSite.cfm?id=#siteid#');"><i class="fa fa-file"></i> Edit</button>
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="AjaxLoadPageToDiv('tcTarget', '/webware_admin/getAssociations.cfm?site_id=#siteid#');"><i class="fa fa-user-tie"></i> Members</button>
+                                    	<button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.loadPage('/webware_admin/editSite.cfm?id=#siteid#');"><i class="fa fa-file"></i> Edit</button>
+                                        <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.loadPage('/webware_admin/getAssociations.cfm?site_id=#siteid#');"><i class="fa fa-user-tie"></i> Members</button>
                         				
                                     </td>
                             	</tr>

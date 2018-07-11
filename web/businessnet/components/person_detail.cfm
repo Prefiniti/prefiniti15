@@ -69,16 +69,16 @@
                             <i class="fa fa-cog"></i> Edit
                         </button>
                         <div class="dropdown-menu" aria-labelledby="edit-button">
-                            <a class="dropdown-item" href="##" onclick="javascript:AjaxLoadPageToWindow('/businessnet/components/edit_permissions.cfm?id=#role_id#', 'Employee Permissions');">Permissions</a>
-                            <a class="dropdown-item" href="##" onclick="javascript:AjaxLoadPageToDiv('tcTarget', '/businessnet/components/edit_employee_records.cfm?id=#role_id#');">Employee Records</a>                            
+                            <a class="dropdown-item" href="##" onclick="Prefiniti.dialog('/businessnet/components/edit_permissions.cfm?id=#role_id#');">Permissions</a>
+                            <a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/businessnet/components/edit_employee_records.cfm?id=#role_id#');">Employee Records</a>                            
                         </div>
                     <cfelse>
                         <button class="btn btn-primary btn-sm dropdown-toggle" type="button" id="edit-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog"></i> Edit
                         </button>
                         <div class="dropdown-menu" aria-labelledby="edit-button">
-                            <a class="dropdown-item" href="##" onclick="javascript:AjaxLoadPageToWindow('/businessnet/components/edit_permissions.cfm?id=#role_id#', 'Client Permissions');">Permissions</a>
-                            <a class="dropdown-item" href="##" onclick="javascript:AjaxLoadPageToDiv('tcTarget', '/businessnet/components/edit_client_records.cfm?id=#role_id#');">Client Records</a> 
+                            <a class="dropdown-item" href="##" onclick="Prefiniti.dialog('/businessnet/components/edit_permissions.cfm?id=#role_id#');">Permissions</a>
+                            <a class="dropdown-item" href="##" onclick="Prefiniti.loadPage('/businessnet/components/edit_client_records.cfm?id=#role_id#');">Client Records</a> 
                             <a class="dropdown-item" href="##" onclick="Prefiniti.Projects.create(#role_id#);">Create Project...</a>                           
                         </div>
                     </cfif>

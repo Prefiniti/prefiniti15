@@ -402,9 +402,9 @@ function AjaxLoadPageToPopup(PageURL)
 
 function AjaxLoadPageToWindow(url, title)
 {	
-	$("#generic-window").modal();
-	
-	AjaxLoadPageToDiv('gen-window-area', url);
+	console.log("* * * W A R N I N G * * * AjaxLoadPageToWindow() is deprecated!");
+
+	Prefiniti.dialog(url);
 }
 	
 

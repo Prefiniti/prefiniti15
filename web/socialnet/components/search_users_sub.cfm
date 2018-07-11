@@ -30,17 +30,9 @@
                                     <cfcase value="1"><font color="green">User Online</font></cfcase>
                                 </cfswitch>
 
-                            </p>
-                            <!---
-                            <address>
-                                <strong>Twitter, Inc.</strong><br>
-                                795 Folsom Ave, Suite 600<br>
-                                San Francisco, CA 94107<br>
-                                <abbr title="Phone">P:</abbr> (123) 456-7890
-                            </address>
-                            --->
+                            </p>                            
                             <div onclick="event.stopPropagation();">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="requestFriend(#id#);"><i class="fa fa-user-plus"></i> Add Friend</button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.requestFriend(#session.user.id#, #id#);"><i class="fa fa-user-plus"></i> Add Friend</button>
                                 <button type="button" class="btn btn-sm btn-primary" onclick="mailTo(#id#, '#longName#');"><i class="fa fa-envelope"></i> Send Message</button>
                             </div>
                         </div>

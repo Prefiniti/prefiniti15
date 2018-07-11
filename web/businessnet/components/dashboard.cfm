@@ -18,6 +18,10 @@
 <cfset paidProjects = 0>
 <cfset closedProjects = 0>
 
+<cfquery name="getPriorityTasks" datasource="webwarecl">
+    SELECT * FROM pm_tasks WHERE assignee_assoc_id=#session.current_association# AND task_complete!=2 ORDER BY task_priority
+</cfquery>
+
 <cfloop array="#projects#" item="projectEntry">
 
     <cfset project = projectEntry.project>
@@ -57,36 +61,19 @@
         <h2>Welcome, <cfoutput>#session.user.firstName#</cfoutput>!</h2>
         <small>You have <cfoutput>#siteStats.unreadMail#</cfoutput> unread messages.</small>
         <ul class="list-group clear-list m-t">
-            <li class="list-group-item fist-item">
-                <span class="float-right">
-                    09:00 pm
-                </span>
-                <span class="label label-success">1</span> Please contact me
-            </li>
-            <li class="list-group-item">
-                <span class="float-right">
-                    10:16 am
-                </span>
-                <span class="label label-info">2</span> Sign a contract
-            </li>
-            <li class="list-group-item">
-                <span class="float-right">
-                    08:22 pm
-                </span>
-                <span class="label label-primary">3</span> Open new shop
-            </li>
-            <li class="list-group-item">
-                <span class="float-right">
-                    11:06 pm
-                </span>
-                <span class="label label-default">4</span> Call back to Sylvia
-            </li>
-            <li class="list-group-item">
-                <span class="float-right">
-                    12:00 am
-                </span>
-                <span class="label label-primary">5</span> Write a letter to Sandra
-            </li>
+            <cfoutput query="getPriorityTasks" maxrows="5">
+                <li class="list-group-item fist-item">
+                    <span class="float-right">
+                        <cfif task_complete EQ 0>
+                            To-Do
+                        <cfelse>
+                            In Progress
+                        </cfif>
+                    </span>
+                    <span class="label label-success">#task_priority#</span> #task_name#
+                </li>
+            </cfoutput>
+            
         </ul>
     </div>
     <div class="col-md-6">

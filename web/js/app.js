@@ -103,7 +103,15 @@ var Prefiniti = {
     },
 
     loadPage: function(url, onLoaded, onError) {
+
+        console.log("Prefiniti.loadPage(): loading " + url);
         
+        $("#prefiniti-reload").hide();
+        $("#prefiniti-loading").show();
+        $("#tcTarget").html("");
+        $("#wwaf-page-title").html("Please Wait");
+        $("#wwaf-breadcrumbs").html("Loading...");
+
         onLoaded = onLoaded || function (){};
         onError = onError || function (){};
 
@@ -148,6 +156,9 @@ var Prefiniti = {
                     responsive: true
                 });
 
+                $("#prefiniti-loading").hide();
+                $("#prefiniti-reload").show();
+
                 onLoaded(data);
             },
             error: function(data) {
@@ -157,6 +168,26 @@ var Prefiniti = {
             }
         });
 
+    },
+
+    dialog: function(url)
+    {   
+        console.log("Prefiniti.dialog(): loading " + url);
+
+        $("#gen-window-area").html("");
+        
+        $.ajax({
+            method: "GET",
+            url: url,
+            success: function(data) {
+                $("#gen-window-area").html(data);
+                $("#generic-window").modal();               
+            },
+            error: function(data) {
+                console.log("Prefiniti.dialog():  error %o", data);
+            }
+        });
+            
     },
 
     parseFragmentMetadata: function(html) {

@@ -30,6 +30,11 @@
     height: 30px;
 }
 
+.avatar-xs {
+    width: 20px;
+    height: 20px;
+}
+
 .reply .avatar {
     width: 30px;
     height: 30px;
