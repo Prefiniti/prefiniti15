@@ -8,6 +8,16 @@
     <cfreturn new Prefiniti.Authentication.UserAccount({id: getUserID.user_id}, false)>
 </cffunction>
 
+<cffunction name="getTaskCodes" returntype="query">
+    <cfargument name="site_id" type="numeric" required="true">
+
+    <cfquery name="getTaskCodes" datasource="webwarecl">
+        SELECT * FROM task_codes WHERE site_id=#arguments.site_id# ORDER BY item
+    </cfquery>
+
+    <cfreturn getTaskCodes>
+</cffunction>
+
 <cffunction name="getPermissionByKey" returntype="boolean">
 	<cfargument name="sz_key" type="string" required="yes">
     <cfargument name="n_assoc_id" type="numeric" required="yes">

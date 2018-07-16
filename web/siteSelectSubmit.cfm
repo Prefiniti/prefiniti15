@@ -36,7 +36,7 @@
 	</cfquery>    
 
 	<cfif #getASite.enabled# EQ 1>
-		<cflocation url="prefiniti.cfm" addtoken="no">
+		<cflocation url="pm.cfm" addtoken="no">
 	<cfelse>
 		<center>
 	    <div align="center" style="margin:30px; padding:30px; width:300px; border:1px solid #EFEFEF;">

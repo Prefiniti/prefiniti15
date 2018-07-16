@@ -5,11 +5,18 @@
 
 <cfset prefiniti = new Prefiniti.Base()>
 <cfset project = new Prefiniti.ProjectManagement.Project(url.project_id)>
+<cfset effectivePermissions = project.getEffectivePermissions(session.user.id)>
 <cfset employee = prefiniti.getUserByAssociationID(project.employee_assoc)>
 <cfset p_client = prefiniti.getUserByAssociationID(project.client_assoc)>
 
 <cfset task = project.getTaskByID(url.id)>
-<cfset assignee = prefiniti.getUserByAssociationID(task.assignee_assoc_id)>
+
+<cfif task.assignee_assoc_id NEQ 0>
+    <cfset assignee = prefiniti.getUserByAssociationID(task.assignee_assoc_id)>
+    <cfset assigned = true>
+<cfelse>
+    <cfset assigned = false>
+</cfif>
 
 <cfset id = url.id>
 
@@ -45,34 +52,48 @@
                                    
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-white btn-sm" onclick="Prefiniti.Projects.view(#project.id#);"><i class="fa fa-arrow-left"></i> Project View</button>
-                                        <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-info-circle"></i> Status</button>
-                                        <div class="dropdown-menu">
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 0);">To-Do</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 1);">In Progress</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 2);">Done</button>
-                                        </div>
+                                        <cfif project.checkPermission(session.user.id, "TASK_EDIT")>
+                                            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-info-circle"></i> Status</button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 0);">To-Do</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 1);">In Progress</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 2);">Done</button>
+                                            </div>
+                                        </cfif>
                                     </div>
 
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list"></i> Priority</button>
-                                        <div class="dropdown-menu">
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Wish List');">Wish List</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Low');">Low</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Medium');">Medium</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Normal');">Normal</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'High');">High</button>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Critical');">Critical</button>
-                                            
+                                    <cfif project.checkPermission(session.user.id, "TASK_EDIT")>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-list"></i> Priority</button>
+                                            <div class="dropdown-menu">
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Wish List');">Wish List</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Low');">Low</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Medium');">Medium</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Normal');">Normal</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'High');">High</button>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setTaskPriority(#id#, 'Critical');">Critical</button>
+                                                
+                                            </div>
                                         </div>
-                                    </div>
+                                    </cfif>
 
                                     <div class="btn-group">
                                         <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
-                                        <div class="dropdown-menu">                              
-                                            <button class="dropdown-item" type="button" onclick="todo();">Log Time...</button>
-                                            <button class="dropdown-item" type="button" onclick="todo();">Log Travel...</button>
-                                            <div class="dropdown-divider"></div>
-                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteTask(#id#);">Delete Task</button>
+                                        <div class="dropdown-menu">   
+                                            <cfif project.checkPermission(session.user.id, "TASK_EDIT")>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.assignTask(#id#);">Assign Task...</button>
+                                                <div class="dropdown-divider"></div>
+                                            </cfif>                           
+                                            <cfif project.checkPermission(session.user.id, "TIME_LOG")>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.logTime(#id#);">Log Time...</button>
+                                            </cfif>
+                                            <cfif project.checkPermission(session.user.id, "TRAVEL_LOG")>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.logTravel(#id#);">Log Travel...</button>
+                                            </cfif>
+                                            <cfif project.checkPermission(session.user.id, "TASK_DELETE")>
+                                                <div class="dropdown-divider"></div>
+                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteTask(#id#);">Delete Task</button>
+                                            </cfif>
                                         </div>  
                                     </div>
                                 </div>
@@ -86,11 +107,20 @@
                             <div class="col-lg-10">
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <img alt="image" class="rounded-circle avatar" onclick="Prefiniti.Social.loadProfile(#assignee.id#);" src="#assignee.getPicture()#"></a>
+                                        <cfif assigned>
+                                            <img alt="image" class="rounded-circle avatar" onclick="Prefiniti.Social.loadProfile(#assignee.id#);" src="#assignee.getPicture()#">
+                                        <cfelse>
+                                            <img alt="image" class="rounded-circle avatar" onclick="" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                        </cfif>
                                     </div>
                                     <div class="col-lg-11">
-                                        <h3> Assigned to <a href="##" onclick="Prefiniti.Social.loadProfile(#assignee.id#);">#assignee.longName#</a></h3>
-                                        <p class="font-bold text-muted">#assignee.status#</p>
+                                        <cfif assigned>
+                                            <h3> Assigned to <a href="##" onclick="Prefiniti.Social.loadProfile(#assignee.id#);">#assignee.longName#</a></h3>
+                                            <p class="font-bold text-muted">#assignee.status#</p>
+                                        <cfelse>
+                                            <h3>Not Assigned</h3>
+                                            <p>Please click the <i class="fa fa-cogs"></i> icon and choose &quot;Assign Task...&quot; to assign this task to a project stakeholder.</p>
+                                        </cfif>
                                     </div>
                                 </div>                                                                                        
                             </div>
@@ -134,9 +164,11 @@
                                             </div>
 
                                             <div class="tab-pane" id="tab-time">
+                                                <cfmodule template="/pm/components/view_time_entries.cfm" project_id="#project.id#" task_id="#id#">
                                             </div>
 
-                                            <div class="tab-travel" id="tab-travel">
+                                            <div class="tab-pane" id="tab-travel">
+                                                <cfmodule template="/pm/components/view_travel_entries.cfm" project_id="#project.id#" task_id="#id#">
                                             </div>
 
                                             

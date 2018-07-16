@@ -53,6 +53,43 @@
             <label class="col-lg-2 col-form-label">Person:</label>
             <div class="col-lg-10">
                 <cfmodule template="/businessnet/components/user_picker.cfm" height="200" element_name="assoc_id">
+            </div>            
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Permissions:</label>
+            <div class="col-lg-10">
+                <div class="container" style="height: 200px; overflow-y: scroll">
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="1"> View Project</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="2"> Edit Project</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="4"> Delete Project</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="8"> Log Time</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="16"> Edit Time</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="32"> Time Administrator</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="64"> Delete Time</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="128"> Log Travel</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="256"> Edit Travel</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="512"> Delete Travel</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="1024"> Travel Administrator</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="2048"> Add Task</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="4096"> Edit Task</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="8192"> Delete Task</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="16384"> Add Stakeholder</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="32768"> Edit Stakeholder</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="65536"> Delete Stakeholder</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="131072"> Add Deliverable</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="262144"> Edit Deliverable</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="524288"> Delete Deliverable</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="1048576"> Add Location</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="2097152"> Edit Location</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="4194304"> Delete Location</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="8388608"> Add Document</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="16777216"> Edit Document</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="33554432"> Delete Document</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="67108864"> Create Dispatch</label><br>
+                    <label><input type="checkbox" class="checkbox sh-perms" onchange="Prefiniti.Projects.updateSHPerms();" value="134217728"> Cancel Dispatch</label>
+
+                    <input type="hidden" name="permissions" id="stakeholder-permissions" value="0">
+                </div>                    
             </div>
         </div>                                        
     </form>

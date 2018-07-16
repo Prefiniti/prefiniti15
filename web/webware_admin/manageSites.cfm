@@ -1,6 +1,6 @@
 <!--
-    <wwaftitle>Manage Sites</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Sites,Manage Sites</wwafbreadcrumbs>
+    <wwaftitle>Manage Companies</wwaftitle>
+    <wwafbreadcrumbs>Geodigraph PM,Companies,Manage Companies</wwafbreadcrumbs>
 -->
 
 <cfquery name="getSiteList" datasource="sites">
@@ -11,7 +11,7 @@
     <div class="row">
         <div class="ibox" style="width: 100%;">
             <div class="ibox-title">
-                <h5>All Sites</h5>
+                <h5>All Companies</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>
@@ -20,7 +20,7 @@
                         <i class="fa fa-wrench"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="##" onclick="Prefiniti.dialog('/webware_admin/addSite.cfm');">Add New Site</a></li>
+                        <li><a href="##" onclick="Prefiniti.dialog('/webware_admin/addSite.cfm');">Add New Company...</a></li>
                     </ul>
                     <a class="close-link">
                         <i class="fa fa-times"></i>

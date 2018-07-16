@@ -5,8 +5,6 @@
 <cfset siteAssociations = prefiniti.getSiteAssociations(session.user.id)>
 <cfset lastSite = prefiniti.getLastSite(session.user.id)>
 
-<cfset menus = prefiniti.getMenus()>
-
 <div class="display: none;">
     <form id="ss-form" method="post" action="/siteSelectSubmit.cfm">
         <input type="hidden" id="ss-assoc" name="siteAssociation" value="">
@@ -58,15 +56,17 @@
                         <li><a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');"><i class="fa fa-cogs"></i> Settings</a></li>
 
                         <li><div role="separator" class="dropdown-divider"></div></li>
-                        <li><a class="dropdown-item" href="logoff.cfm"><i class="fa fa-door-open"></i> Sign Out...</a></li>
+                        <li><a class="dropdown-item" href="logoff.cfm"><i class="fa fa-sign-out"></i> Sign Out...</a></li>
                     </ul>
                     </cfoutput>
                 </div>
                 <div class="logo-element">
-                    <img src="/graphics/pi-16x16.png">
+                    <img src="/graphics/geodigraph_icon.png">
                 </div>
             </li>
-            
+            <li>
+                <a href="##" onclick="Prefiniti.Dashboard.load();"><i class="fa fa-th-large"></i><span class="nav-label">Dashboard</span></a>
+            </li>            
             <li>
                 <a href="##"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
                 <ul class="nav nav-second-level collapse">
@@ -79,6 +79,7 @@
             <li>
                 <a href="##"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
+                    <li><a href="#" onclick="Prefiniti.Projects.create();">New Project...</a>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>                    
                 </ul>
@@ -88,27 +89,11 @@
                 <li>
                     <a href="##"><i class="fa fa-cogs"></i> <span class="nav-label">Global Admin</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="#" onclick="Prefiniti.loadPage('/webware_admin/manageSites.cfm');">Manage Sites</a></li>
-                        <!--<li><a href="#">Manage Accounts</a></li>-->
+                        <li><a href="#" onclick="Prefiniti.loadPage('/webware_admin/manageSites.cfm');">Manage Companies</a></li>
                         <li><a href="#" onclick="Prefiniti.loadPage('/socialnet/components/postWebgram.cfm');">Post WebGram</a></li>
                     </ul>
                 </li>
-            </cfif>
-
-
-
-            <!---
-            <cfoutput query="menus">
-                <cfif caption NEQ "Mail">
-                    <li>
-                        <a href="##"><span class="nav-label">#caption#</span><span class="fa arrow"></span></a> 
-                        <ul class="nav nav-second-level collapse">               
-                            #getMenuItems(id, handle)#                    
-                        </ul>
-                    </li>
-                </cfif>
-            </cfoutput> 
-            --->           
+            </cfif>       
            
         </ul>
 

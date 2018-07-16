@@ -30,6 +30,17 @@ Prefiniti.extend("Projects", {
         Prefiniti.dialog(url);
     },
 
+    taskAdded: function() {
+        $("#generic-window").modal('hide');
+
+        if($("#create-another").is(":checked")){
+            Prefiniti.Projects.addTask();
+        }
+        else {
+            Prefiniti.reload();
+        }
+    },
+
     deleteTask: function(taskId) {
 
         let url = "/pm/components/delete_task_sub.cfm?id=" + taskId;
@@ -52,10 +63,108 @@ Prefiniti.extend("Projects", {
 
     },
 
+    logTime: function(taskId) {
+        let url = "/pm/components/add_time_entry.cfm?project_id=" + Prefiniti.Projects.current + "&task_id=" + taskId;
+
+        Prefiniti.dialog(url);
+    },
+
+    checkTimeOpen: function() {
+        if($("#time-open").is(":checked")) {
+            $("#time-end-container").hide();
+        }
+        else {
+            $("#time-end-container").show();
+        }
+    },
+
+    closeTimeEntry: function(timeEntryId) {
+        let url = "/pm/components/close_time_entry_sub.cfm?id=" + timeEntryId;
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: timeEntryId,
+                project_id: Prefiniti.Projects.current
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                    Prefiniti.Projects.itemCreated();
+                }
+            }
+        });
+    },
+
+    deleteTimeEntry: function(timeEntryId) {
+        let url = "/pm/components/delete_time_entry_sub.cfm?id=" + timeEntryId;
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: timeEntryId,
+                project_id: Prefiniti.Projects.current
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                    Prefiniti.Projects.itemCreated();
+                }
+            }
+        });
+    },
+
+    logTravel: function(taskId) {
+        let url = "/pm/components/add_travel_entry.cfm?project_id=" + Prefiniti.Projects.current + "&task_id=" + taskId;
+
+        Prefiniti.dialog(url);
+    },
+
+    deleteTravelEntry(travelId) {
+        let url = "/pm/components/delete_travel_entry_sub.cfm";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: travelId,
+                project_id: Prefiniti.Projects.current
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                    Prefiniti.Projects.itemCreated();
+                }
+            }
+        });
+    },
+
     addStakeholder: function() {
         let url = "/pm/components/add_stakeholder.cfm?id=" + Prefiniti.Projects.current;
 
         Prefiniti.dialog(url);
+    },
+
+    updateSHPerms: function() {
+
+        var perms = 0;
+
+        $(".sh-perms").each(function(index) {
+            var chk = $(this);
+
+            if(chk.is(":checked")) {
+                perms = perms | chk.val();
+            }
+
+        });
+
+        $("#stakeholder-permissions").val(perms);
+
     },
 
     deleteStakeholder: function(stakeholderId) {
@@ -86,6 +195,37 @@ Prefiniti.extend("Projects", {
         let url = "/pm/components/add_deliverable.cfm?id=" + Prefiniti.Projects.current;
 
         Prefiniti.dialog(url);
+    },
+
+    deleteDeliverable: function(deliverableId) {
+        let url = "/pm/components/delete_deliverable_sub.cfm?id=" + deliverableId;
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                id: deliverableId,
+                project_id: Prefiniti.Projects.current
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                    Prefiniti.Projects.itemCreated();
+                }
+                else {
+                    console.log(data);
+                }
+            }
+        });
+    },
+
+    chooseDeliverable: function(deliverableId, caption) {
+
+        let url = "/pm/components/upload_deliverable.cfm?id=" + deliverableId + "&caption=" + caption + "&project_id=" + Prefiniti.Projects.current;
+
+        Prefiniti.dialog(url);
+
     },
 
     addFiledDocument: function() {
@@ -124,9 +264,45 @@ Prefiniti.extend("Projects", {
         });
     },
 
+    saveAsNewTemplate: function() {
+        let url = "/pm/components/save_as_template.cfm?id=" + Prefiniti.Projects.current;
+
+        Prefiniti.dialog(url);
+    },
+
+    updateTemplate: function() {
+        let url = "/pm/components/update_template_sub.cfm";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {
+                project_id: Prefiniti.Projects.current
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                }
+                else {
+                    console.log(data);
+                }
+            }
+        });
+    },
+
     itemCreated: function() {
         $("#generic-window").modal('hide');
         Prefiniti.reload();
+    },
+
+    internalProjectClicked: function() {
+        if($("#internal-project").is(":checked")) {
+            $("#client_assoc").hide();
+        }
+        else {
+            $("#client_assoc").show();
+        }
     },
 
     setTaskComplete: function(taskId, complete) {
@@ -177,6 +353,11 @@ Prefiniti.extend("Projects", {
         });
     },
 
+    assignTask: function(taskId) {
+        let url = "/pm/components/reassign_task.cfm?id=" + taskId + "&project_id=" + Prefiniti.Projects.current;
+
+        Prefiniti.dialog(url);
+    },
 
     setWorkflow: function(stage) {
         let url = "/pm/components/set_workflow.cfm";

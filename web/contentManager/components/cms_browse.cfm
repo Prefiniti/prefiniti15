@@ -49,8 +49,7 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Associated Projects</th>
+                        <th>Name</th>                        
                         <th>Last Access</th>
                         <th>Size</th>
                         <th><i class="fa fa-cogs"></i></th>
@@ -67,9 +66,7 @@
                             <td>#cmsUserFileSize(id)#</td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
-                                <div class="dropdown-menu">   
-                                    <button class="dropdown-item" type="button" onclick="todo();">Associate Project...</button>
-                                    <div class="dropdown-divider"></div>                            
+                                <div class="dropdown-menu">                                       
                                     <cfif fileType.description EQ "Image">
                                         <button class="dropdown-item" type="button" onclick="setProfilePicture(#session.user.id#, '#fileURL#');">Make Profile Photo</button>
                                         <div class="dropdown-divider"></div>

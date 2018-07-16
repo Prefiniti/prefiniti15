@@ -4,6 +4,10 @@ Prefiniti.extend("Social", {
         Prefiniti.loadPage("/socialnet/components/view_profile.cfm?userid=" + userId);
     },
 
+    loadProfileByUsername: function(username) {        
+
+    },
+
     friendSearch: function() {
         Prefiniti.dialog('/socialnet/components/search_users.cfm');
     },

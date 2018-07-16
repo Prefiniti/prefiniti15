@@ -70,7 +70,7 @@
                             In Progress
                         </cfif>
                     </span>
-                    <span class="label label-success">#task_priority#</span> #task_name#
+                    <span class="label label-success">#task_priority#</span> <a href="##" onclick="Prefiniti.Dashboard.viewTask(#project_id#, #id#);">#task_name#</a>
                 </li>
             </cfoutput>
             

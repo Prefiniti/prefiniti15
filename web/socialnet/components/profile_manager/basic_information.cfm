@@ -39,6 +39,17 @@
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Initial View</label>
+            <div class="col-lg-10">
+                <cfset initView = user.remember_page>
+                <select name="remember_page" class="custom-select">
+                    <option value="0" <cfif initView EQ 0>selected</cfif>>Dashboard</option>
+                    <option value="1" <cfif initView EQ 1>selected</cfif>>My Profile</option>
+                    <!---<option value="2" <cfif initView EQ 2>selected</cfif>>Last Page Viewed</option>--->
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
             <div class="col-lg-offset-2 col-lg-10">
                 <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('update-basic');">Save Changes</button>
             </div>

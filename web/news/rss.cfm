@@ -1,14 +1,17 @@
-<cfsetting enablecfoutputonly="yes">
+<cfheader name="Content-Type" value="application/xml">
+<cfprocessingdirective suppressWhitespace="true">
+<cfsilent>
+<cfset prefiniti = new Prefiniti.Base()>
 <cfquery name="gNews" datasource="webwarecl">
-	SELECT * FROM news_items WHERE site_id=#url.current_site_id# ORDER BY date DESC
+	SELECT * FROM news_items WHERE site_id=#session.current_site_id# ORDER BY date DESC
 </cfquery>
-
+</cfsilent>
 <cfoutput><?xml version="1.0"?>
 <rss version="2.0">
 	<channel>
-		<title>Prefiniti News</title>
+		<title>#prefiniti.getSiteNameByID(session.current_site_id)# News</title>
 		<link>http://www.webwarecl.com/news/rss.cfm</link>
-		<description>Prefiniti News</description>
+		<description>#prefiniti.getSiteNameByID(session.current_site_id)# News</description>
 		<language>en-us</language>
 		<pubDate>#DateFormat(now(), "ddd, dd mmm yyyy")# #TimeFormat(now(), "HH:mm:ss")# MST</pubDate>
 		<lastBuildDate>#DateFormat(now(), "ddd, dd mmm yyyy")# #TimeFormat(now(), "HH:mm:ss")# MST</lastBuildDate>
@@ -25,3 +28,4 @@
 </channel>
 </rss>
 </cfoutput>
+</cfprocessingdirective>

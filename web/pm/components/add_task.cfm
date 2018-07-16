@@ -44,14 +44,15 @@
                         <div class="col-lg-10">
                             <cfmodule template="/businessnet/components/user_picker.cfm" height="150" element_name="assignee_assoc_id">
                         </div>
-                    </div>                      
+                    </div>                                         
                 </form>
             </div>
         </div>
     </cfoutput>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('add-task', Prefiniti.Projects.itemCreated);">Add Task</button>
+    <input type="checkbox" class="checkbox" id="create-another"> <label for="create-another">Create Another</label>
+    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('add-task', Prefiniti.Projects.taskAdded);">Add Task</button>
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
     
 </div>

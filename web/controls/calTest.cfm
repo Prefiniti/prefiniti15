@@ -1,1 +1,0 @@
-<cfmodule template="/controls/weekCalendar.cfm" viewer="/scheduling/components/sumSchedule.cfm" userid="1">

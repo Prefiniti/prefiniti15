@@ -7,6 +7,7 @@
 </cfif>
 
 <div class="modal-header">
+    <i class="fa fa-project-diagram modal-icon"></i>
     <h4 class="modal-title">Create New Project</h4>
 </div>
 <div class="modal-body">
@@ -17,7 +18,8 @@
                     <label class="col-lg-2 col-form-label">Project Type</label>
                     <div class="col-lg-10">
                         <select name="template_id" class="form-control">
-                            <cfoutput query="templates">
+                            <option value="0" selected>Blank Project</option>
+                            <cfoutput query="templates">                                
                                 <option value="#id#">#template_name#</option>
                             </cfoutput>
                         </select>
@@ -26,7 +28,8 @@
                 <div class="form-group row">
                     <label class="col-lg-2 col-form-label">Client</label>
                     <div class="col-lg-10">
-                        <select name="client_assoc" class="form-control">
+                        <input type="checkbox" class="checkbox" id="internal-project" name="internal_project" onclick="Prefiniti.Projects.internalProjectClicked();">  <label for="internal-project">Internal Project</label>
+                        <select name="client_assoc" class="form-control" id="client_assoc">
                             <cfif isDefined("selectedUser")>
                                 <cfoutput>
                                     <option value="#url.client_assoc_id#" selected>#selectedUser.longName#</option>

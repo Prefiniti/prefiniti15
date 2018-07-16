@@ -20,32 +20,32 @@
                 <div class="tab-content">
                     <div role="tabpanel" id="settings-basic" class="tab-pane active">
                         <div class="panel-body">
-                            <cfmodule template="/socialnet/components/profile_manager/basic_information.cfm" user_id="#url.calledByUser#">
+                            <cfmodule template="/socialnet/components/profile_manager/basic_information.cfm" user_id="#session.user.id#">
                         </div>
                     </div>
                     <div role="tabpanel" id="settings-bkgd" class="tab-pane">
                         <div class="panel-body">
-                            <cfmodule template="/socialnet/components/profile_manager/background.cfm" user_id="#url.calledByUser#">
+                            <cfmodule template="/socialnet/components/profile_manager/background.cfm" user_id="#session.user.id#">
                         </div>
                     </div>
                     <div role="tabpanel" id="settings-contact" class="tab-pane">
                         <div class="panel-body">
-                            <cfmodule template="/socialnet/components/profile_manager/contact_info.cfm" user_id="#url.calledByUser#">
+                            <cfmodule template="/socialnet/components/profile_manager/contact_info.cfm" user_id="#session.user.id#">
                         </div>
                     </div>
                     <div role="tabpanel" id="settings-locations" class="tab-pane">
                         <div class="panel-body">
-                            <cfmodule template="/socialnet/components/profile_manager/locations.cfm" user_id="#url.calledByUser#">
+                            <cfmodule template="/socialnet/components/profile_manager/locations.cfm" user_id="#session.user.id#">
                         </div>
                     </div>
                     <div role="tabpanel" id="settings-notify" class="tab-pane">
                         <div class="panel-body">
-                            <cfmodule template="/socialnet/components/profile_manager/notifications.cfm" user_id="#url.calledByUser#">
+                            <cfmodule template="/socialnet/components/profile_manager/notifications.cfm" user_id="#session.user.id#">
                         </div>
                     </div>
                     <div role="tabpanel" id="settings-privacy" class="tab-pane">
                         <div class="panel-body">
-                            <cfmodule template="/socialnet/components/profile_manager/privacy.cfm" user_id="#url.calledByUser#">
+                            <cfmodule template="/socialnet/components/profile_manager/privacy.cfm" user_id="#session.user.id#">
                         </div>
                     </div>
                 </div>

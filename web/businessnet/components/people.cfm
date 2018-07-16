@@ -30,6 +30,15 @@
         <div class="col-sm-8">
             <div class="ibox">
                 <div class="ibox-content">
+                    <div class="btn-group float-right">
+                        <div class="btn-group">
+                            <cfif mode EQ "Clients">
+                                <button type="button" class="btn btn-white btn-sm"><i class="fa fa-plus"></i> New Client</button>
+                            <cfelse>
+                                <button type="button" class="btn btn-white btn-sm"><i class="fa fa-plus"></i> New Employee</button>
+                            </cfif>
+                        </div>
+                    </div>
                     <h2><cfoutput>#mode# of #prefiniti.getSiteNameByID(session.current_site_id)#</cfoutput></h2>                    
                     <div class="input-group">
                         <cfoutput><input id="search-people" onkeyup="Prefiniti.searchPeople();" type="text" placeholder="Search #mode#" class="input form-control"></cfoutput>

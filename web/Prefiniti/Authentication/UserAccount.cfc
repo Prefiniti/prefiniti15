@@ -5,33 +5,19 @@ component extends="Prefiniti.Base" output="false" {
         this.id = "";
         this.username = "";
         this.password =""
-        this.type = 0;
-        this.directory = "";
         this.longName = "";
-        this.customerNumber = "";      
         this.email = "";
-        this.role = "";
-        this.submit = "";
-        this.company = 0;
-        this.tcadmin = "";
         this.smsNumber = "";
         this.picture = "";
         this.account_enabled = 0;
         this.gender = "";
         this.bio = "";
         this.title = "";
-        this.confirm_id = "";
-        this.individual_account = 0;
+        this.confirm_id = createUUID();
         this.phone = "";
         this.fax = "";
-        this.email_billing = 0;
         this.confirmed = 0;
-        this.upload_pending = 0;
-        this.order_processor = 0;
-        this.site_maintainer = 0;
         this.online = 0;
-        this.receives_timesheet_reminders = 0;
-        this.masthead_closed = 0;
         this.sms_conf = "";
         this.sms_confirmed = 0;
         this.last_pwchange = createODBCDateTime(Now());
@@ -41,17 +27,12 @@ component extends="Prefiniti.Base" output="false" {
         this.firstName = "";
         this.lastName = "";
         this.webware_admin = 0;
-        this.middleInitial = "";
+        this.middleInitial = " ";
         this.allowSearch = 0;
         this.birthday = "";
-        this.picture_quota = 5;
-        this.project_quota = 50;
-        this.wallpaper_quota = 5;
-        this.newpdf = 0;
         this.profile_views = 0;
         this.last_login = "";
         this.last_site_id = 0;
-        this.framework_base = "";
         this.last_event = "";
         this.background = "";
         this.interests = "";
@@ -64,15 +45,7 @@ component extends="Prefiniti.Base" output="false" {
         this.password_question = "";
         this.password_answer = "";
         this.status = "";
-        this.location = "";
-        this.AutoCatalog = 0;
-        this.PAFFLAGS = 2185;
-        this.Country = 0;
-        this.Region = 0;
-        this.State = 0;
-        this.Community = 0;
-        this.Neighborhood = 0;
-        this.CreationDate = createODBCDateTime(now());
+       
 
         if(!arguments.isNew) {
             var requiredKeys = [];
@@ -83,11 +56,10 @@ component extends="Prefiniti.Base" output="false" {
         }
         else {
             var requiredKeys = ["username", 
-                                "passwordHash", 
+                                "password", 
                                 "email", 
                                 "firstName", 
-                                "lastName", 
-                                "birthday"];
+                                "lastName"];            
         }
 
         validateStruct(arguments.user, requiredKeys);
@@ -104,15 +76,8 @@ component extends="Prefiniti.Base" output="false" {
             this.id = qry.id;
             this.username = qry.username;
             this.password = qry.password;
-            this.type = qry.type;
-            this.directory = qry.directory;
             this.longName = qry.longName;
-            this.customerNumber = qry.customerNumber;
             this.email = qry.email;
-            this.role = qry.role;
-            this.submit = qry.submit;
-            this.company = qry.company;
-            this.tcadmin = qry.tcadmin;
             this.smsNumber = qry.smsNumber;
             this.picture = qry.picture;
             this.account_enabled = qry.account_enabled;
@@ -120,21 +85,13 @@ component extends="Prefiniti.Base" output="false" {
             this.bio = qry.bio;
             this.title = qry.title;
             this.confirm_id = qry.confirm_id;
-            this.individual_account = qry.individual_account;
             this.phone = qry.phone;
             this.fax = qry.fax;
-            this.email_billing = qry.email_billing;
             this.confirmed = qry.confirmed;
-            this.upload_pending = qry.upload_pending;
-            this.order_processor = qry.order_processor;
-            this.site_maintainer = qry.site_maintainer;
             this.online = qry.online;
-            this.receives_timesheet_reminders = qry.receives_timesheet_reminders;
-            this.masthead_closed = qry.masthead_closed;
             this.sms_conf = qry.sms_conf;
             this.sms_confirmed = qry.sms_confirmed;
             this.last_pwchange = qry.last_pwchange;
-            this.expired = qry.expired;
             this.last_loaded_page = qry.last_loaded_page;
             this.remember_page = qry.remember_page;
             this.firstName = qry.firstName;
@@ -143,14 +100,9 @@ component extends="Prefiniti.Base" output="false" {
             this.middleInitial = qry.middleInitial;
             this.allowSearch = qry.allowSearch;
             this.birthday = qry.birthday;
-            this.picture_quota = qry.picture_quota;
-            this.project_quota = qry.project_quota;
-            this.wallpaper_quota = qry.wallpaper_quota;
-            this.newpdf = qry.newpdf;
             this.profile_views = qry.profile_views;
             this.last_login = qry.last_login;
             this.last_site_id = qry.last_site_id;
-            this.framework_base = qry.framework_base;
             this.last_event = qry.last_event;
             this.background = qry.background;
             this.interests = qry.interests;
@@ -162,19 +114,65 @@ component extends="Prefiniti.Base" output="false" {
             this.last_assoc_id = qry.last_assoc_id;
             this.password_question = qry.password_question;
             this.password_answer = qry.password_answer;
-            this.status = qry.status;
-            this.location = qry.location;
-            this.AutoCatalog = qry.AutoCatalog;
-            this.PAFFLAGS = qry.PAFFLAGS;
-            this.Country = qry.Country;
-            this.Region = qry.Region;
-            this.Community = qry.Community;
-            this.Neighborhood = qry.Neighborhood;
-            this.CreationDate = qry.CreationDate;
+            this.status = qry.status;            
 
+        }
+        else {
+            // new account
+
+            var passwordHash = hash(user.password);
+            var longName = "";
+            var middleInitial = " ";
+
+            if(structKeyExists(user, "middleInitial")) {
+                longName = user.firstName & " " & user.middleInitial & ". " & user.lastName;
+            }
+            else {
+                longName = user.firstName & " " & user.lastName;
+            }
+
+            var qrySql = "INSERT INTO users (username, password, longName, email, firstName, middleInitial, lastName, confirm_id) ";
+            var qrySql = qrySql & "VALUES (:username, :password, :longName, :email, :firstName, :middleInitial, :lastName, :confirm_id)"
+
+            var qry = queryExecute(qrySql, {
+                username = user.username,
+                password = passwordHash,
+                longName = longName,
+                email = user.email,
+                firstName = user.firstName,
+                middleInitial = middleInitial,
+                lastName = user.lastName,
+                confirm_id = this.confirm_id
+            }, {datasource="webwarecl"});
+
+            var qrySql = "SELECT id FROM users WHERE confirm_id=:confirm_id";
+            var userQry = queryExecute(qrySql, {confirm_id=this.confirm_id}, {datasource="webwarecl"});
+
+            var acct = new Prefiniti.Authentication.UserAccount({id: userQry.id}, false);
+
+            var assoc_id = acct.addSiteAssociation(5, "client");
+
+            var initialPerms = ["AS_LOGIN",
+                                "MA_VIEW",
+                                "MA_WRITE"];
+
+            for(permKey in initialPerms) {
+                cfstoredproc(procedure="grantPermission", datasource="sites") {
+                    cfprocparam(cfsqltype="CF_SQL_BIGINT", value=assoc_id);
+                    cfprocparam(cfsqltype="CF_SQL_VARCHAR", value=permKey)
+                }
+            }
+
+            acct.sendConfirmation();
+
+            return new Prefiniti.Authentication.UserAccount({id: userQry.id}, false);
         }
 
         return this;
+    }
+
+    public void function sendConfirmation() output=false {
+
     }
 
     public struct function getRoles() output=false {

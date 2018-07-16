@@ -49,7 +49,7 @@ CREATE TABLE pm_tasks
     (id BIGINT(20) NOT NULL AUTO_INCREMENT,
     project_id BIGINT(20) NOT NULL,
     assignee_assoc_id BIGINT(20) NULL,
-    task_name VARCHAR(45) NOT NULL,
+    task_name VARCHAR(255) NOT NULL,
     task_complete TINYINT NOT NULL DEFAULT 0,
     task_description TEXT NULL,
     task_resolution VARCHAR(45) NOT NULL DEFAULT "",
@@ -133,8 +133,11 @@ CREATE TABLE pm_time_entries
 CREATE TABLE pm_travel_entries
     (id BIGINT(20) NOT NULL AUTO_INCREMENT,
     project_id BIGINT(20) NOT NULL,
+    task_id BIGINT(20) NOT NULL DEFAULT 0,
     assoc_id BIGINT(20) NOT NULL,
+    task_code_id BIGINT(20) NOT NULL,
     travel_date DATETIME NOT NULL,
+    travel_name VARCHAR(255) NOT NULL,
     odometer_start DOUBLE NOT NULL DEFAULT 0,
     odometer_end DOUBLE NOT NULL DEFAULT 0,
     closed TINYINT NOT NULL DEFAULT 0,
@@ -160,19 +163,3 @@ CREATE TABLE pm_filed_documents
     PRIMARY KEY(`id`))
     ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS pm_templates;
-DROP TABLE IF EXISTS pm_template_tasks;
-DROP TABLE IF EXISTS pm_template_deliverables;
-DROP TABLE IF EXISTS pm_template_locations;
-
--- project templates
-CREATE TABLE pm_templates
-    (id BIGINT(20) NOT NULL AUTO_INCREMENT,
-    template_site BIGINT(20) NOT NULL DEFAULT 0,    
-    template_name VARCHAR(45) NOT NULL,
-    create_id VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`id`)) 
-    ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-INSERT INTO pm_templates (template_name)
-VALUES ("Blank Project");    

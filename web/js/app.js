@@ -1,7 +1,7 @@
 var Prefiniti = {
     
     state: {
-        userId: glob_userid,
+        userId: null,
         currentPage: null,
         currentPageOnLoad: null,
         currentPageOnError: null,
@@ -64,10 +64,34 @@ var Prefiniti = {
 
     onLoad: function() {
 
+        Prefiniti.getNotifications();
+
         setInterval(Prefiniti.getNotifications, 3000);
 
+        $.get("/api/session", function(data) {
 
-        Prefiniti.Dashboard.load();
+            if(data.success) {
+
+                switch(data.session.user.remember_page) {
+                    case 0:
+                        Prefiniti.Dashboard.load();
+                        break;
+                    case 1:
+                        Prefiniti.Social.loadProfile(data.session.user.id);
+                        break;
+                    case 2:
+                        Prefiniti.loadPage(data.session.user.last_loaded_page);
+                        break;
+                }
+
+            }
+            else {
+                console.log(data.message);
+                Prefiniti.Dashboard.load();
+            }
+
+        });
+
     },
 
     reload: function() {
@@ -106,11 +130,7 @@ var Prefiniti = {
 
         console.log("Prefiniti.loadPage(): loading " + url);
         
-        $("#prefiniti-reload").hide();
-        $("#prefiniti-loading").show();
-        $("#tcTarget").html("");
-        $("#wwaf-page-title").html("Please Wait");
-        $("#wwaf-breadcrumbs").html("Loading...");
+        Prefiniti.onNavLoading();
 
         onLoaded = onLoaded || function (){};
         onError = onError || function (){};
@@ -119,55 +139,94 @@ var Prefiniti = {
             url: url,
             method: "GET", 
             success: function(data) {
-                Prefiniti.state.currentPage = url;
+                
                 Prefiniti.state.currentPageOnLoad = onLoaded;
                 Prefiniti.state.currentPageOnError = onError;
 
-                let metadata = Prefiniti.parseFragmentMetadata(data);             
-
-                if(!metadata.title) {
-                    $("#wwaf-page-title").hide();
-                }
-                else {
-                    $("#wwaf-page-title").show();
-                    $("#wwaf-page-title").html(metadata.title);
-                }
-
-                if(!metadata.breadcrumbs) {
-                    $("#wwaf-breadcrumbs").hide();
-                }
-                else {
-                    $("#wwaf-breadcrumbs").show();
-                    $("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
-                }
-
-                $("#tcTarget").html(data);
-
-                $('.summernote').summernote({
-                    height: 200
-                });
-
-                $('.tagsinput').tagsinput({
-                    tagClass: 'badge badge-primary'
-                });
-
-                $('.datatables').DataTable({
-                    pageLength: 25,
-                    responsive: true
-                });
-
-                $("#prefiniti-loading").hide();
-                $("#prefiniti-reload").show();
+                Prefiniti.updateNavigation(url, data);
+                Prefiniti.renderContent(data);    
+                Prefiniti.onNavComplete(url, data);                            
 
                 onLoaded(data);
             },
             error: function(data) {
-                $("#tcTarget").html(data);
+                Prefiniti.onNavError(data);
 
                 onError(data);
             }
         });
 
+    },
+
+    onNavLoading: function() {
+        $("#prefiniti-reload").hide();
+        $("#prefiniti-loading").show();
+        $("#tcTarget").html("");
+        $("#wwaf-page-title").html("Please Wait");
+        $("#wwaf-breadcrumbs").html("Loading...");
+    },
+
+    onNavError: function(data) {
+
+    },
+
+    onNavComplete: function(url, data) {
+        $("#prefiniti-loading").hide();
+        $("#prefiniti-reload").show();
+
+        $.ajax({
+            url: "/framework/components/update_last_loaded_page.cfm",
+            method: "POST",
+            data: {
+                url: url,
+                onload: Prefiniti.state.currentPageOnLoad,
+                onerror: Prefiniti.state.currentPageOnError
+            },
+            encode: true
+        });
+
+    },
+
+    updateNavigation: function(url, data) {
+        Prefiniti.state.currentPage = url;
+        
+        let metadata = Prefiniti.parseFragmentMetadata(data);             
+
+        if(!metadata.title) {
+            $("#wwaf-page-title").hide();
+        }
+        else {
+            $("#wwaf-page-title").show();
+            $("#wwaf-page-title").html(metadata.title);
+        }
+
+        if(!metadata.breadcrumbs) {
+            $("#wwaf-breadcrumbs").hide();
+        }
+        else {
+            $("#wwaf-breadcrumbs").show();
+            $("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
+        }
+
+        return metadata;
+    },
+
+    renderContent: function(data) {
+        $("#tcTarget").html(data);
+
+        $('.summernote').summernote({
+            height: 200
+        });
+
+        $('.tagsinput').tagsinput({
+            tagClass: 'badge badge-primary'
+        });
+
+        $('.datatables').DataTable({
+            pageLength: 25,
+            responsive: true
+        });
+        
     },
 
     dialog: function(url)

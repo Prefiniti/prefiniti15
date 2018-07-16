@@ -17,6 +17,24 @@
 
 <cfset stakeholders = project.getStakeholders()>
 <cfset locations = project.getLocations()>
+<cfset deliverables = project.getDeliverables()>
+
+<cfset effectivePermissions = project.getEffectivePermissions(session.user.id)>
+<cfset permArray = project.getAllPermissionKeys(session.user.id)>
+
+<cfif project.template_id NEQ 0>
+    <cfset projectTemplate = new Prefiniti.ProjectManagement.Template()>   
+    <cfset projectTemplate.open(project.template_id)>
+    <cfset templateName = projectTemplate.template_name>
+<cfelse>
+    <cfset templateName = "Blank Project">
+</cfif>
+
+<cfif project.client_assoc EQ project.employee_assoc>
+    <cfset internalProject = true>
+<cfelse>
+    <cfset internalProject = false>
+</cfif>
 
 <cfoutput>
     <div class="row">
@@ -29,57 +47,79 @@
                                 <div class="m-b-md">
                                     <div class="btn-group float-right">
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil-alt"></i> Project</button>
+                                            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil-alt"></i> Project</button>                                           
                                             <div class="dropdown-menu">
-                                                <button class="dropdown-item" type="button">Edit</button>
-                                                <cfif project.template_id NEQ 0>
-                                                    <button class="dropdown-item" type="button" onclick="todo();">Update original template</button>
+                                                <cfif project.checkPermission(session.user.id, "PRJ_EDIT")>
+                                                    <button class="dropdown-item" type="button" onclick="todo();">Edit Project...</button>                                                                                                   
+                                                    <cfif project.template_id NEQ 0>
+                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.updateTemplate();">Update original template</button>
+                                                    </cfif>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.saveAsNewTemplate();">Save as new template...</button>
+                                                    <div class="dropdown-divider"></div>
                                                 </cfif>
-                                                <button class="dropdown-item" type="button" onclick="todo();">Save as template</button>
-                                                <div class="dropdown-divider"></div>
-                                                <button class="dropdown-item" type="button" onclick="todo();"><span class="text-danger">Delete Project</span></button>
+                                                <cfif project.checkPermission(session.user.id, "PRJ_DELETE")>
+                                                    <button class="dropdown-item" type="button" onclick="todo();"><span class="text-danger">Delete Project</span></button>
+                                                </cfif>
                                             </div>
                                         </div>
                                         
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-plus"></i> Add</button>
                                             <div class="dropdown-menu">
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addTask();">Task</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addDeliverable();">Deliverable</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addLocation();">Location</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addStakeholder();">Stakeholder</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addFiledDocument();">Filed Document</button>
+                                                <cfif project.checkPermission(session.user.id, "TASK_ADD")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addTask();">Task...</button>
+                                                </cfif>
+                                                <cfif project.checkPermission(session.user.id, "DEL_ADD")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addDeliverable();">Deliverable...</button>
+                                                </cfif>
+                                                <cfif project.checkPermission(session.user.id, "LOC_ADD")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addLocation();">Location...</button>
+                                                </cfif>
+                                                <cfif project.checkPermission(session.user.id, "SH_ADD")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addStakeholder();">Stakeholder...</button>
+                                                </cfif>
+                                                <cfif project.checkPermission(session.user.id, "DOC_ADD")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.addFiledDocument();">Filed Document...</button>
+                                                </cfif>
                                             </div>
                                         </div>
                                         
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-truck"></i> Dispatch</button>
-                                            <div class="dropdown-menu">
-                                                <button class="dropdown-item" type="button" onclick="todo();">Employee</button>                                            
+                                        <cfif project.checkPermission(session.user.id, "DISP_ADD")>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-truck"></i> Dispatch</button>
+                                                <div class="dropdown-menu">
+                                                    <button class="dropdown-item" type="button" onclick="todo();">Employee...</button>                                            
+                                                </div>
                                             </div>
-                                        </div>
+                                        </cfif>
                                         
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-check"></i> Workflow</button>
-                                            <div class="dropdown-menu">
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Active');">Active</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Billed');">Billed</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Paid');">Paid</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Delinquent');">Delinquent</button>
-                                                <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Closed');">Closed</button>                                        
-                                            </div>
+                                            <cfif project.checkPermission(session.user.id, "PRJ_EDIT")>
+                                                <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-check"></i> Workflow</button>
+                                                <div class="dropdown-menu">
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Active');">Active</button>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Billed');">Billed</button>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Paid');">Paid</button>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Delinquent');">Delinquent</button>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.setWorkflow('Closed');">Closed</button>                                        
+                                                </div>
+                                            </cfif>
                                         </div>
                                         
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-clipboard-list"></i> Log</button>
                                             <div class="dropdown-menu">
-                                                <button class="dropdown-item" type="button" onclick="todo();">Time</button>
-                                                <button class="dropdown-item" type="button" onclick="todo();">Travel</button>
+                                                <cfif project.checkPermission(session.user.id, "TIME_LOG")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.logTime(0);">Time...</button>
+                                                </cfif>
+                                                <cfif project.checkPermission(session.user.id, "TRAVEL_LOG")>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.logTravel(0);">Travel...</button>
+                                                </cfif>
                                             </div>  
                                         </div>                                      
                                     </div>
                                     
-                                    <h2>#project.project_name#</h2>
+                                    <h2>#project.project_name#</h2>                                    
                                 </div>
 
                             </div>
@@ -94,21 +134,27 @@
                                             <cfif project.isOverdue()>
                                                 <span class="label label-danger">Overdue</span>
                                             </cfif>
+
+                                            <cfif internalProject>
+                                                <span class="label label-info">Internal</span>
+                                            </cfif>
                                         </dd>
                                     </div>
                                 </dl>
                                 <dl class="row mb-0">
                                     <div class="col-sm-4 text-sm-right"><dt>Created by:</dt> </div>
-                                    <div class="col-sm-8 text-sm-left"><dd class="mb-1">#employee.longName#</dd> </div>
+                                    <div class="col-sm-8 text-sm-left"><dd class="mb-1">#employee.longName# from template <em>#templateName#</em></dd></div>
                                 </dl>
                                 <dl class="row mb-0">
                                     <div class="col-sm-4 text-sm-right"><dt>Messages:</dt> </div>
                                     <div class="col-sm-8 text-sm-left"> <dd class="mb-1">  #posts.len()#</dd></div>
                                 </dl>
-                                <dl class="row mb-0">
-                                    <div class="col-sm-4 text-sm-right"><dt>Client:</dt> </div>
-                                    <div class="col-sm-8 text-sm-left"> <dd class="mb-1">#p_client.longName#</dd></div>
-                                </dl>                                
+                                <cfif NOT internalProject>
+                                    <dl class="row mb-0">
+                                        <div class="col-sm-4 text-sm-right"><dt>Client:</dt> </div>
+                                        <div class="col-sm-8 text-sm-left"> <dd class="mb-1">#p_client.longName#</dd></div>
+                                    </dl>                     
+                                </cfif>           
 
                             </div>
                             <div class="col-lg-6" id="cluster_info">
@@ -153,7 +199,7 @@
                                             <div class="progress m-b-1">
                                                 <div style="width: #project.getPercentComplete()#%;" class="progress-bar progress-bar-striped progress-bar-animated"></div>
                                             </div>
-                                            <small>Project is <strong>#project.getPercentComplete()#%</strong> complete. [#project.getCompleteTaskCount()# of #project.getTaskCount()# tasks complete]</small><br>
+                                            <small>Project is <strong>#project.getPercentComplete()#%</strong> complete. [#project.getCompleteTaskCount()# of #project.getRequiredTaskCount()# required tasks complete]</small><br>
                                             <cfset dueIn = dateDiff("d", now(), project.project_due_date)>
                                             <cfif project.project_status NEQ "Closed">
                                                 <cfif dueIn EQ 0>
@@ -238,58 +284,13 @@
                                                     </div>
 
                                                 </div>
-                                                <!---
-                                                <cfoutput query="tasks">
-
-                                                    <cfset taskComments = project.getTaskComments(id)>
-
-                                                    <div class="row">
-                                                        <div class="col-lg-1">
-                                                            <cfif task_complete EQ 0>
-                                                                <span class="label label-danger">Incomplete</span>
-                                                            <cfelse>
-                                                                <span class="label label-success">Complete</span>
-                                                            </cfif>
-                                                        </div>
-                                                        <div class="col-lg-8">
-                                                            <h4>#task_name#</h4>
-                                                        </div>
-                                                        <div class="col-lg-3">
-                                                            <div class="btn-group float-right">
-                                                                <cfif task_complete EQ 0>
-                                                                    <button class="btn btn-primary btn-sm" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 1);"><i class="fa fa-check"></i></button>
-                                                                <cfelse>
-                                                                    <button class="btn btn-primary btn-sm" type="button" onclick="Prefiniti.Projects.setTaskComplete(#id#, 0);"><i class="fa fa-undo"></i></button>
-                                                                </cfif>
-                                                                <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
-                                                                <div class="dropdown-menu">   
-                                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.revealCommentBox('task-#id#');">Post Comment</button>
-                                                                    <div class="dropdown-divider"></div>                            
-                                                                    <button class="dropdown-item" type="button" onclick="todo();">Log Time</button>
-                                                                    <button class="dropdown-item" type="button" onclick="todo();">Log Travel</button>
-                                                                    <div class="dropdown-divider"></div>
-                                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteTask(#id#);">Delete Task</button>
-                                                                </div>  
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row mb-3 mt-5">                                                        
-                                                        <div class="col-lg-11 offset-lg-1">
-                                                            <div style="display: none;" id="user-post-comment-task-#id#">
-                                                                <cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#id#" post_class="TASK" base_id="task-#id#">
-                                                            </div>
-                                                            <cfloop array="#taskComments#" item="post">
-                                                                <cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
-                                                            </cfloop>
-                                                        </div>
-                                                    </div>
-                                                </cfoutput>
-                                                --->
 
                                             </div>
 
                                             <div class="tab-pane" id="tab-comments">
-                                                <cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#project.id#" post_class="PJCT" base_id="project-#project.id#">
+                                                <cfif project.checkPermission(session.user.id, "PRJ_VIEW")>
+                                                    <cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#project.id#" post_class="PJCT" base_id="project-#project.id#">
+                                                </cfif>
                                                 <cfloop array="#posts#" item="post">
                                                     <cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
                                                 </cfloop>
@@ -299,9 +300,11 @@
                                             </div>
 
                                             <div class="tab-pane" id="tab-time">
+                                                <cfmodule template="/pm/components/view_time_entries.cfm" project_id="#project.id#">
                                             </div>
 
-                                            <div class="tab-travel" id="tab-travel">
+                                            <div class="tab-pane" id="tab-travel">
+                                                <cfmodule template="/pm/components/view_travel_entries.cfm" project_id="#project.id#">
                                             </div>
 
                                             <div class="tab-pane" id="tab-stakeholders">
@@ -318,8 +321,11 @@
                                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
                                                                     <div class="dropdown-menu">   
                                                                         <button class="dropdown-item" type="button" onclick="todo();">Send Message</button>
-                                                                        <div class="dropdown-divider"></div>
-                                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteStakeholder(#stakeholder.id#);">Delete Stakeholder</button>
+
+                                                                        <cfif project.checkPermission(session.user.id, "SH_DELETE")>
+                                                                            <div class="dropdown-divider"></div>
+                                                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteStakeholder(#stakeholder.id#);">Delete Stakeholder</button>
+                                                                        </cfif>
                                                                     </div>  
                                                                 </td>
                                                             </tr>                                                            
@@ -375,10 +381,12 @@
                                                                 </td>
 
                                                                 <td>
-                                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
-                                                                    <div class="dropdown-menu">
-                                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteLocation(#id#);">Delete Location</button>
-                                                                    </div>  
+                                                                    <cfif project.checkPermission(session.user.id, "LOC_DELETE")>
+                                                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
+                                                                        <div class="dropdown-menu">
+                                                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteLocation(#id#);">Delete Location</button>
+                                                                        </div>  
+                                                                    </cfif>
                                                                 </td>
                                                             </tr>
                                                         </cfoutput>
@@ -412,18 +420,63 @@
                     #project.getPriority()#
                 </p>
 
-                <h5 class="mt-5">Project Files</h5>
-                <ul class="list-unstyled project-files">
-                    <li><a href=""><i class="fa fa-file"></i> Project_document.docx</a></li>
-                    <li><a href=""><i class="fa fa-file-picture-o"></i> Logo_zender_company.jpg</a></li>
-                    <li><a href=""><i class="fa fa-stack-exchange"></i> Email_from_Alex.mln</a></li>
-                    <li><a href=""><i class="fa fa-file"></i> Contract_20_11_2014.docx</a></li>
-                </ul>
-                <div class="text-center m-t-md">
-                    <a href="##" class="btn btn-xs btn-primary">Add files</a>
-                    <a href="##" class="btn btn-xs btn-primary">Report contact</a>
-                </div>
+                <h5 class="mt-5">Deliverables</h5>
+                <p class="text-small">These are files to be delivered to stakeholders.</p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Deliverable</th>                            
+                            <th><i class="fa fa-cogs"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <cfoutput query="deliverables">
+                            <cfif deliverable_file_id EQ 0>
+                                <cfset needsUploading = true>
+                            <cfelse>
+                                <cfset needsUploading = false>
+                            </cfif>
 
+                            <tr>
+                                <td>
+                                    <cfif needsUploading>
+                                        <span class="text-danger">#deliverable_name#</span>
+                                    <cfelse>
+                                        <a href="#prefiniti.cmsUserFileURL(deliverable_file_id)#" target="_blank">#deliverable_name#</a>
+                                    </cfif>
+                                </td>                                
+                                <td align="right">
+                                    <div class="btn-group">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
+                                            <div class="dropdown-menu">
+                                                <cfif needsUploading>
+                                                    <cfif project.checkPermission(session.user.id, "DEL_EDIT")>
+                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.chooseDeliverable(#id#, 'Fulfill Deliverable');">Fulfill Deliverable...</button>
+                                                    </cfif>
+                                                <cfelse>
+                                                    <cfif project.checkPermission(session.user.id, "DEL_EDIT")>
+                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.chooseDeliverable(#id#, 'Replace Deliverable');">Replace Deliverable...</button>
+                                                        <!---<button class="dropdown-item" type="button" onclick="Prefiniti.Projects.notifyDeliverable(#id#);">Finalize &amp; Send...</button>--->
+                                                    </cfif>
+                                                </cfif>
+                                                <cfif project.checkPermission(session.user.id, "DEL_DELETE")>
+                                                    <div class="dropdown-divider"></div>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteDeliverable(#id#);">Delete Deliverable</button>
+                                                </cfif>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </cfoutput>
+                    </tbody>
+                </table>
+                <cfif project.checkPermission(session.user.id, "DEL_ADD")>
+                    <div class="text-center m-t-md">
+                        <a href="##" class="btn btn-xs btn-primary" onclick="Prefiniti.Projects.addDeliverable();">Add Deliverable</a>                    
+                    </div>
+                </cfif>
                 <h5>Project Tags</h5>
                 <ul class="tag-list" style="padding: 0;">
                     <cfloop array="#tags#" item="tag">

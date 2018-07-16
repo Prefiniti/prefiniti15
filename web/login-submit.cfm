@@ -34,20 +34,13 @@
 			<cfelse>
 				<cfcookie name="wwcl_rememberMe" value="false">
 			</cfif>
-			<cfset session.message="Welcome, #qryGetLogin.longName#!">
-			<cfset session.loggedin="yes">
-			<cfset session.username="#qryGetLogin.username#">
-			<cfset session.usertype="#qryGetLogin.type#">
-			<cfset session.longname="#qryGetLogin.LongName#">
-			<cfset session.userid="#qryGetLogin.id#">
-			<cfset session.role="#qryGetLogin.role#">
-			<cfset session.email="#qryGetLogin.email#">
-			<cfset session.tcadmin="#qryGetLogin.tcadmin#">
-			<cfset session.order_processor="#qryGetLogin.order_processor#">
-			<cfset session.site_maintainer="#qryGetLogin.site_maintainer#">
-			<cfset session.companyID="#qryGetLogin.company#">
+			<cfset session.loggedin = true>
+			<cfset session.username = "#qryGetLogin.username#">
+			<cfset session.longname = "#qryGetLogin.LongName#">
+			<cfset session.userid = "#qryGetLogin.id#">
+			<cfset session.email = "#qryGetLogin.email#">
             <cfset session.webware_admin=#qryGetLogin.webware_admin#>
-			<cfset session.pwdiff=DateDiff("d", qryGetLogin.last_pwchange, Now())>
+			<cfset session.pwdiff = DateDiff("d", qryGetLogin.last_pwchange, Now())>
 
 			<cfset session.user = new Prefiniti.Authentication.UserAccount({username: session.username}, false)>
             			
@@ -73,6 +66,7 @@
 		</cfif>
 	<cfelse>
 		<!---login failure--->
+		<cfset session.loggedin = false>
 		<cfset session.message="Invalid username and/or password. Please try again">
 		<cflocation url="default.cfm" addtoken="no">
 	</cfif>

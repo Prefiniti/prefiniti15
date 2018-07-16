@@ -4,7 +4,7 @@
     <i class="fa fa-list-alt modal-icon"></i>
     <h4 class="modal-title">Add Deliverable</h4>
     <cfoutput>
-        <small class="font-bold">This will add a new deliverable to project <em>#project.project_name#</em>.<br>A deliverable is a file that will be delivered to the customer.</small>
+        <small class="font-bold">This will add a new deliverable to project <em>#project.project_name#</em>.<br>A <em>deliverable</em> is a file that will be delivered to a project stakeholder.</small>
     </cfoutput>
 </div>
 <div class="modal-body">
@@ -17,6 +17,12 @@
                         <label class="col-lg-2 col-form-label">Name</label>
                         <div class="col-lg-10">
                             <input type="text" id="deliverable_name" name="deliverable_name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-2 col-form-label">File</label>
+                        <div class="col-lg-10">
+                            <cfmodule template="/contentManager/components/cms_picker.cfm" element_name="deliverable_file_id" height="200">
                         </div>
                     </div>                       
                 </form>

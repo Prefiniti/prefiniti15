@@ -1,13 +1,8 @@
-<!--
-  <wwaftitle>Add Site</wwaftitle>
-  <wwafbreadcrumbs>Geodigraph PM,Sites,Add Site</wwafbreadcrumbs>
--->
-
 <div class="modal-header">
     <i class="fa fa-building modal-icon"></i>
-    <h4 class="modal-title">Add Site</h4>
+    <h4 class="modal-title">Add Company</h4>
     <cfoutput>
-        <small class="font-bold">This will add a new site.</small>
+        <small class="font-bold">This will add a new company to Geodigraph PM.</small>
     </cfoutput>
 </div>
 <div class="modal-body">

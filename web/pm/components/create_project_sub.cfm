@@ -7,7 +7,11 @@
 
         <cfset project = new Prefiniti.ProjectManagement.Project(0, form.template_id)>
         <cfset project.employee_assoc = session.current_association>
-        <cfset project.client_assoc = form.client_assoc>
+        <cfif isDefined("form.internal_project")>
+            <cfset project.client_assoc = project.employee_assoc>
+        <cfelse>
+            <cfset project.client_assoc = form.client_assoc>
+        </cfif>
         <cfset project.project_name = form.project_name>
         <cfset project.project_start_date = createODBCDateTime(form.project_start_date)>
         <cfset project.project_due_date = createODBCDateTime(form.project_due_date)>

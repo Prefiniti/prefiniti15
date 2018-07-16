@@ -4,6 +4,21 @@ component output=false extends="Prefiniti.LegacyAPI" displayname="Base" {
         return this;
     }
 
+    public boolean function loggedIn() {
+        
+        if(!isDefined("session")) {
+            return false;
+        }
+
+        if(!session.loggedin) {
+            return false;
+        }
+
+        return true;
+
+
+    }
+
     public numeric function getPercentage(numeric given, numeric max) output=false {
         if(max > 0) {
             return int((given * 100) / max);

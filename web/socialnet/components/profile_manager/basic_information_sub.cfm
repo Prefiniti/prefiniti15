@@ -15,7 +15,8 @@
         				longName='#form.firstName# #form.middleInitial#. #form.lastName#',
         			</cfif>
                     gender='#form.gender#',
-                    birthday=#CreateODBCDate(form.birthday)#
+                    birthday=#CreateODBCDate(form.birthday)#,
+                    remember_page=#form.remember_page#
         	WHERE	id=#session.user.id#
         </cfquery>        
 
@@ -27,7 +28,7 @@
 
         <cfcatch type="any">
             <cfset result.ok = false>
-            <cfset result.message = "Error updating your identity information (" & cfcatch.message & ")">  
+            <cfset result.message = "Error updating your identity information (" & cfcatch.message & cfcatch.detail & ")">  
         </cfcatch>
     </cftry>
 </cfsilent>

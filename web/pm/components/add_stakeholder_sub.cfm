@@ -6,7 +6,7 @@
     <cftry>
 
         <cfset project = new Prefiniti.ProjectManagement.Project(form.project_id)>
-        <cfset project.addStakeholder(form.assoc_id, form.stakeholder_type)>
+        <cfset project.addStakeholder(form.assoc_id, form.stakeholder_type, form.permissions)>
 
         <cfset user = prefiniti.getUserByAssociationID(form.assoc_id)>
 

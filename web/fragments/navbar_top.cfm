@@ -52,7 +52,7 @@
 
             <li>
                 <a href="/logoff.cfm">
-                    <i class="fa fa-door-open"></i> Log out
+                    <i class="fa fa-sign-out"></i> Sign Out
                 </a>
             </li>
         </ul>

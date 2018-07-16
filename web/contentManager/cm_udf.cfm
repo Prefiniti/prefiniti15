@@ -222,7 +222,7 @@
     	SELECT * FROM user_files WHERE id=#file_id#
 	</cfquery>
     
-    <cfset tmp="http://prefiniti15.prefiniti.com/UserContent/#getUsername(cufu.user_id)#/#cufu.basedir#/#URLEncodedFormat(cufu.filename)#">
+    <cfset tmp="https://#cgi.server_name#/UserContent/#getUsername(cufu.user_id)#/#cufu.basedir#/#URLEncodedFormat(cufu.filename)#">
     
     <cfreturn #tmp#>
 </cffunction>

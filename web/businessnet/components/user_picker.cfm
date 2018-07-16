@@ -79,7 +79,7 @@ else {
             <div class="input-group">
                 <input type="text" class="form-control" id="user-picker-#attributes.element_name#-display" readonly>
                 <div class="input-group-append">
-                    <button type="button" class="button-primary" onclick="Prefiniti.UserPicker.undo('#attributes.element_name#');"><i class="fa fa-redo"></i> Change Selection</button>
+                    <button type="button" class="btn btn-primary" onclick="Prefiniti.UserPicker.undo('#attributes.element_name#');"><i class="fa fa-redo"></i> Change Selection</button>
                 </div>
             </div>
         </div>

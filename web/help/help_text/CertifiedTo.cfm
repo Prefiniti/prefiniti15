@@ -1,1 +1,0 @@
-<p>If you would like your last name or company name on your plat, please enter the name here.</p>
