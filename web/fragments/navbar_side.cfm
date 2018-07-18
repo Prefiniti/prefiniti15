@@ -56,7 +56,7 @@
                         <li><a class="dropdown-item" href="##" onclick="editUser(#session.userid#, 'basic_information.cfm');"><i class="fa fa-cogs"></i> Settings</a></li>
 
                         <li><div role="separator" class="dropdown-divider"></div></li>
-                        <li><a class="dropdown-item" href="logoff.cfm"><i class="fa fa-sign-out"></i> Sign Out...</a></li>
+                        <li><a class="dropdown-item" href="/logout"><i class="fa fa-sign-out"></i> Sign Out...</a></li>
                     </ul>
                     </cfoutput>
                 </div>

@@ -9,10 +9,10 @@
         <div class="dropdown-item">
             <div class="row">
                 <div class="col-xs-1">
-                    <img class="rounded-circle avatar-sm float-left" onclick="Prefiniti.viewProfile(#user.id#);" src="#pic#">                 
+                    <img class="rounded-circle avatar-sm float-left" onclick="Prefiniti.Social.loadProfile(#user.id#);" src="#pic#">                 
                 </div>
                 <div class="col-xs-8">
-                    <a href="##" onclick="Prefiniti.viewProfile(#user.id#);">#user.longName#</small></a><br>
+                    <a href="##" onclick="Prefiniti.Social.loadProfile(#user.id#);">#user.longName#</small></a><br>
                     <span class="text-muted small ml-3">#prefiniti.getFriendlyDuration(request_date)#</span>
                 </div>
                 <div class="col-xs-3 text-right">

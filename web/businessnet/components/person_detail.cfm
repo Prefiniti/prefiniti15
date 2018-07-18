@@ -59,7 +59,7 @@
             <p>#person.status#</p>
 
             <div class="btn-group">
-                <button type="button" class="btn btn-primary btn-sm" onclick="viewProfile(#person.id#);"><i class="fa fa-user"></i> Profile</button>
+                <button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Social.loadProfile(#person.id#);"><i class="fa fa-user"></i> Profile</button>
                 <button type="button" class="btn btn-primary btn-sm"><i
                     class="fa fa-envelope"></i> Message
                 </button>

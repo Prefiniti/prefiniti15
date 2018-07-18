@@ -50,7 +50,7 @@
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label">Status</label>
                         <div class="col-lg-10">
-                            <select name="employment_status" id="employment_status" class="form-control">
+                            <select name="employment_status" id="employment_status" class="form-control" onchange="Prefiniti.Business.checkEmployee();">
                                 <option value="Active" selected>Active</option>
                                 <option value="Terminated">Terminated</option>
                                 <option value="Suspended (With Pay)">Suspended (With Pay)</option>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                     
-                    <div class="form-group row">
+                    <div class="form-group row" id="termination-date-div" style="display:none;">
                         <label class="col-lg-2 col-form-label">Termination Date</label>
                         <div class="col-lg-10">
                             <input type="date" name="termination_date" id="termination_date" class="form-control">
@@ -72,7 +72,7 @@
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label">Wage Basis</label>
                         <div class="col-lg-10">
-                            <select name="wage_basis" id="wage_basis" class="form-control">
+                            <select name="wage_basis" id="wage_basis" class="form-control" onchange="Prefiniti.Business.updateEmployeeForm();">
                                 <option value="Hourly">Hourly</option>
                                 <option value="Salaried">Salaried</option>
                                 <option value="Contractor">Contractor</option>
@@ -88,7 +88,7 @@
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label">Payroll Frequency</label>
                         <div class="col-lg-10">
-                            <select name="payroll_frequency" id="payroll_frequency" class="form-control" onChange="updateEmployeeForm();">
+                            <select name="payroll_frequency" id="payroll_frequency" class="form-control" onChange="Prefiniti.Business.updateEmployeeForm();">
                                 <option value="Weekly">Weekly</option>
                                 <option value="Biweekly">Biweekly</option>
                                 <option value="Semi-Monthly">Semi-Monthly</option>
@@ -103,6 +103,6 @@
     </cfoutput>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('add-employee', Prefiniti.reload);">Add Employee</button>
+    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('add-employee', Prefiniti.Business.employeeAdded);">Add Employee</button>
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 </div>

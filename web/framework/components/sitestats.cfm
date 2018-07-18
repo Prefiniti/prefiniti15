@@ -55,7 +55,7 @@
 	</cfif>
     <cfif s.newComments GT 0>
 	    <div style"padding-top:5px;">
-        	<img src="/graphics/comments.png" align="absmiddle" /> <a href="javascript:viewProfile(#url.calledByUser#);"  style="color:red"><strong>#s.newComments# new comments</strong></a>
+        	<img src="/graphics/comments.png" align="absmiddle" /> <a href="javascript:Prefiniti.Social.loadProfile(#url.calledByUser#);"  style="color:red"><strong>#s.newComments# new comments</strong></a>
         </div>
 	</cfif>
     <cfif s.newPDF GT 0>

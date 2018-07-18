@@ -320,7 +320,7 @@
     </cfif>
 	</cfoutput>
     
-    <cfoutput>#ntNotify(toid, "SN_COMMENT_POSTED", "#getLongname(fromid)# has left you a comment.", "viewProfile(#toid#);")#</cfoutput>
+    <cfoutput>#ntNotify(toid, "SN_COMMENT_POSTED", "#getLongname(fromid)# has left you a comment.", "Prefiniti.Social.loadProfile(#toid#);")#</cfoutput>
     
     <cfquery name="pc" datasource="webwarecl">
     	INSERT INTO comments

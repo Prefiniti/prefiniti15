@@ -17,14 +17,6 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
-    <cfquery name="SiteInfo" datasource="sites">
-        SELECT * FROM sites WHERE SiteID='WebWareCL'
-    </cfquery>
-
-    <cfquery name="getStatus" datasource="webwarecl">
-        SELECT * FROM config
-    </cfquery>
-
     <cfif not IsDefined("cookie.wwcl_rememberMe")>
         <cfcookie name="wwcl_rememberMe" value="false">
     </cfif>
@@ -32,7 +24,17 @@
 </head>
 <body class="gray-bg">
 
+    <cfif session.loggedin>
+        <cflocation url = "/app" addtoken="false">
+    </cfif>
+
+
     <cfset errorMessage = "">
+    <cfif isDefined("session.message")>
+        <cfif session.message NEQ "">
+            <cfset errorMessage = session.message>
+        </cfif>
+    </cfif>
     <cfoutput>
 
         <div class="middle-box text-center loginscreen animated fadeInDown">
@@ -41,17 +43,9 @@
                     <h1 class="logo-name"><img src="graphics/login-header.png"></h1>
                 </div>
                 <h3>Geodigraph PM</h3>
-                <span style="color:red;"><cfoutput>#errorMessage#</cfoutput></span>
+                <span class="text-danger"><cfoutput>#errorMessage#</cfoutput></span>
 
-                <form class="m-t" method="post" action="/login-submit.cfm">
-                    <cfif IsDefined("url.redir")>
-                        <input type="hidden" name="doRedirect" value="true" />
-                        <input type="hidden" name="redir" value="#url.redir#" />
-                    <cfelse>
-                        <input type="hidden" name="doRedirect" value="false" />
-                    </cfif>
-
-                    <input type="hidden" name="siteid" value="WebWareCL">
+                <form class="m-t" method="post" action="/login-submit.cfm">                
 
                     <div class="form-group">
                         <input type="email" class="form-control" name="UserName" placeholder="E-Mail Address" id="UserName" <cfif #cookie.wwcl_rememberMe# EQ "true">value="#cookie.wwcl_username#"</cfif>>
@@ -72,7 +66,7 @@
 
                     <a href="##"><small>Forgot password?</small></a>
                     <p class="text-muted text-center"><small>Don't have an account?</small></p>
-                    <a class="btn btn-sm btn-white btn-block" href="register.cfm">Create an account</a>
+                    <a class="btn btn-sm btn-white btn-block" href="/register">Create an account</a>
 
                 </form>
                 <p class="m-t"> <small>Copyright &copy; 2018 Coherent Logic Development LLC</small> </p>

@@ -58,7 +58,7 @@ else {
                 <cfloop array="#people#" item="person">
                     <tr>
                         <td class="client-avatar"><img alt="image" src="#person.user.getPicture()#"></td>
-                        <td><a class="client-link" href="##" onclick="viewProfile(#person.user.id#)">#person.user.longName#</a></td>
+                        <td><a class="client-link" href="##" onclick="Prefiniti.Social.loadProfile(#person.user.id#)">#person.user.longName#</a></td>
                         <td class="client-status">
                             <span class="label label-primary">#person.type#</span>          
                             <cfif person.user.id EQ session.user.id>

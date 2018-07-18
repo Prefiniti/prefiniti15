@@ -32,7 +32,7 @@
 				
                       		</td>
 				<td align="right" valign="top">              
-                    <strong><a href="javascript:viewProfile(#sn_friends.target_id#);">#getLongname(sn_friends.target_id)#</a></strong><br>
+                    <strong><a href="javascript:Prefiniti.Social.loadProfile(#sn_friends.target_id#);">#getLongname(sn_friends.target_id)#</a></strong><br>
                     #DateDiff("yyyy", getBirthday(sn_friends.target_id), Now())# years old<br>
                     Became friends on #DateFormat(sn_friends.request_date, "mm/dd/yyyy")#
                     

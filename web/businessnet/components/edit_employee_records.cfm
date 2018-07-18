@@ -32,7 +32,7 @@
                                 <p>#prefiniti.getOnline(employee.id)#</p>
 
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-primary btn-sm" onclick="viewProfile(#employee.id#);"><i class="fa fa-user"></i> Profile</button>
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Social.loadProfile(#employee.id#);"><i class="fa fa-user"></i> Profile</button>
                                     <button type="button" class="btn btn-primary btn-sm"><i
                                         class="fa fa-envelope"></i> Message
                                     </button>                
@@ -55,19 +55,19 @@
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Application Date</label>
                                         <div class="col-lg-9">
-                                            <input type="date" name="application_date" id="application_date" class="form-control" value="#application_date#">
+                                            <input type="date" name="application_date" id="application_date" class="form-control" value="#dateFormat(application_date, 'yyyy-mm-dd')#">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Hire Date</label>
                                         <div class="col-lg-9">
-                                            <input type="date" name="hire_date" id="hire_date" class="form-control" value="#hire_date#">
+                                            <input type="date" name="hire_date" id="hire_date" class="form-control" value="#dateFormat(hire_date, 'yyyy-mm-dd')#">
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Status</label>
                                         <div class="col-lg-9">
-                                            <select name="employment_status" id="employment_status" class="form-control" onchange="updateEmployeeForm();">
+                                            <select name="employment_status" id="employment_status" class="form-control" onchange="Prefiniti.Business.updateEmployeeForm();">
                                                 <option value="Terminated" <cfif employment_status EQ "Terminated">selected</cfif>>Terminated</option>
                                                 <option value="Active" <cfif employment_status EQ "Active">selected</cfif>>Active</option>
                                                 <option value="Suspended (With Pay)" <cfif employment_status EQ "Suspended (With Pay)">selected</cfif>>Suspended (With Pay)</option>
@@ -82,14 +82,14 @@
                                         <div class="form-group row">
                                             <label class="col-lg-3 col-form-label">Termination Date</label>
                                             <div class="col-lg-9">
-                                                <input type="date" name="termination_date" id="termination_date" class="form-control" value="#termination_date#">
+                                                <input type="date" name="termination_date" id="termination_date" class="form-control" value="#dateFormat(termination_date, 'yyyy-mm-dd')#">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Wage Basis</label>
                                         <div class="col-lg-9">
-                                            <select name="wage_basis" id="wage_basis" class="form-control" onChange="updateEmployeeForm();">
+                                            <select name="wage_basis" id="wage_basis" class="form-control" onChange="Prefiniti.Business.updateEmployeeForm();">
                                                 <option value="Hourly" <cfif wage_basis EQ "Hourly">selected</cfif>>Hourly</option>
                                                 <option value="Salaried" <cfif wage_basis EQ "Salaried">selected</cfif>>Salaried</option>
                                                 <option value="Contractor" <cfif wage_basis EQ "Contractor">selected</cfif>>Contractor</option>
@@ -105,7 +105,7 @@
                                     <div class="form-group row">
                                         <label class="col-lg-3 col-form-label">Payroll Frequency</label>
                                         <div class="col-lg-9">
-                                            <select name="payroll_frequency" id="payroll_frequency" class="form-control" onChange="updateEmployeeForm();">
+                                            <select name="payroll_frequency" id="payroll_frequency" class="form-control" onChange="Prefiniti.Business.updateEmployeeForm();">
                                                 <option value="Weekly" <cfif payroll_frequency EQ "Weekly">selected</cfif>>Weekly</option>
                                                 <option value="Biweekly" <cfif payroll_frequency EQ "Biweekly">selected</cfif>>Biweekly</option>
                                                 <option value="Semi-Monthly" <cfif payroll_frequency EQ "Semi-Monthly">selected</cfif>>Semi-Monthly</option>

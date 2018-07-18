@@ -313,7 +313,7 @@
                                                         <cfloop array="#stakeholders#" item="stakeholder">
                                                             <tr>
                                                                 <td class="client-avatar"><img alt="image" src="#stakeholder.user.getPicture()#"></td>
-                                                                <td><a class="client-link" href="##" onclick="viewProfile(#stakeholder.user.id#)">#stakeholder.user.longName#</a></td>
+                                                                <td><a class="client-link" href="##" onclick="Prefiniti.Social.loadProfile(#stakeholder.user.id#)">#stakeholder.user.longName#</a></td>
                                                                 <td class="client-status">
                                                                     <span class="label label-primary">#stakeholder.type#</span>
                                                                 </td>

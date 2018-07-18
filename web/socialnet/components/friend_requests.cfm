@@ -14,7 +14,7 @@
             <cfset user = new Prefiniti.Authentication.UserAccount({id: source_id}, false)>
             <div class="col-lg-4">
                 <div class="contact-box">
-                    <a class="row" href="##" onclick="viewProfile('#source_id#');">
+                    <a class="row" href="##" onclick="Prefiniti.Social.loadProfile('#source_id#');">
                         <div class="col-4">
                             <div class="text-center">
                                 <img alt="image" class="rounded-circle m-t-xs img-fluid avatar-lg" src="#user.getPicture()#">

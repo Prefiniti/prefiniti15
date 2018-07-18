@@ -36,10 +36,10 @@ component extends="Prefiniti.Base" output="false" {
 
         if(this.post_class EQ "USER") {
             if(this.parent_post_id == 0) {
-                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has posted on your profile.", "Prefiniti.viewProfile(#this.recipient_id#);");
+                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has posted on your profile.", "Prefiniti.Social.loadProfile(#this.recipient_id#);");
             }
             else {
-                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has replied to a post that you follow.", "Prefiniti.viewProfile(#this.recipient_id#);");
+                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has replied to a post that you follow.", "Prefiniti.Social.loadProfile(#this.recipient_id#);");
             }
         }
 
@@ -146,7 +146,7 @@ component extends="Prefiniti.Base" output="false" {
                 break;
         }
 
-        ntNotify(this.author_id, ntKey, eventText, "Prefiniti.viewProfile(#this.recipient_id#);");
+        ntNotify(this.author_id, ntKey, eventText, "Prefiniti.Social.loadProfile(#this.recipient_id#);");
 
     }
 

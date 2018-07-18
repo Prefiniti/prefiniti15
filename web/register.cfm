@@ -49,7 +49,7 @@ else {
                             lastName: form.lastName
                         };
 
-                        if(form.middleInitial NEQ "") {
+                        if(trim(form.middleInitial) NEQ "") {
                             accountParams.middleInitial = form.middleInitial;
                         }
 
@@ -89,7 +89,7 @@ else {
                     <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
 
                     <p class="text-muted text-center"><small>Already have an account?</small></p>
-                    <a class="btn btn-sm btn-white btn-block" href="default.cfm">Login</a>
+                    <a class="btn btn-sm btn-white btn-block" href="/login">Login</a>
                 </form>
                 <p class="m-t"> <small>Copyright &copy; 2018 Coherent Logic Development LLC</small> </p>
             <cfelse>
@@ -101,7 +101,7 @@ else {
                 <p>You will not be able to log in until you confirm your account.</p>
                 <p>You should receive an e-mail at <strong><cfoutput>#form.email#</cfoutput></strong> containing an account confirmation link. Once you click this link, you will be able to log in to your account.</p>
 
-                <a class="btn btn-sm btn-primary btn-block" href="default.cfm">Login</a>
+                <a class="btn btn-sm btn-primary btn-block" href="/login">Login</a>
                 <p class="m-t"> <small>Copyright &copy; 2018 Coherent Logic Development LLC</small> </p>
             </cfif>
         </div>

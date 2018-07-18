@@ -17,7 +17,7 @@
                                 <img src="#friendPic#" class="rounded-circle avatar-sm">
                             </td>
                             <td>
-                                <a href="##" class="client-link" onclick="Prefiniti.viewProfile(#friend.id#);">#friendName#</a>
+                                <a href="##" class="client-link" onclick="Prefiniti.Social.loadProfile(#friend.id#);">#friendName#</a>
                             </td>
                         </cfif>
                        

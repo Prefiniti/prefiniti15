@@ -14,7 +14,7 @@
         <div class="col-sm-11">
             <div class="card card-default mb-3">
                 <div class="card-header">
-                    <a href="##" onclick="Prefiniti.viewProfile(#post.author_id#);"><strong>#post.author.longName#</strong></a> <span class="text-muted">commented #prefiniti.getFriendlyDuration(post.post_date)# - #dateFormat(post.post_date, "mmm d, yyyy")#</span>
+                    <a href="##" onclick="Prefiniti.Social.loadProfile(#post.author_id#);"><strong>#post.author.longName#</strong></a> <span class="text-muted">commented #prefiniti.getFriendlyDuration(post.post_date)# - #dateFormat(post.post_date, "mmm d, yyyy")#</span>
                 </div>
                 <div class="card-body">
                     <p class="card-text">

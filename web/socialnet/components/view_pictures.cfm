@@ -48,7 +48,7 @@
     </tr>
     </table>
     
-    <div style="padding-left:10px; padding-top:0px; clear:both;"><strong><a href="javascript:viewProfile(#url.user_id#);">Return to profile</a><cfif #url.allow_edit# EQ true>
+    <div style="padding-left:10px; padding-top:0px; clear:both;"><strong><a href="javascript:Prefiniti.Social.loadProfile(#url.user_id#);">Return to profile</a><cfif #url.allow_edit# EQ true>
     <!---function prepareUploader(filter, filter_description, mode, user_id, dest_folder)--->
     <cfif getQuotaUsed(url.user_id) LT 100>| <a href="javascript:cmsPrepareUploader('*.jpg;*.gif;*.png', 'Image Files', 'user', '#url.current_site_id#', '#url.user_id#', 'profile_images', '');">Upload photo</a><div id="browseButton" style="display:none;"><input type="button"  onclick="glob_uploader.selectFiles();" class="normalButton" value="Browse Files" /></div>
     <cfelse>

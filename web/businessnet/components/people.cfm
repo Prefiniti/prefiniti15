@@ -33,7 +33,7 @@
                     <div class="btn-group float-right">
                         <div class="btn-group">
                             <cfif mode EQ "Clients">
-                                <button type="button" class="btn btn-white btn-sm"><i class="fa fa-plus"></i> New Client</button>
+                                <button type="button" class="btn btn-white btn-sm" onclick="Prefiniti.Business.addClient();"><i class="fa fa-plus"></i> New Client</button>
                             <cfelse>
                                 <button type="button" class="btn btn-white btn-sm" onclick="Prefiniti.Business.addEmployee();"><i class="fa fa-plus"></i> New Employee</button>
                             </cfif>

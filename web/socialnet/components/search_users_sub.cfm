@@ -14,7 +14,7 @@
         <cfoutput query="searchRes">
             <div class="col-lg-4">
                 <div class="contact-box">
-                    <a class="row" href="##" onclick="viewProfile('#id#');">
+                    <a class="row" href="##" onclick="Prefiniti.Soical.loadProfile('#id#');">
                         <div class="col-4">
                             <div class="text-center">
                                 <img alt="image" class="rounded-circle m-t-xs img-fluid avatar-lg" src="#prefiniti.getPicture(id)#">

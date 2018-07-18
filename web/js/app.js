@@ -119,12 +119,9 @@ var Prefiniti = {
         };
         
         toastr.info('Upload complete');
-        AjaxLoadPageToDiv('tcTarget', '/contentManager/components/cms_browse.cfm');
+        Prefiniti.loadPage('/contentManager/components/cms_browse.cfm');
     },
 
-    viewProfile: function(userid) {
-        AjaxLoadPageToDiv('tcTarget', '/authentication/components/viewProfile.cfm?userid=' + userid);
-    },
 
     loadPage: function(url, onLoaded, onError) {
 
@@ -402,7 +399,7 @@ var Prefiniti = {
             },
             encode: true
         }).done(function(data) {
-            Prefiniti.viewProfile(target_id);
+            Prefiniti.Social.loadProfile(target_id);
         });
     },
 
@@ -576,8 +573,11 @@ var Prefiniti = {
                 if(onSuccess) {
                     onSuccess(data);
                 }
+
+                //console.log(data);
             }
             else {
+                //console.log(data);
                 if(data.error) {
                     console.log("Error detail: %o", data.error);
                 }
@@ -614,5 +614,5 @@ var Prefiniti = {
 
 function todo()
 {
-        AjaxLoadPageToWindow('/framework/components/todo.cfm', '');
+    Prefiniti.dialog('/framework/components/todo.cfm');
 }

@@ -18,9 +18,9 @@
     <table cellspacing="0" width="400">
 	
     	<tr>
-        	<td rowspan="2"><a href="javascript:viewProfile(#c.from_id#);"><img src="#getPicture(c.from_id)#" height="50" border="0" /></a><br />#getOnline(c.from_id)#</td>
+        	<td rowspan="2"><a href="javascript:Prefiniti.Social.loadProfile(#c.from_id#);"><img src="#getPicture(c.from_id)#" height="50" border="0" /></a><br />#getOnline(c.from_id)#</td>
             <td valign="top">
-            	<a href="javascript:viewProfile(#c.from_id#);"><strong>#getLongname(c.from_id)#</strong></a> - #DateFormat(c.sent_date, "mmmm dd, yyyy")# #TimeFormat(c.sent_date, "h:mm tt")#
+            	<a href="javascript:Prefiniti.Social.loadProfile(#c.from_id#);"><strong>#getLongname(c.from_id)#</strong></a> - #DateFormat(c.sent_date, "mmmm dd, yyyy")# #TimeFormat(c.sent_date, "h:mm tt")#
 		
             </td>
 		</tr>

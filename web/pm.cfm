@@ -31,7 +31,7 @@
 <body class="" onload="Prefiniti.onLoad();">
 
     <cfif NOT session.loggedin>
-        <cflocation url="/default.cfm" addtoken="no">
+        <cflocation url="/login" addtoken="no">
     </cfif>
 
     <div id="wrapper">

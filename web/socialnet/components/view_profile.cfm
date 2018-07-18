@@ -65,6 +65,7 @@
 									</td>
 									<td>#getOnline(url.userid)#</td>
 								</tr>
+								<!---
 								<tr>
 									<td>
 										<i class="fa fa-heart"></i>
@@ -75,6 +76,7 @@
 										<td>Unknown relationship status</td>
 									</cfif>
 								</tr>
+								--->
 								<tr>
 									<td>
 										<i class="fa fa-venus-mars"></i>
@@ -285,7 +287,7 @@
 							  		<button type="button" class="btn btn-light btn-sm" onclick="mailTo(#profileUser.id#, '#profileUser.longName#');">Send Message</button>
 							  	</cfif>
 							  	<cfif canComment>
-							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.revealCommentBox();">New Post</button>
+							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.revealCommentBox('user-posts-form');">New Post</button>
 								</cfif>
 							</div>
 						</div>
@@ -295,7 +297,7 @@
 			<hr>
 
 			<cfif canComment>
-				<div class="row" id="user-post-comment" style="display: none;" class="mb-5">
+				<div class="row">
 					<div class="col-md-12">
 						<cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#url.userid#" post_class="USER" base_id="user-posts-form">						
 					</div>

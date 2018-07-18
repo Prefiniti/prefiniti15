@@ -160,10 +160,7 @@ component extends="Prefiniti.Base" output="false" {
                                 "MA_WRITE"];
 
             for(permKey in initialPerms) {
-                cfstoredproc(procedure="grantPermission", datasource="sites") {
-                    cfprocparam(cfsqltype="CF_SQL_BIGINT", value=assoc_id);
-                    cfprocparam(cfsqltype="CF_SQL_VARCHAR", value=permKey)
-                }
+                acct.grantPermission(assoc_id, permKey);
             }
 
             acct.sendConfirmation();
@@ -328,10 +325,17 @@ component extends="Prefiniti.Base" output="false" {
     public numeric function addSiteAssociation(required numeric site_id, required string assoc_type) {
 
         var assocType = "";
+        var notifyAssoc = "";
 
         switch(arguments.assoc_type) {
-            case "employee": assocType = 1; break;
-            case "client": assocType = 0; break;
+            case "employee": 
+                assocType = 1; 
+                notifyAssoc = "an employee";
+                break;
+            case "client": 
+                assocType = 0; 
+                notifyAssoc = "a client";
+                break;
         }
 
         var confID = createUUID();
@@ -343,6 +347,15 @@ component extends="Prefiniti.Base" output="false" {
         qrySql = "SELECT id FROM site_associations WHERE conf_id=:conf_id";
 
         var result = queryExecute(qrySql, {conf_id=confID}, {datasource="sites"});
+        var siteName = this.getSiteNameByID(arguments.site_id);
+        
+        var message = new Prefiniti.MailTemplate("new_association", this.email, "Company Membership Added", {
+            siteName: siteName,
+            firstName: this.firstName,
+            assocType: notifyAssoc
+        });
+        message.send();
+
 
         return result.id;
 
@@ -361,5 +374,15 @@ component extends="Prefiniti.Base" output="false" {
         var res = queryExecute(qrySql, {site_id=arguments.site_id, assoc_type=assocType}, {datasource="sites"});
 
     }
+
+    public void function grantPermission(required numeric assoc_id, required string permission_key) {
+
+        cfstoredproc(procedure="grantPermission", datasource="sites") {
+            cfprocparam(cfsqltype="CF_SQL_BIGINT", value=arguments.assoc_id);
+            cfprocparam(cfsqltype="CF_SQL_VARCHAR", value=arguments.permission_key)
+        }
+
+    }
+
 
 }

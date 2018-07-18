@@ -25,8 +25,18 @@
     <cfelse>
         <cfreturn false>
     </cfif>
-
 </cffunction>
+
+<cffunction name="getUserByEmail" returntype="Prefiniti.Authentication.UserAccount">
+    <cfargument name="email" type="string" required="true">
+
+    <cfquery name="getUserID" datasource="webwarecl">
+        SELECT id FROM users WHERE username="#arguments.email#" OR email="#arguments.email#"
+    </cfquery>
+
+    <cfreturn new Prefiniti.Authentication.UserAccount({id: getUserID.id}, false)>
+</cffunction>
+
 <cffunction name="getUserByAssociationID" returntype="Prefiniti.Authentication.UserAccount">
     <cfargument name="n_assoc_id" type="numeric" required="yes">
 
@@ -102,11 +112,67 @@
     <cfif chkRecord.RecordCount GT 0>
         <cfreturn chkRecord>
     <cfelse>
-        <cfquery name="createRecord" datasource="sites">
-            INSERT INTO employees (assoc_id) VALUES (#arguments.assoc_id#)
-        </cfquery>
-        <cfreturn getEmployeeRecord(arguments.assoc_id)>
+        <cfreturn createEmployeeRecord(arguments.assoc_id)>
     </cfif>
+</cffunction>
+
+<cffunction name="createEmployeeRecord" returntype="query">
+    <cfargument name="assoc_id" type="numeric" required="true">
+    <cfargument name="application_date" type="string" required="true">
+    <cfargument name="hire_date" type="string" required="true">
+    <cfargument name="termination_date" type="string" required="true">
+    <cfargument name="title" type="string" required="true">
+    <cfargument name="application" type="string" required="true">
+    <cfargument name="resume" type="string" required="true">
+    <cfargument name="notes" type="string" required="true">
+    <cfargument name="employment_status" type="string" required="true">
+    <cfargument name="wage_basis" type="string" required="true">
+    <cfargument name="wage" type="numeric" required="true">
+    <cfargument name="payroll_frequency" type="string" required="true">
+
+    <cfquery name="createEmployeeRecord" datasource="sites">
+        INSERT INTO employees
+            (assoc_id,
+            <cfif arguments.application_date NEQ "">
+            application_date,
+            </cfif>
+            <cfif arguments.hire_date NEQ "">
+            hire_date,
+            </cfif>
+            <cfif arguments.termination_date NEQ "">
+            termination_date,
+            </cfif>
+            title,
+            application,
+            resume,
+            notes,
+            employment_status,
+            wage_basis,
+            wage,
+            payroll_frequency)
+        VALUES
+            (#arguments.assoc_id#,
+            <cfif arguments.application_date NEQ "">
+            #createODBCDate(arguments.application_date)#,
+            </cfif>
+            <cfif arguments.hire_date NEQ "">
+            #createODBCDate(arguments.hire_date)#,
+            </cfif>
+            <cfif arguments.termination_date NEQ "">
+            #createODBCDate(arguments.termination_date)#,
+            </cfif>
+            "#arguments.title#",
+            "#arguments.application#",
+            "#arguments.resume#",
+            "#arguments.notes#",
+            "#arguments.employment_status#",
+            "#arguments.wage_basis#",
+            #arguments.wage#,
+            "#arguments.payroll_frequency#")
+    </cfquery>
+
+    <cfreturn getEmployeeRecord(arguments.assoc_id)>
+
 </cffunction>
 
 <cffunction name="getAssociationsByUser" returntype="query">

@@ -10,30 +10,23 @@
 		SELECT * FROM users WHERE username='#form.username#' AND password='#Hash(form.password)#'
 	</cfquery>
 	
-	<cfquery name="siteStatus" datasource="#session.datasource#">
-		SELECT * FROM config
-	</cfquery>
-	
 	<cfquery name="eventUsers" datasource="#session.datasource#">
 		SELECT id FROM users
 	</cfquery>
 	
 	<cfif #qryGetLogin.RecordCount# GT 0>
-		<cfif #siteStatus.logins_disabled# EQ 1 AND #qryGetLogin.site_maintainer# EQ 0>
-			<cfset session.message="Sign-in has been temporarily disabled for site maintenance.">
-			<cflocation url="default.cfm" addtoken="no">
-		</cfif>
+		
 		<cfif #qryGetLogin.account_enabled# EQ 1>
 			
 			<!---login success--->
 			<cfif IsDefined("form.rememberMe")>
-				<cfcookie name="wwcl_rememberMe" value="true" expires="never">
-				<cfcookie name="wwcl_password" value="#qryGetLogin.password#" expires="never">
+				<cfcookie name="wwcl_rememberMe" value="true" expires="never">				
 				<cfcookie name="wwcl_longName" value="#qryGetLogin.longName#" expires="never">
 				<cfcookie name="wwcl_username" value="#qryGetLogin.username#" expires="never">
 			<cfelse>
 				<cfcookie name="wwcl_rememberMe" value="false">
 			</cfif>
+
 			<cfset session.loggedin = true>
 			<cfset session.username = "#qryGetLogin.username#">
 			<cfset session.longname = "#qryGetLogin.LongName#">
@@ -46,28 +39,18 @@
 			<cfquery name="setOnline" datasource="#session.datasource#">
 				UPDATE users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#
 			</cfquery>
-			
-			<cfoutput query="eventUsers">
-				<cfquery name="genLoginEvent" datasource="webwarecl"> 
-					INSERT INTO rt_events (eventText, targetUser, viewed, timestamp) VALUES
-					('#TimeFormat(Now(), "h:mm:tt")#: #qryGetLogin.longName# has signed on.', #id#, 0, #CreateODBCDateTime(Now())#)
-				</cfquery>
-			</cfoutput>
+						
 
-			<cfif #form.doRedirect# EQ "true">
-				<cflocation url="#form.redir#" addtoken="no">
-			<cfelse>
-				<cflocation url="siteSelect.cfm" addtoken="no">
-			</cfif>
+			<cflocation url="/go" addtoken="no">			
 		<cfelse>
 			<cfset session.message="Your account has been disabled.">
-			<cflocation url="default.cfm" addtoken="no">
+			<cflocation url="/login" addtoken="no">
 		</cfif>
 	<cfelse>
 		<!---login failure--->
 		<cfset session.loggedin = false>
 		<cfset session.message="Invalid username and/or password. Please try again">
-		<cflocation url="default.cfm" addtoken="no">
+		<cflocation url="/login" addtoken="no">
 	</cfif>
 </body>
 </html>

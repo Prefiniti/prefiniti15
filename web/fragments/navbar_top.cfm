@@ -51,7 +51,7 @@
 
 
             <li>
-                <a href="/logoff.cfm">
+                <a href="/logout">
                     <i class="fa fa-sign-out"></i> Sign Out
                 </a>
             </li>
