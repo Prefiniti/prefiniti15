@@ -146,7 +146,7 @@
                                     <div class="col-sm-8 text-sm-left"><dd class="mb-1">#employee.longName# from template <em>#templateName#</em></dd></div>
                                 </dl>
                                 <dl class="row mb-0">
-                                    <div class="col-sm-4 text-sm-right"><dt>Messages:</dt> </div>
+                                    <div class="col-sm-4 text-sm-right"><dt>Comments:</dt> </div>
                                     <div class="col-sm-8 text-sm-left"> <dd class="mb-1">  #posts.len()#</dd></div>
                                 </dl>
                                 <cfif NOT internalProject>

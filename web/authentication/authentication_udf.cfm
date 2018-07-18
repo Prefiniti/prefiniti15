@@ -1,3 +1,32 @@
+<cffunction name="confirmAccount" returntype="void" output="false">
+    <cfargument name="confirm_id" type="string" required="true">
+    <cfargument name="password" type="string" required="true">
+
+
+    <cfquery name="setConfirmed" datasource="webwarecl">
+        UPDATE users SET confirmed=1, account_enabled=1, password="#hash(arguments.password)#" WHERE confirm_id="#arguments.confirm_id#"
+    </cfquery>
+
+    <cfquery name="resetConfID" datasource="webwarecl">
+        UPDATE users SET confirm_id="#createUUID()#" WHERE confirm_id="#arguments.confirm_id#"
+    </cfquery>
+
+</cffunction>
+
+<cffunction name="emailTaken" returntype="boolean" output="false">
+    <cfargument name="emailAddress" type="string" required="true">
+
+    <cfquery name="chkEmail" datasource="webwarecl">
+        SELECT id FROM users WHERE username="#arguments.emailAddress#" OR email="#arguments.emailAddress#"
+    </cfquery>
+
+    <cfif chkEmail.recordCount GT 0>
+        <cfreturn true>
+    <cfelse>
+        <cfreturn false>
+    </cfif>
+
+</cffunction>
 <cffunction name="getUserByAssociationID" returntype="Prefiniti.Authentication.UserAccount">
     <cfargument name="n_assoc_id" type="numeric" required="yes">
 

@@ -241,8 +241,13 @@
 <cffunction name="getAge" returntype="numeric">
     <cfargument name="user_id" type="numeric" required="yes">
 
-    <cfset birthday = getBirthday(user_id)>
-
+    <cftry>
+        <cfset birthday = getBirthday(user_id)>
+        <cfcatch type="any">
+            <cfset birthday = now()>
+        </cfcatch>
+    </cftry>
+    
     <cfreturn dateDiff("yyyy", birthday, now())>
 </cffunction>
 

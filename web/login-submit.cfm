@@ -40,8 +40,7 @@
 			<cfset session.userid = "#qryGetLogin.id#">
 			<cfset session.email = "#qryGetLogin.email#">
             <cfset session.webware_admin=#qryGetLogin.webware_admin#>
-			<cfset session.pwdiff = DateDiff("d", qryGetLogin.last_pwchange, Now())>
-
+			
 			<cfset session.user = new Prefiniti.Authentication.UserAccount({username: session.username}, false)>
             			
 			<cfquery name="setOnline" datasource="#session.datasource#">

@@ -69,19 +69,34 @@
 									<td>
 										<i class="fa fa-heart"></i>
 									</td>
-									<td>#relationship_status#</td>
+									<cfif relationship_status NEQ "">
+										<td>#relationship_status#</td>
+									<cfelse>
+										<td>Unknown relationship status</td>
+									</cfif>
 								</tr>
 								<tr>
 									<td>
 										<i class="fa fa-venus-mars"></i>
 									</td>
-									<td>#gender#</td>
+									<cfif gender NEQ "">
+										<td>#gender#</td>
+									<cfelse>
+										<td>Unknown gender</td>
+									</cfif>
 								</tr>
 								<tr>
 									<td>
 										<i class="fa fa-birthday-cake"></i>
 									</td>
-									<td>#dateDiff("yyyy", birthday, now())# years old</td>
+									<td>
+										<cftry>
+											#dateDiff("yyyy", birthday, now())# years old
+											<cfcatch type="any">
+												No birthday on file
+											</cfcatch>
+										</cftry>
+									</td>
 								</tr>
 								<tr>
 									<td>
@@ -195,7 +210,13 @@
 								<cfif not isFriend(url.userid, source_id)>
 									<tr>
 										<td>#getLongname(source_id)#</td>
-										<td>#source_age#</td>
+										<td>
+											<cfif source_age GT 0>
+												#source_age#
+											<cfelse>
+												Unknown
+											</cfif>
+										</td>
 										<td>#dateFormat(visit_date, "d mmm yyyy")#</td>
 									</tr>
 								</cfif>
@@ -225,7 +246,7 @@
 									</td>
 									<td>
 										<cfif assoc_type EQ 0>
-											<cfset connection = "Customer of">
+											<cfset connection = "Client of">
 										<cfelse>
 											<cfset connection = "Employee of">
 										</cfif>

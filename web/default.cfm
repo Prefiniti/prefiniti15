@@ -54,7 +54,7 @@
                     <input type="hidden" name="siteid" value="WebWareCL">
 
                     <div class="form-group">
-                        <input type="text" class="form-control" name="UserName" placeholder="Username" id="UserName" <cfif #cookie.wwcl_rememberMe# EQ "true">value="#cookie.wwcl_username#"</cfif>>
+                        <input type="email" class="form-control" name="UserName" placeholder="E-Mail Address" id="UserName" <cfif #cookie.wwcl_rememberMe# EQ "true">value="#cookie.wwcl_username#"</cfif>>
                     </div>
                     
                     <div class="form-group">
@@ -71,7 +71,7 @@
                     <button type="submit" class="btn btn-primary block full-width m-b" name="submit">Login</button>
 
                     <a href="##"><small>Forgot password?</small></a>
-                    <p class="text-muted text-center"><small>Do not have an account?</small></p>
+                    <p class="text-muted text-center"><small>Don't have an account?</small></p>
                     <a class="btn btn-sm btn-white btn-block" href="register.cfm">Create an account</a>
 
                 </form>

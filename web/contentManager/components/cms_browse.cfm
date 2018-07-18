@@ -51,7 +51,7 @@
                     <tr>
                         <th>Name</th>                        
                         <th>Last Access</th>
-                        <th>Size</th>
+                        <th>Size (Bytes)</th>
                         <th><i class="fa fa-cogs"></i></th>
                     </tr>
                 </thead>
@@ -60,10 +60,16 @@
                         <cfset fileType = cmsFileType(id)>
                         <cfset fileURL = "https://#cgi.server_name#/UserContent/#session.user.username#/#basedir#/#filename#">
                         <tr>
-                            <td><img src="#fileType.icon#"> <a href="#fileURL#" target="_blank">#filename#</a></td>
-                            <td></td>
+                            <td><img src="#fileType.icon#"> <a href="#fileURL#" target="_blank">#filename#</a></td>                            
                             <td>#dateFormat(last_access, "mmm d, yyyy")#</td>
-                            <td>#cmsUserFileSize(id)#</td>
+                            <td>
+                                <cftry>
+                                    #cmsUserFileSize(id)#
+                                    <cfcatch type="any">
+                                        <span class="text-danger">Error</span>
+                                    </cfcatch>
+                                </cftry>
+                            </td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
                                 <div class="dropdown-menu">                                       

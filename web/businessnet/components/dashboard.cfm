@@ -60,81 +60,87 @@
     <div class="col-md-3">
         <h2>Welcome, <cfoutput>#session.user.firstName#</cfoutput>!</h2>
         <small>You have <cfoutput>#siteStats.unreadMail#</cfoutput> unread messages.</small>
-        <ul class="list-group clear-list m-t">
-            <cfoutput query="getPriorityTasks" maxrows="5">
-                <li class="list-group-item fist-item">
-                    <span class="float-right">
-                        <cfif task_complete EQ 0>
-                            To-Do
-                        <cfelse>
-                            In Progress
-                        </cfif>
-                    </span>
-                    <span class="label label-success">#task_priority#</span> <a href="##" onclick="Prefiniti.Dashboard.viewTask(#project_id#, #id#);">#task_name#</a>
-                </li>
-            </cfoutput>
-            
-        </ul>
+        
+        <cfif prefiniti.getPermissionByKey("WF_EDIT", session.current_association)>
+            <ul class="list-group clear-list m-t">
+                <cfoutput query="getPriorityTasks" maxrows="5">
+                    <li class="list-group-item fist-item">
+                        <span class="float-right">
+                            <cfif task_complete EQ 0>
+                                To-Do
+                            <cfelse>
+                                In Progress
+                            </cfif>
+                        </span>
+                        <span class="label label-success">#task_priority#</span> <a href="##" onclick="Prefiniti.Dashboard.viewTask(#project_id#, #id#);">#task_name#</a>
+                    </li>
+                </cfoutput>                
+            </ul>
+        </cfif>
     </div>
     <div class="col-md-6">
-        <cfoutput>
-            <div class="flot-chart dashboard-chart">
-                <div class="flot-chart-content" id="flot-dashboard-chart"></div>
-            </div>
-            <div class="row text-left">
-                <div class="col">
-                    <div class=" m-l-md">
-                        <span class="h5 font-bold m-t block">#activeProjects#</span>
-                        <small class="text-muted m-b block">Active projects</small>
+        <cfif prefiniti.getPermissionByKey("WF_VIEWSTATS", session.current_association)>
+            <cfoutput>
+                <div class="flot-chart dashboard-chart">
+                    <div class="flot-chart-content" id="flot-dashboard-chart"></div>
+                </div>
+                <div class="row text-left">
+                    <div class="col">
+                        <div class=" m-l-md">
+                            <span class="h5 font-bold m-t block">#activeProjects#</span>
+                            <small class="text-muted m-b block">Active projects</small>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <span class="h5 font-bold m-t block">#billedProjects#</span>
-                    <small class="text-muted m-b block">Billed projects</small>
-                </div>
-                <div class="col">
-                    <span class="h5 font-bold m-t block">#paidProjects#</span>
-                    <small class="text-muted m-b block">Paid projects</small>
-                </div>
-                <div class="col">
-                    <span class="h5 font-bold m-t block">#overdueProjects#</span>
-                    <small class="text-muted m-b block">Overdue projects</small>
-                </div>
-                <div class="col">
-                    <span class="h5 font-bold m-t block">#delinquentProjects#</span>
-                    <small class="text-muted m-b block">Delinquent projects</small>
-                </div>
+                    <div class="col">
+                        <span class="h5 font-bold m-t block">#billedProjects#</span>
+                        <small class="text-muted m-b block">Billed projects</small>
+                    </div>
+                    <div class="col">
+                        <span class="h5 font-bold m-t block">#paidProjects#</span>
+                        <small class="text-muted m-b block">Paid projects</small>
+                    </div>
+                    <div class="col">
+                        <span class="h5 font-bold m-t block">#overdueProjects#</span>
+                        <small class="text-muted m-b block">Overdue projects</small>
+                    </div>
+                    <div class="col">
+                        <span class="h5 font-bold m-t block">#delinquentProjects#</span>
+                        <small class="text-muted m-b block">Delinquent projects</small>
+                    </div>
 
-            </div>
-        </cfoutput>
+                </div>
+            </cfoutput>
+        </cfif>
     </div>
     <div class="col-md-3">
-        <div class="statistic-box">
-            <h4>
-                Project Statistics
-            </h4>
-            <p>
-                This data represents the overall status of your projects.
-            </p>
-            <div class="row text-center">
-                <div class="col-lg-6">
-                    <cfoutput>
-                        <canvas id="overdue-projects" data-labels="On-Time,Overdue" data-colors="##9cc3da,##dbb1cd" data-data="#onTimeProjects#,#overdueProjects#" width="80" height="80" style="margin: 18px auto 0"></canvas>
-                    </cfoutput>
-                    <h5 >Overdue Projects</h5>
+        <cfif prefiniti.getPermissionByKey("WF_VIEWSTATS", session.current_association)>
+            <div class="statistic-box">
+                <h4>
+                    Project Statistics
+                </h4>
+                <p>
+                    This data represents the overall status of your projects.
+                </p>
+                <div class="row text-center">
+                    <div class="col-lg-6">
+                        <cfoutput>
+                            <canvas id="overdue-projects" data-labels="On-Time,Overdue" data-colors="##9cc3da,##dbb1cd" data-data="#onTimeProjects#,#overdueProjects#" width="80" height="80" style="margin: 18px auto 0"></canvas>
+                        </cfoutput>
+                        <h5 >Overdue Projects</h5>
+                    </div>
+                    <div class="col-lg-6">
+                        <cfoutput>
+                        <canvas id="delinquent-projects" data-labels="Total Projects,Delinquent Projects" data-colors="##9cc3da,##dbb1cd" data-data="#nonDelinquentProjects#,#delinquentProjects#"  width="80" height="80" style="margin: 18px auto 0"></canvas>
+                        </cfoutput>
+                        <h5 >Delinquent Projects</h5>
+                    </div>
                 </div>
-                <div class="col-lg-6">
-                    <cfoutput>
-                    <canvas id="delinquent-projects" data-labels="Total Projects,Delinquent Projects" data-colors="##9cc3da,##dbb1cd" data-data="#nonDelinquentProjects#,#delinquentProjects#"  width="80" height="80" style="margin: 18px auto 0"></canvas>
-                    </cfoutput>
-                    <h5 >Delinquent Projects</h5>
+                <div class="m-t">
+                    <small>Note that this data is subject to change. Please click the <i class="fa fa-redo"></i> button above to refresh.</small>
                 </div>
-            </div>
-            <div class="m-t">
-                <small>Note that this data is subject to change. Please click the <i class="fa fa-redo"></i> button above to refresh.</small>
-            </div>
 
-        </div>
+            </div>
+        </cfif>
     </div>
 
 </div>
@@ -184,25 +190,21 @@
                     </div>
 
                 </div>
-                <div class="col-lg-4">
-                    <div class="ibox ">
+                <div class="col-lg-4">                    
+                    <div class="ibox">
                         <div class="ibox-title">
                             <h5>My Projects</h5>
                             <div class="ibox-tools">
-                                <a class="collapse-link" href="">
-                                    <i class="fa fa-chevron-up"></i>
-                                </a>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                    <i class="fa fa-wrench"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-user">
-                                    <li><a href="#" class="dropdown-item" onclick="Prefiniti.Projects.create();">New Project...</a>
-                                    </li>
-                                    
-                                </ul>
-                                <a class="close-link" href="">
-                                    <i class="fa fa-times"></i>
-                                </a>
+                                <cfif prefiniti.getPermissionByKey("WF_CREATE", session.current_association)>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li><a href="#" class="dropdown-item" onclick="Prefiniti.Projects.create();">New Project...</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </cfif>
                             </div>
                         </div>
                         <div class="ibox-content">

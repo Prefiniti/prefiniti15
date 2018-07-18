@@ -55,9 +55,7 @@ component extends="Prefiniti.Base" output="false" {
             }            
         }
         else {
-            var requiredKeys = ["username", 
-                                "password", 
-                                "email", 
+            var requiredKeys = ["email", 
                                 "firstName", 
                                 "lastName"];            
         }
@@ -119,8 +117,7 @@ component extends="Prefiniti.Base" output="false" {
         }
         else {
             // new account
-
-            var passwordHash = hash(user.password);
+            
             var longName = "";
             var middleInitial = " ";
 
@@ -131,12 +128,11 @@ component extends="Prefiniti.Base" output="false" {
                 longName = user.firstName & " " & user.lastName;
             }
 
-            var qrySql = "INSERT INTO users (username, password, longName, email, firstName, middleInitial, lastName, confirm_id) ";
-            var qrySql = qrySql & "VALUES (:username, :password, :longName, :email, :firstName, :middleInitial, :lastName, :confirm_id)"
+            var qrySql = "INSERT INTO users (username, longName, email, firstName, middleInitial, lastName, confirm_id) ";
+            var qrySql = qrySql & "VALUES (:username, :longName, :email, :firstName, :middleInitial, :lastName, :confirm_id)"
 
             var qry = queryExecute(qrySql, {
-                username = user.username,
-                password = passwordHash,
+                username = user.email,
                 longName = longName,
                 email = user.email,
                 firstName = user.firstName,
@@ -147,6 +143,13 @@ component extends="Prefiniti.Base" output="false" {
 
             var qrySql = "SELECT id FROM users WHERE confirm_id=:confirm_id";
             var userQry = queryExecute(qrySql, {confirm_id=this.confirm_id}, {datasource="webwarecl"});
+
+            var basePath = expandPath("/UserContent");
+
+            directoryCreate(basePath & "/" & user.email);
+            directoryCreate(basePath & "/" & user.email & "/profile_images");
+            directoryCreate(basePath & "/" & user.email & "/project_files");
+
 
             var acct = new Prefiniti.Authentication.UserAccount({id: userQry.id}, false);
 
@@ -172,6 +175,13 @@ component extends="Prefiniti.Base" output="false" {
     }
 
     public void function sendConfirmation() output=false {
+
+        var message = new Prefiniti.MailTemplate("verify_account", this.email, "Geodigraph PM Account Verification", {
+            firstName: this.firstName,
+            confirm_id: this.confirm_id
+        });
+
+        message.send();
 
     }
 
