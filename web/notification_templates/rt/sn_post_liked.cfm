@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.reactor.id#)">#attributes.reactor.longName#</a> has liked your post</cfoutput>

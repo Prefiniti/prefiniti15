@@ -99,8 +99,6 @@ var Prefiniti = {
     },
 
     setAssociation: function(assocId) {
-        console.log(assocId);
-
         $("#ss-assoc").val(assocId);
         $("#ss-form").submit();
     },

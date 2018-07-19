@@ -141,6 +141,7 @@
     <script src="js/filehandler.js"></script>
     <script src="js/cms.js"></script>
     <script src="js/businessnet.js"></script>
+    <script src="notifications/notifications.js"></script>
     
     <cfinclude template="windowWrapper.cfm">
 

@@ -111,16 +111,51 @@
                      "#create_id#")
             </cfquery>
 
+            <cfif this.client_assoc NEQ this.employee_assoc>
+                <cfset n_client = this.getUserByAssociationID(this.client_assoc)>
+                <cfset n_emp = this.getUserByAssociationID(this.employee_assoc)>
+
+                <cfset notification = new Prefiniti.Notification(n_client, "WF_PROJECT_CREATED", {project: this})>
+                <cfset notification.send()>
+                <cfset notification = new Prefiniti.Notification(n_emp, "WF_PROJECT_CREATED", {project: this})>
+                <cfset notification.send()>
+            <cfelse>
+                <cfset n_emp = this.getUserByAssociationID(this.employee_assoc)>
+                <cfset notification = new Prefiniti.Notification(n_emp, "WF_PROJECT_CREATED", {project: this})>
+                <cfset notification.send()>
+            </cfif>
+
             <cfquery name="getProjectID" datasource="webwarecl">
                 SELECT id FROM pm_projects WHERE create_id="#create_id#"
             </cfquery>
 
             <cfset this.id = getProjectID.id>
-
             <cfset this.applyTemplate(this.template_id)>
+
 
             <cfreturn new Prefiniti.ProjectManagement.Project(getProjectID.id, this.template_id)>
         </cfif>        
+
+    </cffunction>
+
+    <cffunction name="notifyStakeholders" returntype="void" output="false">
+        <cfargument name="n_key" type="string" required="true">
+        <cfargument name="fieldCollection" type="struct" required="true">
+
+        <cfscript>
+            var fields = arguments.fieldCollection;
+
+            fields.project = this;
+
+            var stakeholders = this.getStakeholders();
+            var notification = "";
+
+            for(stakeholder in stakeholders) {
+                notification = new Prefiniti.Notification(stakeholder.user, arguments.n_key, fields);
+                notification.send();
+            }
+
+        </cfscript>
 
     </cffunction>
 
@@ -150,6 +185,8 @@
         <cfset this.addTag(this.project_name)>
         <cfset this.addTag(this.project_client.longName)>
         <cfset this.addTag(this.project_employee.longName)>
+
+        <cfset this.notifyStakeholders("WF_PROJECT_EDITED", {})>
 
         <cfreturn this>
 
@@ -278,6 +315,13 @@
             SELECT id FROM pm_time_entries WHERE create_id="#create_id#"
         </cfquery>
 
+        <cfset this.notifyStakeholders("WF_TIME_LOGGED", {
+            task_code_id: arguments.task_code_id,
+            task_code_name: this.getTaskCodeNameByID(arguments.task_code_id),
+            task_id: arguments.task_id,
+            work_performed: arguments.work_performed
+        })>
+
         <cfreturn getTimeEntryID.id>
     </cffunction>
 
@@ -329,6 +373,8 @@
             WHERE id=#arguments.time_id#
         </cfquery>
 
+        <cfset this.notifyStakeholders("WF_TIME_CLOSED", {time_id: arguments.time_id})>
+
     </cffunction>
 
     <cffunction name="deleteTimeEntry" returntype="void" output="false">
@@ -337,6 +383,8 @@
         <cfquery name="deleteTimeEntry" datasource="webwarecl">
             DELETE FROM pm_time_entries WHERE id=#arguments.time_id#
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_TIME_DELETED", {time_id: arguments.time_id})>
 
     </cffunction>
 
@@ -385,6 +433,8 @@
         <cfquery name="getTravelID" datasource="webwarecl">
             SELECT id FROM pm_travel_entries WHERE create_id="#create_id#"
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_TRAVEL_LOGGED", {travel_id: getTravelID.id})>
 
         <cfreturn getTravelID.id>
     </cffunction>
@@ -435,6 +485,8 @@
             DELETE FROM pm_travel_entries WHERE id=#arguments.travel_id#
         </cfquery>
 
+        <cfset this.notifyStakeholders("WF_TRAVEL_DELETED", {travel_id: arguments.travel_id})>
+
     </cffunction>
 
     <cffunction name="getStakeholders" returntype="array" output="false">
@@ -469,6 +521,11 @@
         <cfargument name="stakeholder_type" type="string" required="true">
         <cfargument name="permissions" type="numeric" required="true">
 
+        <cfset this.notifyStakeholders("WF_STAKEHOLDER_ADDED", {
+            stakeholder: this.getUserByAssociationID(arguments.assoc_id),
+            type: arguments.stakeholder_type
+        })>
+
         <cfset this.removeStakeholder(arguments.assoc_id, arguments.stakeholder_type)>
 
         <cfquery name="addStakeholder" datasource="webwarecl">
@@ -482,6 +539,11 @@
     <cffunction name="removeStakeholder" returntype="void" output="false">
         <cfargument name="assoc_id" type="numeric" required="true">
         <cfargument name="stakeholder_type" type="string" required="true">
+
+        <cfset this.notifyStakeholders("WF_STAKEHOLDER_DELETED", {
+            stakeholder: this.getUserByAssociationID(arguments.assoc_id),
+            type: arguments.stakeholder_type
+        })>
 
         <cfquery name="removeStakeholder" datasource="webwarecl">
             DELETE FROM pm_stakeholders WHERE project_id=#this.id# AND assoc_id=#arguments.assoc_id# AND stakeholder_type="#arguments.stakeholder_type#"
@@ -547,6 +609,19 @@
             SELECT id FROM pm_tasks WHERE create_id="#create_id#"
         </cfquery>
 
+        <cfset taskInfo = {
+            task_name: arguments.task_name,
+            task_priority: arguments.task_priority
+        }>
+
+        <cfif arguments.assignee_assoc_id NEQ 0>
+            <cfset taskInfo.assignee = this.getUserByAssociationID(assignee_assoc_id)>
+        <cfelse>
+            <cfset taskInfo.assignee = "Unassigned">
+        </cfif>
+
+        <cfset this.notifyStakeholders("WF_TASK_CREATED", taskInfo)>
+
         <cfreturn getTaskID.id>
 
     </cffunction>
@@ -557,15 +632,49 @@
         <cfquery name="removeTask" datasource="webwarecl">
             DELETE FROM pm_tasks WHERE id=#arguments.id#
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_TASK_DELETED", {task_id: arguments.id})>
     </cffunction>
+
+    <cffunction name="getTaskStatusName" returntype="string" output="false">
+        <cfargument name="completion" type="numeric" required="true">
+
+        <cfscript>
+            switch (arguments.completion) {
+                case 0: return "To-Do"; break;
+                case 1: return "In Progress"; break;
+                case 2: return "Done"; break;
+            }
+
+            return "Invalid Status";
+        </cfscript>
+
+    </cffunction> 
 
     <cffunction name="setTaskCompletion" returntype="void" output="false">
         <cfargument name="task_id" type="numeric" required="true">
         <cfargument name="completion" type="numeric" required="true">
 
+        <cfset oldTask = this.getTaskByID(arguments.task_id)>
+
+        <cfset oldCompletion = this.getTaskStatusName(oldTask.task_complete)>
+
+
         <cfquery name="removeTask" datasource="webwarecl">
             UPDATE pm_tasks SET task_complete=#arguments.completion# WHERE id=#arguments.task_id#
         </cfquery>
+
+        <cfset newTask = this.getTaskByID(arguments.task_id)>
+        <cfset newCompletion = this.getTaskStatusName(newTask.task_complete)>
+        <cfset taskName = newTask.task_name>
+
+        <cfset this.notifyStakeholders("WF_TASK_STATUS_CHANGED", {
+            previousStatus: oldCompletion,
+            currentStatus: newCompletion,
+            taskName: taskName,
+            perpetrator: session.user,
+            taskId: arguments.task_id})>
+
     </cffunction>
 
     <cffunction name="setTaskPriority" returntype="void" output="false">
@@ -575,6 +684,8 @@
         <cfquery name="setTaskPriority" datasource="webwarecl">
             UPDATE pm_tasks SET task_priority="#arguments.priority#" WHERE id=#arguments.task_id#
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_TASK_PRIORITY_CHANGED", {task_id: arguments.task_id, priority: arguments.priority})>
     </cffunction>
 
     <cffunction name="assignTask" returntype="void" output="false">
@@ -584,6 +695,8 @@
         <cfquery name="assignTask" datasource="webwarecl">
             UPDATE pm_tasks SET assignee_assoc_id=#arguments.assignee_assoc_id# WHERE id=#arguments.task_id#
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_TASK_ASSIGNED", {task_id: this.task_id, assignee: this.getUserByAssociationID(arguments.assignee_assoc_id)})>
 
     </cffunction>
 
@@ -653,6 +766,8 @@
                         "#arguments.elevation#",
                         "#create_id#")
         </cfquery>        
+
+        <cfset this.notifyStakeholders("WF_LOCATION_CREATED", arguments)>
     </cffunction>
 
     <cffunction name="removeLocation" returntype="void" output="false">
@@ -661,6 +776,8 @@
         <cfquery name="removeLocation" datasource="webwarecl">
             DELETE FROM pm_locations WHERE id=#arguments.location_id#
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_LOCATION_DELETED", arguments)>
     </cffunction>
 
     <cffunction name="addDeliverable" returntype="numeric" output="false">
@@ -677,6 +794,8 @@
         <cfquery name="getDeliverableID" datasource="webwarecl">
             SELECT id FROM pm_deliverables WHERE create_id="#create_id#"
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_DELIVERABLE_CREATED", arguments)>
 
         <cfreturn getDeliverableID.id>
     </cffunction>
@@ -707,6 +826,8 @@
             UPDATE pm_deliverables SET deliverable_file_id="#arguments.deliverable_file_id#" WHERE id=#arguments.deliverable_id#
         </cfquery>
 
+        <cfset this.notifyStakeholders("WF_DELIVERABLE_FULFILLED", arguments)>
+
     </cffunction>
 
     <cffunction name="removeDeliverable" returntype="void" output="false">
@@ -715,6 +836,8 @@
         <cfquery name="removeDeliverable" datasource="webwarecl">
             DELETE FROM pm_deliverables WHERE id=#arguments.deliverable_id#
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_DELIVERABLE_DELETED", arguments)>
     </cffunction>
 
     <cffunction name="getTags" returntype="array" output="false">

@@ -1,0 +1,1 @@
+<cfoutput>#attributes.reactor.longName# has disliked your post</cfoutput>

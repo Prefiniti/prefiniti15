@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.reactor.id#)">#attributes.reactor.longName#</a> has disliked a post authored by <a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.author.id#);">#attributes.author.longName#</a>.</cfoutput>

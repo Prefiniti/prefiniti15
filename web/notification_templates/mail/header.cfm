@@ -10,4 +10,6 @@
 <body>
     <div class="gray-bg">
         <div class="wrapper wrapper-content">
-            <h1 class="logo-name"><img src="https://pm.geodigraph.com/graphics/login-header.png"></h1>
+            <div class="gray-bg text-center" style="width: 400px; border: 1px solid #cccccc; text-align: center;">
+                <h1 class="logo-name"><img src="https://pm.geodigraph.com/graphics/login-header.png"></h1>
+                <hr>

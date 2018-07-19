@@ -323,6 +323,7 @@ Prefiniti.extend("Projects", {
                     Prefiniti.Projects.itemCreated();
                 }
                 else {
+                    console.log(data);
 
                 }
             }

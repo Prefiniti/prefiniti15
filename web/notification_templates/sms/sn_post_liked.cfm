@@ -1,0 +1,1 @@
+<cfoutput>#attributes.reactor.longName# has liked your post</cfoutput>

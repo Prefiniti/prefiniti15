@@ -33,15 +33,17 @@ component extends="Prefiniti.Base" output="false" {
         this.saved = true;
 
         var author = new Prefiniti.Authentication.UserAccount({id: this.author_id}, false);
+        var recipient = new Prefiniti.Authentication.UserAccount({id: this.recipient_id}, false)
 
-        if(this.post_class EQ "USER") {
-            if(this.parent_post_id == 0) {
-                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has posted on your profile.", "Prefiniti.Social.loadProfile(#this.recipient_id#);");
-            }
-            else {
-                ntNotify(this.recipient_id, "SN_COMMENT_POSTED", author.longName & " has replied to a post that you follow.", "Prefiniti.Social.loadProfile(#this.recipient_id#);");
-            }
-        }
+        var notification = new Prefiniti.Notification(recipient, "SN_COMMENT_POSTED", {
+            postAuthor: author.id,
+            postRecipient: this.recipient_id,
+            parent_post_id: this.parent_post_id,
+            post_class: this.post_class,
+            body_copy: this.body_copy
+        });
+
+        notification.send();        
 
         return this;
     }
@@ -137,16 +139,26 @@ component extends="Prefiniti.Base" output="false" {
 
         switch(arguments.reaction) {
             case "like":
-                var ntKey = "SN_POST_LIKED";
-                var eventText = arguments.user.longName & " has liked your post.";
+                var notification = new Prefiniti.Notification(arguments.user, "SN_POST_LIKED", {
+                    reactor: arguments.user,
+                    author: this.author,
+                    body_copy: this.body_copy                
+                });
+
+                notification.send();
+                
                 break;
             case "dislike":
-                var ntKey = "SN_POST_DISLIKED";
-                var eventText = arguments.user.longName & " has disliked your post.";
+                var notification = new Prefiniti.Notification(arguments.user, "SN_POST_DISLIKED", {
+                    author: this.author,
+                    reactor: arguments.user,
+                    body_copy: this.body_copy
+                });
+
+                notification.send();         
+
                 break;
         }
-
-        ntNotify(this.author_id, ntKey, eventText, "Prefiniti.Social.loadProfile(#this.recipient_id#);");
 
     }
 

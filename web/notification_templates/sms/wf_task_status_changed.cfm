@@ -1,0 +1,1 @@
+<cfoutput>#attributes.perpetrator.longName# has set changed the status of task #attributes.taskName# on project #attributes.project.project_name# from #attributes.previousStatus# to #attributes.currentStatus#.</cfoutput>
