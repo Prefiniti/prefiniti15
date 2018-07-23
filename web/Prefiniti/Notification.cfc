@@ -29,7 +29,7 @@ component extends=Prefiniti.NotificationQueries {
         }
 
         if(methods.pm) {
-            this.messages.append(new Prefiniti.PMTemplate(templateName, arguments.recipient, arguments.fieldCollection));            
+            this.messages.append(new Prefiniti.PMTemplate(templateName, arguments.recipient, subject, arguments.fieldCollection));            
         }
 
         this.messages.append(new Prefiniti.FeedMessage(templateName, arguments.recipient, arguments.fieldCollection));

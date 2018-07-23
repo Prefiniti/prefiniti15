@@ -21,10 +21,31 @@
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                    <i class="fa fa-envelope"></i>  <span id="badge-messages-unread-top" class="label label-warning">0</span>
+                    <i class="fa fa-bell"></i>  <span id="badge-alerts-unread" class="label label-info"></span>
                 </a>
-                <ul class="dropdown-menu dropdown-messages" id="dropdown-mail-menu">
-                    <!-- to be filled by AJAX call -->
+                <ul class="dropdown-menu dropdown-alerts">
+                    <div id="dropdown-alerts-menu">
+                        <!-- to be filled by AJAX call -->
+                    </div>
+                    <li>
+                        <div class="text-center link-block">
+                            <a href="#" class="dropdown-item" onclick="Prefiniti.loadPage('/framework/components/view_alerts.cfm');">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                    <i class="fa fa-envelope"></i>  <span id="badge-messages-unread-top" class="label label-success">0</span>
+                </a>
+                <ul class="dropdown-menu dropdown-messages">
+                    <div id="dropdown-messages-menu">
+                        <!-- to be filled by AJAX call -->
+                    </div>                    
                 </ul>
             </li>
             <li class="dropdown">
@@ -40,8 +61,8 @@
                         <cfoutput>
                             <div class="text-center link-block">
                                 <a href="##" class="dropdown-item" onclick="Prefiniti.loadPage('/socialnet/components/friend_requests.cfm');">
-                                    <strong>See All Friend Requests</strong>
-                                    <i class="fa fa-angle-right"></i>
+                                    <i class="fa fa-bell"></i>
+                                    <strong>See All Friend Requests</strong>                                    
                                 </a>
                             </div>
                         </cfoutput>

@@ -1,8 +1,8 @@
-<cfcomponent extends="Prefiniti.Base" output="false">
+<cfcomponent extends="Prefiniti.Base" output="false" hint="Represents a project">
 
-    <cffunction name="init" returntype="Prefiniti.ProjectManagement.Project" output="false">
-        <cfargument name="id" type="numeric" required="true" default="0">
-        <cfargument name="template_id" type="numeric" required="true" default="0">
+    <cffunction name="init" returntype="Prefiniti.ProjectManagement.Project" output="false" hint="Project constructor">
+        <cfargument name="id" type="numeric" required="true" default="0" hint="Project ID">
+        <cfargument name="template_id" type="numeric" required="true" default="0" hint="ID of template to use">
 
         <cfscript>
 
@@ -57,7 +57,7 @@
         </cfscript>
 
         <cfquery name="checkIfProjectExists" datasource="webwarecl">
-            SELECT * FROM pm_projects WHERE id=#this.id#
+            SELECT * FROM pm_projects WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
         </cfquery>
 
         <cfif checkIfProjectExists.recordCount GT 0>
@@ -80,6 +80,10 @@
                 </cfscript>
             </cfoutput>
 
+            <cfif NOT this.checkPermission(session.user.id, "PRJ_VIEW")>
+                <cfthrow message="Permission Denied" detail="You do not have the PRJ_VIEW permission on this project">
+            </cfif>
+
             <cfreturn this>
         <cfelse>            
             <cfset create_id = createUUID()>
@@ -98,17 +102,17 @@
                     project_created,
                     create_id)
                 VALUES
-                    (#this.employee_assoc#,
-                     #this.client_assoc#,
-                     #this.template_id#,
-                     "#this.project_name#",
-                     1,
-                     '#this.project_status#',
-                     #this.project_start_date#,
-                     #this.project_due_date#,
-                     "#this.project_description#",
-                     #this.project_created#,
-                     "#create_id#")
+                    (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.employee_assoc#">,
+                     <cfqueryparam cfsqltype="cf_sql_bigint" value="#this.client_assoc#">,
+                     <cfqueryparam cfsqltype="cf_sql_bigint" value="#this.template_id#">,
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#HTMLEditFormat(this.project_name)#" maxlength="45">,
+                     <cfqueryparam cfsqltype="cf_sql_tinyint" value="1">,
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#HTMLEditFormat(this.project_status)#" maxlength="45">,
+                     <cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.project_start_date#">,
+                     <cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.project_due_date#">,
+                     <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#HTMLEditFormat(this.project_description)#">,
+                     <cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.project_created#">,
+                     <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
             </cfquery>
 
             <cfif this.client_assoc NEQ this.employee_assoc>
@@ -126,7 +130,7 @@
             </cfif>
 
             <cfquery name="getProjectID" datasource="webwarecl">
-                SELECT id FROM pm_projects WHERE create_id="#create_id#"
+                SELECT id FROM pm_projects WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
             </cfquery>
 
             <cfset this.id = getProjectID.id>
@@ -144,15 +148,27 @@
 
         <cfscript>
             var fields = arguments.fieldCollection;
+            var notified = [];
 
+            // we want to pass all of the project metadata into the
+            // notification, in case a notification template needs to
+            // display project information not otherwise supplied
+            // by the caller.
             fields.project = this;
 
             var stakeholders = this.getStakeholders();
             var notification = "";
 
             for(stakeholder in stakeholders) {
-                notification = new Prefiniti.Notification(stakeholder.user, arguments.n_key, fields);
-                notification.send();
+
+                // the same user can be a stakeholder multiple times.
+                // we only want to notify each user once for any project
+                // for which they are a stakeholder.
+                if(!notified.contains(stakeholder.user.id)) {
+                    notification = new Prefiniti.Notification(stakeholder.user, arguments.n_key, fields);
+                    notification.send();
+                    notified.append(stakeholder.user.id);
+                }
             }
 
         </cfscript>
@@ -161,17 +177,21 @@
 
     <cffunction name="save" returntype="Prefiniti.ProjectManagement.Project" output="false">
 
+        <cfif NOT this.checkPermission(session.user.id, "PRJ_EDIT")>
+            <cfthrow message="Permission Denied" detail="You do not have the PRJ_EDIT permission on this project">
+        </cfif>
+
         <cfquery name="updateProject" datasource="webwarecl">
             UPDATE pm_projects
-            SET    employee_assoc=#this.employee_assoc#,
-                   client_assoc=#this.client_assoc#,
-                   project_name="#this.project_name#",
-                   project_status="#this.project_status#",
-                   project_start_date=#this.project_start_date#,
-                   project_due_date=#this.project_due_date#,
-                   project_description="#this.project_description#",
-                   project_priority=#this.project_priority#,
-                   template_id=#this.template_id#            
+            SET    employee_assoc=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.employee_assoc#">,
+                   client_assoc=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.client_assoc#">,
+                   project_name=<cfqueryparam cfsqltype="cf_sql_varchar" value="#HTMLEditFormat(this.project_name)#" maxlength="45">,
+                   project_status=<cfqueryparam cfsqltype="cf_sql_varchar" value="#HTMLEditFormat(this.project_status)#" maxlength="45">,
+                   project_start_date=<cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.project_start_date#">,
+                   project_due_date=<cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.project_due_date#">,
+                   project_description=<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#HTMLEditFormat(this.project_description)#">,
+                   project_priority=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.project_priority#">,
+                   template_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.template_id#">            
             WHERE  id=#this.id#
         </cfquery>
 
@@ -195,7 +215,7 @@
     <cffunction name="getIncompleteTaskCount" returntype="numeric" output="false">
         
         <cfquery name="getIncompleteTaskCount" datasource="webwarecl">
-            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_complete=0
+            SELECT id FROM pm_tasks WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> AND task_complete=<cfqueryparam cfsqltype="cf_sql_tinyint" value="0">
         </cfquery>
     
         <cfreturn getIncompleteTaskCount.recordCount>
@@ -205,7 +225,7 @@
     <cffunction name="getInProgressTaskCount" returntype="numeric" output="false">
         
         <cfquery name="getInProgressTaskCount" datasource="webwarecl">
-            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_complete=1
+            SELECT id FROM pm_tasks WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> AND task_complete=<cfqueryparam cfsqltype="cf_sql_tinyint" value="1">
         </cfquery>
     
         <cfreturn getInProgressTaskCount.recordCount>
@@ -215,7 +235,10 @@
     <cffunction name="getCompleteTaskCount" returntype="numeric" output="false">
         
         <cfquery name="getCompleteTaskCount" datasource="webwarecl">
-            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_complete=2 AND task_priority!="Wish List" 
+            SELECT id FROM pm_tasks 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> 
+            AND task_complete=<cfqueryparam cfsqltype="cf_sql_tinyint" value="2"> 
+            AND task_priority!=<cfqueryparam cfsqltype="cf_sql_varchar" value="Wish List" maxlength="45">
         </cfquery>
     
         <cfreturn getCompleteTaskCount.recordCount>
@@ -231,7 +254,7 @@
     <cffunction name="getRequiredTaskCount" returntype="numeric" output="false">
 
         <cfquery name="getRequiredTasks" datasource="webwarecl">
-            SELECT id FROM pm_tasks WHERE project_id=#this.id# AND task_priority != "Wish List"
+            SELECT id FROM pm_tasks WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> AND task_priority!=<cfqueryparam cfsqltype="varchar" value="Wish List">
         </cfquery>
 
         <cfreturn getRequiredTasks.recordCount>
@@ -294,6 +317,15 @@
         <cfargument name="start_time" type="date" required="true">
         <cfargument name="end_time" type="date" required="false">
 
+        <cfif arguments.assoc_id NEQ session.current_association AND NOT this.checkPermission(session.user.id, "TIME_APPROVE")>
+            <cfthrow message="Permission Denied" detail="You do not have the TIME_APPROVE permission on this project">
+        </cfif>
+
+        <cfif NOT this.checkPermission(session.user.id, "TIME_LOG")>
+            <cfthrow message="Permission Denied" detail="You do not have the TIME_LOG permission on this project">
+        </cfif>
+
+
         <cfset create_id = createUUID()>
 
         <cfset startTime = createODBCDateTime(arguments.start_time)>
@@ -307,19 +339,40 @@
         </cfif>
 
         <cfquery name="logTime" datasource="webwarecl">
-            INSERT INTO pm_time_entries (project_id, task_id, assoc_id, task_code_id, work_performed, start_time, end_time, closed, create_id)
-            VALUES (#this.id#, #arguments.task_id#, #arguments.assoc_id#, #arguments.task_code_id#, "#arguments.work_performed#", #startTime#, #endTime#, #closed#, "#create_id#")
+            INSERT INTO pm_time_entries 
+                (project_id, 
+                task_id, 
+                assoc_id, 
+                task_code_id, 
+                work_performed, 
+                start_time, 
+                end_time, 
+                closed, 
+                create_id)
+            VALUES 
+                (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_code_id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.work_performed#" maxlength="255">, 
+                <cfqueryparam cfsqltype="cf_sql_timestamp" value="#startTime#">, 
+                <cfqueryparam cfsqltype="cf_sql_timestamp" value="#endTime#">, 
+                <cfqueryparam cfsqltype="cf_sql_tinyint" value="#closed#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
         </cfquery>
 
         <cfquery name="getTimeEntryID" datasource="webwarecl">
-            SELECT id FROM pm_time_entries WHERE create_id="#create_id#"
-        </cfquery>
+            SELECT id FROM pm_time_entries WHERE create_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#create_id#">
+        </cfquery>        
 
         <cfset this.notifyStakeholders("WF_TIME_LOGGED", {
             task_code_id: arguments.task_code_id,
             task_code_name: this.getTaskCodeNameByID(arguments.task_code_id),
             task_id: arguments.task_id,
-            work_performed: arguments.work_performed
+            work_performed: arguments.work_performed,
+            user: this.getUserByAssociationID(arguments.assoc_id),
+            perpetrator: session.user,
+            closed: closed
         })>
 
         <cfreturn getTimeEntryID.id>
@@ -332,9 +385,9 @@
 
         <cfquery name="getTimeEntries" datasource="webwarecl">
             SELECT * FROM pm_time_entries
-            WHERE project_id=#this.id#
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
             <cfif isDefined("arguments.task_id")>
-                AND task_id=#arguments.task_id#
+                AND task_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
             </cfif>
             ORDER BY start_time DESC
         </cfquery>
@@ -366,11 +419,21 @@
     <cffunction name="closeTimeEntry" returntype="void" output="false">
         <cfargument name="time_id" type="numeric" required="true">
 
+        <cfquery name="chkTimeOwnership" datasource="webwarecl">
+            SELECT assoc_id FROM pm_time_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_id#">
+        </cfquery>
+
+        <cfset owner = this.getUserByAssociationID(chkTimeOwnership.assoc_id)>
+
+        <cfif session.user.id NEQ owner.id AND NOT this.checkPermission(session.user.id, "TIME_APPROVE")>
+            <cfthrow message="Permission Denied" detail="You do not have TIME_APPROVE on this project.">
+        </cfif>
+
         <cfquery name="closeTimeEntry" datasource="webwarecl">
             UPDATE pm_time_entries
-            SET end_time=#createODBCDateTime(now())#,
-                closed=1
-            WHERE id=#arguments.time_id#
+            SET end_time=<cfqueryparam cfsqltype="cf_sql_timestamp" value="#createODBCDateTime(now())#">,
+                closed=<cfqueryparam cfsqltype="cf_sql_tinyint" value="1">
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_TIME_CLOSED", {time_id: arguments.time_id})>
@@ -379,6 +442,17 @@
 
     <cffunction name="deleteTimeEntry" returntype="void" output="false">
         <cfargument name="time_id" type="numeric" required="true">
+
+        <cfquery name="chkTimeOwnership" datasource="webwarecl">
+            SELECT assoc_id FROM pm_time_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_id#">
+        </cfquery>
+
+        <cfset owner = this.getUserByAssociationID(chkTimeOwnership.assoc_id)>
+
+        <cfif session.user.id NEQ owner.id AND NOT this.checkPermission(session.user.id, "TIME_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have TIME_DELETE on this project.">
+        </cfif>
+        
 
         <cfquery name="deleteTimeEntry" datasource="webwarecl">
             DELETE FROM pm_time_entries WHERE id=#arguments.time_id#
@@ -396,6 +470,14 @@
         <cfargument name="travel_name" type="string" required="true">
         <cfargument name="odometer_start" type="numeric" required="true">
         <cfargument name="odometer_end" type="numeric" required="false">
+
+        <cfif arguments.assoc_id NEQ session.current_association AND NOT this.checkPermission(session.user.id, "TRAVEL_APPROVE")>
+            <cfthrow message="Persimmon Denied" detail="You do not have the TRAVEL_APPROVE permission on this project">
+        </cfif>
+
+        <cfif NOT this.checkPermission(session.user.id, "TRAVEL_LOG")>
+            <cfthrow message="Permission Denied" detail="You do not have the TRAVEL_LOG permission on this project">
+        </cfif>
 
         <cfset create_id = createUUID()>
 
@@ -418,20 +500,20 @@
                                           odometer_end, 
                                           closed, 
                                           create_id)
-            VALUES (#this.id#, 
-                    #arguments.task_id#,
-                    #arguments.assoc_id#, 
-                    #arguments.task_code_id#, 
-                    #createODBCDateTime(arguments.travel_date)#,
-                    "#arguments.travel_name#",
-                    #arguments.odometer_start#,
-                    #odometerEnd#,
-                    #closed#,
-                    "#create_id#")
+            VALUES (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
+                    <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">,
+                    <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#">, 
+                    <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_code_id#">, 
+                    <cfqueryparam cfsqltype="cf_sql_timestamp" value="#createODBCDateTime(arguments.travel_date)#">,
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#HTMLEditFormat(arguments.travel_name)#" maxlength="255">,
+                    <cfqueryparam cfsqltype="cf_sql_double" value="#arguments.odometer_start#">,
+                    <cfqueryparam cfsqltype="cf_sql_double" value="#odometerEnd#">,
+                    <cfqueryparam cfsqltype="cf_sql_tinyint" value="#closed#">,
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
         </cfquery>
 
         <cfquery name="getTravelID" datasource="webwarecl">
-            SELECT id FROM pm_travel_entries WHERE create_id="#create_id#"
+            SELECT id FROM pm_travel_entries WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_TRAVEL_LOGGED", {travel_id: getTravelID.id})>
@@ -481,8 +563,18 @@
     <cffunction name="deleteTravelEntry" returntype="void" output="false">
         <cfargument name="travel_id" type="numeric" required="true">
 
+        <cfquery name="chkTravelOwnership" datasource="webwarecl">
+            SELECT assoc_id FROM pm_travel_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.travel_id#">
+        </cfquery>
+
+        <cfset owner = this.getUserByAssociationID(chkTravelOwnership.assoc_id)>
+
+        <cfif session.user.id NEQ owner.id AND NOT this.checkPermission(session.user.id, "TIME_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have TIME_DELETE on this project.">
+        </cfif>
+
         <cfquery name="deleteTravelEntry" datasource="webwarecl">
-            DELETE FROM pm_travel_entries WHERE id=#arguments.travel_id#
+            DELETE FROM pm_travel_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.travel_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_TRAVEL_DELETED", {travel_id: arguments.travel_id})>
@@ -521,6 +613,10 @@
         <cfargument name="stakeholder_type" type="string" required="true">
         <cfargument name="permissions" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "SH_ADD")>
+            <cfthrow message="Permission Denied" detail="You do not have SH_ADD on this project.">
+        </cfif>
+
         <cfset this.notifyStakeholders("WF_STAKEHOLDER_ADDED", {
             stakeholder: this.getUserByAssociationID(arguments.assoc_id),
             type: arguments.stakeholder_type
@@ -529,8 +625,18 @@
         <cfset this.removeStakeholder(arguments.assoc_id, arguments.stakeholder_type)>
 
         <cfquery name="addStakeholder" datasource="webwarecl">
-            INSERT INTO pm_stakeholders (create_id, project_id, assoc_id, stakeholder_type, permissions)
-            VALUES                      ("#createUUID()#", #this.id#, #arguments.assoc_id#, "#arguments.stakeholder_type#", #arguments.permissions#)
+            INSERT INTO pm_stakeholders 
+                (create_id, 
+                project_id, 
+                assoc_id, 
+                stakeholder_type, 
+                permissions)
+            VALUES                      
+                (<cfqueryparam cfsqltype="cf_sql_varchar" value="#createUUID()#" maxlength="255">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.stakeholder_type#" maxlength="45">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.permissions#">)
         </cfquery>
 
         <cfset this.addTag(this.getUserByAssociationID(arguments.assoc_id).longName)>
@@ -540,13 +646,20 @@
         <cfargument name="assoc_id" type="numeric" required="true">
         <cfargument name="stakeholder_type" type="string" required="true">
 
+        <cfif session.current_association NEQ arguments.assoc_id AND NOT this.checkPermission(session.user.id, "SH_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have SH_DELETE on this project">
+        </cfif>
+
         <cfset this.notifyStakeholders("WF_STAKEHOLDER_DELETED", {
             stakeholder: this.getUserByAssociationID(arguments.assoc_id),
             type: arguments.stakeholder_type
         })>
 
         <cfquery name="removeStakeholder" datasource="webwarecl">
-            DELETE FROM pm_stakeholders WHERE project_id=#this.id# AND assoc_id=#arguments.assoc_id# AND stakeholder_type="#arguments.stakeholder_type#"
+            DELETE FROM pm_stakeholders 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> 
+            AND assoc_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#"> 
+            AND stakeholder_type=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.stakeholder_type#" maxlength="45">
         </cfquery>
 
          <cfset this.removeTag(this.getUserByAssociationID(arguments.assoc_id).longName)>
@@ -554,9 +667,13 @@
 
     <cffunction name="removeStakeholderByID" returntype="void" output="false">
         <cfargument name="stakeholder_id" type="numeric" required="true">
+
+        <cfif NOT this.checkPermission(session.user.id, "SH_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have SH_DELETE on this project.">
+        </cfif>
         
         <cfquery name="removeStakeholderById" datasource="webwarecl">
-            DELETE FROM pm_stakeholders WHERE id=#arguments.stakeholder_id#
+            DELETE FROM pm_stakeholders WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.stakeholder_id#">
         </cfquery>
          
     </cffunction>
@@ -565,7 +682,9 @@
     <cffunction name="getTasks" returntype="query" output="false">
 
         <cfquery name="getTasks" datasource="webwarecl">
-            SELECT * FROM pm_tasks WHERE project_id=#this.id# ORDER BY task_complete, id
+            SELECT * FROM pm_tasks 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+            ORDER BY task_complete, id
         </cfquery>
 
         <cfreturn getTasks>
@@ -576,7 +695,10 @@
         <cfargument name="completion" type="numeric" required="true">
 
         <cfquery name="getTasksByCompletion" datasource="webwarecl">
-            SELECT * FROM pm_tasks WHERE project_id=#this.id# AND task_complete=#arguments.completion# ORDER BY task_priority
+            SELECT * FROM pm_tasks 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+            AND task_complete=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.completion#">
+            ORDER BY task_priority
         </cfquery>
 
         <cfreturn getTasksByCompletion>
@@ -586,7 +708,7 @@
         <cfargument name="id" type="numeric" required="true">
 
         <cfquery name="getTaskByID" datasource="webwarecl">
-            SELECT * FROM pm_tasks WHERE id=#arguments.id#
+            SELECT * FROM pm_tasks WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.id#">
         </cfquery>
 
         <cfreturn getTaskByID>
@@ -598,15 +720,31 @@
         <cfargument name="assignee_assoc_id" type="numeric" required="true">
         <cfargument name="task_priority" type="string" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "TASK_ADD")>
+            <cfthrow message="Permission Denied" detail="You do not have TASK_ADD on this project.">
+        </cfif>
+
         <cfset create_id = createUUID()>
 
         <cfquery name="addTask" datasource="webwarecl">
-            INSERT INTO pm_tasks (project_id, task_name, task_description, assignee_assoc_id, task_priority, create_id)
-            VALUES (#this.id#, "#arguments.task_name#", "#arguments.task_description#", #arguments.assignee_assoc_id#, "#arguments.task_priority#", "#create_id#")
+            INSERT INTO pm_tasks 
+                (project_id, 
+                task_name, 
+                task_description, 
+                assignee_assoc_id, 
+                task_priority, 
+                create_id)
+            VALUES 
+                (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task_name#" maxlength="255">, 
+                <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#HTMLEditFormat(arguments.task_description)#">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assignee_assoc_id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.task_priority#" maxlength="45">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
         </cfquery>
 
         <cfquery name="getTaskID" datasource="webwarecl">
-            SELECT id FROM pm_tasks WHERE create_id="#create_id#"
+            SELECT id FROM pm_tasks WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
         </cfquery>
 
         <cfset taskInfo = {
@@ -629,8 +767,12 @@
     <cffunction name="removeTask" returntype="void" output="false">
         <cfargument name="id" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "TASK_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have TASK_DELETE on this project.">
+        </cfif>
+
         <cfquery name="removeTask" datasource="webwarecl">
-            DELETE FROM pm_tasks WHERE id=#arguments.id#
+            DELETE FROM pm_tasks WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_TASK_DELETED", {task_id: arguments.id})>
@@ -657,11 +799,17 @@
 
         <cfset oldTask = this.getTaskByID(arguments.task_id)>
 
+        <cfif session.current_association NEQ oldTask.assignee_assoc_id AND NOT this.checkPermission(session.user.id, "TASK_EDIT")>
+            <cfthrow message="Permission Denied" detail="You do not have TASK_EDIT on this project.">
+        </cfif>
+
         <cfset oldCompletion = this.getTaskStatusName(oldTask.task_complete)>
 
 
         <cfquery name="removeTask" datasource="webwarecl">
-            UPDATE pm_tasks SET task_complete=#arguments.completion# WHERE id=#arguments.task_id#
+            UPDATE pm_tasks 
+            SET task_complete=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.completion#">
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
         </cfquery>
 
         <cfset newTask = this.getTaskByID(arguments.task_id)>
@@ -681,8 +829,16 @@
         <cfargument name="task_id" type="numeric" required="true">
         <cfargument name="priority" type="string" required="true">
 
+        <cfset oldTask = this.getTaskByID(arguments.task_id)>
+
+        <cfif session.current_association NEQ oldTask.assignee_assoc_id AND NOT this.checkPermission(session.user.id, "TASK_EDIT")>
+            <cfthrow message="Permission Denied" detail="You do not have TASK_EDIT on this project.">
+        </cfif>
+
         <cfquery name="setTaskPriority" datasource="webwarecl">
-            UPDATE pm_tasks SET task_priority="#arguments.priority#" WHERE id=#arguments.task_id#
+            UPDATE pm_tasks 
+            SET task_priority=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.priority#" maxlength="45">
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_TASK_PRIORITY_CHANGED", {task_id: arguments.task_id, priority: arguments.priority})>
@@ -692,8 +848,14 @@
         <cfargument name="task_id" type="numeric" required="true">
         <cfargument name="assignee_assoc_id" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "TASK_EDIT")>
+            <cfthrow message="Permission Denied" detail="You do not have TASK_EDIT on this project">
+        </cfif>
+
         <cfquery name="assignTask" datasource="webwarecl">
-            UPDATE pm_tasks SET assignee_assoc_id=#arguments.assignee_assoc_id# WHERE id=#arguments.task_id#
+            UPDATE pm_tasks 
+            SET assignee_assoc_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assignee_assoc_id#">
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_TASK_ASSIGNED", {task_id: this.task_id, assignee: this.getUserByAssociationID(arguments.assignee_assoc_id)})>
@@ -703,7 +865,9 @@
     <cffunction name="getLocations" returntype="query" output="false">
 
         <cfquery name="getLocations" datasource="webwarecl">
-            SELECT * FROM pm_locations WHERE project_id=#this.id# ORDER BY location_name
+            SELECT * FROM pm_locations 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+            ORDER BY location_name
         </cfquery>
 
         <cfreturn getLocations>
@@ -726,6 +890,10 @@
         <cfargument name="latitude" type="string" required="yes">
         <cfargument name="longitude" type="string" required="yes">
         <cfargument name="elevation" type="string" required="yes">
+
+        <cfif NOT this.checkPermission(session.user.id, "LOC_ADD")>
+            <cfthrow message="Permission Denied" detail="You do not have LOC_ADD on this project.">
+        </cfif>
         
         <cfset create_id = createUUID()>
 
@@ -748,23 +916,23 @@
                         longitude,
                         elevation,
                         create_id)
-            VALUES      (#this.id#,
-                        "#arguments.location_name#",
-                        "#arguments.address#",
-                        "#arguments.city#",
-                        "#arguments.state#",
-                        "#arguments.zip#",
-                        "#arguments.subdivision#",
-                        "#arguments.lot#",
-                        "#arguments.block#",
-                        "#arguments.trs_section#",
-                        "#arguments.trs_township#",
-                        "#arguments.trs_range#",
-                        "#arguments.trs_meridian#",
-                        "#arguments.latitude#",
-                        "#arguments.longitude#",
-                        "#arguments.elevation#",
-                        "#create_id#")
+            VALUES      (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.location_name#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.address#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.city#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.state#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.zip#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.subdivision#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.lot#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.block#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.trs_section#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.trs_township#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.trs_range#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.trs_meridian#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.latitude#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.longitude#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.elevation#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#">)
         </cfquery>        
 
         <cfset this.notifyStakeholders("WF_LOCATION_CREATED", arguments)>
@@ -773,8 +941,13 @@
     <cffunction name="removeLocation" returntype="void" output="false">
         <cfargument name="location_id" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "LOC_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have LOC_DELETE on this project.">
+        </cfif>
+
         <cfquery name="removeLocation" datasource="webwarecl">
-            DELETE FROM pm_locations WHERE id=#arguments.location_id#
+            DELETE FROM pm_locations 
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.location_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_LOCATION_DELETED", arguments)>
@@ -784,15 +957,27 @@
         <cfargument name="deliverable_name" type="string" required="true">
         <cfargument name="deliverable_file_id" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "DEL_ADD")>
+            <cfthrow message="Permission Denied" detail="You do not have DEL_ADD on this project.">
+        </cfif>
+
         <cfset create_id = createUUID()>
 
         <cfquery name="addDeliverable" datasource="webwarecl">
-            INSERT INTO pm_deliverables (project_id, deliverable_name, deliverable_file_id, create_id)
-            VALUES (#this.id#, "#arguments.deliverable_name#", #arguments.deliverable_file_id#, "#create_id#")
+            INSERT INTO pm_deliverables 
+                (project_id, 
+                deliverable_name, 
+                deliverable_file_id, 
+                create_id)
+            VALUES 
+                (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.deliverable_name#" maxlength="45">, 
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_file_id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
         </cfquery>
 
         <cfquery name="getDeliverableID" datasource="webwarecl">
-            SELECT id FROM pm_deliverables WHERE create_id="#create_id#"
+            SELECT id FROM pm_deliverables WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_DELIVERABLE_CREATED", arguments)>
@@ -802,7 +987,9 @@
 
     <cffunction name="getDeliverables" returntype="query" output="false">
         <cfquery name="getDeliverables" datasource="webwarecl">
-            SELECT * FROM pm_deliverables WHERE project_id=#this.id#
+            SELECT * 
+            FROM pm_deliverables 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
         </cfquery>
 
         <cfreturn getDeliverables>
@@ -812,7 +999,9 @@
         <cfargument name="deliverable_id" type="numeric" required="true">
 
         <cfquery name="getDeliverableById" datasource="webwarecl">
-            SELECT * FROM pm_deliverables WHERE id=#arguments.deliverable_id#
+            SELECT * 
+            FROM pm_deliverables 
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_id#">
         </cfquery>
 
         <cfreturn getDeliverableById>
@@ -822,8 +1011,14 @@
         <cfargument name="deliverable_id" type="numeric" required="true">
         <cfargument name="deliverable_file_id" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "DEL_EDIT")>
+            <cfthrow message="Permission Denied" detail="You do not have DEL_EDIT on this project.">
+        </cfif>
+
         <cfquery name="setDeliverableFileID" datasource="webwarecl">
-            UPDATE pm_deliverables SET deliverable_file_id="#arguments.deliverable_file_id#" WHERE id=#arguments.deliverable_id#
+            UPDATE pm_deliverables 
+            SET deliverable_file_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_file_id#">
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_DELIVERABLE_FULFILLED", arguments)>
@@ -833,8 +1028,13 @@
     <cffunction name="removeDeliverable" returntype="void" output="false">
         <cfargument name="deliverable_id" type="numeric" required="true">
 
+        <cfif NOT this.checkPermission(session.user.id, "DEL_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have DEL_DELETE on this project.">
+        </cfif>
+
         <cfquery name="removeDeliverable" datasource="webwarecl">
-            DELETE FROM pm_deliverables WHERE id=#arguments.deliverable_id#
+            DELETE FROM pm_deliverables 
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_id#">
         </cfquery>
 
         <cfset this.notifyStakeholders("WF_DELIVERABLE_DELETED", arguments)>
@@ -864,7 +1064,12 @@
         <cfset this.removeTag(arguments.tag_text)>
 
         <cfquery name="addTag" datasource="webwarecl">
-            INSERT INTO pm_project_tags (project_id, tag_text) VALUES (#this.id#, "#arguments.tag_text#")
+            INSERT INTO pm_project_tags 
+                (project_id, 
+                tag_text) 
+            VALUES 
+                (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag_text#">)
         </cfquery>
 
     </cffunction>
@@ -874,7 +1079,9 @@
         <cfargument name="tag_text" type="string" required="true">
 
         <cfquery name="removeTag" datasource="webwarecl">
-            DELETE FROM pm_project_tags WHERE project_id=#this.id# AND tag_text="#arguments.tag_text#"
+            DELETE FROM pm_project_tags 
+            WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+            AND tag_text=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag_text#">
         </cfquery>
 
     </cffunction>

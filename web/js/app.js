@@ -18,7 +18,101 @@ var Prefiniti = {
         }
     },
 
+    notificationClicked: function(id) {
+        console.log("Clicked notification id " + id);
+
+        $.get("/Prefiniti/REST/Notifications.cfc?method=setViewed&id=" + id, function(data) {
+            Prefiniti.getNotifications();
+        });
+    },
+
     getNotifications: function () {
+
+        $.get("/Prefiniti/REST/Notifications.cfc?method=get", function(data) {
+            
+            let PMNotification = function(text, id) {
+
+                this.bodyText = text;
+                this.id = id;
+                this.caption = "Geodigraph PM";
+
+                return this;
+
+            };
+
+            PMNotification.prototype.getHtml = function () {
+
+                var html = '<li><div class="dropdown-item notification-item" onclick="Prefiniti.notificationClicked(' + this.id + ');">';
+
+                html += this.bodyText;
+                html += '</div></li><div class="dropdown-divider"></div>';
+
+                return html;
+
+            };
+
+            PMNotification.prototype.alert = function () {
+
+                /*var notifyOptions = {
+                    body: "You have received a new Geodigraph PM alert.",
+                    icon: "/graphics/geodigraph-square.png",
+                };
+
+                if(Notification.permission === "granted") {
+                    var notify = new Notification(this.caption, notifyOptions);
+
+                    Notification.requestPermission(function (permission) {
+                        if(permission === "granted") {
+                            var notify = new Notification(this.caption, notifyOptions);
+                        }
+                        else {
+                            
+                        }
+                    });
+                }*/               
+
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+
+                toastr.success(this.bodyText);                                                               
+            };
+
+            $("#dropdown-alerts-menu").html("");
+
+            var shownCount = 0;
+
+            for(index in data.notifications) {
+
+                var itm = data.notifications[index];
+                var notification = new PMNotification(itm.notification_text, itm.id);
+
+                if(itm.delivered === 0) {
+                    notification.alert();
+                }
+
+                if(itm.viewed !== 1) {
+                    if(shownCount <= 5) {
+                        $("#dropdown-alerts-menu").append(notification.getHtml());
+                    }
+                    shownCount++;
+                }
+
+            }
+
+            if(data.new == 0) {
+                $("#badge-alerts-unread").hide();
+            }
+            else {
+                $("#badge-alerts-unread").show();
+                $("#badge-alerts-unread").html(data.new);
+            }
+
+
+        });
 
         $.get("/framework/components/sitestats_json.cfm", function(data) {
             let notifyTotal = 0;
@@ -53,7 +147,7 @@ var Prefiniti = {
         });
 
         $.get("/mail/components/mail_dropdown.cfm", function(data) {
-            $("#dropdown-mail-menu").html(data);
+            $("#dropdown-messages-menu").html(data);
         });
 
         $.get("/socialnet/components/friend_requests_dropdown.cfm", function(data) {
@@ -66,7 +160,7 @@ var Prefiniti = {
 
         Prefiniti.getNotifications();
 
-        setInterval(Prefiniti.getNotifications, 3000);
+        setInterval(Prefiniti.getNotifications, 5000);
 
         $.get("/api/session", function(data) {
 

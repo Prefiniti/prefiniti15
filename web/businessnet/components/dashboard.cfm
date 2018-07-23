@@ -6,8 +6,6 @@
 <cfset prefiniti = new Prefiniti.Base()>
 <cfset projects = prefiniti.getProjectsByAssoc(session.current_association)>
 
-<cfset siteStats = prefiniti.getSiteStats(session.current_site_id, session.user.id)>
-
 <cfset projectCount = 0>
 <cfset overdueProjects = 0>
 <cfset onTimeProjects = 0>
@@ -59,7 +57,7 @@
 
     <div class="col-md-3">
         <h2>Welcome, <cfoutput>#session.user.firstName#</cfoutput>!</h2>
-        <small>You have <cfoutput>#siteStats.unreadMail#</cfoutput> unread messages.</small>
+        <small>You have <cfoutput>#session.user.getUnreadMessageCount()#</cfoutput> unread messages.</small>
         
         <cfif prefiniti.getPermissionByKey("WF_EDIT", session.current_association)>
             <ul class="list-group clear-list m-t">

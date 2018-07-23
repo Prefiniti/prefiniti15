@@ -70,9 +70,9 @@
             <li>
                 <a href="##"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a href="##" onclick="viewMailFolder('inbox', 1);">Inbox</a></li>
-                    <li><a href="##" onclick="viewMailFolder('sent messages', 1);">Sent Mail</a></li>
-                    <li><a href="##" onclick="writeMessage();">Compose Mail</a></li>                    
+                    <li><a href="##" onclick="Prefiniti.Mail.viewFolder('inbox', 1);">Inbox</a></li>
+                    <li><a href="##" onclick="Prefiniti.Mail.viewFolder('sent messages', 1);">Sent Mail</a></li>
+                    <li><a href="##" onclick="Prefiniti.Mail.writeMessage();">Compose Mail</a></li>                    
                 </ul>
             </li>
 

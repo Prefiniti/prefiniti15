@@ -1,3 +1,12 @@
+.notification-item {
+    white-space: normal;
+}
+
+.notification-item a {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .wwaf-metadata {
     display: none;
 }

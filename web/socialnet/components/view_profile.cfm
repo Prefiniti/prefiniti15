@@ -284,7 +284,7 @@
 									<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.deleteFriend(#url.userid#);">Unfriend</button>
 								</cfif>
 								<cfif canMessage>
-							  		<button type="button" class="btn btn-light btn-sm" onclick="mailTo(#profileUser.id#, '#profileUser.longName#');">Send Message</button>
+							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.Mail.writeMessage(#profileUser.id#);">Send Message</button>
 							  	</cfif>
 							  	<cfif canComment>
 							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.revealCommentBox('user-posts-form');">New Post</button>

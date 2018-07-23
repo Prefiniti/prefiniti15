@@ -63,6 +63,24 @@ component output=false extends="Prefiniti.LegacyAPI" displayname="Base" {
 
     }
 
-   
+    public query function getNotifications() output=false {
+
+        var qrySQL = "SELECT * FROM realtime_notifications WHERE recipient_id=:recipient_id ORDER BY created_date DESC";
+
+        return queryExecute(qrySQL, {recipient_id=session.user.id}, {datasource="webwarecl"});
+
+    }
+
+    public void function setNotificationDelivered(required numeric id) output=false {
+        var qrySQL = "UPDATE realtime_notifications SET delivered=1 WHERE id=:id";
+
+        queryExecute(qrySQL, {id: arguments.id}, {datasource="webwarecl"});
+    }
+
+    public void function setNotificationViewed(required numeric id) output=false {
+        var qrySQL = "UPDATE realtime_notifications SET viewed=1 WHERE id=:id";
+
+        queryExecute(qrySQL, {id: arguments.id}, {datasource="webwarecl"});
+    }
 
 }

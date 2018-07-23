@@ -384,5 +384,64 @@ component extends="Prefiniti.Base" output="false" {
 
     }
 
+    public numeric function getUnreadMessageCount() {
+        
+        var qrySql = "SELECT id FROM messageinbox WHERE touser=:touser AND tread=0 AND draft=0 AND deleted_recipient_inbox=0";
+        var result = queryExecute(qrySql, {touser=this.id}, {datasource="webwarecl"});
+
+        return result.recordCount;
+    }
+
+    public array function getInboxMessages() {
+
+        var result = [];
+
+        var qrySql = "SELECT id FROM messageinbox WHERE touser=:touser AND draft=0 ORDER BY tdate DESC";
+        var messages = queryExecute(qrySql, {touser=this.id}, {datasource="webwarecl"});
+
+        for(message in messages) {
+            var msg = new Prefiniti.PrivateMessage(message.id);
+
+            if(msg.deleted_recipient_inbox != 1 && msg.draft == 0) {
+                result.append(msg);
+            }
+        }
+
+        return result;
+    }
+
+    public array function getOutboxMessages() {
+
+        var result = [];
+
+        var qrySql = "SELECT id FROM messageinbox WHERE fromuser=:fromuser AND draft=0";
+        var messages = queryExecute(qrySql, {fromuser=this.id}, {datasource="webwarecl"});
+
+        for(message in messages) {
+            var msg = new Prefiniti.PrivateMessage(message.id);
+            if(msg.deleted_sender_outbox != 1 && msg.draft == 0) {
+                result.append(msg);
+            }
+        }
+
+        return result;
+    }
+
+    public array function getDraftMessages() {
+
+        var result = [];
+
+        var qrySql = "SELECT id FROM messageinbox WHERE fromuser=:fromuser";
+        var messages = queryExecute(qrySql, {fromuser=this.id}, {datasource="webwarecl"});
+
+        for(message in messages) {
+            var msg = new Prefiniti.PrivateMessage(message.id);
+            if(msg.deleted_sender_outbox != 1 && msg.draft == 1) {
+                result.append(msg);
+            }
+        }
+
+        return result;
+    }
 
 }
