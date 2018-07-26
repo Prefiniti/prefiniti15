@@ -12,6 +12,19 @@ Prefiniti.extend("Social", {
         Prefiniti.dialog('/socialnet/components/search_users.cfm');
     },
 
+    searchFriends: function() {
+        
+        let searchField = $("#search-field").val();
+        let searchValue = $("#search-value").val();
+
+        let url = "/socialnet/components/search_users_sub.cfm?search_field=" + searchField + "&search_value=" + searchValue;
+
+        $("#generic-window").modal('hide');
+        
+        Prefiniti.loadPage(url);
+
+    },
+
     friendSearchSuccess: function(data) {
         $("#generic-window").modal('hide');
 

@@ -84,6 +84,7 @@
                                             </div>
                                         </div>
                                         
+                                        <!---
                                         <cfif project.checkPermission(session.user.id, "DISP_ADD")>
                                             <div class="btn-group">
                                                 <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-truck"></i> Dispatch</button>
@@ -92,7 +93,8 @@
                                                 </div>
                                             </div>
                                         </cfif>
-                                        
+                                        --->
+
                                         <div class="btn-group">
                                             <cfif project.checkPermission(session.user.id, "PRJ_EDIT")>
                                                 <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-check"></i> Workflow</button>
@@ -227,7 +229,7 @@
                                             <ul class="nav nav-tabs">
                                                 <li><a class="nav-link active" href="##tab-tasks" data-toggle="tab"><i class="fa fa-list-alt"></i> Tasks</a></li>
                                                 <li><a class="nav-link" href="##tab-comments" data-toggle="tab"><i class="fa fa-comments"></i> Comments</a></li>
-                                                <li><a class="nav-link" href="##tab-dispatches" data-toggle="tab"><i class="fa fa-truck"></i> Dispatches</a></li>
+                                                <!---<li><a class="nav-link" href="##tab-dispatches" data-toggle="tab"><i class="fa fa-truck"></i> Dispatches</a></li>--->
                                                 <li><a class="nav-link" href="##tab-time" data-toggle="tab"><i class="fa fa-clock"></i> Time Log</a></li>
                                                 <li><a class="nav-link" href="##tab-travel" data-toggle="tab"><i class="fa fa-car"></i> Travel Log</a></li>
                                                 <li><a class="nav-link" href="##tab-stakeholders" data-toggle="tab"><i class="fa fa-user"></i> Stakeholders</a></li>
@@ -296,8 +298,10 @@
                                                 </cfloop>
                                             </div>
 
+                                            <!---
                                             <div class="tab-pane" id="tab-dispatches">
                                             </div>
+                                            --->
 
                                             <div class="tab-pane" id="tab-time">
                                                 <cfmodule template="/pm/components/view_time_entries.cfm" project_id="#project.id#">

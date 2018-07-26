@@ -134,7 +134,7 @@
                                         <div class="panel-options">
                                             <ul class="nav nav-tabs">                                                
                                                 <li><a class="nav-link active" href="##tab-comments" data-toggle="tab"><i class="fa fa-comments"></i> Comments</a></li>
-                                                <li><a class="nav-link" href="##tab-dispatches" data-toggle="tab"><i class="fa fa-truck"></i> Dispatches</a></li>
+                                                <!---<li><a class="nav-link" href="##tab-dispatches" data-toggle="tab"><i class="fa fa-truck"></i> Dispatches</a></li>--->
                                                 <li><a class="nav-link" href="##tab-time" data-toggle="tab"><i class="fa fa-clock"></i> Time Log</a></li>
                                                 <li><a class="nav-link" href="##tab-travel" data-toggle="tab"><i class="fa fa-car"></i> Travel Log</a></li>                                                
                                             </ul>
@@ -160,8 +160,10 @@
                                                 </div>
                                             </div>
 
+                                            <!---
                                             <div class="tab-pane" id="tab-dispatches">
                                             </div>
+                                            --->
 
                                             <div class="tab-pane" id="tab-time">
                                                 <cfmodule template="/pm/components/view_time_entries.cfm" project_id="#project.id#" task_id="#id#">

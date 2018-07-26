@@ -11,9 +11,9 @@
             <label class="col-lg-2 col-form-label">Search Parameters:</label>
             <div class="col-lg-10">
                 <div class="input-group">
-                    <input type="text" id="search_value" name="search_value" class="form-control">
+                    <input type="text" id="search-value" name="search_value" class="form-control">
                     <div class="input-group-append">
-                        <select name="search_field" class="custom-select">
+                        <select name="search_field" id="search-field" class="custom-select">
                             <option value="longName" selected>Name Contains</option>   
                             <option value="lastName">Last Name</option>   
                             <option value="email">E-Mail Address</option>
@@ -25,7 +25,7 @@
     </form>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('search-users', Prefiniti.Social.friendSearchSuccess);">Search</button>
+    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.Social.searchFriends();">Search</button>
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 </div>
 
