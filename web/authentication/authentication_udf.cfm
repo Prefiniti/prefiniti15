@@ -4,7 +4,7 @@
 
 
     <cfquery name="setConfirmed" datasource="webwarecl">
-        UPDATE users SET confirmed=1, account_enabled=1, password="#hash(arguments.password)#" WHERE confirm_id="#arguments.confirm_id#"
+        UPDATE users SET confirmed=1, account_enabled=1, password="#hash(arguments.password, "SHA-512")#" WHERE confirm_id="#arguments.confirm_id#"
     </cfquery>
 
     <cfquery name="resetConfID" datasource="webwarecl">

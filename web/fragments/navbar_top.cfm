@@ -20,8 +20,26 @@
                 <span class="m-r-sm text-muted welcome-message">Welcome to Geodigraph PM</span>
             </li>
             <li class="dropdown">
-                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
-                    <i class="fa fa-bell"></i>  <span id="badge-alerts-unread" class="label label-info"></span>
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="maps-shortcut">
+                    <cfif session.loggedInMaps>
+                        <i class="fa fa-map text-success"></i>
+                    <cfelse>
+                        <i class="fa fa-map text-warning"></i>
+                    </cfif>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts">
+                    <li>                        
+                        <cfif session.loggedInMaps>
+                            <a href="#">Geodigraph Maps: <strong>Connected</strong></a>
+                        <cfelse>
+                            <a href="#">Geodigraph Maps: <strong>Not Connected</strong></a>
+                        </cfif>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="alerts-shortcut">
+                    <i class="fa fa-bell"></i>  <span id="badge-alerts-unread" class="label label-info">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
                     <div id="dropdown-alerts-menu">
@@ -39,7 +57,7 @@
             </li>
 
             <li class="dropdown">
-                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="mail-preview-shortcut">
                     <i class="fa fa-envelope"></i>  <span id="badge-messages-unread-top" class="label label-success">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-messages">
@@ -49,7 +67,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
+                <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="friend-requests-shortcut">
                     <i class="fa fa-user-plus"></i>  <span class="label label-primary" id="badge-friend-requests">0</span>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">

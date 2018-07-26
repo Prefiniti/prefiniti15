@@ -82,7 +82,7 @@
                 </cfif>
                 <div class="mail-body text-right tooltip-demo">
                     <cfoutput>
-                        <a class="btn btn-sm btn-white" href="##" onclick="replyMessage(#message.fromuser#, '#message.tsubject#', '#HTMLEditFormat(message.tbody)#');"><i class="fa fa-reply"></i> Reply</a>  
+                        <a class="btn btn-sm btn-white" href="##" onclick="Prefiniti.Mail.replyMessage(#message.id#);"><i class="fa fa-reply"></i> Reply</a>  
                         <button title="" data-placement="top" data-toggle="tooltip" data-original-title="Trash" class="btn btn-sm btn-white" onclick="Prefiniti.Mail.deleteMessageFromView(#message.id#);"><i class="fa fa-trash-alt"></i> Remove</button>
                     </cfoutput>
                 </div>

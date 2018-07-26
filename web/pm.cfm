@@ -22,6 +22,9 @@
     <link href="css/plugins/summernote/summernote-bs4.css" rel="stylesheet">
     <link href="css/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet">
 
+    <!-- Bootstrap Tour -->
+    <link href="css/plugins/bootstrapTour/bootstrap-tour.min.css" rel="stylesheet">
+
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/app.css">
@@ -34,10 +37,10 @@
         <cflocation url="/login" addtoken="no">
     </cfif>
 
+    <cfset session.loggedInMaps = session.user.mapsLogin()>
+
     <div id="wrapper">
-
         <cfinclude template="fragments/navbar_side.cfm">
-
 
         <div id="page-wrapper" class="gray-bg">
 
@@ -52,9 +55,7 @@
                 <div class="float-right">
                     
                 </div>
-                <div>
-                    Copyright &copy; 2018 Coherent Logic Development LLC 
-                </div>
+                Copyright &copy; 2018 Geodigraph
             </div>
 
         </div>
@@ -126,6 +127,10 @@
     <!-- Steps -->
     <script src="js/plugins/steps/jquery.steps.min.js"></script>
 
+    <!-- Tour -->
+    <script src="js/plugins/bootstrapTour/bootstrap-tour.min.js"></script>
+
+
     <!-- Prefiniti javascript -->
     <script src="/framework/framework.js"></script>
     <script src="/contentManager/contentManager.js"></script>
@@ -142,10 +147,21 @@
     <script src="js/cms.js"></script>
     <script src="js/businessnet.js"></script>
     <script src="js/mail.js"></script>
+    <script src="js/security.js"></script>
     <script src="notifications/notifications.js"></script>
+    <script src="js/tour.js"></script>
     
     <cfinclude template="windowWrapper.cfm">
 
+    <cfif session.user.show_tour EQ 1>
+        <script>
+            
+                let url = "/framework/components/welcome.cfm";
+
+                Prefiniti.dialog(url);
+            
+        </script>
+    </cfif>
 
 </body>
 

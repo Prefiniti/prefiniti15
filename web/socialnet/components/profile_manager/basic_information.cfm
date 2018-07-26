@@ -2,6 +2,8 @@
 
 <cfoutput>
     <form name="update-basic" id="update-basic" method="POST" action="/socialnet/components/profile_manager/basic_information_sub.cfm">
+        <h4>Demographics</h4>
+        <hr>
         <div class="form-group row">
             <label class="col-lg-2 col-form-label">First Name</label>
             <div class="col-lg-10">
@@ -38,15 +40,27 @@
                 <input type="date" name="birthday" id="birthday" class="form-control" value="#dateFormat(user.birthday, "yyyy-mm-dd")#">
             </div>
         </div>
-        <div class="form-group row">
+        <h4>Settings</h4>
+        <hr>        
+        <div class="form-group row">            
             <label class="col-lg-2 col-form-label">Initial View</label>
             <div class="col-lg-10">
                 <cfset initView = user.remember_page>
-                <select name="remember_page" class="custom-select">
+                <select name="remember_page" class="custom-select mb-3">
                     <option value="0" <cfif initView EQ 0>selected</cfif>>Dashboard</option>
                     <option value="1" <cfif initView EQ 1>selected</cfif>>My Profile</option>
                     <!---<option value="2" <cfif initView EQ 2>selected</cfif>>Last Page Viewed</option>--->
                 </select>
+                <input type="checkbox" name="show_tour" id="show_tour" <cfif user.show_tour EQ 1>checked</cfif>> <label for="show_tour">Show welcome screen on login</label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-lg-2 col-form-label">Geodigraph Maps Credentials</label>
+            <div class="col-lg-5">
+                <input type="text" name="maps_username" data_lpignore="true" class="form-control" autocomplete="nope" value="#user.maps_username#" placeholder="Geodigraph Maps E-Mail">
+            </div>
+            <div class="col-lg-5">
+                <input type="text" style="-webkit-text-security: disc;" name="maps_password" data_lpignore="true" class="form-control" autocomplete="nope" value="#user.maps_password#" placeholder="Geodigraph Maps Password">
             </div>
         </div>
         <div class="form-group row">

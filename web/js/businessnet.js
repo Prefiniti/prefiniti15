@@ -1,5 +1,58 @@
 Prefiniti.extend("Business", {
 
+	siteSettings: function() {
+		let url = "/businessnet/components/site_manager/edit_site.cfm";
+
+		Prefiniti.loadPage(url);
+	},
+
+	addTaskCode: function() {
+		let url = "/businessnet/components/site_manager/add_task_code.cfm";
+
+		Prefiniti.dialog(url);
+	},
+
+	editTaskCode: function(id) {
+		let url = "/businessnet/components/site_manager/edit_task_code.cfm?id=" + id;
+
+		Prefiniti.dialog(url);
+	},
+
+	deleteTaskCode: function(id) {
+		let url = "/businessnet/components/site_manager/delete_task_code_sub.cfm?id=" + id;
+
+		$.get(url, function(data) {
+			if(data.ok) {
+				toastr.options = {
+		            closeButton: true,
+		            progressBar: true,
+		            showMethod: 'slideDown',
+		            timeout: 5000
+		        };
+		        
+		        toastr.success(data.message);
+
+		        Prefiniti.reload();
+			}
+			else {
+
+				toastr.options = {
+		            closeButton: true,
+		            progressBar: true,
+		            showMethod: 'slideDown',
+		            timeout: 5000
+		        };
+
+		        toastr.error(data.message);
+			}
+		});
+	},
+
+	dismiss: function() {
+		$("#generic-window").modal('hide');
+		Prefiniti.reload();
+	},
+
 	addClient: function() {
 		let url = "/businessnet/components/add_client.cfm";
 

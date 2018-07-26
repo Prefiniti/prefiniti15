@@ -1,1 +1,0 @@
-<div class="homeHeader"><img src="/graphics/page.png" align="absmiddle" /> Site Information</div>

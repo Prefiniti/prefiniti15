@@ -12,11 +12,11 @@
 
     <div class="row">
         <div class="col-md-3">
-            <div id="cms-file-upload" class="card">
-                <div class="card-header">
-                    <i class="fa fa-upload"></i> Upload File
+            <div id="cms-file-upload" class="ibox">
+                <div class="ibox-title">
+                    <h5><i class="fa fa-upload"></i> Upload File</h5>
                 </div>
-                <div class="card-body">
+                <div class="ibox-content">
                     <cfoutput>
                         <form method="post" id="cms-upload-form" action="/contentManager/components/process_upload_new.cfm" enctype="multipart/form-data" target="cms-upload-frame">
                             <div class="form-group">
@@ -33,6 +33,8 @@
                                 <div id="cms-upload-status" class="float-right text-small" style="display: none;">
                                     <img src="/graphics/ajax-loader.gif">
                                 </div>
+
+                                <div class="clearfix"></div>
 
                             </div>                            
                         </form>

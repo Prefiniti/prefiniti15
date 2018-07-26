@@ -79,11 +79,11 @@
                     this.template_id = checkIfProjectExists.template_id;
                 </cfscript>
             </cfoutput>
-
+<!---
             <cfif NOT this.checkPermission(session.user.id, "PRJ_VIEW")>
                 <cfthrow message="Permission Denied" detail="You do not have the PRJ_VIEW permission on this project">
             </cfif>
-
+--->
             <cfreturn this>
         <cfelse>            
             <cfset create_id = createUUID()>
@@ -177,9 +177,11 @@
 
     <cffunction name="save" returntype="Prefiniti.ProjectManagement.Project" output="false">
 
+        <!---
         <cfif NOT this.checkPermission(session.user.id, "PRJ_EDIT")>
             <cfthrow message="Permission Denied" detail="You do not have the PRJ_EDIT permission on this project">
         </cfif>
+        --->
 
         <cfquery name="updateProject" datasource="webwarecl">
             UPDATE pm_projects
@@ -207,6 +209,22 @@
         <cfset this.addTag(this.project_employee.longName)>
 
         <cfset this.notifyStakeholders("WF_PROJECT_EDITED", {})>
+
+        <cfreturn this>
+
+    </cffunction>
+
+    <cffunction name="delete" returntype="Prefiniti.ProjectManagement.Project" output="false">
+
+        <cfif NOT this.checkPermission(session.user.id, "PRJ_DELETE")>
+            <cfthrow message="Permission Denied" detail="You do not have the PRJ_DELETE permission on this project">
+        </cfif>
+
+        <cfquery name="deleteProject" datasource="webwarecl">
+            DELETE FROM pm_projects WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+        </cfquery>
+
+        <cfset this.notifyStakeholders("WF_PROJECT_DELETED", {})>
 
         <cfreturn this>
 
@@ -362,7 +380,7 @@
         </cfquery>
 
         <cfquery name="getTimeEntryID" datasource="webwarecl">
-            SELECT id FROM pm_time_entries WHERE create_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#create_id#">
+            SELECT id FROM pm_time_entries WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
         </cfquery>        
 
         <cfset this.notifyStakeholders("WF_TIME_LOGGED", {
@@ -405,6 +423,7 @@
                 assoc_id: assoc_id,
                 task_code_id: task_code_id,
                 task_code_name: this.getTaskCodeNameByID(task_code_id),
+                service_value: this.getServiceValue(task_code_id, minutes / 60),
                 work_performed: work_performed,
                 start_time: start_time,
                 end_time: end_time,
@@ -414,6 +433,17 @@
         </cfoutput>
 
         <cfreturn result>
+    </cffunction>
+
+    <cffunction name="getValue" returntype="numeric" output="false">
+        <cfset total = 0>
+        <cfset entries = this.getTimeEntries()>
+
+        <cfloop array="#entries#" item="entry">
+            <cfset total = total + entry.service_value>
+        </cfloop>
+
+        <cfreturn total>
     </cffunction>
 
     <cffunction name="closeTimeEntry" returntype="void" output="false">
@@ -613,10 +643,11 @@
         <cfargument name="stakeholder_type" type="string" required="true">
         <cfargument name="permissions" type="numeric" required="true">
 
+<!---
         <cfif NOT this.checkPermission(session.user.id, "SH_ADD")>
             <cfthrow message="Permission Denied" detail="You do not have SH_ADD on this project.">
         </cfif>
-
+--->
         <cfset this.notifyStakeholders("WF_STAKEHOLDER_ADDED", {
             stakeholder: this.getUserByAssociationID(arguments.assoc_id),
             type: arguments.stakeholder_type
@@ -646,10 +677,11 @@
         <cfargument name="assoc_id" type="numeric" required="true">
         <cfargument name="stakeholder_type" type="string" required="true">
 
+<!---
         <cfif session.current_association NEQ arguments.assoc_id AND NOT this.checkPermission(session.user.id, "SH_DELETE")>
             <cfthrow message="Permission Denied" detail="You do not have SH_DELETE on this project">
         </cfif>
-
+--->
         <cfset this.notifyStakeholders("WF_STAKEHOLDER_DELETED", {
             stakeholder: this.getUserByAssociationID(arguments.assoc_id),
             type: arguments.stakeholder_type
@@ -720,10 +752,11 @@
         <cfargument name="assignee_assoc_id" type="numeric" required="true">
         <cfargument name="task_priority" type="string" required="true">
 
+<!---
         <cfif NOT this.checkPermission(session.user.id, "TASK_ADD")>
             <cfthrow message="Permission Denied" detail="You do not have TASK_ADD on this project.">
         </cfif>
-
+--->
         <cfset create_id = createUUID()>
 
         <cfquery name="addTask" datasource="webwarecl">
@@ -957,10 +990,11 @@
         <cfargument name="deliverable_name" type="string" required="true">
         <cfargument name="deliverable_file_id" type="numeric" required="true">
 
+<!---
         <cfif NOT this.checkPermission(session.user.id, "DEL_ADD")>
             <cfthrow message="Permission Denied" detail="You do not have DEL_ADD on this project.">
         </cfif>
-
+--->
         <cfset create_id = createUUID()>
 
         <cfquery name="addDeliverable" datasource="webwarecl">
@@ -1069,7 +1103,7 @@
                 tag_text) 
             VALUES 
                 (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">, 
-                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag_text#">)
+                <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag_text#" maxlength="45">)
         </cfquery>
 
     </cffunction>
@@ -1081,7 +1115,7 @@
         <cfquery name="removeTag" datasource="webwarecl">
             DELETE FROM pm_project_tags 
             WHERE project_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
-            AND tag_text=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag_text#">
+            AND tag_text=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.tag_text#" maxlength="45">
         </cfquery>
 
     </cffunction>
@@ -1091,7 +1125,12 @@
         <cfset result = []>
 
         <cfquery name="getComments" datasource="webwarecl">
-            SELECT id AS post_id FROM posts WHERE recipient_id=#arguments.id# AND post_class="TASK" AND parent_post_id=0 ORDER BY post_date DESC
+            SELECT id AS post_id 
+            FROM posts 
+            WHERE recipient_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.id#">
+            AND post_class="TASK" 
+            AND parent_post_id=0 
+            ORDER BY post_date DESC
         </cfquery>
 
         <cfoutput query="getComments">

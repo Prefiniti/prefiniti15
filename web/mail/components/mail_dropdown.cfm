@@ -29,6 +29,7 @@
             </li>
             <li class="dropdown-divider"></li>
         </cfoutput>
+        <cfset shown = shown + 1>
     </cfif>
 </cfloop>
 

@@ -39,6 +39,16 @@ Prefiniti.extend("Mail", {
         });
     },
 
+    replyMessage: function(msgId) {
+
+        let url = "/mail/components/writeMessage.cfm?msg_id=" + msgId + "&mode=reply";
+
+        Prefiniti.loadPage(url, function () {
+
+        });
+
+    },
+
     selectRecipient: function() {
         let url = "/mail/components/select_recipient.cfm";
 

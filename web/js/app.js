@@ -23,6 +23,13 @@ var Prefiniti = {
 
         $.get("/Prefiniti/REST/Notifications.cfc?method=setViewed&id=" + id, function(data) {
             Prefiniti.getNotifications();
+
+            try {
+                $("#all-alerts-" + id).hide("slow");
+            }
+            catch(ex) {
+
+            }
         });
     },
 
@@ -162,6 +169,11 @@ var Prefiniti = {
 
         setInterval(Prefiniti.getNotifications, 5000);
 
+        Prefiniti.home();
+
+    },
+
+    home: function() {
         $.get("/api/session", function(data) {
 
             if(data.success) {
@@ -185,7 +197,6 @@ var Prefiniti = {
             }
 
         });
-
     },
 
     reload: function() {

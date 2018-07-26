@@ -14,16 +14,19 @@
             <th>Work Performed</th>
             <th>Start Time</th>
             <th>End Time</th>
-            <th>Hours</th>
+            <th>Hours</th>            
+            <th>Value</th>
             <th><i class="fa fa-cogs"></i>
         </tr>
     </thead>
     <tbody>
         <cfset totalHours = 0>
+        <cfset totalValue = 0>
         <cfloop array="#entries#" item="entry">
             <cfset hours = #decimalFormat(entry.minutes / 60)#>
             <cfset totalHours = totalHours + hours>
-            <cfset user = project.getUserByAssociationID(entry.assoc_id)>
+            <cfset user = project.getUserByAssociationID(entry.assoc_id)>   
+            <cfset totalValue = totalValue + entry.service_value>         
             <cfoutput>
                 <tr>
                     <td><img src="#user.getPicture()#" class="rounded-circle avatar-sm"> <a href="##" onclick="Prefiniti.Social.loadProfile(#user.id#);"><strong>#user.longName#</strong></a></td>
@@ -38,6 +41,7 @@
                         </cfif>
                     </td>
                     <td>#hours#</td>
+                    <td>#lsCurrencyFormat(entry.service_value, "local")#</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
                         <div class="dropdown-menu">                            
@@ -59,9 +63,14 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="4">&nbsp;</td>
+            <td colspan="5">&nbsp;</td>
             <td><strong>Total Hours:</strong></td>
             <td colspan="2" align="left"><cfoutput><strong>#totalHours#</strong></cfoutput></td>
+        </tr>
+        <tr>
+            <td colspan="5">&nbsp;</td>
+            <td><strong>Total Value:</strong></td>
+            <td colspan="2" align="left"><cfoutput><strong>#lsCurrencyFormat(totalValue, "local")#</strong></cfoutput></td>
         </tr>
     </tfoot>
 </table>

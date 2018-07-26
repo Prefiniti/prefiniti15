@@ -7,7 +7,7 @@
 
 <body>
 	<cfquery name="qryGetLogin" datasource="#session.datasource#">
-		SELECT * FROM users WHERE username='#form.username#' AND password='#Hash(form.password)#'
+		SELECT * FROM users WHERE username='#form.username#' AND password='#Hash(form.password, "SHA-512")#'
 	</cfquery>
 	
 	<cfquery name="eventUsers" datasource="#session.datasource#">
@@ -27,21 +27,26 @@
 				<cfcookie name="wwcl_rememberMe" value="false">
 			</cfif>
 
-			<cfset session.loggedin = true>
-			<cfset session.username = "#qryGetLogin.username#">
-			<cfset session.longname = "#qryGetLogin.LongName#">
-			<cfset session.userid = "#qryGetLogin.id#">
-			<cfset session.email = "#qryGetLogin.email#">
-            <cfset session.webware_admin=#qryGetLogin.webware_admin#>
-			
-			<cfset session.user = new Prefiniti.Authentication.UserAccount({username: session.username}, false)>
-            			
-			<cfquery name="setOnline" datasource="#session.datasource#">
-				UPDATE users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#
-			</cfquery>
-						
+			<cfif NOT qryGetLogin.tfa_enabled>
+				<cfset session.loggedin = true>
+				<cfset session.username = "#qryGetLogin.username#">
+				<cfset session.longname = "#qryGetLogin.LongName#">
+				<cfset session.userid = "#qryGetLogin.id#">
+				<cfset session.email = "#qryGetLogin.email#">
+	            <cfset session.webware_admin=#qryGetLogin.webware_admin#>
+				
+				<cfset session.user = new Prefiniti.Authentication.UserAccount({username: session.username}, false)>
+	            			
+				<cfquery name="setOnline" datasource="#session.datasource#">
+					UPDATE users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#
+				</cfquery>
+							
 
-			<cflocation url="/go" addtoken="no">			
+				<cflocation url="/go" addtoken="no">
+			<cfelse>
+				<cfset session.pending_user_id = qryGetLogin.id>
+				<cflocation url="/verify" addtoken="no">
+			</cfif>			
 		<cfelse>
 			<cfset session.message="Your account has been disabled.">
 			<cflocation url="/login" addtoken="no">

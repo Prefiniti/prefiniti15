@@ -42,6 +42,8 @@
                     
                 </cfscript>
             </cfoutput>
+        <cfelse>
+            <cfset this.opened = true>
 
         </cfif>            
 

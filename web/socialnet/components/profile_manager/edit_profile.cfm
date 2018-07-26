@@ -10,12 +10,12 @@
         <div class="col-lg-12">
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
-                    <li><a class="nav-link active" data-toggle="tab" href="#settings-basic"><i class="fa fa-info-circle"></i> Identity</a></li>
+                    <li><a class="nav-link active" data-toggle="tab" href="#settings-basic"><i class="fa fa-cogs"></i> General</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#settings-bkgd"><i class="fa fa-tag"></i> Background</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#settings-contact"><i class="fa fa-address-card"></i> Contact Information</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#settings-locations"><i class="fa fa-map-marker-alt"></i> Locations</a></li>
                     <li><a class="nav-link" data-toggle="tab" href="#settings-notify"><i class="fa fa-bell"></i> Notifications</a></li>
-                    <li><a class="nav-link" data-toggle="tab" href="#settings-privacy"><i class="fa fa-shield-alt"></i> Privacy</a></li>
+                    <li><a class="nav-link" data-toggle="tab" href="#settings-privacy"><i class="fa fa-shield-alt"></i> Privacy &amp; Security</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" id="settings-basic" class="tab-pane active">

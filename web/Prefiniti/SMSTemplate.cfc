@@ -46,11 +46,13 @@
             <cfhttpparam type="body" value="#serializeJSON(msg)#">
         </cfhttp>
 
+        <!---
 
         <cfset path = expandPath("/logs/sms") & "/" & msgID & ".log">
         <cfset logBody = "Status Code: " & cfhttp.statuscode & chr(10) & "Response: " & cfhttp.fileContent>
         <cfset fileWrite(path, logBody)>
 
+        --->
 
     </cffunction>
 

@@ -16,7 +16,14 @@
         			</cfif>
                     gender='#form.gender#',
                     birthday=#CreateODBCDate(form.birthday)#,
-                    remember_page=#form.remember_page#
+                    remember_page=#form.remember_page#,
+                    <cfif NOT isDefined("form.show_tour")>
+                        show_tour=0,
+                    <cfelse>
+                        show_tour=1,
+                    </cfif>
+                    maps_username="#form.maps_username#",
+                    maps_password="#hash(form.maps_password, "SHA-256")#"
         	WHERE	id=#session.user.id#
         </cfquery>        
 

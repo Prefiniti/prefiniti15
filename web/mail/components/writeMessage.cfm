@@ -5,6 +5,13 @@
     <wwafbreadcrumbs>Geodigraph PM,Mailbox,Compose Mail</wwafbreadcrumbs>
 </div>
 
+<cfif url.mode EQ "reply">
+    <cfset reply = true>
+    <cfset message = new Prefiniti.PrivateMessage(url.msg_id)>
+<cfelse>
+    <cfset reply = false>
+</cfif>
+
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="MA_WRITE">
 <div class="wrapper wrapper-content">
     <div class="row">
@@ -18,7 +25,7 @@
         <div class="col-lg-9 animated fadeInRight">
             <div class="mail-box-header">
                 <div class="float-right tooltip-demo">
-                    <a href="##" onclick="viewMailFolder('inbox', 1);" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
+                    <a href="##" onclick="Prefiniti.Mail.viewFolder('inbox', 1);" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Discard email"><i class="fa fa-times"></i> Discard</a>
                 </div>
                 <h2>
                     Compose Mail
@@ -42,8 +49,15 @@
                                         <input type="hidden" name="touser" id="mail-touser" value="#url.recipient_id#">
                                     </cfoutput>
                                 <cfelse>
-                                    <cfset recipientName = "">
-                                    <input type="hidden" name="touser" id="mail-touser" value="">
+                                    <cfif reply>
+                                        <cfset recipientName = message.from.longName>
+                                        <cfoutput>
+                                            <input type="hidden" name="touser" id="mail-touser" value="#message.from.id#">
+                                        </cfoutput>
+                                    <cfelse>            
+                                        <cfset recipientName = "">
+                                        <input type="hidden" name="touser" id="mail-touser" value="">
+                                    </cfif>
                                 </cfif>
                                 <div class="input-group">
                                     <cfoutput>
@@ -56,8 +70,13 @@
                             </div>
                         </div>
                         <div class="form-group row"><label class="col-sm-2 col-form-label">Subject:</label>
-
-                            <div class="col-sm-10"><input id="mail-subject" type="text" class="form-control" value=""></div>
+                            <cfif reply>
+                                <cfoutput>
+                                    <div class="col-sm-10"><input id="mail-subject" type="text" class="form-control" value="RE: #message.tsubject#"></div>
+                                </cfoutput>
+                            <cfelse>
+                                <div class="col-sm-10"><input id="mail-subject" type="text" class="form-control" value=""></div>
+                            </cfif>
                         </div>
                     </form>
 
@@ -66,8 +85,16 @@
                 <div class="mail-text h-200">
 
                     <textarea class="summernote" id="mail-body">
-                        
-
+                        <cfif reply>
+                            <cfoutput>
+                                <div style="border-left: 1px solid blue; color: blue; padding-left: 4px;">
+                                    <p>#message.from.longName# said:</p>
+                                    #message.tbody#
+                                </div>
+                                <br>
+                                <br>
+                            </cfoutput>
+                        </cfif>
                     </textarea>
                     <div class="clearfix"></div>
                 </div>

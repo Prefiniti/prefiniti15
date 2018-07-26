@@ -25,7 +25,7 @@
                                 &nbsp;<i class="fa fa-shield-alt"></i>
                             </cfif>
                         </span>
-                        <span class="text-muted text-xs block"><cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> <b class="caret"></b></span>
+                        <span class="text-muted text-xs block" id="user-menu"><cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> <b class="caret"></b></span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
@@ -65,10 +65,10 @@
                 </div>
             </li>
             <li>
-                <a href="##" onclick="Prefiniti.Dashboard.load();"><i class="fa fa-th-large"></i><span class="nav-label">Dashboard</span></a>
+                <a href="##" onclick="Prefiniti.Dashboard.load();" id="dashboard-shortcut"><i class="fa fa-th-large"></i><span class="nav-label">Dashboard</span></a>
             </li>            
             <li>
-                <a href="##"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
+                <a href="##" id="mailbox-shortcut"><i class="fa fa-envelope"></i> <span class="nav-label">Mailbox </span><span class="label label-warning float-right"><span id="badge-messages-unread-side">0</span><span id="badge-messages-total"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li><a href="##" onclick="Prefiniti.Mail.viewFolder('inbox', 1);">Inbox</a></li>
                     <li><a href="##" onclick="Prefiniti.Mail.viewFolder('sent messages', 1);">Sent Mail</a></li>
@@ -77,11 +77,14 @@
             </li>
 
             <li>
-                <a href="##"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
+                <a href="##" id="company-shortcut"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
-                    <li><a href="#" onclick="Prefiniti.Projects.create();">New Project...</a>
+                    <li><a href="#" onclick="Prefiniti.Projects.create();">New Project</a></li>
+                    <li class="dropdown-divider"></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
-                    <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>                    
+                    <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a href="#" onclick="Prefiniti.Business.siteSettings();">Settings</a></li>
                 </ul>
             </li>
 

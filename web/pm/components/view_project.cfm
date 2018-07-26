@@ -58,7 +58,7 @@
                                                     <div class="dropdown-divider"></div>
                                                 </cfif>
                                                 <cfif project.checkPermission(session.user.id, "PRJ_DELETE")>
-                                                    <button class="dropdown-item" type="button" onclick="todo();"><span class="text-danger">Delete Project</span></button>
+                                                    <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.confirmDelete();"><span class="text-danger">Delete Project</span></button>
                                                 </cfif>
                                             </div>
                                         </div>
@@ -146,8 +146,8 @@
                                     <div class="col-sm-8 text-sm-left"><dd class="mb-1">#employee.longName# from template <em>#templateName#</em></dd></div>
                                 </dl>
                                 <dl class="row mb-0">
-                                    <div class="col-sm-4 text-sm-right"><dt>Comments:</dt> </div>
-                                    <div class="col-sm-8 text-sm-left"> <dd class="mb-1">  #posts.len()#</dd></div>
+                                    <div class="col-sm-4 text-sm-right"><dt>Value:</dt> </div>
+                                    <div class="col-sm-8 text-sm-left"> <dd class="mb-1">  #lsCurrencyFormat(project.getValue())#</dd></div>
                                 </dl>
                                 <cfif NOT internalProject>
                                     <dl class="row mb-0">
@@ -320,7 +320,7 @@
                                                                 <td class="text-right">
                                                                     <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
                                                                     <div class="dropdown-menu">   
-                                                                        <button class="dropdown-item" type="button" onclick="todo();">Send Message</button>
+                                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Mail.writeMessage(#stakeholder.user.id#);">Send Message</button>
 
                                                                         <cfif project.checkPermission(session.user.id, "SH_DELETE")>
                                                                             <div class="dropdown-divider"></div>

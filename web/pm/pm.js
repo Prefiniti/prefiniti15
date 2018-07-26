@@ -20,6 +20,74 @@ Prefiniti.extend("Projects", {
         Prefiniti.dialog(url);
     },
 
+    confirmDelete: function() {
+        let url = "/pm/components/delete_project_confirm.cfm?project_id=" + Prefiniti.Projects.current;
+
+        Prefiniti.dialog(url);
+    },
+
+    checkConfirmDelete: function(projectId) {
+
+        let confirmValue = $("#project-delete-confirm").val();
+
+        if(confirmValue === "DELETE") {
+            Prefiniti.Projects.delete(projectId);
+            $("#generic-window").modal('hide');
+        }
+        else {
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeout: 2000
+            };
+            
+            toastr.error("You must type DELETE in the box in order to delete this project.");
+        }
+
+    },
+
+    delete: function(projectId) {
+        let url = "/pm/components/delete_project_sub.cfm";
+
+        $.ajax({
+            url: url,
+            method: "POST",
+            data: {                
+                project_id: projectId
+            },
+            dataType: "json",
+            encode: true,
+            success: function(data) {
+                if(data.ok) {
+                    Prefiniti.home();
+
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeout: 2000
+                    };
+
+                    toastr.success(data.message);
+                }
+                else {
+
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeout: 2000
+                    };
+                    
+                    toastr.error(data.message);
+                    console.log(data);
+                }
+            }
+        });
+
+    },
+
     viewTask: function(taskId) {
         Prefiniti.loadPage("/pm/components/view_task.cfm?id=" + taskId + "&project_id=" + Prefiniti.Projects.current);
     },

@@ -32,6 +32,7 @@ component extends="Prefiniti.Base" output="false" {
         this.birthday = "";
         this.profile_views = 0;
         this.last_login = "";
+        this.show_tour = 1;
         this.last_site_id = 0;
         this.last_event = "";
         this.background = "";
@@ -45,6 +46,9 @@ component extends="Prefiniti.Base" output="false" {
         this.password_question = "";
         this.password_answer = "";
         this.status = "";
+
+        this.maps_username = "";
+        this.maps_password = "";
        
 
         if(!arguments.isNew) {
@@ -100,6 +104,7 @@ component extends="Prefiniti.Base" output="false" {
             this.birthday = qry.birthday;
             this.profile_views = qry.profile_views;
             this.last_login = qry.last_login;
+            this.show_tour = qry.show_tour;
             this.last_site_id = qry.last_site_id;
             this.last_event = qry.last_event;
             this.background = qry.background;
@@ -113,6 +118,11 @@ component extends="Prefiniti.Base" output="false" {
             this.password_question = qry.password_question;
             this.password_answer = qry.password_answer;
             this.status = qry.status;            
+            this.tfa_enabled = qry.tfa_enabled;
+            this.tfa_secret = qry.tfa_secret;
+
+            this.maps_username = qry.maps_username;
+            this.maps_password = qry.maps_password;
 
         }
         else {
@@ -180,6 +190,60 @@ component extends="Prefiniti.Base" output="false" {
 
         message.send();
 
+    }
+
+    public boolean function mapsLogin() output=false {
+
+        if(this.maps_username == "") return false;
+        if(this.maps_password == "") return false;
+
+        var apiUrl = "https://maps.geodigraph.com/api/auth/"
+
+        try {
+            cfhttp(method="POST", charset="utf-8", url="#apiUrl#", result="result") {
+                cfhttpparam(name="username", type="formfield", value="#this.maps_username#");
+                cfhttpparam(name="password", type="formfield", value="#this.maps_password#");
+                cfhttpparam(name="hashed", type="formfield", value="true");
+            }
+
+            return true;
+        }
+        catch(any ex) {
+            return false;
+        }
+
+    }
+
+    public string function enableTFA() output=false {
+
+        var tfa = new Prefiniti.Authentication.GoogleAuthenticator();
+        var key = tfa.generateKey(this.password);
+
+        var qrySql = "UPDATE users SET tfa_enabled=1, tfa_secret=:tfa_secret WHERE id=:id";
+        var result = queryExecute(qrySql, {tfa_secret=key, id=this.id}, {datasource="webwarecl"});
+
+        this.tfa_secret = key;
+        this.tfa_enabled = 1;
+        
+        return this.tfaQRCodeURL();
+    }
+
+    public void function disableTFA() output=false {
+
+        var qrySql = "UPDATE users SET tfa_enabled=0, tfa_secret=:tfa_secret WHERE id=:id";
+        var result = queryExecute(qrySql, {tfa_secret="", id=this.id}, {datasource="webwarecl"});
+
+        this.tfa_secret = "";
+        this.tfa_enabled = 0;
+        
+    }
+
+    public string function tfaQRCodeURL() output=false {
+        var tfa = new Prefiniti.Authentication.GoogleAuthenticator();
+
+        var otpurl = tfa.getOTPURL("GeodigraphPM", this.tfa_secret);
+
+        return tfa.getOTPQRURL(otpurl);
     }
 
     public struct function getRoles() output=false {
