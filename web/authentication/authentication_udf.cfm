@@ -112,7 +112,7 @@
     <cfif chkRecord.RecordCount GT 0>
         <cfreturn chkRecord>
     <cfelse>
-        <cfreturn createEmployeeRecord(arguments.assoc_id)>
+        <cfreturn createEmployeeRecord(arguments.assoc_id, "", "", "", "", "", "", "", "Active", "", 0, "")>
     </cfif>
 </cffunction>
 

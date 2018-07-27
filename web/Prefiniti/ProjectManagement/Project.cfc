@@ -299,6 +299,22 @@
 
     </cffunction>
 
+    <cffunction name="getUserRoles" returntype="array" output="true">
+        <cfargument name="user_id" type="numeric" required="true">
+
+        <cfset stakeholders = this.getStakeholders()>
+        <cfset result = []>
+
+        <cfloop array="#stakeholders#" item="stakeholder">            
+            <cfif stakeholder.user.id EQ arguments.user_id>                
+                <cfset result.append(stakeholder.type)>
+            </cfif>
+        </cfloop>
+
+        <cfreturn result>
+
+    </cffunction>
+
     <cffunction name="checkPermission" returntype="boolean" output="false">
         <cfargument name="user_id" type="numeric" required="true">
         <cfargument name="permission_key" type="string" required="true">
@@ -1160,6 +1176,7 @@
     <cffunction name="getStatus" returntype="string" output="false">
 
         <cfscript>
+            var result = "";
             var class = "";
 
             switch(this.project_status) {
@@ -1181,7 +1198,17 @@
 
             }
 
-            return "<span class=""" & class & """>" & this.project_status & "</span>"
+            result = "<span class=""" & class & " mr-2"">" & this.project_status & "</span>";
+
+            if(this.isOverdue()) {
+                result = result & '<span class="label label-danger mr-2">Overdue</span>';
+            }
+
+            if(this.employee_assoc == this.client_assoc) {
+                result = result & '<span class="label label-info mr-2">Internal</span>';
+            }
+
+            return result;
         </cfscript>
 
     </cffunction>

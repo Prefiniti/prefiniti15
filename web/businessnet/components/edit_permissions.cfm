@@ -3,9 +3,6 @@
 
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="AS_EDIT">
 
-
-<cfset project = new Prefiniti.ProjectManagement.Project(url.id)>
-
 <cfquery name="getAssoc" datasource="sites">
     SELECT * FROM site_associations WHERE id=#url.id#
 </cfquery>

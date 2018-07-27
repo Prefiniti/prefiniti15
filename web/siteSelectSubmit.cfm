@@ -16,6 +16,9 @@
 	<cfset session.current_association = getSites.id>
 	<cfset session.current_site_id = getSites.site_id>
 
+	<cfset session.association = new Prefiniti.Authentication.SiteAssociation(session.current_association)>
+	<cfset session.site = new Prefiniti.Authentication.Site(session.current_site_id)>
+
 	<link rel="stylesheet" href="css/prefiniti.css">
 </head>
 <body>
@@ -43,7 +46,7 @@
 			<img src="/graphics/webware.png" style="padding-bottom:20px;"/>
 			<h3 class="stdHeader">Site Disabled</h3>
 	        
-	        <p>Logins to this site have been disabled by the Prefiniti administration team.</p>
+	        <p>Logins to this site have been disabled.</p>
 	        <p>Please try again later.</p>
 		</div>
 		</center>

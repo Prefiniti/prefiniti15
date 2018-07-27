@@ -60,7 +60,7 @@
 
             <div class="btn-group">
                 <button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Social.loadProfile(#person.id#);"><i class="fa fa-user"></i> Profile</button>
-                <button type="button" class="btn btn-primary btn-sm"><i
+                <button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Mail.writeMessage(#person.id#);"><i
                     class="fa fa-envelope"></i> Message
                 </button>
                 <cfif getPermissionByKey('WW_SITEMAINTAINER', #session.current_association#) EQ true>

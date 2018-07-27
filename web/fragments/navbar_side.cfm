@@ -80,6 +80,7 @@
                 <a href="##" id="company-shortcut"><i class="fa fa-building"></i> <span class="nav-label">Company</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse">
                     <li><a href="#" onclick="Prefiniti.Projects.create();">New Project</a></li>
+                    <li><a href="#" onclick="Prefiniti.Projects.viewAll();">All Projects</a></li>                    
                     <li class="dropdown-divider"></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>

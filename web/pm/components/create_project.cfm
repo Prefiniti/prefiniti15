@@ -6,6 +6,9 @@
     <cfset selectedUser = prefiniti.getUserByAssociationID(url.client_assoc_id)>
 </cfif>
 
+<cfset startDate = dateFormat(now(), "yyyy-mm-dd")>
+<cfset endDate = dateFormat(dateAdd("d", 7, now()), "yyyy-mm-dd")>
+
 <div class="modal-header">
     <i class="fa fa-project-diagram modal-icon"></i>
     <h4 class="modal-title">Create New Project</h4>
@@ -68,10 +71,14 @@
                 <div class="form-group row">
                     <label class="col-lg-2 col-form-label">Start &amp; End Dates</label>
                     <div class="col-lg-5">
-                        <input type="date" name="project_start_date" class="form-control">
+                        <cfoutput>
+                            <input type="date" name="project_start_date" class="form-control" value="#startDate#">
+                        </cfoutput>
                     </div>
                     <div class="col-lg-5">
-                        <input type="date" name="project_due_date" class="form-control">
+                        <cfoutput>
+                            <input type="date" name="project_due_date" class="form-control" value="#endDate#">
+                        </cfoutput>
                     </div>
                 </div>                
                 <div class="form-group row">

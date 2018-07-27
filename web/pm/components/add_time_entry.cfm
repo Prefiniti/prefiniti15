@@ -4,6 +4,15 @@
 </cfif>
 <cfset taskCodes = project.getTaskCodes(session.current_site_id)>
 
+<cfset dtRounded = round(now() * 24 * 4) / 24 / 4>
+
+<cfset startDate = dateFormat(dtRounded, "yyyy-mm-dd")>
+<cfset startHour = hour(dtRounded)>
+<cfif startHour GT 12>
+    <cfset startHour = startHour - 12>
+</cfif>
+<cfset startMinute = minute(dtRounded)>
+<cfset startAMPM = timeFormat(dtRounded, "tt")>
 
 <div class="modal-header">
     <i class="fa fa-clock modal-icon"></i>
@@ -28,6 +37,7 @@
                         <div class="form-group row">
                             <label class="col-lg-2 col-form-label">Stakeholder:</label>
                             <div class="col-lg-10">
+                                
                                 <select class="custom-select" name="assoc_id">
                                     <cfloop array="#stakeholders#" item="stakeholder">
                                         <option value="#stakeholder.assoc_id#" <cfif stakeholder.assoc_id EQ session.current_association>selected</cfif>>#stakeholder.user.longName# (#stakeholder.type#)</option>
@@ -59,22 +69,22 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="input-group">
-                                        <input type="date" name="start_date" class="form-control">
-                                        <div class="input-group-append">
+                                        <input type="date" name="start_date" class="form-control" value="#startDate#">
+                                        <div class="input-group-append">                                        
                                             <select name="start_hour" class="custom-select">
                                                 <cfloop from="1" to="12" index="hour">
-                                                    <option value="#hour#">#hour#</option>
+                                                    <option value="#hour#" <cfif hour EQ startHour>selected</cfif>>#hour#</option>
                                                 </cfloop>
                                             </select>
                                             <select name="start_minute" class="custom-select">
-                                                <option value="00">00</option>
-                                                <option value="15">15</option>
-                                                <option value="30">30</option>
-                                                <option vlaue="45">45</option>
+                                                <option value="00" <cfif startMinute EQ "00">selected</cfif>>00</option>
+                                                <option value="15" <cfif startMinute EQ "15">selected</cfif>>15</option>
+                                                <option value="30" <cfif startMinute EQ "30">selected</cfif>>30</option>
+                                                <option vlaue="45" <cfif startMinute EQ "45">selected</cfif>>45</option>
                                             </select>
                                             <select name="start_ampm" class="custom-select">
-                                                <option value="AM">AM</option>
-                                                <option value="PM">PM</option>
+                                                <option value="AM" <cfif startAMPM EQ "AM">selected</cfif>>AM</option>
+                                                <option value="PM" <cfif startAMPM EQ "PM">selected</cfif>>PM</option>
                                             </select>
                                         </div>
                                     </div>
@@ -92,22 +102,22 @@
                         <label class="col-lg-2 col-form-label">End Time:</label>
                         <div class="col-lg-10">
                             <div class="input-group">
-                                <input type="date" name="end_date" class="form-control">                            
+                                <input type="date" name="end_date" class="form-control" value="#startDate#">                            
                                 <div class="input-group-append">
                                     <select name="end_hour" class="custom-select">
                                         <cfloop from="1" to="12" index="hour">
-                                            <option value="#hour#">#hour#</option>
+                                            <option value="#hour#" <cfif hour EQ startHour>selected</cfif>>#hour#</option>
                                         </cfloop>
                                     </select>
                                     <select name="end_minute" class="custom-select">
-                                        <option value="00">00</option>
-                                        <option value="15">15</option>
-                                        <option value="30">30</option>
-                                        <option vlaue="45">45</option>
+                                        <option value="00" <cfif startMinute EQ "00">selected</cfif>>00</option>
+                                        <option value="15" <cfif startMinute EQ "15">selected</cfif>>15</option>
+                                        <option value="30" <cfif startMinute EQ "30">selected</cfif>>30</option>
+                                        <option vlaue="45" <cfif startMinute EQ "45">selected</cfif>>45</option>
                                     </select>
                                     <select name="end_ampm" class="custom-select">
-                                        <option value="AM">AM</option>
-                                        <option value="PM">PM</option>
+                                        <option value="AM" <cfif startAMPM EQ "AM">selected</cfif>>AM</option>
+                                        <option value="PM" <cfif startAMPM EQ "PM">selected</cfif>>PM</option>
                                     </select>
                                 </div>
                             </div>

@@ -326,6 +326,10 @@ var Prefiniti = {
             pageLength: 25,
             responsive: true
         });
+
+        $("span.pie").peity("pie", {
+            fill: ['#1ab394', '#d7d7d7', '#ffffff']
+        });
         
     },
 
@@ -564,6 +568,9 @@ var Prefiniti = {
             encode: true
         }).done(function(data) {
             $("#contact-detail").html(data);
+            $("span.pie").peity("pie", {
+                fill: ['#1ab394', '#d7d7d7', '#ffffff']
+            });
         });
 
     },

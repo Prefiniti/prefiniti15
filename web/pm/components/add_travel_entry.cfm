@@ -4,6 +4,7 @@
 </cfif>
 <cfset taskCodes = project.getTaskCodes(session.current_site_id)>
 
+<cfset travelDate = dateFormat(now(), "yyyy-mm-dd")>
 
 <div class="modal-header">
     <i class="fa fa-car modal-icon"></i>
@@ -56,7 +57,7 @@
                     <div class="form-group row">
                         <label class="col-lg-2 col-form-label">Travel Date:</label>
                         <div class="col-lg-10">
-                            <input type="date" name="travel_date" class="form-control">
+                            <input type="date" name="travel_date" class="form-control" value="#travelDate#">
                         </div>
                     </div>
                     <div class="form-group row">

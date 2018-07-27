@@ -2,6 +2,12 @@ Prefiniti.extend("Projects", {
 
     current: null,
 
+    viewAll: function() {
+        let url = "/pm/components/view_site_projects.cfm";
+
+        Prefiniti.loadPage(url);
+    },
+
     view: function(projectId) {
         let url = "/pm/components/view_project.cfm?id=" + projectId;
 
@@ -453,6 +459,72 @@ Prefiniti.extend("Projects", {
 
     commentTask: function(taskId) {
         $('#task-comment-' + taskId).show();
+    },
+
+    search: function() {
+
+        let searchTerms = $("#search-projects").val().toLowerCase();
+
+        $(".project-row").each(function(index) {
+
+            let name = $(this).attr("data-project-name").toLowerCase();
+          
+            if(name.includes(searchTerms)) {
+                $(this).show("slow");
+            }
+            else {
+                $(this).hide("slow");
+            }
+        });
+    },
+
+    resetSearch: function() {
+
+        $("#search-projects").val("");
+
+        $(".project-row").each(function(index) {
+            $(this).show();
+        });
+
+    },
+
+    setFilters: function() {
+
+        let filters = [];
+
+        Prefiniti.Projects.resetSearch();
+
+        $(".search-filter").each(function(index) {
+            if($(this).is(":checked")) {
+                filters.push({
+                    type: $(this).attr("data-filter-type"),
+                    term: $(this).attr("data-filter-term")
+                });
+            }
+        });
+
+        $(".project-row").each(function(index) {
+            var matches = 0;
+
+            for(i in filters) {                
+                type = filters[i].type;
+                term = filters[i].term;
+                val = $(this).attr("data-" + type)
+
+                if(val === term) matches++;
+            }
+
+            if(filters.length > 0) {
+                if(matches) {
+                    $(this).show();
+                }
+                else {
+                    $(this).hide();
+                }
+            }
+        });
+
     }
+
 
 });

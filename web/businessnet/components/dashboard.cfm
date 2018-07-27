@@ -166,17 +166,6 @@
                     </div>
                     <div class="ibox ">
                         <div class="ibox-title">
-                            <h5>News Feed</h5>                            
-                        </div>
-                        <div class="ibox-content">
-                            <cfmodule template="/socialnet/components/view_newsfeed.cfm" count="10">
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="col-lg-4">
-                    <div class="ibox ">
-                        <div class="ibox-title">
                             <h5>WebGrams</h5>
                             <div class="ibox-tools">
                                 <span class="label label-warning-light float-right"><i class="fa fa-bullhorn"></i></span>
@@ -186,9 +175,18 @@
                             <cfmodule template="/socialnet/components/view_webgrams.cfm" maxrows="10">
                         </div>
                     </div>
-
+                    <div class="ibox ">
+                        <div class="ibox-title">
+                            <h5>News Feed</h5>                            
+                        </div>
+                        <div class="ibox-content">
+                            <cfmodule template="/socialnet/components/view_newsfeed.cfm" count="10">
+                        </div>
+                    </div>
+                    
                 </div>
-                <div class="col-lg-4">                    
+                
+                <div class="col-lg-8">                    
                     <div class="ibox">
                         <div class="ibox-title">
                             <h5>My Projects</h5>
