@@ -1,3 +1,35 @@
+<cffunction name="beginPasswordReset" returntype="void" output="false">
+    <cfargument name="email" type="string" required="true">
+
+
+    <cfquery name="acctExists" datasource="webwarecl">
+        SELECT id FROM users WHERE username=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.email#" maxlength="255">
+    </cfquery>
+
+    <cfif acctExists.recordCount GT 0>
+
+        <cfset requestID = createUUID()>
+        <cfset expiration = dateAdd("h", 1, now())>
+
+        <cfquery name="writeRequest" datasource="webwarecl">
+            INSERT INTO password_reset_requests
+                        (id,
+                        user_id,
+                        expiration)
+            VALUES      (<cfqueryparam cfsqltype="cf_sql_varchar" value="#requestID#" maxlength="255">,
+                        <cfqueryparam cfsqltype="cf_sql_bigint" value="#acctExists.id#">,
+                        <cfqueryparam cfsqltype="cf_sql_timestamp" value="#expiration#">)
+        </cfquery>
+        <cfscript>
+            var message = new Prefiniti.MailTemplate("password_reset", arguments.email, "Geodigraph PM Password Reset", {
+                requestID: requestID
+            });
+
+            message.send();
+        </cfscript>
+    </cfif>
+</cffunction>
+
 <cffunction name="confirmAccount" returntype="void" output="false">
     <cfargument name="confirm_id" type="string" required="true">
     <cfargument name="password" type="string" required="true">

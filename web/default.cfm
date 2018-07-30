@@ -64,7 +64,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary block full-width m-b" name="submit">Login</button>
 
-                    <a href="##"><small>Forgot password?</small></a>
+                    <a href="/forgot_password.cfm"><small>Forgot password?</small></a>
                     <p class="text-muted text-center"><small>Don't have an account?</small></p>
                     <a class="btn btn-sm btn-white btn-block" href="/register">Create an account</a>
 

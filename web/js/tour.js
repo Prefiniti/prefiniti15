@@ -19,13 +19,13 @@ Prefiniti.extend("Tour", {
                 {
                     element: "#mailbox-shortcut",
                     title: "Messaging",
-                    content: "This menu gives you access to send private mail to and receive private mail from other Geodigraph PM users.",
+                    content: "This menu gives you the ability to send private mail to and receive private mail from other Geodigraph PM users.",
                     placement: "right"
                 },
                 {
                     element: "#company-shortcut",
                     title: "Company",
-                    content: "The Company menu gives you access to view your employees and clients and manage your company settings, as well as allowing you to create and manage projects.",
+                    content: "The Company menu gives you the ability to view your employees and clients and manage your company settings, as well as allowing you to create and manage projects.",
                     placement: "right"
                 },
                 { 

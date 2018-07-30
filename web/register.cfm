@@ -14,6 +14,7 @@
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 
+    <link rel="shortcut icon" href="/graphics/geodigraph_icon.png?v=2">
 </head>
 
 <cfscript>

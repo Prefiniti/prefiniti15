@@ -132,14 +132,7 @@
                                     <div class="col-sm-4 text-sm-right"><dt>Status:</dt> </div>
                                     <div class="col-sm-8 text-sm-left">
                                         <dd class="mb-1">
-                                            #project.getStatus()#
-                                            <cfif project.isOverdue()>
-                                                <span class="label label-danger">Overdue</span>
-                                            </cfif>
-
-                                            <cfif internalProject>
-                                                <span class="label label-info">Internal</span>
-                                            </cfif>
+                                            #project.getStatus()#                                            
                                         </dd>
                                     </div>
                                 </dl>

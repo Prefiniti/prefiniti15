@@ -18,6 +18,27 @@ var Prefiniti = {
         }
     },
 
+    welcome: function() {
+        let url = "/framework/components/welcome.cfm";
+
+        Prefiniti.dialog(url, function() {
+            $(".i-checks").iCheck({
+                checkboxClass: 'icheckbox_square-green'
+            });
+
+            $(".i-checks").on('ifChecked', function(event) {
+                $.get("/framework/components/enable_welcome_screen.cfm", function(data) {});
+            });
+            $(".i-checks").on('ifUnchecked', function(event) {
+                $.get("/framework/components/disable_welcome_screen.cfm", function(data) {});
+            });
+        });
+    },
+
+    showWelcomeChanged: function() {
+
+    },
+
     notificationClicked: function(id) {
         console.log("Clicked notification id " + id);
 
@@ -333,7 +354,7 @@ var Prefiniti = {
         
     },
 
-    dialog: function(url)
+    dialog: function(url, onLoad)
     {   
         console.log("Prefiniti.dialog(): loading " + url);
 
@@ -344,7 +365,9 @@ var Prefiniti = {
             url: url,
             success: function(data) {
                 $("#gen-window-area").html(data);
-                $("#generic-window").modal();               
+                $("#generic-window").modal();  
+
+                if(onLoad) onLoad();
             },
             error: function(data) {
                 console.log("Prefiniti.dialog():  error %o", data);

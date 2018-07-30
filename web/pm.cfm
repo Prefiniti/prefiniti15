@@ -160,11 +160,7 @@
 
     <cfif session.user.show_tour EQ 1>
         <script>
-            
-                let url = "/framework/components/welcome.cfm";
-
-                Prefiniti.dialog(url);
-            
+            Prefiniti.welcome();
         </script>
     </cfif>
 

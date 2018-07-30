@@ -53,5 +53,6 @@
    
 </div>
 <div class="modal-footer">
+    <div class="mr-auto"><input type="checkbox" id="showWelcome" class="i-checks" <cfif session.user.show_tour EQ 1>checked</cfif>> <label for="showWelcome">Show Welcome Screen on Login</label></div>
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
 </div>
