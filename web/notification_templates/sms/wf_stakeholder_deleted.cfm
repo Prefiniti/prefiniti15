@@ -1,0 +1,1 @@
+<cfoutput>#attributes.perpetrator.longName# has removed #attributes.stakeholder.longName# as a stakeholder of type #attributes.type# from project #attributes.project.project_name#</cfoutput>        

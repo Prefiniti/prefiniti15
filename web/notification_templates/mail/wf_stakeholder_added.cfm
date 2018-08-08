@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has added <strong>#attributes.stakeholder.longName#</strong> as a stakeholder of type <strong>#attributes.type#</strong> to project <strong>#attributes.project.project_name#</strong></cfoutput>

@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has assigned task <strong>#attributes.task_name#</strong> on project <strong>#attributes.project.project_name#</strong> to <strong>#attributes.assignee.longName#</strong></cfoutput>

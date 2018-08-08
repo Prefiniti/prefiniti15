@@ -1,5 +1,25 @@
 Prefiniti.extend("Business", {
 
+	timeEntries: function() {
+		let url = "/businessnet/components/time_entries.cfm";
+
+		Prefiniti.loadPage(url, function() {
+            $(".i-checks").iCheck({
+                checkboxClass: 'icheckbox_square-green'
+            });
+        });
+	},
+
+	timeReport: function() {
+		let url = "/businessnet/components/reports/time_report_dialog.cfm";
+
+		Prefiniti.dialog(url);
+	},
+
+	generateTimeReport: function() {
+
+	},
+
 	siteSettings: function() {
 		let url = "/businessnet/components/site_manager/edit_site.cfm";
 
@@ -12,8 +32,8 @@ Prefiniti.extend("Business", {
 		Prefiniti.dialog(url);
 	},
 
-	editTaskCode: function(id) {
-		let url = "/businessnet/components/site_manager/edit_task_code.cfm?id=" + id;
+	editTaskCode: function(id) 
+{		let url = "/businessnet/components/site_manager/edit_task_code.cfm?id=" + id;
 
 		Prefiniti.dialog(url);
 	},
@@ -118,7 +138,7 @@ Prefiniti.extend("Business", {
 			}
 		});
 
-		updateEmployeeForm();
+		Prefiniti.Business.updateEmployeeForm();
 	},
 
 	updateEmployeeForm: function() {

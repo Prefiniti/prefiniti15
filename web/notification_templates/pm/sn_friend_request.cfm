@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.requester.id#);">#attributes.requester.longName#</a> has sent a friend request to <a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.requested.id#);">#attributes.requested.longName#.</a></cfoutput>

@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.perpetrator.id#)">#attributes.perpetrator.longName#</a> has created task <a href="##" onclick="Prefiniti.Projects.viewTask(#attributes.task_id#)">#attributes.task_name#</a> with priority <strong>#attributes.task_priority#</strong> on project <strong>#attributes.project.project_name#</strong></cfoutput>  

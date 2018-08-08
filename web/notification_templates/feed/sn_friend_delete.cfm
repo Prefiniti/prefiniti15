@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.deletedBy.id#);">#attributes.deletedBy.longName#</a> and <a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.friend.id#);">#attributes.friend.longName#</a> are no longer friends</cfoutput>

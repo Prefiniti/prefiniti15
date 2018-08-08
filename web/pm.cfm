@@ -145,7 +145,7 @@
     <script src="/globals.js"></script>
     <script src="js/app.js"></script>
     <script src="js/social.js"></script>
-    <script src="pm/pm.js"></script>
+    <script src="js/pm.js"></script>
     <script src="js/user_picker.js"></script>
     <script src="js/dashboard.js"></script>
     <script src="js/filehandler.js"></script>

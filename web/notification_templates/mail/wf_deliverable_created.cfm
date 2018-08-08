@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has added deliverable <strong>#attributes.deliverable_name#</strong> to project <strong>#attributes.project.project_name#</strong></cfoutput>

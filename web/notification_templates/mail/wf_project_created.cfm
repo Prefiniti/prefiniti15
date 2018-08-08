@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has created project <strong>#attributes.project.project_name#</strong></cfoutput>

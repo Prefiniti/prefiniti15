@@ -17,7 +17,7 @@
         <cfcatch type="any">
             <cfset result.ok = false>
             <cfset result.message = "Error assigning task.">
-            <cfset result.error = {message: cfcatch.message, detail: cfcatch.detail, other: cfcatch.sql}>  
+            <cfset result.error = {message: cfcatch.message, detail: cfcatch.detail}>  
         </cfcatch>
     </cftry>
 </cfsilent>

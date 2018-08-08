@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.rejectedBy.id#);">#attributes.rejectedBy.longName#</a> has rejected your friend request</cfoutput>

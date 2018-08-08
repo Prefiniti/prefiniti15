@@ -119,13 +119,13 @@
                 <cfset n_client = this.getUserByAssociationID(this.client_assoc)>
                 <cfset n_emp = this.getUserByAssociationID(this.employee_assoc)>
 
-                <cfset notification = new Prefiniti.Notification(n_client, "WF_PROJECT_CREATED", {project: this})>
+                <cfset notification = new Prefiniti.Notification(n_client, "WF_PROJECT_CREATED", {perpetrator: session.user, project: this})>
                 <cfset notification.send()>
-                <cfset notification = new Prefiniti.Notification(n_emp, "WF_PROJECT_CREATED", {project: this})>
+                <cfset notification = new Prefiniti.Notification(n_emp, "WF_PROJECT_CREATED", {perpetrator: session.user, project: this})>
                 <cfset notification.send()>
             <cfelse>
                 <cfset n_emp = this.getUserByAssociationID(this.employee_assoc)>
-                <cfset notification = new Prefiniti.Notification(n_emp, "WF_PROJECT_CREATED", {project: this})>
+                <cfset notification = new Prefiniti.Notification(n_emp, "WF_PROJECT_CREATED", {perpetrator: session.user, project: this})>
                 <cfset notification.send()>
             </cfif>
 
@@ -208,7 +208,7 @@
         <cfset this.addTag(this.project_client.longName)>
         <cfset this.addTag(this.project_employee.longName)>
 
-        <cfset this.notifyStakeholders("WF_PROJECT_EDITED", {})>
+        <cfset this.notifyStakeholders("WF_PROJECT_EDITED", {perpetrator: session.user})>
 
         <cfreturn this>
 
@@ -451,6 +451,17 @@
         <cfreturn result>
     </cffunction>
 
+    <cffunction name="getTimeEntryByID" returntype="query" output="false">
+        <cfargument name="time_id" type="numeric" required="true">
+
+        <cfquery name="getEntry" datasource="webwarecl">
+            SELECT * FROM pm_time_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_id#">
+        </cfquery>
+
+        <cfreturn getEntry>
+
+    </cffunction>
+
     <cffunction name="getValue" returntype="numeric" output="false">
         <cfset total = 0>
         <cfset entries = this.getTimeEntries()>
@@ -482,7 +493,15 @@
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TIME_CLOSED", {time_id: arguments.time_id})>
+        <cfset te = this.getTimeEntryByID(arguments.time_id)>
+        <cfset minutes = dateDiff("n", te.start_time, te.end_time)>
+        <cfset hours = minutes / 60>
+
+        <cfset this.notifyStakeholders("WF_TIME_CLOSED", {
+            perpetrator: session.user,
+            work_performed: te.work_performed,
+            hours: hours
+        })>
 
     </cffunction>
 
@@ -499,12 +518,16 @@
             <cfthrow message="Permission Denied" detail="You do not have TIME_DELETE on this project.">
         </cfif>
         
+        <cfset te = this.getTimeEntryByID(arguments.time_id)>
 
         <cfquery name="deleteTimeEntry" datasource="webwarecl">
             DELETE FROM pm_time_entries WHERE id=#arguments.time_id#
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TIME_DELETED", {time_id: arguments.time_id})>
+        <cfset this.notifyStakeholders("WF_TIME_DELETED", {
+            perpetrator: session.user,
+            work_performed: te.work_performed
+        })>
 
     </cffunction>
 
@@ -562,9 +585,27 @@
             SELECT id FROM pm_travel_entries WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TRAVEL_LOGGED", {travel_id: getTravelID.id})>
+        <cfset t = this.getTravelEntryByID(getTravelID.id)>
+        <cfset miles = t.odometer_end - t.odometer_start>
+
+        <cfset this.notifyStakeholders("WF_TRAVEL_LOGGED", {
+            perpetrator: session.user,
+            travel_name: t.travel_name,
+            miles: miles
+        })>
 
         <cfreturn getTravelID.id>
+    </cffunction>
+
+    <cffunction name="getTravelEntryByID" returntype="query" output="false">
+        <cfargument name="travel_id" type="numeric" required="false">
+
+        <cfquery name="getTrav" datasource="webwarecl">
+            SELECT * FROM pm_travel_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.travel_id#">
+        </cfquery>
+
+        <cfreturn getTrav>
+
     </cffunction>
 
     <cffunction name="getTravelEntries" returntype="array" output="false">
@@ -619,12 +660,17 @@
             <cfthrow message="Permission Denied" detail="You do not have TIME_DELETE on this project.">
         </cfif>
 
+        <cfset t = this.getTravelEntryByID(arguments.travel_id)>        
+        
         <cfquery name="deleteTravelEntry" datasource="webwarecl">
             DELETE FROM pm_travel_entries WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.travel_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TRAVEL_DELETED", {travel_id: arguments.travel_id})>
-
+        <cfset this.notifyStakeholders("WF_TRAVEL_DELETED", {
+            perpetrator: session.user,
+            travel_name: t.travel_name
+        })>
+        
     </cffunction>
 
     <cffunction name="getStakeholders" returntype="array" output="false">
@@ -665,6 +711,7 @@
         </cfif>
 --->
         <cfset this.notifyStakeholders("WF_STAKEHOLDER_ADDED", {
+            perpetrator: session.user,
             stakeholder: this.getUserByAssociationID(arguments.assoc_id),
             type: arguments.stakeholder_type
         })>
@@ -699,6 +746,7 @@
         </cfif>
 --->
         <cfset this.notifyStakeholders("WF_STAKEHOLDER_DELETED", {
+            perpetrator: session.user,
             stakeholder: this.getUserByAssociationID(arguments.assoc_id),
             type: arguments.stakeholder_type
         })>
@@ -797,8 +845,10 @@
         </cfquery>
 
         <cfset taskInfo = {
+            perpetrator: session.user,
             task_name: arguments.task_name,
-            task_priority: arguments.task_priority
+            task_priority: arguments.task_priority,
+            task_id: getTaskID.id
         }>
 
         <cfif arguments.assignee_assoc_id NEQ 0>
@@ -820,11 +870,14 @@
             <cfthrow message="Permission Denied" detail="You do not have TASK_DELETE on this project.">
         </cfif>
 
+        <cfset task = this.getTaskByID(arguments.id)>
+
         <cfquery name="removeTask" datasource="webwarecl">
             DELETE FROM pm_tasks WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TASK_DELETED", {task_id: arguments.id})>
+
+        <cfset this.notifyStakeholders("WF_TASK_DELETED", {perpetrator: session.user, task_name: task.task_name})>
     </cffunction>
 
     <cffunction name="getTaskStatusName" returntype="string" output="false">
@@ -884,13 +937,17 @@
             <cfthrow message="Permission Denied" detail="You do not have TASK_EDIT on this project.">
         </cfif>
 
+        <cfset ot = this.getTaskByID(arguments.task_id)>
+
         <cfquery name="setTaskPriority" datasource="webwarecl">
             UPDATE pm_tasks 
             SET task_priority=<cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.priority#" maxlength="45">
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TASK_PRIORITY_CHANGED", {task_id: arguments.task_id, priority: arguments.priority})>
+        <cfset t = this.getTaskByID(arguments.task_id)>
+
+        <cfset this.notifyStakeholders("WF_TASK_PRIORITY_CHANGED", {perpetrator: session.user, task_id: arguments.task_id, task_name: t.task_name, new_priority: arguments.priority, old_priority: ot.task_priority})>
     </cffunction>
 
     <cffunction name="assignTask" returntype="void" output="false">
@@ -907,7 +964,7 @@
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_TASK_ASSIGNED", {task_id: this.task_id, assignee: this.getUserByAssociationID(arguments.assignee_assoc_id)})>
+        <cfset this.notifyStakeholders("WF_TASK_ASSIGNED", {perpetrator: session.user, task_id: arguments.task_id, assignee: this.getUserByAssociationID(arguments.assignee_assoc_id), task_name: this.getTaskByID(arguments.task_id).task_name})>
 
     </cffunction>
 
@@ -921,6 +978,17 @@
 
         <cfreturn getLocations>
 
+    </cffunction>
+
+    <cffunction name="getLocationByID" returntype="query" output="false">
+        <cfargument name="location_id" type="numeric" required="true">
+
+        <cfquery name="getLoc" datasource="webwarecl">
+            SELECT * FROM pm_locations
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.location_id#">
+        </cfquery>
+
+        <cfreturn getLoc>
     </cffunction>
 
     <cffunction name="addLocation" returntype="void" output="false">
@@ -982,9 +1050,18 @@
                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.longitude#">,
                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.elevation#">,
                         <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#">)
-        </cfquery>        
+        </cfquery>  
 
-        <cfset this.notifyStakeholders("WF_LOCATION_CREATED", arguments)>
+        <cfquery name="getLocID" datasource="webwarecl">
+            SELECT id FROM pm_locations WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#">
+        </cfquery>      
+
+        <cfset l = this.getLocationByID(getLocID.id)>
+
+        <cfset this.notifyStakeholders("WF_LOCATION_CREATED", {
+            perpetrator: session.user,
+            location_name: l.location_name
+        })>
     </cffunction>
 
     <cffunction name="removeLocation" returntype="void" output="false">
@@ -994,12 +1071,17 @@
             <cfthrow message="Permission Denied" detail="You do not have LOC_DELETE on this project.">
         </cfif>
 
+        <cfset l = this.getLocationByID(arguments.location_id)>
+
         <cfquery name="removeLocation" datasource="webwarecl">
             DELETE FROM pm_locations 
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.location_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_LOCATION_DELETED", arguments)>
+        <cfset this.notifyStakeholders("WF_LOCATION_DELETED", {
+            perpetrator: session.user,
+            location_name: l.location_name
+        })>
     </cffunction>
 
     <cffunction name="addDeliverable" returntype="numeric" output="false">
@@ -1030,7 +1112,10 @@
             SELECT id FROM pm_deliverables WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_DELIVERABLE_CREATED", arguments)>
+        <cfset this.notifyStakeholders("WF_DELIVERABLE_CREATED", {
+            perpetrator: session.user,
+            deliverable_name: arguments.deliverable_name
+        })>
 
         <cfreturn getDeliverableID.id>
     </cffunction>
@@ -1071,7 +1156,12 @@
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_DELIVERABLE_FULFILLED", arguments)>
+        <cfset d = this.getDeliverableByID(arguments.deliverable_id)>
+
+        <cfset this.notifyStakeholders("WF_DELIVERABLE_FULFILLED", {
+            perpetrator: session.user,
+            deliverable_name: d.deliverable_name
+        })>
 
     </cffunction>
 
@@ -1082,12 +1172,17 @@
             <cfthrow message="Permission Denied" detail="You do not have DEL_DELETE on this project.">
         </cfif>
 
+        <cfset d = this.getDeliverableByID(arguments.deliverable_id)>
+
         <cfquery name="removeDeliverable" datasource="webwarecl">
             DELETE FROM pm_deliverables 
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.deliverable_id#">
         </cfquery>
 
-        <cfset this.notifyStakeholders("WF_DELIVERABLE_DELETED", arguments)>
+        <cfset this.notifyStakeholders("WF_DELIVERABLE_DELETED", {
+            perpetrator: session.user,
+            deliverable_name: d.deliverable_name
+        })>
     </cffunction>
 
     <cffunction name="getTags" returntype="array" output="false">

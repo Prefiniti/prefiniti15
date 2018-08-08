@@ -1,0 +1,1 @@
+<cfmodule template="/pm/components/view_time_entries.cfm" project_id="#url.id#">

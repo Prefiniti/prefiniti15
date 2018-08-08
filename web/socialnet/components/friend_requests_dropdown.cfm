@@ -17,8 +17,8 @@
                 </div>
                 <div class="col-xs-3 text-right">
                     <div class="btn-group float-right">
-                            <button type="button" class="btn btn-xs btn-white" onclick="Prefiniti.acceptFriend(#source_id#, #target_id#); event.stopPropagation();">Accept</button>
-                            <button type="button" class="btn btn-xs btn-white" onclick="Prefiniti.rejectFriend(#source_id#, #target_id#); event.stopPropagation();">Reject</button>                
+                            <button type="button" class="btn btn-xs btn-white" onclick="Prefiniti.Social.acceptFriend(#source_id#, #target_id#);">Accept</button>
+                            <button type="button" class="btn btn-xs btn-white" onclick="Prefiniti.Social.rejectFriend(#source_id#, #target_id#);">Reject</button>                
                     </div>
                 </div>
                 

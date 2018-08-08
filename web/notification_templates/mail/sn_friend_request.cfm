@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.requester.longName#</strong> has sent you a friend request.</cfoutput>

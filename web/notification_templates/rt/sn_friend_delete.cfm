@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.deletedBy.id#);">#attributes.deletedBy.longName#</a> has unfriended you</cfoutput>

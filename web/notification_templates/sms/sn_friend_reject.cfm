@@ -1,0 +1,1 @@
+<cfoutput>#attributes.rejectedBy.longName# has rejected your friend request</cfoutput>

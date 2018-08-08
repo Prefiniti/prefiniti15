@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has deleted task <strong>#attributes.task_name#</strong> from project <strong>#attributes.project.project_name#</strong></cfoutput>

@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has deleted a travel log entry (#attributes.travel_name#) from project <strong>#attributes.project.project_name#</strong></cfoutput>        

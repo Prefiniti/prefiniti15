@@ -31,11 +31,11 @@
                                 </cfswitch>
 
                             </p>                            
-                            <div onclick="event.stopPropagation();">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.acceptFriend(#source_id#, #target_id#); event.stopPropagation();"><i class="fa fa-user-plus"></i> Accept</button>
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.rejectFriend(#source_id#, #target_id#); event.stopPropagation();"><i class="fa fa-user-minus"></i> Reject</button>
+                            <div>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.Social.acceptFriend(#source_id#, #target_id#);"><i class="fa fa-user-plus"></i> Accept</button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.Social.rejectFriend(#source_id#, #target_id#);"><i class="fa fa-user-minus"></i> Reject</button>
                                 
-                                <button type="button" class="btn btn-sm btn-primary" onclick="mailTo(#source_id#, '#user.longName#');"><i class="fa fa-envelope"></i> Send Message</button>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.Mail.writeMessage(#source_id#);"><i class="fa fa-envelope"></i> Send Message</button>
                             </div>
                         </div>
                     </a>

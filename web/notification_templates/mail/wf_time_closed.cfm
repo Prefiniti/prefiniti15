@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> spent <strong>#attributes.hours# hours</strong> on &quot;#attributes.work_performed#&quot; on project <strong>#attributes.project.project_name#</strong></cfoutput>    

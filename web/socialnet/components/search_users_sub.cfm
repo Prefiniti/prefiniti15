@@ -12,6 +12,7 @@
     <div class="row">
 
         <cfoutput query="searchRes">
+            <cfset user = new Prefiniti.Authentication.UserAccount({id: id}, false)>
             <div class="col-lg-4">
                 <div class="contact-box">
                     <a class="row" href="##" onclick="Prefiniti.Social.loadProfile('#id#');">
@@ -32,7 +33,11 @@
 
                             </p>                            
                             <div onclick="event.stopPropagation();">
-                                <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.requestFriend(#session.user.id#, #id#);"><i class="fa fa-user-plus"></i> Add Friend</button>
+                                <cfif session.user.hasPendingFriendRequest(user)>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.Social.cancelRequest(#session.user.id#, #id#);"><i class="fa fa-user-slash"></i> Cancel Friend Request</button>
+                                <cfelse>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.Social.requestFriend(#session.user.id#, #id#);"><i class="fa fa-user-plus"></i> Add Friend</button>
+                                </cfif>
                                 <button type="button" class="btn btn-sm btn-primary" onclick="Prefiniti.Mail.writeMessage(#id#);"><i class="fa fa-envelope"></i> Send Message</button>
                             </div>
                         </div>

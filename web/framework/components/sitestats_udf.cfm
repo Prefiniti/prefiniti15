@@ -19,7 +19,7 @@
     
     <cfset siteStats.unreadMail = session.user.getUnreadMessageCount()>
     <cfset siteStats.totalMail = session.user.getInboxMessages().len()>    
-    <cfset siteStats.newFriendRequests = 0>
+    <cfset siteStats.newFriendRequests = newFriendRequests.recordCount>
     <cfset siteStats.newPosts = newPosts.recordCount>
     
     <cfreturn #siteStats#>

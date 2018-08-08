@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has fulfilled deliverable <strong>#attributes.deliverable_name#</strong> on project <strong>#attributes.project.project_name#</strong></cfoutput>

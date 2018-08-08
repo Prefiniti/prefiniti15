@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has removed deliverable <strong>#attributes.deliverable_name#</strong> from project <strong>#attributes.project.project_name#</strong></cfoutput>

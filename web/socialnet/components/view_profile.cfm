@@ -14,6 +14,7 @@
 <cfset friends = profileUser.getFriends()>
 <cfset connections = getAssociationsByUser(url.userid)>
 <cfset posts = profileUser.getUserPosts()>
+<cfset pendingRequest = session.user.hasPendingFriendRequest(profileUser)>
 
 <cfif url.userid EQ session.userid>
 	<cfset isSelf = true>
@@ -47,6 +48,14 @@
 </cfif>
 
 <cfset visits = getVisits(url.userid)>
+
+<cfif pendingRequest>
+	<cfset canUnfriend = false>
+	<cfset canFriend = false>
+	<cfset canCancel = true>
+<cfelse>
+	<cfset canCancel = false>
+</cfif>
 
 <div class="wrapper">
 	<div class="row">
@@ -277,17 +286,20 @@
 								<input class="form-control mb-2" id="user-status-edit" type="text" style="display: none;">
 							</cfif>
 							<div class="btn-group float-right" role="group" aria-label="Friend Operations">
+								<cfif canCancel>
+									<button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Social.cancelRequest(#session.user.id#, #profileUser.id#);"><i class="fa fa-user-slash"></i> Cancel Friend Request</button>
+								</cfif>
 								<cfif canFriend>
-									<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.requestFriend(#session.user.id#, #url.userid#);">Send Friend Request</button>
+									<button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Social.requestFriend(#session.user.id#, #url.userid#);"><i class="fa fa-user-plus"></i> Send Friend Request</button>
 								</cfif>
 								<cfif canUnfriend>
-									<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.deleteFriend(#url.userid#);">Unfriend</button>
+									<button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Social.deleteFriend(#url.userid#);"><i class="fa fa-user-minus"></i> Unfriend</button>
 								</cfif>
 								<cfif canMessage>
-							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.Mail.writeMessage(#profileUser.id#);">Send Message</button>
+							  		<button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.Mail.writeMessage(#profileUser.id#);"><i class="fa fa-envelope"></i> Send Message</button>
 							  	</cfif>
 							  	<cfif canComment>
-							  		<button type="button" class="btn btn-light btn-sm" onclick="Prefiniti.revealCommentBox('user-posts-form');">New Post</button>
+							  		<button type="button" class="btn btn-primary btn-sm" onclick="Prefiniti.revealCommentBox('user-posts-form');"><i class="fa fa-comment"></i> New Post</button>
 								</cfif>
 							</div>
 						</div>

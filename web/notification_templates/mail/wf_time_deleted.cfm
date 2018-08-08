@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has deleted a time entry (<strong>#attributes.work_performed#</strong>) from project <strong>#attributes.project.project_name#</strong></cfoutput>        

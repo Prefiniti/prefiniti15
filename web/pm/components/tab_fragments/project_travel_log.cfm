@@ -1,0 +1,1 @@
+<cfmodule template="/pm/components/view_travel_entries.cfm" project_id="#url.id#">

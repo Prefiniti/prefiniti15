@@ -8,7 +8,7 @@
 <div class="modal-body">
     <form id="search-users" method="POST" action="/socialnet/components/search_users_sub.cfm">
         <div class="form-group row">
-            <label class="col-lg-2 col-form-label">Search Parameters:</label>
+            <label class="col-lg-2 col-form-label">Search Terms:</label>
             <div class="col-lg-10">
                 <div class="input-group">
                     <input type="text" id="search-value" name="search_value" class="form-control">

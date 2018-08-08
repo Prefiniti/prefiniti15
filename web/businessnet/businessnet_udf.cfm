@@ -21,6 +21,16 @@
     <cfreturn total>
 </cffunction>
 
+<cffunction name="getServiceRate" returntype="numeric" output="false">
+    <cfargument name="task_code_id" type="numeric" required="true">
+
+    <cfquery name="getTaskCodeRate" datasource="webwarecl">
+        SELECT rate FROM task_codes WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_code_id#">
+    </cfquery>
+
+    <cfreturn getTaskCodeRate.rate>
+</cffunction>
+
 <cffunction name="getTaskCodes" returntype="query" output="false">
 
     <cfquery name="getTaskCodes" datasource="webwarecl">

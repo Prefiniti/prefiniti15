@@ -1,0 +1,1 @@
+<cfoutput>#attributes.deletedBy.longName# has unfriended you</cfoutput>

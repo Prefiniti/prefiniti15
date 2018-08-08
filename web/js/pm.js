@@ -8,12 +8,70 @@ Prefiniti.extend("Projects", {
         Prefiniti.loadPage(url);
     },
 
-    view: function(projectId) {
+    view: function(projectId) {        
+
         let url = "/pm/components/view_project.cfm?id=" + projectId;
 
         Prefiniti.Projects.current = projectId;
 
-        Prefiniti.loadPage(url);
+        let projectLoader = function() {
+            Prefiniti.Projects.loadTab("tab-tasks", "/pm/components/tab_fragments/project_tasks.cfm");
+            Prefiniti.Projects.loadTab("tab-comments", "/pm/components/tab_fragments/project_comments.cfm");
+            Prefiniti.Projects.loadTab("tab-time", "/pm/components/tab_fragments/project_time_log.cfm");
+            Prefiniti.Projects.loadTab("tab-travel", "/pm/components/tab_fragments/project_travel_log.cfm");
+            Prefiniti.Projects.loadTab("tab-stakeholders", "/pm/components/tab_fragments/project_stakeholders.cfm");
+            Prefiniti.Projects.loadTab("tab-locations", "/pm/components/tab_fragments/project_locations.cfm");
+        };
+
+        Prefiniti.loadPage(url, function(data) {
+            projectLoader();
+        });
+
+        Prefiniti.reload = projectLoader;
+        
+    },
+
+    resetTab(tabId) {
+        $.get("/framework/components/fragment_loading.cfm?base_id=" + tabId, function(data) {
+            $("#" + tabId).html(data);
+        });
+    },
+
+    loadTab(tabId, url) {
+
+        Prefiniti.Projects.resetTab(tabId);
+
+        let startTime = new Date().getTime();
+        let statusEl = "#" + tabId + "-loading";
+
+        let loadTimer = setInterval(function() {
+            let currentTime = new Date().getTime();
+            let elapsedSecs = (currentTime - startTime) / 1000;
+
+            if(elapsedSecs > 3) {
+                $(statusEl).html("Still working on it...");
+            }
+
+            if(elapsedSecs > 6) {
+                $(statusEl).html("Huge project you've got there! Please be patient...");
+            }   
+
+            if(elapsedSecs > 10) {
+                $(statusEl).html("Don't worry, nothing is broken...");
+            }
+        }, 500);
+
+        $.ajax({           
+            url: url + "?id=" + Prefiniti.Projects.current,
+            method: "GET",
+            success: function(data) {
+                $("#" + tabId).html(data);
+            },
+            complete: function() {
+                clearInterval(loadTimer);
+            }
+        });
+
     },
 
     create: function(clientAssoc) {
@@ -101,7 +159,11 @@ Prefiniti.extend("Projects", {
     addTask: function() {
         let url = "/pm/components/add_task.cfm?id=" + Prefiniti.Projects.current;
 
-        Prefiniti.dialog(url);
+        Prefiniti.dialog(url, function() {
+            $(".i-checks").iCheck({
+                checkboxClass: 'icheckbox_square-green'
+            });
+        });
     },
 
     taskAdded: function() {

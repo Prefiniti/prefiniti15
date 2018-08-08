@@ -6,17 +6,10 @@
 <cfset project = new Prefiniti.ProjectManagement.Project(url.id)>
 <cfset employee = prefiniti.getUserByAssociationID(project.employee_assoc)>
 <cfset p_client = prefiniti.getUserByAssociationID(project.client_assoc)>
-<cfset posts = project.getComments()>
 <cfset tags = project.getTags()>
-<cfset tasks = project.getTasks()>
-<cfset tasksTotal = tasks.recordCount>
-
-<cfset todoProjects = project.getTasksByCompletion(0)>
-<cfset inProgressProjects = project.getTasksByCompletion(1)>
-<cfset doneProjects = project.getTasksByCompletion(2)>
 
 <cfset stakeholders = project.getStakeholders()>
-<cfset locations = project.getLocations()>
+
 <cfset deliverables = project.getDeliverables()>
 
 <cfset effectivePermissions = project.getEffectivePermissions(session.user.id)>
@@ -235,60 +228,12 @@
                                     <div class="panel-body">
 
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="tab-tasks">
-                                                <div class="row">
-                                                    <div class="col-sm-4">
-                                                        <div class="ibox">
-                                                            <div class="ibox-content">
-                                                                <h3>To-Do</h3>
-
-                                                                <ul class="sortable-list connectList agile-list" id="todo">
-                                                                    <cfoutput query="todoProjects">
-                                                                        <cfmodule template="/pm/components/agile_view_task.cfm" id="#id#" project_id="#url.id#">
-                                                                    </cfoutput>
-                                                                </ul>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="ibox">
-                                                            <div class="ibox-content">
-                                                                <h3>In Progress</h3>
-
-                                                                <ul class="sortable-list connectList agile-list" id="in-progress">
-                                                                    <cfoutput query="inProgressProjects">
-                                                                        <cfmodule template="/pm/components/agile_view_task.cfm" id="#id#" project_id="#url.id#">
-                                                                    </cfoutput>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-4">
-                                                        <div class="ibox">
-                                                            <div class="ibox-content">
-                                                                <h3>Done</h3>
-
-                                                                <ul class="sortable-list connectList agile-list" id="done">
-                                                                    <cfoutput query="doneProjects">
-                                                                        <cfmodule template="/pm/components/agile_view_task.cfm" id="#id#" project_id="#url.id#">
-                                                                    </cfoutput>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-
+                                            <div class="tab-pane active" id="tab-tasks">                                                
+                                                
                                             </div>
 
                                             <div class="tab-pane" id="tab-comments">
-                                                <cfif project.checkPermission(session.user.id, "PRJ_VIEW")>
-                                                    <cfmodule template="/socialnet/components/new_post_form.cfm" author_id="#session.user.id#" recipient_id="#project.id#" post_class="PJCT" base_id="project-#project.id#">
-                                                </cfif>
-                                                <cfloop array="#posts#" item="post">
-                                                    <cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
-                                                </cfloop>
+                                                
                                             </div>
 
                                             <!---
@@ -297,98 +242,19 @@
                                             --->
 
                                             <div class="tab-pane" id="tab-time">
-                                                <cfmodule template="/pm/components/view_time_entries.cfm" project_id="#project.id#">
+                                                
                                             </div>
 
                                             <div class="tab-pane" id="tab-travel">
-                                                <cfmodule template="/pm/components/view_travel_entries.cfm" project_id="#project.id#">
+                                                
                                             </div>
 
                                             <div class="tab-pane" id="tab-stakeholders">
-                                                <table class="table table-striped table-hover">
-                                                    <tbody>
-                                                        <cfloop array="#stakeholders#" item="stakeholder">
-                                                            <tr>
-                                                                <td class="client-avatar"><img alt="image" src="#stakeholder.user.getPicture()#"></td>
-                                                                <td><a class="client-link" href="##" onclick="Prefiniti.Social.loadProfile(#stakeholder.user.id#)">#stakeholder.user.longName#</a></td>
-                                                                <td class="client-status">
-                                                                    <span class="label label-primary">#stakeholder.type#</span>
-                                                                </td>
-                                                                <td class="text-right">
-                                                                    <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
-                                                                    <div class="dropdown-menu">   
-                                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Mail.writeMessage(#stakeholder.user.id#);">Send Message</button>
-
-                                                                        <cfif project.checkPermission(session.user.id, "SH_DELETE")>
-                                                                            <div class="dropdown-divider"></div>
-                                                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteStakeholder(#stakeholder.id#);">Delete Stakeholder</button>
-                                                                        </cfif>
-                                                                    </div>  
-                                                                </td>
-                                                            </tr>                                                            
-                                                        </cfloop> 
-                                                    </tbody>
-                                                </table>                                           
+                                                                                           
                                             </div>
 
                                             <div class="tab-pane" id="tab-locations">
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Location</th>
-                                                            <th>Address</th>
-                                                            <th>City</th>
-                                                            <th>State</th>
-                                                            <th>ZIP</th>
-                                                            <th>Subdivision</th>
-                                                            <th>Lot</th>
-                                                            <th>Block</th>
-                                                            <th>PLSS</th>
-                                                            <th>Geographic</th>
-                                                            <th><i class="fa fa-cogs"></i></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <cfoutput query="locations">
-                                                            <tr>
-                                                                <td>#location_name#</td>
-                                                                <td>#address#</td>
-                                                                <td>#city#</td>
-                                                                <td>#state#</td>
-                                                                <td>#zip#</td>
-                                                                <td>#subdivision#</td>
-                                                                <td>#lot#</td>
-                                                                <td>#block#</td>
-                                                                <td>
-                                                                    <cfif trs_township NEQ "" AND trs_section NEQ "" AND trs_range NEQ "">
-                                                                        T#trs_township#S#trs_section#R#trs_range#; #trs_meridian# Meridian
-                                                                    <cfelse>
-                                                                        Not Supplied
-                                                                    </cfif>
-                                                                </td>
-                                                                <td>
-                                                                    <cfif latitude NEQ "" AND longitude NEQ "">
-                                                                        Lat: #latitude#, Lon: #longitude#
-                                                                        <cfif elevation NEQ "">
-                                                                        , Elev: #elevation#
-                                                                        </cfif>
-                                                                    <cfelse>
-                                                                        Not Supplied
-                                                                    </cfif>
-                                                                </td>
-
-                                                                <td>
-                                                                    <cfif project.checkPermission(session.user.id, "LOC_DELETE")>
-                                                                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
-                                                                        <div class="dropdown-menu">
-                                                                            <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.deleteLocation(#id#);">Delete Location</button>
-                                                                        </div>  
-                                                                    </cfif>
-                                                                </td>
-                                                            </tr>
-                                                        </cfoutput>
-                                                    </tbody>
-                                                </table>
+                                                
                                             </div>
 
                                             <div class="tab-pane" id="tab-documents">

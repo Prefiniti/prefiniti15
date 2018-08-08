@@ -2,9 +2,7 @@ var Prefiniti = {
     
     state: {
         userId: null,
-        currentPage: null,
-        currentPageOnLoad: null,
-        currentPageOnError: null,
+        currentPage: null,        
         history: []
     },
 
@@ -35,10 +33,7 @@ var Prefiniti = {
         });
     },
 
-    showWelcomeChanged: function() {
-
-    },
-
+    
     notificationClicked: function(id) {
         console.log("Clicked notification id " + id);
 
@@ -220,9 +215,7 @@ var Prefiniti = {
         });
     },
 
-    reload: function() {
-        Prefiniti.loadPage(Prefiniti.state.currentPage, Prefiniti.state.currentPageOnLoad, Prefiniti.state.currentPageOnError);
-    },
+    
 
     setAssociation: function(assocId) {
         $("#ss-assoc").val(assocId);
@@ -249,6 +242,12 @@ var Prefiniti = {
 
     loadPage: function(url, onLoaded, onError) {
 
+        Prefiniti.reload = function() {
+            Prefiniti.loadPage(Prefiniti.state.currentPage, onLoaded || null, onError || null);
+        };
+
+        let startTime = new Date().getTime();
+
         console.log("Prefiniti.loadPage(): loading " + url);
         
         Prefiniti.onNavLoading();
@@ -260,9 +259,8 @@ var Prefiniti = {
             url: url,
             method: "GET", 
             success: function(data) {
-                
-                Prefiniti.state.currentPageOnLoad = onLoaded;
-                Prefiniti.state.currentPageOnError = onError;
+
+                let endTime = new Date();                                                
 
                 Prefiniti.updateNavigation(url, data);
                 Prefiniti.renderContent(data);    
@@ -518,66 +516,7 @@ var Prefiniti = {
 
     },
 
-    requestFriend: function(source_id, target_id) {
-
-        $.ajax({
-            type: "POST",
-            url: "/socialnet/components/request_friend.cfm",
-            data: {
-                source_id: source_id,
-                target_id: target_id
-            },
-            encode: true
-        }).done(function(data) {
-            Prefiniti.Social.loadProfile(target_id);
-        });
-    },
-
-    acceptFriend: function(source_id, target_id) {
-
-        $.ajax({
-            type: "POST",
-            url: "/socialnet/components/accept_friend.cfm",
-            data: {
-                source_id: source_id,
-                target_id: target_id
-            },
-            encode: true
-        }).done(function(data) {
-            console.log(data);
-        });
-
-    },
-
-    rejectFriend: function(source_id, target_id) {
-
-        $.ajax({
-            type: "POST",
-            url: "/socialnet/components/reject_friend.cfm",
-            data: {
-                source_id: source_id,
-                target_id: target_id
-            },
-            encode: true
-        }).done(function(data) {
-            console.log(data);
-        });
-
-    },
-
-    deleteFriend: function(friend_id) {
-
-        $.ajax({
-            type: "POST",
-            url: "/socialnet/components/delete_friend.cfm",
-            data: {
-                friend_id: friend_id
-            },
-            encode: true
-        }).done(function(data) {
-            console.log(data);
-        });
-    },
+    
 
     loadPersonDetail: function(id, mode) {
 

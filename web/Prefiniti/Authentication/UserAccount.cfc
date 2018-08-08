@@ -299,6 +299,27 @@ component extends="Prefiniti.Base" output="false" {
 
     }
 
+    public boolean function hasPendingFriendRequest(required Prefiniti.Authentication.UserAccount target) {
+
+        var qrySql = "SELECT id FROM friends WHERE source_id=:source_id AND target_id=:target_id AND confirmed=0";
+        var chkReq = queryExecute(qrySql, {source_id=this.id, target_id=arguments.target.id}, {datasource="webwarecl"});
+
+        if(chkReq.recordCount == 0) {
+            return false;
+        }
+        else {
+            return true;
+        }
+        
+    }
+
+    public void function cancelPendingFriendRequest(required Prefiniti.Authentication.UserAccount target) {
+
+        var qrySql = "DELETE FROM friends WHERE source_id=:source_id AND target_id=:target_id AND confirmed=0";
+        var result = queryExecute(qrySql, {source_id=this.id, target_id=arguments.target.id}, {datasource="webwarecl"});
+
+    }
+
     public void function requestFriend(required Prefiniti.Authentication.UserAccount requester) {
         
         var qrySql = "SELECT id FROM friends WHERE source_id=:source_id AND target_id=:target_id";
@@ -311,7 +332,8 @@ component extends="Prefiniti.Base" output="false" {
             queryExecute(qrySql, {source_id=arguments.requester.id, target_id=this.id}, {datasource="webwarecl"});
         }
 
-        ntNotify(this.id, "SN_FRIEND_REQUEST", "#arguments.requester.longName# has requested to be your friend.", "");
+        var notification = new Prefiniti.Notification(this, "SN_FRIEND_REQUEST", {requester: arguments.requester, requested: this}); 
+        notification.send();       
 
     }
 
@@ -326,14 +348,12 @@ component extends="Prefiniti.Base" output="false" {
 
         queryExecute(qrySql, {source_id=this.id, target_id=arguments.requester.id}, {datasource="webwarecl"});
 
-        ntNotify(arguments.requester.id, "SN_FRIEND_ACCEPT", "#this.longName# has accepted you as a friend.", "");
-
-        var eventText = this.longName & " and " & arguments.requester.longName & " are now friends.";
-
-        writeUserEvent(this.id, "heart_add.png", eventText);
-        if(this.id != arguments.requester.id) {
-            writeUserEvent(arguments.requester.id, "heart_add.png", eventText);
-        }
+        var notification = new Prefiniti.Notification(arguments.requester, "SN_FRIEND_ACCEPT", {
+            requester: arguments.requester,
+            acceptedBy: this
+        }); 
+        
+        notification.send(); 
 
     }
 
@@ -342,14 +362,13 @@ component extends="Prefiniti.Base" output="false" {
         var qrySql = "DELETE FROM friends WHERE source_id=:source_id AND target_id=:target_id";
         queryExecute(qrySql, {source_id=arguments.requester.id, target_id=this.id}, {datasource="webwarecl"});
     
-        ntNotify(arguments.requester.id, "SN_FRIEND_REJECT", "#this.longName# has rejected your friend request.", "");
 
-        var eventText = this.longName & " has rejected " & arguments.requester.longName & "'s friend request.";
-        
-        writeUserEvent(this.id, "heart_delete.png", eventText);
-        if(this.id != arguments.requester.id) {
-            writeUserEvent(arguments.requester.id, "heart_delete.png", eventText);
-        }
+        var notification = new Prefiniti.Notification(arguments.requester, "SN_FRIEND_REJECT", {
+            requester: arguments.requester,
+            rejectedBy: this
+        });
+
+        notification.send();
 
     }
 
@@ -361,14 +380,12 @@ component extends="Prefiniti.Base" output="false" {
         qrySql = "DELETE FROM friends WHERE source_id=:target_id AND target_id=:source_id";
         queryExecute(qrySql, {source_id=this.id, target_id=arguments.friend.id}, {datasource="webwarecl"});
 
-        ntNotify(arguments.friend.id, "SN_FRIEND_DELETE", "#this.longName# has deleted you as a friend.", "");
+        var notification = new Prefiniti.Notification(arguments.friend, "SN_FRIEND_DELETE", {
+            friend: arguments.friend,
+            deletedBy: this
+        });
 
-        var eventText = this.longName & " and " & arguments.friend.longName & " are no longer friends.";
-        
-        writeUserEvent(this.id, "heart_delete.png", eventText);
-        if(this.id != arguments.friend.id) {
-            writeUserEvent(arguments.friend.id, "heart_delete.png", eventText);
-        }
+        notification.send();
 
     }
 

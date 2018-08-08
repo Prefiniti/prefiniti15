@@ -1,0 +1,1 @@
+<cfoutput><strong>#attributes.perpetrator.longName#</strong> has created task <strong>#attributes.task_name#</strong> with priority <strong>#attributes.task_priority#</strong> on project <strong>#attributes.project.project_name#</strong></cfoutput>    

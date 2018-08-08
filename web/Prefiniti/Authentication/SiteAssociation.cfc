@@ -55,4 +55,17 @@
 
     </cffunction>
 
+    <cffunction name="getUnbilledHours" returntype="query" output="false">
+
+        <cfquery name="getUH" datasource="webwarecl">
+            SELECT * FROM pm_time_entries 
+            WHERE assoc_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> 
+            AND billed=0
+            AND closed=1
+        </cfquery>
+
+        <cfreturn getUH>
+
+    </cffunction>
+
 </cfcomponent>

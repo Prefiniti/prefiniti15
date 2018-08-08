@@ -36,7 +36,7 @@
 
                         <cfoutput query="siteAssociations">
                             <li>
-                                <a class="dropdown-item <cfif site_id EQ session.current_site_id>active</cfif>" href="##" onclick="Prefiniti.setAssociation(#id#);"><i class="fa fa-building"></i> #getSiteNameByID(site_id)# - 
+                                <a class="dropdown-item <cfif id EQ session.current_association>font-bold</cfif>" href="##" onclick="Prefiniti.setAssociation(#id#);"><i class="fa fa-building"></i> #getSiteNameByID(site_id)# - 
                                     <cfif #assoc_type# EQ 0>
                                         Client
                                     <cfelse>
@@ -85,6 +85,8 @@
                     <li class="dropdown-divider"></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a href="#" onclick="Prefiniti.Business.timeEntries();">Time Entries</a></li>
                     <li class="dropdown-divider"></li>
                     <li><a href="#" onclick="Prefiniti.Business.siteSettings();">Settings</a></li>
                 </ul>

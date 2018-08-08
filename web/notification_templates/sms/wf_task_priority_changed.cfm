@@ -1,0 +1,1 @@
+<cfoutput>#attributes.perpetrator.longName# has changed the priority of task #attributes.task_name# on project #attributes.project.project_name# from #attributes.old_priority# to #attributes.new_priority#</cfoutput>

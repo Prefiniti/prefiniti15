@@ -1,0 +1,1 @@
+<cfoutput><a href="##" onclick="Prefiniti.Social.loadProfile(#attributes.perpetrator.id#);">#attributes.perpetrator.longName#</a> has fulfilled deliverable <strong>#attributes.deliverable_name#</strong> on project <a href="##" onclick="Prefiniti.Projects.view(#attributes.project.id#);">#attributes.project.project_name#</a></cfoutput>

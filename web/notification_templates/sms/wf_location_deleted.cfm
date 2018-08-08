@@ -1,0 +1,1 @@
+<cfoutput>#attributes.perpetrator.longName# deleted location #attributes.location_name# from project #attributes.project.project_name#</cfoutput>        

@@ -1,0 +1,1 @@
+<cfoutput>#attributes.acceptedBy.longName# has accepted your friend request</cfoutput>

@@ -9,10 +9,10 @@
         <cfset project.project_status = form.stage>
         <cfset project.save()>
 
-        <cfset eventText = prefiniti.getLongname(session.user.id) & " has changed project " & project.project_name & "'s status from <strong>" & orig_status & "</strong> to <strong>" & form.stage & "</strong>.">
-        <cfset prefiniti.writeUserEvent(project.project_client.id, "timeline_marker.png", eventText)>
-        <cfset prefiniti.writeUserEvent(project.project_employee.id, "timeline_marker.png", eventText)>
-        <cfset prefiniti.writeUserEvent(session.user.id, "timeline_marker.png", eventText)>
+        <cfset project.notifyStakeholders("WF_PROJECT_STATUS_CHANGED", {
+            oldStatus: orig_status, 
+            newStatus: form.stage, 
+            perpetrator: session.user})>
         
         <cfset result.ok = true>
         <cfset result.message = "Project status has been changed.">

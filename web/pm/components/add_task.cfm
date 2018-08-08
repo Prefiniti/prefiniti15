@@ -51,7 +51,9 @@
     </cfoutput>
 </div>
 <div class="modal-footer">
-    <input type="checkbox" class="checkbox" id="create-another"> <label for="create-another">Create Another</label>
+    <div class="mr-auto">
+        <input type="checkbox" class="i-checks" id="create-another"> <label for="create-another">Create Another</label>
+    </div>
     <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('add-task', Prefiniti.Projects.taskAdded);">Add Task</button>
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
     
