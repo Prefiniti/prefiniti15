@@ -41,3 +41,26 @@
     <cfreturn getTaskCodes>
     
 </cffunction>
+
+<cffunction name="markTimeBilled" returntype="void" output="false">
+    <cfargument name="time_entry_id" type="numeric" required="true">
+
+    <cfquery name="mtr" datasource="webwarecl">
+        UPDATE pm_time_entries
+        SET billed=1
+        WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_entry_id#">
+    </cfquery>
+
+</cffunction>
+
+<cffunction name="markTimeUnbilled" returntype="void" output="false">
+    <cfargument name="time_entry_id" type="numeric" required="true">
+
+    <cfquery name="mtu" datasource="webwarecl">
+        UPDATE pm_time_entries
+        SET billed=0
+        WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.time_entry_id#">
+    </cfquery>
+    
+</cffunction>
+

@@ -3,6 +3,7 @@
     <cffunction name="init" returntype="Prefiniti.ProjectManagement.Project" output="false" hint="Project constructor">
         <cfargument name="id" type="numeric" required="true" default="0" hint="Project ID">
         <cfargument name="template_id" type="numeric" required="true" default="0" hint="ID of template to use">
+        <cfargument name="create_new" type="boolean" required="true" default="false">
 
         <cfscript>
 
@@ -61,6 +62,7 @@
         </cfquery>
 
         <cfif checkIfProjectExists.recordCount GT 0>
+
             <cfoutput query="checkIfProjectExists">
                 <cfscript>
                     this.id = id;
@@ -83,9 +85,13 @@
             <cfif NOT this.checkPermission(session.user.id, "PRJ_VIEW")>
                 <cfthrow message="Permission Denied" detail="You do not have the PRJ_VIEW permission on this project">
             </cfif>
---->
+--->            
+
             <cfreturn this>
-        <cfelse>            
+        <cfelse>           
+            <cfif arguments.create_new EQ false>
+                <cfthrow message="Project does not exist" errorcode="WF_ERR_INVALID_PROJECT">
+            </cfif> 
             <cfset create_id = createUUID()>
 
             <cfquery name="createInitialProject" datasource="webwarecl">
@@ -709,12 +715,7 @@
         <cfif NOT this.checkPermission(session.user.id, "SH_ADD")>
             <cfthrow message="Permission Denied" detail="You do not have SH_ADD on this project.">
         </cfif>
---->
-        <cfset this.notifyStakeholders("WF_STAKEHOLDER_ADDED", {
-            perpetrator: session.user,
-            stakeholder: this.getUserByAssociationID(arguments.assoc_id),
-            type: arguments.stakeholder_type
-        })>
+--->        
 
         <cfset this.removeStakeholder(arguments.assoc_id, arguments.stakeholder_type)>
 
@@ -732,6 +733,12 @@
                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.stakeholder_type#" maxlength="45">, 
                 <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.permissions#">)
         </cfquery>
+
+        <cfset this.notifyStakeholders("WF_STAKEHOLDER_ADDED", {
+            perpetrator: session.user,
+            stakeholder: this.getUserByAssociationID(arguments.assoc_id),
+            type: arguments.stakeholder_type
+        })>
 
         <cfset this.addTag(this.getUserByAssociationID(arguments.assoc_id).longName)>
     </cffunction>
@@ -851,6 +858,21 @@
             task_id: getTaskID.id
         }>
 
+        <cfquery name="auditNewTaskEvent" datasource="webwarecl">
+            INSERT INTO task_status_changes
+                (site_id,
+                task_id,
+                event_timestamp,
+                previous_status,
+                new_status)
+            VALUES
+                (#session.current_site_id#,
+                #getTaskID.id#,
+                #createODBCDate(Now())#,
+                0,
+                0)
+        </cfquery>
+
         <cfif arguments.assignee_assoc_id NEQ 0>
             <cfset taskInfo.assignee = this.getUserByAssociationID(assignee_assoc_id)>
         <cfelse>
@@ -908,15 +930,32 @@
         <cfset oldCompletion = this.getTaskStatusName(oldTask.task_complete)>
 
 
-        <cfquery name="removeTask" datasource="webwarecl">
+        <cfquery name="setTaskCompletion" datasource="webwarecl">
             UPDATE pm_tasks 
             SET task_complete=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.completion#">
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.task_id#">
         </cfquery>
 
+
+
         <cfset newTask = this.getTaskByID(arguments.task_id)>
         <cfset newCompletion = this.getTaskStatusName(newTask.task_complete)>
         <cfset taskName = newTask.task_name>
+
+        <cfquery name="auditTaskEvent" datasource="webwarecl">
+            INSERT INTO task_status_changes
+                (site_id,
+                task_id,
+                event_timestamp,
+                previous_status,
+                new_status)
+            VALUES
+                (#session.current_site_id#,
+                #arguments.task_id#,
+                #createODBCDate(Now())#,
+                #oldTask.task_complete#,
+                #newTask.task_complete#)
+        </cfquery>
 
         <cfset this.notifyStakeholders("WF_TASK_STATUS_CHANGED", {
             previousStatus: oldCompletion,

@@ -82,6 +82,14 @@
                 <div class="flot-chart dashboard-chart">
                     <div class="flot-chart-content" id="flot-dashboard-chart"></div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 text-left pl-4">
+                        <small class="text-muted">#session.site.SiteName# Task Changes (Current Week)</small>
+                    </div>
+                    <div class="col-md-6 text-right pr-4">
+                        <small class="text-muted">Legend: <span style="color: red;">To-Do</span>/<span style="color: blue;">Done</span></small>
+                    </div>
+                </div>
                 <div class="row text-left">
                     <div class="col">
                         <div class=" m-l-md">

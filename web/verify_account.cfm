@@ -55,11 +55,10 @@ else {
             </div>
 
             <cfif (submitting AND error) OR (!submitting)>
-                <form class="m-t" role="form" method="POST" action="verify_account.cfm">
-                    <cfoutput>
-                        <input type="hidden" name="confirm_id" value="#url.confirm_id#">
-                        <input type="hidden" name="submit" value="0">
-                    </cfoutput>
+                <cfoutput>
+                <form class="m-t" role="form" method="POST" action="verify_account.cfm?confirm_id=#url.confirm_id#">
+                    <input type="hidden" name="confirm_id" value="#url.confirm_id#">
+                    <input type="hidden" name="submit" value="0">
                     
                     <cfif submitting AND error>
                         <h4 class="text-danger"><cfoutput>#errorMessage#</cfoutput></h4>
@@ -73,7 +72,8 @@ else {
                         <input type="password" class="form-control" placeholder="Confirm Password" name="password_confirm" required>
                     </div>
                     <button type="submit" class="btn btn-primary block full-width m-b">Verify Account</button>
-                </form>                   
+                </form>  
+                </cfoutput>                 
             <cfelse>                            
                 <cfif (submitting) AND (!error)>
                     <p>Your account has been verified!</p>

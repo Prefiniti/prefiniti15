@@ -1,7 +1,7 @@
 Prefiniti.extend("Business", {
 
-	timeEntries: function() {
-		let url = "/businessnet/components/time_entries.cfm";
+	timeEntries: function(criteria) {
+		let url = "/businessnet/components/time_entries.cfm?criteria=" + criteria;
 
 		Prefiniti.loadPage(url, function() {
             $(".i-checks").iCheck({
@@ -10,15 +10,64 @@ Prefiniti.extend("Business", {
         });
 	},
 
-	timeReport: function() {
-		let url = "/businessnet/components/reports/time_report_dialog.cfm";
+	toggleSelectAll: function() {
+        if($("#time-toggle-all").is(":checked")) {
+            $(".time-checkbox").prop("checked", true);
+        }
+        else {
+            $(".time-checkbox").prop("checked", false);
+        }
+    },
 
-		Prefiniti.dialog(url);
-	},
+    eachSelectedTime: function(cb) {
+    	
+    	$(".time-checkbox").each(function(index) {
+    		let timeEntryId = $(this).attr("data-time-entry-id");
+            
+            if($(this).is(":checked")) {
+                cb(timeEntryId);
+            }
+    	});
 
-	generateTimeReport: function() {
+    },
 
-	},
+    markSelectedTimeBilled: function() {
+
+    	Prefiniti.Business.eachSelectedTime(function(id) {
+
+    		let url = "/businessnet/components/mark_time_billed.cfm?id=" + id;
+
+    		$.get(url, function(data) {
+    			if(data.success) {
+    				$("#time-entry-" + id).hide("slow");
+    			}
+    			else {
+    				console.log("ERROR!");
+    			}
+    		});
+
+    	});
+
+    },
+
+	markSelectedTimeUnbilled: function() {
+
+    	Prefiniti.Business.eachSelectedTime(function(id) {
+
+    		let url = "/businessnet/components/mark_time_unbilled.cfm?id=" + id;
+
+    		$.get(url, function(data) {
+    			if(data.success) {
+    				$("#time-entry-" + id).hide("slow");
+    			}
+    			else {
+    				console.log("ERROR!");
+    			}
+    		});
+
+    	});
+
+    },
 
 	siteSettings: function() {
 		let url = "/businessnet/components/site_manager/edit_site.cfm";

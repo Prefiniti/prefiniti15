@@ -155,6 +155,7 @@
     <script src="js/security.js"></script>
     <script src="notifications/notifications.js"></script>
     <script src="js/tour.js"></script>
+    <script src="js/sound.js"></script>
     
     <cfinclude template="windowWrapper.cfm">
 

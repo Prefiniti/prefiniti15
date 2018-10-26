@@ -131,4 +131,34 @@
 
     </cffunction>
 
+    <cffunction name="tasksCreatedByDay" returntype="numeric" output="false">
+        <cfargument name="subject_date" type="string" required="true">
+
+        <cfquery name="tasksCreatedByDay" datasource="webwarecl">
+            SELECT COUNT(id) AS task_count 
+            FROM task_status_changes 
+            WHERE site_id=#this.SiteID#
+            AND event_timestamp=#createODBCDate(arguments.subject_date)#
+            AND new_status=0
+        </cfquery>
+
+        <cfreturn tasksCreatedByDay.task_count>
+
+    </cffunction>
+
+    <cffunction name="tasksCompletedByDay" returntype="numeric" output="false">
+        <cfargument name="subject_date" type="string" required="true">
+
+        <cfquery name="tasksCompletedByDay" datasource="webwarecl">
+            SELECT COUNT(id) AS task_count 
+            FROM task_status_changes 
+            WHERE site_id=#this.SiteID#
+            AND event_timestamp=#createODBCDate(arguments.subject_date)#
+            AND new_status=2
+        </cfquery>
+
+        <cfreturn tasksCompletedByDay.task_count>
+
+    </cffunction>
+
 </cfcomponent>

@@ -56,7 +56,7 @@
                     <label class="col-lg-2 col-form-label">Project Name</label>
                     <div class="col-lg-10">
                         <div class="input-group">
-                            <input type="text" name="project_name" class="form-control" maxlength="255">
+                            <input type="text" name="project_name" class="form-control">
                             <div class="input-group-append">
                                 <select name="project_priority" class="custom-select">
                                     <option value="0">Low Priority</option>

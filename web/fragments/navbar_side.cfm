@@ -86,7 +86,8 @@
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>
                     <li class="dropdown-divider"></li>
-                    <li><a href="#" onclick="Prefiniti.Business.timeEntries();">Time Entries</a></li>
+                    <li><a href="#" onclick="Prefiniti.Business.timeEntries('billed');">Time Entries - Billed</a></li>
+                    <li><a href="#" onclick="Prefiniti.Business.timeEntries('unbilled');">Time Entries - Unbilled</a></li>
                     <li class="dropdown-divider"></li>
                     <li><a href="#" onclick="Prefiniti.Business.siteSettings();">Settings</a></li>
                 </ul>

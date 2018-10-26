@@ -41,7 +41,13 @@
                         </cfif>
                     </td>
                     <td>#hours#</td>
-                    <td>#lsCurrencyFormat(entry.service_value, "local")#</td>
+                    <td>
+                        <cfif project.getPermissionByKey("WF_VIEWSTATS", session.current_association)>
+                            #lsCurrencyFormat(entry.service_value, "local")#
+                        <cfelse>
+                            <span class="text-muted">Hidden</span>
+                        </cfif>
+                    </td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cogs"></i></button>
                         <div class="dropdown-menu">                            

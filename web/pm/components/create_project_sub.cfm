@@ -5,7 +5,7 @@
 
     <cftry>
 
-        <cfset project = new Prefiniti.ProjectManagement.Project(0, form.template_id)>
+        <cfset project = new Prefiniti.ProjectManagement.Project(0, form.template_id, true)>
         <cfset project.employee_assoc = session.current_association>
         <cfif isDefined("form.internal_project")>
             <cfset project.client_assoc = project.employee_assoc>

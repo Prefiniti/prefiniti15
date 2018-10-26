@@ -31,6 +31,12 @@ Prefiniti.extend("Projects", {
         
     },
 
+    edit: function() {
+        let url = "/pm/components/edit_project.cfm?id=" + projectId;
+
+        Prefiniti.dialog(url);
+    },
+
     resetTab(tabId) {
         $.get("/framework/components/fragment_loading.cfm?base_id=" + tabId, function(data) {
             $("#" + tabId).html(data);

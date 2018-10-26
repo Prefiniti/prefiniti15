@@ -68,4 +68,17 @@
 
     </cffunction>
 
+    <cffunction name="getBilledHours" returntype="query" output="false">
+
+        <cfquery name="getBH" datasource="webwarecl">
+            SELECT * FROM pm_time_entries 
+            WHERE assoc_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#"> 
+            AND billed=1
+            AND closed=1
+        </cfquery>
+
+        <cfreturn getBH>
+
+    </cffunction>
+
 </cfcomponent>

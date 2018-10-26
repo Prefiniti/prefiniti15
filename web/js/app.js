@@ -1,5 +1,5 @@
 var Prefiniti = {
-    
+
     state: {
         userId: null,
         currentPage: null,        
@@ -101,10 +101,13 @@ var Prefiniti = {
                     timeout: 2000
                 };
 
-                toastr.success(this.bodyText);                                                               
+                toastr.success(this.bodyText);           
+
+                Prefiniti.Sound.event("alert");                                                    
             };
 
-            $("#dropdown-alerts-menu").html("");
+            
+            $("#dropdown-alerts-menu").empty().html("");
 
             var shownCount = 0;
 
@@ -131,7 +134,7 @@ var Prefiniti = {
             }
             else {
                 $("#badge-alerts-unread").show();
-                $("#badge-alerts-unread").html(data.new);
+                $("#badge-alerts-unread").empty().html(data.new);
             }
 
 
@@ -147,11 +150,13 @@ var Prefiniti = {
             notifyTotal -= data.unreadMail;
             notifyTotal -= data.newFriendRequests;
 
-            $("#badge-messages-unread-side").html(data.unreadMail);
-            $("#badge-messages-unread-top").html(data.unreadMail);
+           
+
+            $("#badge-messages-unread-side").empty().html(data.unreadMail);
+            $("#badge-messages-unread-top").empty().html(data.unreadMail);
             //$("#badge-messages-total").html(data.TOTALMAIL);
-            $("#badge-friend-requests").html(data.newFriendRequests);
-            $("#badge-notifications").html(notifyTotal);
+            $("#badge-friend-requests").empty().html(data.newFriendRequests);
+            $("#badge-notifications").empty().html(notifyTotal);
 
             
             if(data.newFriendRequests === 0) {
@@ -170,11 +175,11 @@ var Prefiniti = {
         });
 
         $.get("/mail/components/mail_dropdown.cfm", function(data) {
-            $("#dropdown-messages-menu").html(data);
+            $("#dropdown-messages-menu").empty().html(data);
         });
 
         $.get("/socialnet/components/friend_requests_dropdown.cfm", function(data) {
-            $("#dropdown-friend-requests-menu").html(data);
+            $("#dropdown-friend-requests-menu").empty().html(data);
         })
 
     },
@@ -186,6 +191,18 @@ var Prefiniti = {
         setInterval(Prefiniti.getNotifications, 5000);
 
         Prefiniti.home();
+
+        setTimeout(function() {            
+            Prefiniti.Sound.event("login");
+        }, 1000);
+
+        $("a").click(function() {
+            Prefiniti.Sound.event("click");
+        });
+
+        $("button").click(function() {
+            Prefiniti.Sound.event("click");
+        });
 
     },
 
@@ -267,6 +284,16 @@ var Prefiniti = {
                 Prefiniti.onNavComplete(url, data);                            
 
                 onLoaded(data);
+
+                $("#tcTarget a").click(function() {
+                    Prefiniti.Sound.event("click");
+                });
+
+                $("#tcTarget button").click(function() {
+                    Prefiniti.Sound.event("click");
+                });
+
+                
             },
             error: function(data) {
                 Prefiniti.onNavError(data);
@@ -280,9 +307,9 @@ var Prefiniti = {
     onNavLoading: function() {
         $("#prefiniti-reload").hide();
         $("#prefiniti-loading").show();
-        $("#tcTarget").html("");
-        $("#wwaf-page-title").html("Please Wait");
-        $("#wwaf-breadcrumbs").html("Loading...");
+        $("#tcTarget").empty().html("");
+        $("#wwaf-page-title").empty().html("Please Wait");
+        $("#wwaf-breadcrumbs").empty().html("Loading...");
     },
 
     onNavError: function(data) {
@@ -315,8 +342,8 @@ var Prefiniti = {
             $("#wwaf-page-title").hide();
         }
         else {
-            $("#wwaf-page-title").show();
-            $("#wwaf-page-title").html(metadata.title);
+            $("#wwaf-page-title").empty().show();
+            $("#wwaf-page-title").empty().html(metadata.title);
         }
 
         if(!metadata.breadcrumbs) {
@@ -324,13 +351,14 @@ var Prefiniti = {
         }
         else {
             $("#wwaf-breadcrumbs").show();
-            $("#wwaf-breadcrumbs").html(metadata.breadcrumbs);
+            $("#wwaf-breadcrumbs").empty().html(metadata.breadcrumbs);
         }
 
         return metadata;
     },
 
     renderContent: function(data) {
+        $("#tcTarget").empty();
         $("#tcTarget").html(data);
 
         $('.summernote').summernote({
@@ -356,16 +384,22 @@ var Prefiniti = {
     {   
         console.log("Prefiniti.dialog(): loading " + url);
 
-        $("#gen-window-area").html("");
+        $("#gen-window-area").empty().html("");
+
+        $("#generic-window").on("hide.bs.modal", function() {
+            Prefiniti.Sound.event("windowClose");
+        });
         
         $.ajax({
             method: "GET",
             url: url,
             success: function(data) {
-                $("#gen-window-area").html(data);
+                $("#gen-window-area").empty().html(data);
                 $("#generic-window").modal();  
 
                 if(onLoad) onLoad();
+
+                Prefiniti.Sound.event("windowOpen");
             },
             error: function(data) {
                 console.log("Prefiniti.dialog():  error %o", data);
@@ -529,7 +563,7 @@ var Prefiniti = {
             },
             encode: true
         }).done(function(data) {
-            $("#contact-detail").html(data);
+            $("#contact-detail").empty().html(data);
             $("span.pie").peity("pie", {
                 fill: ['#1ab394', '#d7d7d7', '#ffffff']
             });
@@ -564,12 +598,12 @@ var Prefiniti = {
                 newValue: $(editEl).val()
             }).done(function(data) {                
                 $(editEl).hide();
-                $(contentEl).html(data);
+                $(contentEl).empty().html(data);
                 $(viewEl).show();
             });
         });
 
-        $(editEl).val($(contentEl).html());
+        $(editEl).val($(contentEl).empty().html());
 
         $(viewEl).hide();
         $(editEl).show();

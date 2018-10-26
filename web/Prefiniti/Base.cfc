@@ -83,4 +83,16 @@ component output=false extends="Prefiniti.LegacyAPI" displayname="Base" {
         queryExecute(qrySQL, {id: arguments.id}, {datasource="webwarecl"});
     }
 
+    public array function daysOfWeek() output=false {
+        var dow = [];
+
+        dow[1] = createODBCDate(DateAdd("d", -DayOfWeek(Now()) - 1, Now()));
+
+        for(i = 2; i < 9; i++) {
+            dow[i] = createODBCDate(dateAdd("d", i -1, dow[1]));
+        }
+
+        return dow;
+    }
+
 }

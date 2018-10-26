@@ -13,10 +13,7 @@
         <cfelse>
             <cfset project.logTime(form.task_id, form.assoc_id, form.task_code_id, form.work_performed, startDate)>
         </cfif>
-
-        <cfset eventText = prefiniti.getLongname(session.user.id) & " has logged time on project " & project.project_name & ".">
-        <cfset prefiniti.writeUserEvent(session.user.id, "time_add.png", eventText)>
-    
+       
         <cfset result.ok = true>
         <cfset result.message = "Time has been logged.">
         <cfset result.project_id = project.id>
