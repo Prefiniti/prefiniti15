@@ -270,9 +270,7 @@
     </cffunction>
 
     <cffunction name="getTaskCount" returntype="numeric" output="false">
-
         <cfreturn this.getTasks().recordCount>
-
     </cffunction>
 
     <cffunction name="getRequiredTaskCount" returntype="numeric" output="false">
@@ -1293,7 +1291,6 @@
 
 
     <cffunction name="getComments" returntype="array" output="false">
-
         <cfset result = []>
 
         <cfquery name="getComments" datasource="webwarecl">

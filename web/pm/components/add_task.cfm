@@ -34,9 +34,7 @@
                     <div class="form-group row">
                         <label class="col lg-2 col-form-label">Description:</label>
                         <div class="col-lg-10">
-                            <textarea name="task_description" class="form-control summernote" data-summernote-height="100">
-
-                            </textarea>
+                            <textarea name="task_description" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-group row">                                       

@@ -1,0 +1,2 @@
+<h4>Unexpected Error</h4> 
+<p>If you were attempting to load an item belonging to a company other than <strong><cfoutput>#session.site.SiteName#</cfoutput></strong>, you may need to switch to the company to which that item belongs.</p>

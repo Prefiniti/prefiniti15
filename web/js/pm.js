@@ -21,17 +21,38 @@ Prefiniti.extend("Projects", {
             Prefiniti.Projects.loadTab("tab-travel", "/pm/components/tab_fragments/project_travel_log.cfm");
             Prefiniti.Projects.loadTab("tab-stakeholders", "/pm/components/tab_fragments/project_stakeholders.cfm");
             Prefiniti.Projects.loadTab("tab-locations", "/pm/components/tab_fragments/project_locations.cfm");
+
+            let converter = new showdown.Converter();
+            let description = $("#project-description").html();
+            
+            $("#project-description").html(converter.makeHtml(description));
         };
 
-        Prefiniti.loadPage(url, function(data) {
+        let projectRefresh = function() {
             projectLoader();
-        });
 
-        Prefiniti.reload = projectLoader;
+            $.get({
+                url: "/Prefiniti/REST/Project.cfc?method=get&id=" + projectId,
+                success: (data) => {
+                    let converter = new showdown.Converter();                    
+
+                    $("#project-description").html(converter.makeHtml(data.description));
+                    $("#project-name").html(data.name);
+                    $("#project-status").html(data.status);
+                    $("#project-priority").html(data.priority);                    
+                }
+            });
+
+            
+        };
+
+        Prefiniti.loadPage(url, (data) => projectLoader());
+
+        Prefiniti.reload = projectRefresh;
         
     },
 
-    edit: function() {
+    edit: function(projectId) {
         let url = "/pm/components/edit_project.cfm?id=" + projectId;
 
         Prefiniti.dialog(url);
@@ -58,11 +79,11 @@ Prefiniti.extend("Projects", {
                 $(statusEl).html("Still working on it...");
             }
 
-            if(elapsedSecs > 6) {
+            if(elapsedSecs > 10) {
                 $(statusEl).html("Huge project you've got there! Please be patient...");
             }   
 
-            if(elapsedSecs > 10) {
+            if(elapsedSecs > 25) {
                 $(statusEl).html("Don't worry, nothing is broken...");
             }
         }, 500);
@@ -159,7 +180,15 @@ Prefiniti.extend("Projects", {
     },
 
     viewTask: function(taskId) {
-        Prefiniti.loadPage("/pm/components/view_task.cfm?id=" + taskId + "&project_id=" + Prefiniti.Projects.current);
+
+        let onTaskLoaded = function() {
+            let description = $("#pm-task-description").html();           
+            let converter = new showdown.Converter();
+
+            $("#pm-task-description").html(converter.makeHtml(description));
+        };
+        
+        Prefiniti.loadPage("/pm/components/view_task.cfm?id=" + taskId + "&project_id=" + Prefiniti.Projects.current, onTaskLoaded);
     },
 
     addTask: function() {
@@ -218,6 +247,12 @@ Prefiniti.extend("Projects", {
         else {
             $("#time-end-container").show();
         }
+    },
+
+    editTimeEntry: function(timeEntryId, projectId) {
+        let url = "/pm/components/edit_time_entry.cfm?id=" + timeEntryId + "&project_id=" + projectId;
+
+        Prefiniti.dialog(url);
     },
 
     closeTimeEntry: function(timeEntryId) {

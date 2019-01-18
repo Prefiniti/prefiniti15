@@ -20,7 +20,12 @@ Prefiniti.extend("Sound", {
         if(Prefiniti.Sound.theme.events[eventId]) {
             let snd = "/sound/themes/" + Prefiniti.Sound.theme.name + "/" + Prefiniti.Sound.theme.events[eventId];
             let aud = new Audio(snd);
-            aud.play();
+            try {
+                //aud.play();
+            }
+            catch(ex) {
+                console.log("Audio playback failed because Google is evil.")
+            }
         }
     }
 

@@ -192,7 +192,7 @@
                 <div class="wrapper wrapper-content project-manager">
                     <h4>Task Description</h4>
 
-                    <p class="small">
+                    <p class="small" id="pm-task-description">
                         #task.task_description#
                     </p>
                     

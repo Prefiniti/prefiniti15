@@ -49,7 +49,7 @@
                                                 <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-pencil-alt"></i> Project</button>                                           
                                                 <div class="dropdown-menu">
                                                     <cfif project.checkPermission(session.user.id, "PRJ_EDIT")>
-                                                        <button class="dropdown-item" type="button" onclick="todo();">Edit Project...</button>                                                                                                   
+                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.edit(#url.id#);">Edit Project...</button>                                                                                                   
                                                         <cfif project.template_id NEQ 0>
                                                             <button class="dropdown-item" type="button" onclick="Prefiniti.Projects.updateTemplate();">Update original template</button>
                                                         </cfif>
@@ -120,7 +120,7 @@
                                             </div>                                      
                                         </div>
                                         
-                                        <h2>#project.project_name#</h2>                                    
+                                        <h2 id="project-name">#project.project_name#</h2>                                    
                                     </div>
 
                                 </div>
@@ -131,7 +131,7 @@
                                         <div class="col-sm-4 text-sm-right"><dt>Status:</dt> </div>
                                         <div class="col-sm-8 text-sm-left">
                                             <dd class="mb-1">
-                                                #project.getStatus()#                                            
+                                                <span id="project-status">#project.getStatus()#</span>                                           
                                             </dd>
                                         </div>
                                     </dl>
@@ -285,10 +285,10 @@
                     <h4>Project Description</h4>
 
                     <p class="small">
-                        #project.project_description#
+                        <span id="project-description">#project.project_description#</span>
                     </p>
                     <p class="small font-bold">
-                        #project.getPriority()#
+                        <span id="project-priority">#project.getPriority()#</span>
                     </p>
 
                     <h5 class="mt-5">Deliverables</h5>

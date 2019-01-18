@@ -84,8 +84,7 @@
                 <div class="form-group row">
                     <div class="col-lg-12">
                         <strong>Description</strong>
-                        <textarea class="form-control summernote" name="project_description">
-                        </textarea>
+                        <textarea class="form-control" name="project_description"></textarea>
                     </div>
                 </div>            
             </form>
