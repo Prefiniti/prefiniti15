@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>Dashboard</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Dashboard</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Dashboard</wwafbreadcrumbs>
 -->
 
 <cfset prefiniti = new Prefiniti.Base()>

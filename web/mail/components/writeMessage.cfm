@@ -2,7 +2,7 @@
 
 <div class="wwaf-metadata">
     <wwaftitle>Compose Mail</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Mailbox,Compose Mail</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Mailbox,Compose Mail</wwafbreadcrumbs>
 </div>
 
 <cfif url.mode EQ "reply">

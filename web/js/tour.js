@@ -6,8 +6,8 @@ Prefiniti.extend("Tour", {
             steps: [
                 {
                     element: "#user-menu",
-                    title: "Welcome to Geodigraph PM",
-                    content: "The user menu is the heart of Geodigraph PM navigation. You can switch sites, access account settings, view your profile and personal files, and much more.",
+                    title: "Welcome to Geodigraph Hub",
+                    content: "The user menu is the heart of Geodigraph Hub navigation. You can switch sites, access account settings, view your profile and personal files, and much more.",
                     placement: "right"
                 },
                 {   
@@ -19,7 +19,7 @@ Prefiniti.extend("Tour", {
                 {
                     element: "#mailbox-shortcut",
                     title: "Messaging",
-                    content: "This menu gives you the ability to send private mail to and receive private mail from other Geodigraph PM users.",
+                    content: "This menu gives you the ability to send private mail to and receive private mail from other Geodigraph Hub users.",
                     placement: "right"
                 },
                 {

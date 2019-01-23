@@ -1,6 +1,6 @@
 <!--
 <wwaftitle>Edit Employee Records</wwaftitle>
-<wwafbreadcrumbs>Geodigraph PM,Edit Employee Records</wwafbreadcrumbs>
+<wwafbreadcrumbs>Geodigraph Hub,Edit Employee Records</wwafbreadcrumbs>
 -->
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="WW_SITEMAINTAINER">
 

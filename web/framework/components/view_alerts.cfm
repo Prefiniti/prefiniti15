@@ -1,6 +1,6 @@
 <div class="wwaf-metadata">
     <wwaftitle>All Alerts</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,All Alerts</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,All Alerts</wwafbreadcrumbs>
 </div>
 
 <cfset prefiniti = new Prefiniti.Base()>

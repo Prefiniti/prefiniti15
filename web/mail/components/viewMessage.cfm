@@ -2,7 +2,7 @@
 
 <div class="wwaf-metadata">
     <wwaftitle>View Message</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Mailbox,View Message</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Mailbox,View Message</wwafbreadcrumbs>
 </div>
 
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="MA_VIEW">

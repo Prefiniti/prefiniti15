@@ -1,6 +1,6 @@
 <div class="wwaf-metadata">
     <wwaftitle>All Projects</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,All Projects</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,All Projects</wwafbreadcrumbs>
 </div>
 
 <cfset projects = session.site.projects()>

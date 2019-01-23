@@ -57,7 +57,7 @@ var Prefiniti = {
 
                 this.bodyText = text;
                 this.id = id;
-                this.caption = "Geodigraph PM";
+                this.caption = "Geodigraph Hub";
 
                 return this;
 
@@ -77,7 +77,7 @@ var Prefiniti = {
             PMNotification.prototype.alert = function () {
 
                 /*var notifyOptions = {
-                    body: "You have received a new Geodigraph PM alert.",
+                    body: "You have received a new Geodigraph Hub alert.",
                     icon: "/graphics/geodigraph-square.png",
                 };
 
@@ -694,6 +694,7 @@ var Prefiniti = {
                     showMethod: 'slideDown',
                     timeout: 2000
                 };
+                
                 
                 toastr.error(data.message);
             }

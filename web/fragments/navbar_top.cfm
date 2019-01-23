@@ -17,7 +17,7 @@
         </div>
         <ul class="nav navbar-top-links navbar-right">
             <li>
-                <span class="m-r-sm text-muted welcome-message">Welcome to Geodigraph PM</span>
+                <span class="m-r-sm text-muted welcome-message">Welcome to Geodigraph Hub</span>
             </li>
             <li class="dropdown">
                 <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#" id="maps-shortcut">
@@ -30,9 +30,9 @@
                 <ul class="dropdown-menu dropdown-alerts">
                     <li>                        
                         <cfif session.loggedInMaps>
-                            <a href="#">Geodigraph Maps: <strong>Connected</strong></a>
+                            <a href="#">Geodigraph Model: <strong>Connected</strong></a>
                         <cfelse>
-                            <a href="#">Geodigraph Maps: <strong>Not Connected</strong></a>
+                            <a href="#">Geodigraph Model: <strong>Not Connected</strong></a>
                         </cfif>
                     </li>
                 </ul>

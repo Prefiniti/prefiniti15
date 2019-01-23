@@ -1,7 +1,7 @@
 <cfmodule template="/authentication/components/requirePerm.cfm" perm_key="WW_SITEMAINTAINER">
 <!--
-<wwaftitle>Geodigraph PM Site Maintenance</wwaftitle>
-<wwafbreadcrumbs>Geodigraph PM,Sites,Site Maintenance</wwafbreadcrumbs>
+<wwaftitle>Geodigraph Hub Site Maintenance</wwaftitle>
+<wwafbreadcrumbs>Geodigraph Hub,Sites,Site Maintenance</wwafbreadcrumbs>
 -->
 
 

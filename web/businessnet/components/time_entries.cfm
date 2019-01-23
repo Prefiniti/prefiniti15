@@ -1,6 +1,6 @@
 <div class="wwaf-metadata">
     <wwaftitle>Time Entries</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Time Entries</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Time Entries</wwafbreadcrumbs>
 </div>
 
 <cfset employees = session.site.employees()>

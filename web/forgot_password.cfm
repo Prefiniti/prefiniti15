@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Geodigraph PM | Forgot Password</title>
+    <title>Geodigraph Hub | Forgot Password</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -22,7 +22,7 @@
                     <cfif NOT isDefined("form.submit")>
                         <h2 class="font-bold">Forgot Password</h2>
                         <p>
-                            Please enter the e-mail address associated with your Geodigraph PM account.
+                            Please enter the e-mail address associated with your Geodigraph Hub account.
                         </p>                    
                         <div class="row">
                             <div class="col-lg-12">
@@ -44,7 +44,7 @@
                         <h2 class="font-bold">Password Reset Sent</h2>
 
                         <cfoutput>
-                            <p>If there is a valid Geodigraph PM account associated with <strong>#form.email#</strong>, we have sent an e-mail to that address containing a link you may click in order to continue the password reset process.</p>
+                            <p>If there is a valid Geodigraph Hub account associated with <strong>#form.email#</strong>, we have sent an e-mail to that address containing a link you may click in order to continue the password reset process.</p>
                             <p>This link will expire in 1 hour.</p>
                         </cfoutput>
 

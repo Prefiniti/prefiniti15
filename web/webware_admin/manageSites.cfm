@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>Manage Companies</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Companies,Manage Companies</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Companies,Manage Companies</wwafbreadcrumbs>
 -->
 
 <cfquery name="getSiteList" datasource="sites">

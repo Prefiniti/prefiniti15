@@ -29,7 +29,7 @@
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
 
-                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();"><i class="fa fa-th-large"></i> <cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> PM Dashboard</a></li>
+                        <li><a class="dropdown-item" href="##" onclick="Prefiniti.Dashboard.load();"><i class="fa fa-th-large"></i> <cfmodule template="/authentication/components/siteNameByID.cfm" id="#session.current_site_id#"> Hub Dashboard</a></li>
                         <li><a class="dropdown-item" href="##" onclick="Prefiniti.Social.loadProfile(#session.userid#);"><i class="fa fa-user-circle"></i> View My Profile</a></li>
                         <li><a class="dropdown-item" href="##" onclick="Prefiniti.Social.friendSearch();"><i class="fa fa-users"></i> Friend Search...</a></li>
                         <li><div role="separator" class="dropdown-divider"></div></li>

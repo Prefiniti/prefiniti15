@@ -2,7 +2,7 @@
 
 <div class="wwaf-metadata">
     <wwaftitle>Company Settings</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Company Settings</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Company Settings</wwafbreadcrumbs>
 </div>
 
 <div class="wrapper wrapper-content animated fadeIn">

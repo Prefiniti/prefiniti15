@@ -2,7 +2,7 @@
     <i class="fa fa-building modal-icon"></i>
     <h4 class="modal-title">Add Company</h4>
     <cfoutput>
-        <small class="font-bold">This will add a new company to Geodigraph PM.</small>
+        <small class="font-bold">This will add a new company to Geodigraph Hub.</small>
     </cfoutput>
 </div>
 <div class="modal-body">

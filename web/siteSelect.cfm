@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Select Site</title>
+	<title>Geodigraph Hub | Select Site</title>
 	
 	<link href="/css/bootstrap.min.css" rel="stylesheet">
 
@@ -35,7 +35,7 @@
 		
 				<img src="/graphics/login-header.png" style="padding-bottom:20px;" />
 				<h3>Select Site</h3>
-				<p class="text-small">Your Geodigraph PM account is valid for the web sites listed below. Please choose one.</p>
+				<p class="text-small">Your Geodigraph Hub account is valid for the web sites listed below. Please choose one.</p>
 			
 				<form name="chooseSite" action="/siteSelectSubmit.cfm" method="post">
 					<table class="table table-striped table-hover text-left">

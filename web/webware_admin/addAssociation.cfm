@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>Add Association</wwaftitle>
-  <wwafbreadcrumbs>Geodigraph PM,Sites,Add Association</wwafbreadcrumbs>
+  <wwafbreadcrumbs>Geodigraph Hub,Sites,Add Association</wwafbreadcrumbs>
 -->
 
 <h2><cfmodule template="/authentication/components/siteNameByID.cfm" id="#url.site_id#"></h2>

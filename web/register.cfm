@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Geodigraph PM | Register</title>
+    <title>Geodigraph Hub | Register</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -63,7 +63,7 @@ else {
                 <div>
                     <h1 class="logo-name"><img src="graphics/login-header.png"></h1>
                 </div>
-                <h3>Create Geodigraph PM Account</h3>
+                <h3>Create Geodigraph Hub Account</h3>
                 <form class="m-t" role="form" method="POST" action="register.cfm">
                     <cfif submitting AND error>
                         <h4 class="text-danger"><cfoutput>#errorMessage#</cfoutput></h4>

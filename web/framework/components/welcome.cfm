@@ -4,14 +4,14 @@
     
 </div>
 <div class="modal-body">
-    <h3>Welcome to Geodigraph PM!</h3>
-    <p class="font-bold">With Geodigraph PM, you can manage Geo-Business projects, send and receive private mail, connect with other Geo-Business professionals, and manage your employees and clients.</p>
+    <h3>Welcome to Geodigraph Hub!</h3>
+    <p class="font-bold">With Geodigraph Hub, you can manage Geo-Business projects, send and receive private mail, connect with other Geo-Business professionals, and manage your employees and clients.</p>
     <hr>
      
     <div class="row">
         <div class="col-lg-8">
             <h4 class="text-success">Take a Guided Tour</h4>
-            <p>The tour will give you a basic overview of Geodigraph PM navigation.</p>
+            <p>The tour will give you a basic overview of Geodigraph Hub navigation.</p>
                         
         </div> 
         <div class="col-lg-4">

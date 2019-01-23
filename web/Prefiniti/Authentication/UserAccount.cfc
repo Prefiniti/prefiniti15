@@ -183,7 +183,7 @@ component extends="Prefiniti.Base" output="false" {
 
     public void function sendConfirmation() output=false {
 
-        var message = new Prefiniti.MailTemplate("verify_account", this.email, "Geodigraph PM Account Verification", {
+        var message = new Prefiniti.MailTemplate("verify_account", this.email, "Geodigraph Hub Account Verification", {
             firstName: this.firstName,
             confirm_id: this.confirm_id
         });

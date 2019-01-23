@@ -1,7 +1,7 @@
 <cfoutput>
     <h3>Password Reset</h3>
 
-    <p>Please click the link below in order to reset your Geodigraph PM password.</p>
+    <p>Please click the link below in order to reset your Geodigraph Hub password.</p>
 
     <a href="https://pm.geodigraph.com/confirm_password_reset.cfm?id=#attributes.requestID#">https://pm.geodigraph.com/confirm_password_reset.cfm?id=#attributes.requestID#</a>
 

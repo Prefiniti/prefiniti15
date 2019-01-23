@@ -1,6 +1,6 @@
 <!--
     <wwaftitle>Get Associations</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Sites,Get Associations</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Sites,Get Associations</wwafbreadcrumbs>
 -->
 
 <cfset prefiniti = new Prefiniti.Base()>

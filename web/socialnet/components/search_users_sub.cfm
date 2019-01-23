@@ -1,6 +1,6 @@
 <!--
 <wwaftitle>Friend Search Results</wwaftitle>
-<wwafbreadcrumbs>Geodigraph PM,Social Networking,Friend Search,Results</wwafbreadcrumbs>
+<wwafbreadcrumbs>Geodigraph Hub,Social Networking,Friend Search,Results</wwafbreadcrumbs>
 -->
 
 <cfset prefiniti = new Prefiniti.Base()>

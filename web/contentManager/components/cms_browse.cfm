@@ -3,7 +3,7 @@
 
 <div class="wwaf-metadata">
     <wwaftitle>My Files</wwaftitle>
-    <wwafbreadcrumbs>Geodigraph PM,Content Management,My Files</wwafbreadcrumbs>
+    <wwafbreadcrumbs>Geodigraph Hub,Content Management,My Files</wwafbreadcrumbs>
 </div>
 
 <cfset userFiles = cmsGetUserFiles(session.userid)>

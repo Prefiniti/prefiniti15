@@ -21,7 +21,7 @@
                         <cfqueryparam cfsqltype="cf_sql_timestamp" value="#expiration#">)
         </cfquery>
         <cfscript>
-            var message = new Prefiniti.MailTemplate("password_reset", arguments.email, "Geodigraph PM Password Reset", {
+            var message = new Prefiniti.MailTemplate("password_reset", arguments.email, "Geodigraph Hub Password Reset", {
                 requestID: requestID
             });
 

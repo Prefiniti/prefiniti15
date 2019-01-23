@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta name="description" content="Geodigraph PM">
+    <meta name="description" content="Geodigraph Hub">
     <meta name="author" content="John P. Willis">
     <link rel="shortcut icon" href="/graphics/geodigraph_icon.png?v=3">
 
-    <title>Geodigraph PM | Login</title>
+    <title>Geodigraph Hub | Login</title>
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     

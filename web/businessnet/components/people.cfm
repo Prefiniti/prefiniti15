@@ -21,7 +21,7 @@
 <cfoutput>
 <!--
 <wwaftitle>#mode#</wwaftitle>
-<wwafbreadcrumbs>Geodigraph PM,#mode#</wwafbreadcrumbs>
+<wwafbreadcrumbs>Geodigraph Hub,#mode#</wwafbreadcrumbs>
 -->
 </cfoutput>
 

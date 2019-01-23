@@ -6,7 +6,7 @@
 <div class="wwaf-metadata">
 	<cfoutput>
 		<wwaftitle>User Profile</wwaftitle>
-		<wwafbreadcrumbs>Geodigraph PM,Social Networking,User Profiles,#profileUser.longName#</wwafbreadcrumbs>
+		<wwafbreadcrumbs>Geodigraph Hub,Social Networking,User Profiles,#profileUser.longName#</wwafbreadcrumbs>
 	</cfoutput>
 </div>
 

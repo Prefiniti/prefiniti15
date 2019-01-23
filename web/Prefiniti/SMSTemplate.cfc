@@ -31,7 +31,7 @@
         <cfset deliveryTime = dateFormat(now(), "yyyy-mm-dd") & "T" & timeformat(now(), "HH:mm:ssZ")>
 
         <cfset msg = {
-            content: "Geodigraph PM - " & trim(messageBody),
+            content: "Geodigraph Hub - " & trim(messageBody),
             to: ["+" & this.recipient.smsNumber],
             from: "1505-445-7169",
             binary: false,

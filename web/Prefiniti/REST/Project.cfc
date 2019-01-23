@@ -24,6 +24,7 @@ component extends="Prefiniti.Base" {
                 }
                 else {
                     return {
+                        success: true,
                         id: project.id,
                         templateId: project.template_id,
                         name: project.project_name,
