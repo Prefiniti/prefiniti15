@@ -92,6 +92,12 @@
 <cffunction name="getPermissionByKey" returntype="boolean">
 	<cfargument name="sz_key" type="string" required="yes">
     <cfargument name="n_assoc_id" type="numeric" required="yes">
+
+    <cfset user = getUserByAssociationID(n_assoc_id)>
+
+    <cfif user.webware_admin EQ 1>
+        <cfreturn true>
+    </cfif>
    
    	<cfparam name="tperm_id" default="">
     

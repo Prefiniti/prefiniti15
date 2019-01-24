@@ -326,6 +326,11 @@
         <cfargument name="user_id" type="numeric" required="true">
         <cfargument name="permission_key" type="string" required="true">
 
+        <cfset user = this.getUserByAssociationID(user_id)>
+        <cfif user.webware_admin EQ 1>
+            <cfreturn true>
+        </cfif>
+
         <cfif arguments.user_id EQ session.user.id>
             <cfif this.getPermissionByKey(arguments.permission_key, session.current_association)>
                 <cfreturn true>
