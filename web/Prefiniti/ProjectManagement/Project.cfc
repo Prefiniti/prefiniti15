@@ -24,6 +24,8 @@
                                    "SH_ADD", "SH_EDIT", "SH_DELETE", "DEL_ADD", "DEL_EDIT", "DEL_DELETE", "LOC_ADD", "LOC_EDIT", "LOC_DELETE",
                                    "DOC_ADD", "DOC_EDIT", "DOC_DELETE", "DISP_ADD", "DISP_CANCEL"];
 
+
+
             this.permissionLookup = {
                 PRJ_VIEW: 1,
                 PRJ_EDIT: 2,
@@ -319,9 +321,16 @@
 
     </cffunction>
 
+
     <cffunction name="checkPermission" returntype="boolean" output="false">
         <cfargument name="user_id" type="numeric" required="true">
         <cfargument name="permission_key" type="string" required="true">
+
+        <cfif arguments.user_id EQ session.user.id>
+            <cfif this.getPermissionByKey(arguments.permission_key, session.current_association)>
+                <cfreturn true>
+            </cfif>
+        </cfif>
 
         <cfset permissionNumber = this.permissionLookup[arguments.permission_key]>
 
@@ -330,7 +339,6 @@
         <cfelse>
             <cfreturn false>
         </cfif>
-
     </cffunction>
 
     <cffunction name="getAllPermissionKeys" returntype="array" output="false">

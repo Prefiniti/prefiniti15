@@ -99,6 +99,10 @@
     	SELECT * FROM permissions WHERE perm_key='#sz_key#'
    	</cfquery>
     
+    <cfif get_perm_id.recordCount EQ 0>
+        <cfreturn false>
+    </cfif>
+
     <cfset tperm_id=#get_perm_id.id#>
     
     <cfquery name="get_entry" datasource="sites">
