@@ -183,6 +183,7 @@
                             <cfmodule template="/socialnet/components/view_webgrams.cfm" maxrows="10">
                         </div>
                     </div>
+                    <!---
                     <div class="ibox ">
                         <div class="ibox-title">
                             <h5>News Feed</h5>                            
@@ -191,7 +192,7 @@
                             <cfmodule template="/socialnet/components/view_newsfeed.cfm" count="10">
                         </div>
                     </div>
-                    
+                    --->                    
                 </div>
                 
                 <div class="col-lg-8">                    
