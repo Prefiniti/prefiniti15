@@ -24,8 +24,6 @@
                                    "SH_ADD", "SH_EDIT", "SH_DELETE", "DEL_ADD", "DEL_EDIT", "DEL_DELETE", "LOC_ADD", "LOC_EDIT", "LOC_DELETE",
                                    "DOC_ADD", "DOC_EDIT", "DOC_DELETE", "DISP_ADD", "DISP_CANCEL"];
 
-
-
             this.permissionLookup = {
                 PRJ_VIEW: 1,
                 PRJ_EDIT: 2,
@@ -1318,6 +1316,7 @@
     </cffunction>
 
     <cffunction name="getStatus" returntype="string" output="false">
+        <cfargument name="mini" type="boolean" required="true" default="false">
 
         <cfscript>
             var result = "";
@@ -1339,17 +1338,31 @@
                 case "Closed":
                     class = "label label-danger";
                     break;
-
             }
 
-            result = "<span class=""" & class & " mr-2"">" & this.project_status & "</span>";
+            var stat = "";
+            var ovd = "";
+            var int = "";
+
+            if(arguments.mini) {
+                stat = left(this.project_status, 1);
+                ovd = "OD";
+                int = "Int";
+            }
+            else {
+                stat = this.project_status;
+                ovd = "Overdue";
+                int = "Internal";
+            }
+
+            result = "<span class=""" & class & " mr-2"">" & stat & "</span>";
 
             if(this.isOverdue()) {
-                result = result & '<span class="label label-danger mr-2">Overdue</span>';
+                result = result & '<span class="label label-danger mr-2">' & ovd & '</span>';
             }
 
             if(this.employee_assoc == this.client_assoc) {
-                result = result & '<span class="label label-info mr-2">Internal</span>';
+                result = result & '<span class="label label-info mr-2">' & int & '</span>';
             }
 
             return result;

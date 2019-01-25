@@ -8,8 +8,8 @@
         <th>Name</th>
         <th>Roles</th>
         <th>Completion</th>
+        <th>Status</th>
         <cfif NOT isDefined("attributes.mini")>
-            <th>Status</th>
             <th>Value</th>        
         </cfif>
     </thead>
@@ -36,6 +36,8 @@
                     <cfif NOT isDefined("attributes.mini")>
                         <td>#project.project.getStatus()#</td>
                         <td>#lsCurrencyFormat(project.project.getValue(), "local")#</td>  
+                    <cfelse>
+                        <td>#project.project.getStatus(true)#</td>
                     </cfif>                 
                 </tr>
             </cfoutput>
