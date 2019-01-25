@@ -163,7 +163,7 @@
         </cfif>
         <hr>
         <strong>Projects</strong>
-        <cfmodule template="/pm/components/user_project_overview.cfm" role_id="#role_id#">
+        <cfmodule template="/pm/components/user_project_overview.cfm" role_id="#role_id#" mini="mini">
         <hr>
         <strong>Timeline activity</strong>
         <div id="vertical-timeline" class="vertical-container dark-timeline">
