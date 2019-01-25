@@ -714,6 +714,16 @@ var Prefiniti = {
                 $(this).hide();
             }
         });
+    },
+
+    beginAcctLookup: function() {
+        Prefiniti.dialog('/webware_admin/account_lookup.cfm');
+    },
+
+    locateAccount: function() {
+        $.get("/api/account/" + $("#acct-lookup-email").val(), (data) => {
+            console.log(data);
+        });
     }
 
 
