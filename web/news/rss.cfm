@@ -10,7 +10,7 @@
 <rss version="2.0">
 	<channel>
 		<title>#prefiniti.getSiteNameByID(session.current_site_id)# News</title>
-		<link>http://www.webwarecl.com/news/rss.cfm</link>
+		<link>http://hub.geodigraph.com/news/rss.cfm</link>
 		<description>#prefiniti.getSiteNameByID(session.current_site_id)# News</description>
 		<language>en-us</language>
 		<pubDate>#DateFormat(now(), "ddd, dd mmm yyyy")# #TimeFormat(now(), "HH:mm:ss")# MST</pubDate>
@@ -20,7 +20,7 @@
 <item>
 	<title>#XmlFormat(headline)#</title>
 	<description>#XmlFormat(body)#</description>
-	<link>http://www.webwarecl.com/news/getArticle.cfm?id=#id#</link>
+	<link>http://hub.geodigraph.com/news/getArticle.cfm?id=#id#</link>
 	<pubDate>#DateFormat(date, "ddd, dd mmm yyyy")# #TimeFormat(date, "HH:mm:ss")# MST</pubDate>
 </item>
 </cfoutput>

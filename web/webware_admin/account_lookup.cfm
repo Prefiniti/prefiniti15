@@ -25,5 +25,5 @@
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary" onclick="Prefiniti.Admin.locateAccount();">Locate Account</button>
+    <button type="button" class="btn btn-primary" onclick="Prefiniti.Admin.locateAccount();" data-dismiss="modal">Locate Account</button>
 </div>

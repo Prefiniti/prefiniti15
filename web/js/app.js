@@ -399,6 +399,8 @@ var Prefiniti = {
 
                 if(onLoad) onLoad();
 
+                $("#generic-window").find("form").submit((event) => { return false; });
+
                 Prefiniti.Sound.event("windowOpen");
             },
             error: function(data) {

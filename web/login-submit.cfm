@@ -36,6 +36,7 @@
 	            <cfset session.webware_admin=#qryGetLogin.webware_admin#>
 				
 				<cfset session.user = new Prefiniti.Authentication.UserAccount({username: session.username}, false)>
+				<cfset session.originating_user = session.user>
 	            			
 				<cfquery name="setOnline" datasource="#session.datasource#">
 					UPDATE users SET online=1, last_login=#CreateODBCDateTime(Now())# WHERE id=#qryGetLogin.id#

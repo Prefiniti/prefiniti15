@@ -33,6 +33,9 @@
 <cfparam name="session.current_association" default="0">
 <cfparam name="session.webware_admin" default="0">
 <cfparam name="session.framework_loaded" default="0">
+<cfparam name="session.impersonating" default="false">
+<cfparam name="session.originating_user" default="">
+<cfparam name="session.originating_assoc_id" default="0">
 
 <cfinclude template="/authentication/authentication_udf.cfm">
 <cfinclude template="/notifications/notification_udf.cfm">

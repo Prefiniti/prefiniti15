@@ -19,6 +19,10 @@ Prefiniti.extend("Admin", {
             	}
             }
         });
+    },
+
+    impersonate: function(assoc_id) {
+        Prefiniti.loadPage("/webware_admin/impersonate.cfm?assoc_id=" + assoc_id);
     }
 
 });

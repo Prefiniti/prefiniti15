@@ -14,6 +14,7 @@
 
 	<cfset session.usertype = getSites.assoc_type>
 	<cfset session.current_association = getSites.id>
+	<cfset session.originating_assoc_id = session.current_association>
 	<cfset session.current_site_id = getSites.site_id>
 
 	<cfset session.association = new Prefiniti.Authentication.SiteAssociation(session.current_association)>

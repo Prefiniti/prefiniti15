@@ -65,6 +65,7 @@
 										<th>Site ID</th>
 										<th>Site Name</th>
 										<th>Membership Class</th>
+                                        <th>&nbsp;</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -74,6 +75,15 @@
 											<td>#site_id#</td>
 											<td>#user.getSiteNameByID(site_id)#</td>											
 											<td>#assoc_type# (<cfif assoc_type EQ 0>Client<cfelse>Employee</cfif>)</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i></button>
+                                                    <div class="dropdown-menu">                                                           
+                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Admin.impersonate(#id#);">Impersonate...</button>  
+                                                        <button class="dropdown-item" type="button" onclick="Prefiniti.Admin.impersonate(#id#);">Properties...</button>      
+                                                    </div>
+                                                </div>
+                                            </td>
 										</tr>
 									</cfoutput>
 								</tbody>
