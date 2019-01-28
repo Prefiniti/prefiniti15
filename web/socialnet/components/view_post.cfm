@@ -43,7 +43,7 @@
                             <input type="hidden" id="post-reply-post-class-#post.id#" value="#post.post_class#">
                         </cfoutput>
                         <div class="input-group mb-1">
-                            <input class="form-control" type="text" id="post-reply-body-#post.id#" name="body_copy" placeholder="Enter your reply...">
+                            <textarea class="form-control" type="text" id="post-reply-body-#post.id#" name="body_copy" placeholder="Enter your reply..."></textarea>
                             <div class="input-group-append">
                                 <button type="button" class="btn btn-primary" onclick="Prefiniti.replyPost(#post.id#);">Post</button>
                                 <button type="button" class="btn btn-primary" onclick="Prefiniti.cancelReply(#post.id#);">Cancel</button>
