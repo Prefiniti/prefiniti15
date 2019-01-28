@@ -256,7 +256,7 @@
 										</cfif>
 									</td>
 									<td>
-										<cfif assoc_type EQ 0>
+										<cfif assoc_type EQ 1>
 											<cfset connection = "Client of">
 										<cfelse>
 											<cfset connection = "Employee of">

@@ -157,6 +157,7 @@
     <script src="js/tour.js"></script>
     <script src="js/sound.js"></script>
     <script src="js/showdown.min.js"></script>
+    <script src="js/admin.js"></script>
     
     <cfinclude template="windowWrapper.cfm">
 

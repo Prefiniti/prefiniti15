@@ -97,7 +97,7 @@
                 <li>
                     <a href="##"><i class="fa fa-cogs"></i> <span class="nav-label">Global Admin</span><span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="#" onclick="Prefiniti.beginAcctLookup();">Account Lookup</a></li>
+                        <li><a href="#" onclick="Prefiniti.Admin.beginAcctLookup();">Account Lookup</a></li>
                         <li><a href="#" onclick="Prefiniti.loadPage('/webware_admin/manageSites.cfm');">Manage Companies</a></li>
                         <li><a href="#" onclick="Prefiniti.loadPage('/socialnet/components/postWebgram.cfm');">Post WebGram</a></li>
                     </ul>
