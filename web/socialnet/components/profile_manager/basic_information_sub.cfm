@@ -3,6 +3,8 @@
     <cfset prefiniti = new Prefiniti.Base()>
     <cfset result = {}>
 
+    <cfset form.middleInitial = trim(form.middleInitial)>
+
     <cftry>
         <cfquery name="ubi" datasource="webwarecl">
         	UPDATE users
