@@ -17,9 +17,7 @@
                     <a href="##" onclick="Prefiniti.Social.loadProfile(#post.author_id#);"><strong>#post.author.longName#</strong></a> <span class="text-muted">commented #prefiniti.getFriendlyDuration(post.post_date)# - #dateFormat(post.post_date, "mmm d, yyyy")#</span>
                 </div>
                 <div class="card-body">
-                    <p class="card-text">
-                        #post.body_copy#
-                    </p>
+                    <pre class="card-text" style="font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif; border: 0; background-color: transparent;">#post.body_copy#</pre>
                     <div class="float-right post-buttons mb-3">
                         <div class="btn-group">
                             <button type="button" class="btn btn-sm btn-light" onclick="Prefiniti.likePost(#post.id#, #post.recipient_id#);"><i class="fa fa-thumbs-up"></i> <span class="badge">#post.reactionCount("like")#</span></button>

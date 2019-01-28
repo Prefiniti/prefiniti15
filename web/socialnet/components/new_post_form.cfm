@@ -1,5 +1,5 @@
 
-<form id="user-post-comment-form">
+<form id="user-post-comment-form" onsubmit="return false;">
     <cfoutput>
         <input type="hidden" id="comment-parent-#attributes.base_id#" name="parent_post_id" value="0">
         <input type="hidden" id="comment-from-#attributes.base_id#" name="author_id" value="#attributes.author_id#">
@@ -8,7 +8,7 @@
     </cfoutput>
     <div class="input-group mb-5">
         <cfoutput>
-            <input class="form-control" type="text" id="comment-body-copy-#attributes.base_id#" name="body_copy" placeholder="Enter your post...">
+            <textarea class="form-control" type="text" id="comment-body-copy-#attributes.base_id#" name="body_copy" placeholder="Enter your post..."></textarea>
         </cfoutput>
         <div class="input-group-append">
             <cfoutput>
