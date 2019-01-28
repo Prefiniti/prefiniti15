@@ -17,29 +17,32 @@
 						<div class="ibox-content">
 							<cfoutput>
 								<table class="table">
-									<tr>
-										<td>ID:</td>
-										<td>#user.id#</td>
-									</tr>
-									<tr>
-										<td>E-Mail:</td>
-										<td><input type="email" id="ea-email" value="#user.email#"></td>
-									<tr>
-										<td>First Name:</td>
-										<td><input type="text" id="ea-firstname" value="#user.firstName#"></td>
-									</tr>
-									<tr>
-										<td>Middle Initial:</td>
-										<td><input type="text" id="ea-middleinitial" value="#user.middleInitial#"></td>
-									</tr>
-									<tr>
-										<td>Last Name:</td>
-										<td><input type="text" id="ea-lastname" value="#user.lastName#"></td>
-									</tr>
-									<tr>
-										<td>Display Name:</td>
-										<td><input type="text" id="ea-longname" value="#user.longName#"></td>
-									</tr>
+                                    <tbody>
+    									<tr>
+    										<td>ID:</td>
+    										<td>#user.id#</td>
+    									</tr>
+    									<tr>
+    										<td>E-Mail:</td>
+    										<td>#user.email#</td>
+                                        </tr>
+    									<tr>
+    										<td>First Name:</td>
+    										<td>#user.firstName#</td>
+    									</tr>
+    									<tr>
+    										<td>Middle Initial:</td>
+    										<td>#user.middleInitial#</td>
+    									</tr>
+    									<tr>
+    										<td>Last Name:</td>
+    										<td>#user.lastName#</td>
+    									</tr>
+    									<tr>
+    										<td>Display Name:</td>
+    										<td>#user.longName#</td>
+    									</tr>
+                                    </tbody>
 								</table>
 							</cfoutput>
 						</div>
@@ -49,6 +52,54 @@
 							<h5>Account Attributes</h5>
 						</div> <!--- ibox-title --->
 						<div class="ibox-content">
+                            <cfoutput>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Attribute</th>
+                                            <th>Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Account Enabled</td>
+                                            <td>
+                                                <cfmodule template="/webware_admin/components/boolean.cfm" userid="#url.id#" fieldprefix="adm" fieldname="account_enabled" fieldval="#user.account_enabled#">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Account Confirmed</td>
+                                            <td>
+                                                <cfmodule template="/webware_admin/components/boolean.cfm" userid="#url.id#" fieldprefix="adm" fieldname="confirmed" fieldval="#user.confirmed#">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Account Expired</td>
+                                            <td>
+                                                <cfmodule template="/webware_admin/components/boolean.cfm" userid="#url.id#" fieldprefix="adm" fieldname="expired" fieldval="#user.expired#">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>SMS Confirmed</td>
+                                            <td>
+                                                <cfmodule template="/webware_admin/components/boolean.cfm" userid="#url.id#" fieldprefix="adm" fieldname="sms_confirmed" fieldval="#user.sms_confirmed#">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Global Administrator</td>
+                                            <td>
+                                                <cfmodule template="/webware_admin/components/boolean.cfm" userid="#url.id#" fieldprefix="adm" fieldname="webware_admin" fieldval="#user.webware_admin#">
+                                            </td>
+                                        </tr>      
+                                        <tr>
+                                            <td>Two-Factor Authentication Enabled</td>
+                                            <td>
+                                                <cfmodule template="/webware_admin/components/boolean.cfm" userid="#url.id#" fieldprefix="adm" fieldname="tfa_enabled" fieldval="#user.tfa_enabled#">
+                                            </td>
+                                        </tr>                                  
+                                    </tbody>
+                                </table>
+                            </cfoutput>
 						</div> <!--- ibox-content --->
 					</div> <!--- ibox --->
 				</div>
