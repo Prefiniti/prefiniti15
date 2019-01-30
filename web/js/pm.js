@@ -41,15 +41,12 @@ Prefiniti.extend("Projects", {
                     $("#project-status").html(data.status);
                     $("#project-priority").html(data.priority);                    
                 }
-            });
-
-            
+            });            
         };
 
         Prefiniti.loadPage(url, (data) => projectLoader());
 
-        Prefiniti.reload = projectRefresh;
-        
+        Prefiniti.reload = projectRefresh;        
     },
 
     edit: function(projectId) {
@@ -180,7 +177,6 @@ Prefiniti.extend("Projects", {
     },
 
     viewTask: function(taskId) {
-
         let onTaskLoaded = function() {
             let description = $("#pm-task-description").html();           
             let converter = new showdown.Converter();
@@ -337,7 +333,6 @@ Prefiniti.extend("Projects", {
             if(chk.is(":checked")) {
                 perms = perms | chk.val();
             }
-
         });
 
         $("#stakeholder-permissions").val(perms);
@@ -398,11 +393,9 @@ Prefiniti.extend("Projects", {
     },
 
     chooseDeliverable: function(deliverableId, caption) {
-
         let url = "/pm/components/upload_deliverable.cfm?id=" + deliverableId + "&caption=" + caption + "&project_id=" + Prefiniti.Projects.current;
 
         Prefiniti.dialog(url);
-
     },
 
     addFiledDocument: function() {
@@ -628,6 +621,4 @@ Prefiniti.extend("Projects", {
         });
 
     }
-
-
 });
