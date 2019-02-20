@@ -60,7 +60,12 @@
                 <tbody>
                     <cfoutput query="userFiles">
                         <cfset fileType = cmsFileType(id)>
-                        <cfset fileURL = "https://#cgi.server_name#/UserContent/#session.user.username#/#basedir#/#filename#">
+                        <cfif cgi.server_port EQ 443>
+                            <cfset proto = "https">
+                        <cfelse>
+                            <cfset proto = "http">
+                        </cfif>
+                        <cfset fileURL = "#proto#://#cgi.server_name#/UserContent/#session.user.username#/#basedir#/#filename#">
                         <tr>
                             <td><img src="#fileType.icon#"> <a href="#fileURL#" target="_blank">#filename#</a></td>                            
                             <td>#dateFormat(last_access, "mmm d, yyyy")#</td>
