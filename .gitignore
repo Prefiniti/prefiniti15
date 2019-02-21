@@ -1,2 +1,4 @@
 WEB-INF
 web/UserContent
+web/logs
+._*.cfm
