@@ -218,6 +218,19 @@
                             </cfoutput>
                         </div>
                     </div>
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Resolutions</h5>
+                            <div class="ibox-tools">
+
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <cfoutput>
+                                <cfmodule template="/businessnet/components/resolutions_overview.cfm" role_id="#session.current_association#">
+                            </cfoutput>
+                        </div>
+                    </div>
                 </div>
 
             </div>

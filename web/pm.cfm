@@ -158,6 +158,7 @@
     <script src="js/sound.js"></script>
     <script src="js/showdown.min.js"></script>
     <script src="js/admin.js"></script>
+    <script src="js/resolutions.js"></script>
     
     <cfinclude template="windowWrapper.cfm">
 

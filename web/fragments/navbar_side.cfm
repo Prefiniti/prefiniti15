@@ -89,6 +89,9 @@
                     <li><a href="#" onclick="Prefiniti.Projects.create();">New Project</a></li>
                     <li><a href="#" onclick="Prefiniti.Projects.viewAll();">All Projects</a></li>                    
                     <li class="dropdown-divider"></li>
+                    <li><a href="#" onclick="Prefiniti.Resolutions.create();">New Resolution</a></li>
+                    <li><a href="#" onclick="Prefiniti.Resolutions.viewAll();">All Resolutions</a></li>
+                    <li class="dropdown-divider"></li>                    
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Clients');">Clients</a></li>
                     <li><a href="#" onclick="Prefiniti.loadPage('/businessnet/components/people.cfm?mode=Employees');">Employees</a></li>
                     <li class="dropdown-divider"></li>
