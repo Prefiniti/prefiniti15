@@ -122,6 +122,89 @@
         <cfreturn this>
     </cffunction>
 
+    <cffunction name="canVote" returntype="boolean" access="public" output="false">
+        <cfargument name="assoc_id" type="numeric" required="true">
+
+        <cfif NOT this.inVotingWindow()>
+            <cfreturn false>
+        </cfif>
+
+        <cfif NOT this.getPermissionByKey("RES_VOTE")>            
+            <cfreturn false>
+        </cfif>
+       
+        <cfloop array="#this.getEligibleVoters()#" index="idx" item="voter">
+            <cfif voter.association.id EQ arguments.assoc_id>
+                <cfif this.getMemberVote(arguments.assoc_id).code EQ -1>
+                    <cfreturn true>
+                <cfelse>
+                    <cfreturn false>
+                </cfif>
+            </cfif>
+        </cfloop>
+
+        <cfreturn false>
+
+    </cffunction>
+
+    <cffunction name="castVote" returntype="struct" access="public" output="false">
+        <cfargument name="assoc_id" type="numeric" required="true">
+        <cfargument name="password" type="string" required="true">
+        <cfargument name="vote_type" type="numeric" required="true">
+
+        <cfset user = this.getUserByAssociationID(arguments.assoc_id)>
+
+        <cfset result = {
+            success: false,
+            message: ""
+        }>
+
+        <cfif (arguments.vote_type LT 0) OR (arguments.vote_type GT 2)>
+            <cfset result.success = false>
+            <cfset result.message = "Internal error">
+
+            <cfreturn result>
+        </cfif>
+
+
+        <cfset password_hash = hash(arguments.password, "SHA-512")>
+        <cfif password_hash NEQ user.password>
+            <cfset result = {
+                success: false,
+                message: "Vote not cast: invalid password"
+            }>
+
+            <cfreturn result>
+        </cfif>
+
+        <cflock scope="Application" timeout="30">
+            <cfif NOT this.canVote(arguments.assoc_id)>
+                <cfset result.success = false>
+                <cfset result.message = "User has already cast a vote, or does not have permissions to vote on this resolution.">
+            
+                <cfreturn result>
+            </cfif>
+
+            <cfquery name="cast_vote" datasource="sites">
+                INSERT INTO res_votes
+                    (res_id,
+                    voter_assoc_id,
+                    vote_type)
+                VALUES
+                    (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">,
+                    <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#">
+                    <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.vote_type#">)
+            </cfquery>
+        </cflock>
+
+        <cfset result = {
+            success: true,
+            message: "Your vote has been cast"
+        }>
+
+        <cfreturn result>
+    </cffunction>
+
     <cffunction name="getEligibility" returntype="string" access="public" output="false">
 
         <cfswitch expression="#this.res_eligibility#">

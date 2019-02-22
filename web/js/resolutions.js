@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-21 15:17:39
+* @Last Modified time: 2019-02-22 10:41:03
 */
 
 Prefiniti.extend("Resolutions", {
