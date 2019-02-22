@@ -161,4 +161,16 @@
 
     </cffunction>
 
+    <cffunction name="getResolutions" returntype="query" output="false">
+
+        <cfquery name="get_r" datasource="sites">
+            SELECT * 
+            FROM res_resolutions 
+            WHERE site_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.SiteID#">
+            ORDER BY res_create_date DESC
+        </cfquery>
+
+        <cfreturn get_r>
+    </cffunction>
+
 </cfcomponent>

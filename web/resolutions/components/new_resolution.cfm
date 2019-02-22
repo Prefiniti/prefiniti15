@@ -1,3 +1,6 @@
+<cfset startDate = dateFormat(dateAdd("d", 7, now()), "yyyy-mm-dd")>
+<cfset endDate = dateFormat(dateAdd("d", 7 * 3, now()), "yyyy-mm-dd")>
+
 <div class="modal-header">
     <i class="fa fa-vote-yea modal-icon"></i>
     <h4 class="modal-title">New Resolution</h4>
@@ -7,7 +10,7 @@
 <div class="modal-body">
      <div class="row m-b-lg">
         <div class="col-lg-12">
-            <form id="create-new-resolution" method="POST" action="/businessnet/components/create_resolution_sub.cfm">
+            <form id="create-new-resolution" method="POST" action="/resolutions/components/new_resolution_sub.cfm">
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label">Title &amp; Carry Threshold</label>
                     <div class="col-lg-9">
@@ -34,10 +37,19 @@
                     <label class="col-lg-3 col-form-label">Voter Eligibility</label>
                     <div class="col-lg-9">
                         <select name="res_eligibility" class="custom-select">
-                            <option value="0" selected>Employees</option>
-                            <option value="1">Customers</option>
-                            <option value="2">Both</option>                                    
+                            <option value="0" selected>Employees Only</option>
+                            <option value="1">Clients Only</option>
+                            <option value="2">Employees &amp; Clients</option>                                    
                         </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">Voting Window</label>
+                    <div class="col-lg-5">
+                        <input type="date" name="res_voting_open" class="form-control" value="#startDate#">
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="date" name="res_voting_close" class="form-control" value="#endDate#">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -52,5 +64,6 @@
 </div>
 </cfoutput>
 <div class="modal-footer">
-    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-white" data-dismiss="modal">Cancel</button>
+    <button type="button" class="btn btn-primary" name="submit" onclick="Prefiniti.submitForm('create-new-resolution', Prefiniti.Resolutions.itemCreated);">Create Resolution</button>
 </div>

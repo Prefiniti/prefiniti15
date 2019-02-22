@@ -222,12 +222,20 @@
                         <div class="ibox-title">
                             <h5>Resolutions</h5>
                             <div class="ibox-tools">
-
+                                <cfif prefiniti.getPermissionByKey("RES_CREATE", session.current_association)>
+                                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-wrench"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li><a href="#" class="dropdown-item" onclick="Prefiniti.Resolutions.create();">New Resolution...</a>
+                                        </li>                                        
+                                    </ul>
+                                </cfif>
                             </div>
                         </div>
                         <div class="ibox-content">
                             <cfoutput>
-                                <cfmodule template="/businessnet/components/resolutions_overview.cfm" role_id="#session.current_association#">
+                                <cfmodule template="/resolutions/components/resolutions_overview.cfm" role_id="#session.current_association#">
                             </cfoutput>
                         </div>
                     </div>

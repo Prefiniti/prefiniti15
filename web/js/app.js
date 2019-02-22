@@ -188,7 +188,7 @@ var Prefiniti = {
 
         Prefiniti.getNotifications();
 
-        setInterval(Prefiniti.getNotifications, 5000);
+        setInterval(Prefiniti.getNotifications, 30000);
 
         Prefiniti.home();
 
