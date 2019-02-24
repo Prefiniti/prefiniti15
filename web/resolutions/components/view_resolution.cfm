@@ -2,6 +2,8 @@
 <cfset sponsor = res.getUserByAssociationID(res.sponsor_assoc_id)>
 <cfset site = new Prefiniti.Authentication.Site(res.site_id)>
 <cfset voters = res.getEligibleVoters()>
+<cfset myVote = res.getMemberVote(session.current_association)>
+<cfset tally = res.getTally()>
 
 <cfoutput>
 <!--
@@ -27,7 +29,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <dl class="row mb-0">
                                     <div class="col-sm-4 text-sm-right"><dt>Status:</dt> </div>
                                     <div class="col-sm-8 text-sm-left"><dd class="mb-1">#res.getStatus()#</dd></div>
@@ -45,7 +47,7 @@
                                     <div class="col-sm-8 text-sm-left"><dd class="mb-1">#res.getEligibility()#</dd> </div>
                                 </dl>                            
                             </div>
-                            <div class="col-lg-6" id="cluster_info">
+                            <div class="col-lg-4" id="cluster_info">
 
                                 <dl class="row mb-0">
                                     <div class="col-sm-4 text-sm-right">
@@ -62,7 +64,32 @@
                                     <div class="col-sm-8 text-sm-left">
                                         <dd class="mb-1">#dateFormat(res.res_voting_open, "mm.dd.yyyy")#-#dateFormat(res.res_voting_close, "mm.dd.yyyy")#</dd>
                                     </div>
+                                </dl>
+                                <dl class="row mb-0">
+                                    <div class="col-sm-4 text-sm-right">
+                                        <dt>Repeals:</dt>
+                                    </div>
+                                    <div class="col-sm-8 text-sm-left">
+                                        <dd class="mb-1">N/A</dd>
+                                    </div>
+                                </dl>       
+                                <dl class="row mb-0">
+                                    <div class="col-sm-4 text-sm-right">
+                                        <dt>Repealed By:</dt>
+                                    </div>
+                                    <div class="col-sm-8 text-sm-left">
+                                        <dd class="mb-1">N/A</dd>
+                                    </div>
                                 </dl>                                
+                            </div>
+                            <div class="col-lg-4">                                
+                                <canvas id="vote-tally" 
+                                        data-labels="Undecided - #tally.undecided#,Yea - #tally.yea#,Nay - #tally.nay#,Abstain - #tally.abstain#" 
+                                        data-colors="##efefef,##1c84c6,##1ab394,##5a6268" 
+                                        data-data="#tally.undecided#,#tally.yea#,#tally.nay#,#tally.abstain#"  
+                                        width="220" 
+                                        height="80" 
+                                        style="margin: 0"></canvas>
                             </div>
                         </div>
                         
@@ -117,31 +144,44 @@
         </div>
         <div class="col-lg-3">
             <div class="wrapper wrapper-content project-manager">
-
                 <p class="text-center mb-8">
                     <img class="rounded-circle" src="#session.user.getPicture()#" width="75"><br>
-                    <h5 class="text-center"><strong>#session.user.longName#</strong> Votes</h5>
+                    <h5 class="text-center" style="text-transform: capitalize;"><strong>#session.user.longName#</strong></h5>
                 </p>
-                <div class="row mt-6">
-                    <div class="col-sm-4">
-                        <button class="btn btn-success btn-lg btn-block">
-                            <h1><i class="fa fa-vote-yea"></i></h1>
-                            Vote <strong>Yea</strong>
-                        </button>
+                <cfif (myVote.code EQ -1) AND (res.inVotingWindow())>
+                    <div class="row mt-6">
+                        <div class="col-sm-4">
+                            <button class="btn btn-success btn-lg btn-block" onclick="Prefiniti.Resolutions.castVote(#res.id#, 1);">
+                                <h1><i class="fa fa-vote-yea"></i></h1>
+                                Vote <strong>Yea</strong>
+                            </button>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-primary btn-lg btn-block" onclick="Prefiniti.Resolutions.castVote(#res.id#, 2);">
+                                <h1><i class="fa fa-vote-nay"></i></h1>
+                                Vote <strong>Nay</strong>
+                            </button>
+                        </div>
+                        <div class="col-sm-4">
+                            <button class="btn btn-secondary btn-lg btn-block" onclick="Prefiniti.Resolutions.castVote(#res.id#, 0);">
+                                <h1><i class="fa fa-circle"></i></h1>
+                                <strong>Abstain</strong>
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-sm-4">
-                        <button class="btn btn-primary btn-lg btn-block">
-                            <h1><i class="fa fa-vote-nay"></i></h1>
-                            Vote <strong>Nay</strong>
-                        </button>
+                <cfelse>
+                    <div class="row mt-6">
+                        <div class="col-sm-4"></div>
+                        <div class="col-sm-4">
+                            <button class="btn #myVote.class# btn-lg btn-block" disabled>
+                                <h1><i class="fa #myVote.icon#"></i></h1>
+                                <strong style="text-transform: capitalize;">#myVote.desc#</strong>
+                            </button>
+                        </div>
+                        <div class="col-sm-4"></div>
                     </div>
-                    <div class="col-sm-4">
-                        <button class="btn btn-secondary btn-lg btn-block">
-                            <h1><i class="fa fa-circle"></i></h1>
-                            <strong>Abstain</strong>
-                        </button>
-                    </div>
-                </div>
+                </cfif>
+
                 <div class="row mt-3 mb-5">
                     
                     <div class="col-lg-12">
@@ -173,7 +213,7 @@
                     </div>
                 </div>
 
-                <h5>Eligible Voters</h5>
+                <h5>Roll Call</h5>
                 <hr/>
 
                 <div class="feed-activity-list">

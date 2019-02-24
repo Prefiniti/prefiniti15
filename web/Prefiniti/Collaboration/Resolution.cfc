@@ -21,7 +21,9 @@
 
         <cfif isDefined("arguments.id")>
             <cfquery name="getResolution" datasource="sites">
-                SELECT * FROM res_resolutions WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+                SELECT * 
+                FROM res_resolutions 
+                WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
             </cfquery>
 
             <cfif getResolution.recordCount GT 0>
@@ -129,7 +131,7 @@
             <cfreturn false>
         </cfif>
 
-        <cfif NOT this.getPermissionByKey("RES_VOTE")>            
+        <cfif NOT this.getPermissionByKey("RES_VOTE", arguments.assoc_id)>            
             <cfreturn false>
         </cfif>
        
@@ -185,15 +187,18 @@
                 <cfreturn result>
             </cfif>
 
+            <cfset create_id = createUUID()>
             <cfquery name="cast_vote" datasource="sites">
                 INSERT INTO res_votes
                     (res_id,
                     voter_assoc_id,
-                    vote_type)
+                    vote_type,
+                    create_id)
                 VALUES
                     (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">,
-                    <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#">
-                    <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.vote_type#">)
+                    <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.assoc_id#">,
+                    <cfqueryparam cfsqltype="cf_sql_tinyint" value="#arguments.vote_type#">,
+                    <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
             </cfquery>
         </cflock>
 
@@ -302,6 +307,7 @@
             <cfset result.desc = "has not voted">
             <cfset result.date = now()>
             <cfset result.icon = "fa-question">
+            <cfset result.class = "btn-white">
 
             <cfreturn result>
         </cfif>
@@ -313,14 +319,17 @@
             <cfcase value="0">
                 <cfset result.desc = "abstains">
                 <cfset result.icon = "fa-circle">
+                <cfset result.class = "btn-secondary">
             </cfcase>
             <cfcase value="1">
                 <cfset result.desc = "votes yea">
                 <cfset result.icon = "fa-vote-yea">
+                <cfset result.class = "btn-success">
             </cfcase>
             <cfcase value="2">
                 <cfset result.desc = "votes nay">
                 <cfset result.icon = "fa-vote-nay">
+                <cfset result.class = "btn-primary">
             </cfcase>
         </cfswitch> 
 
@@ -351,7 +360,8 @@
         <cfset result = {
             abstain: 0,
             yea: 0,
-            nay: 0
+            nay: 0,
+            undecided: 0,
         }>
 
         <cfset voters = this.getEligibleVoters()>
@@ -377,6 +387,8 @@
                         <cfset result.nay = result.nay + 1>
                     </cfcase>
                 </cfswitch>
+            <cfelse>
+                <cfset result.undecided = result.undecided + 1>
             </cfif>
         </cfloop>
 

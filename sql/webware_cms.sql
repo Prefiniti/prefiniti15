@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.22, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.25, for Linux (x86_64)
 --
 -- Host: localhost    Database: webware_cms
 -- ------------------------------------------------------
--- Server version	5.7.22-0ubuntu0.16.04.1
+-- Server version	5.7.25-0ubuntu0.18.04.2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -159,7 +159,7 @@ CREATE TABLE `site_files` (
   `SWFUploadFileID` varchar(255) DEFAULT NULL,
   `om_uuid` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=812 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `user_files` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `user_files_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `webwarecl`.`users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1333 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1337 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +201,7 @@ CREATE TABLE `user_files` (
 
 LOCK TABLES `user_files` WRITE;
 /*!40000 ALTER TABLE `user_files` DISABLE KEYS */;
-INSERT INTO `user_files` VALUES (1312,'profile_images','john-hard.jpg','2018-07-11 12:01:16',724,'john-hard.jpg',1,NULL,NULL,'2018-07-11 12:01:16'),(1313,'profile_images','anthony.jpg','2018-07-11 15:16:18',725,'anthony.jpg',1,NULL,NULL,'2018-07-11 15:16:18'),(1314,'profile_images','jesse.jpg','2018-07-11 15:26:09',734,'jesse.jpg',1,NULL,NULL,'2018-07-11 15:26:09'),(1315,'profile_images','1214358155_757_FT0_truck_002.jpg','2018-07-12 20:40:16',724,'1214358155_757_FT0_truck_002.jpg',1,NULL,NULL,'2018-07-12 20:40:16'),(1316,'project_files','employees-view.png','2018-07-13 12:09:31',724,'employees-view.png',1,NULL,NULL,'2018-07-13 12:09:31'),(1317,'profile_images','add-location-1.png','2018-07-13 12:15:43',724,'add-location-1.png',1,NULL,NULL,'2018-07-13 12:15:43'),(1318,'project_files','create-project-dialog.png','2018-07-13 12:15:52',724,'create-project-dialog.png',1,NULL,NULL,'2018-07-13 12:15:52'),(1319,'project_files','employees-view1.png','2018-07-13 12:16:03',724,'employees-view1.png',1,NULL,NULL,'2018-07-13 12:16:03'),(1320,'project_files','new-message-view.png','2018-07-13 12:16:17',724,'new-message-view.png',1,NULL,NULL,'2018-07-13 12:16:17'),(1321,'project_files','Roscoe_Arbuckle.jpg','2018-07-13 12:17:57',724,'Roscoe_Arbuckle.jpg',1,NULL,NULL,'2018-07-13 12:17:57'),(1322,'project_files','aardvark instrumental.mp3','2018-07-13 12:19:33',724,'aardvark instrumental.mp3',1,NULL,NULL,'2018-07-13 12:19:33'),(1323,'project_files','buick.jpg','2018-07-13 15:39:28',724,'buick.jpg',1,NULL,NULL,'2018-07-13 15:39:28'),(1324,'project_files','22729008_2117735671585514_1460957723141466479_n.jpg','2018-07-13 15:40:33',724,'22729008_2117735671585514_1460957723141466479_n.jpg',1,NULL,NULL,'2018-07-13 15:40:33'),(1325,'project_files','amtn.png','2018-07-13 15:41:59',724,'amtn.png',1,NULL,NULL,'2018-07-13 15:41:59'),(1326,'project_files','77buickCarbInfo.pdf','2018-07-13 15:43:33',724,'77buickCarbInfo.pdf',1,NULL,NULL,'2018-07-13 15:43:33'),(1327,'project_files','amu.txt','2018-07-13 15:44:54',724,'amu.txt',1,NULL,NULL,'2018-07-13 15:44:54'),(1328,'project_files','blocks.txt','2018-07-13 15:54:53',724,'blocks.txt',1,NULL,NULL,'2018-07-13 15:54:53'),(1329,'project_files','miri_story.txt','2018-07-13 20:45:53',724,'miri_story.txt',1,NULL,NULL,'2018-07-13 20:45:53'),(1330,'project_files','.gitconfig','2018-07-15 10:34:54',724,'.gitconfig',1,NULL,NULL,'2018-07-15 10:34:54');
+INSERT INTO `user_files` VALUES (1312,'profile_images','john-hard.jpg','2018-07-11 12:01:16',724,'john-hard.jpg',1,NULL,NULL,'2018-07-11 12:01:16'),(1313,'profile_images','anthony.jpg','2018-07-11 15:16:18',725,'anthony.jpg',1,NULL,NULL,'2018-07-11 15:16:18'),(1314,'profile_images','jesse.jpg','2018-07-11 15:26:09',734,'jesse.jpg',1,NULL,NULL,'2018-07-11 15:26:09'),(1315,'profile_images','1214358155_757_FT0_truck_002.jpg','2018-07-12 20:40:16',724,'1214358155_757_FT0_truck_002.jpg',1,NULL,NULL,'2018-07-12 20:40:16'),(1316,'project_files','employees-view.png','2018-07-13 12:09:31',724,'employees-view.png',1,NULL,NULL,'2018-07-13 12:09:31'),(1317,'profile_images','add-location-1.png','2018-07-13 12:15:43',724,'add-location-1.png',1,NULL,NULL,'2018-07-13 12:15:43'),(1318,'project_files','create-project-dialog.png','2018-07-13 12:15:52',724,'create-project-dialog.png',1,NULL,NULL,'2018-07-13 12:15:52'),(1319,'project_files','employees-view1.png','2018-07-13 12:16:03',724,'employees-view1.png',1,NULL,NULL,'2018-07-13 12:16:03'),(1320,'project_files','new-message-view.png','2018-07-13 12:16:17',724,'new-message-view.png',1,NULL,NULL,'2018-07-13 12:16:17'),(1321,'project_files','Roscoe_Arbuckle.jpg','2018-07-13 12:17:57',724,'Roscoe_Arbuckle.jpg',1,NULL,NULL,'2018-07-13 12:17:57'),(1322,'project_files','aardvark instrumental.mp3','2018-07-13 12:19:33',724,'aardvark instrumental.mp3',1,NULL,NULL,'2018-07-13 12:19:33'),(1323,'project_files','buick.jpg','2018-07-13 15:39:28',724,'buick.jpg',1,NULL,NULL,'2018-07-13 15:39:28'),(1324,'project_files','22729008_2117735671585514_1460957723141466479_n.jpg','2018-07-13 15:40:33',724,'22729008_2117735671585514_1460957723141466479_n.jpg',1,NULL,NULL,'2018-07-13 15:40:33'),(1325,'project_files','amtn.png','2018-07-13 15:41:59',724,'amtn.png',1,NULL,NULL,'2018-07-13 15:41:59'),(1326,'project_files','77buickCarbInfo.pdf','2018-07-13 15:43:33',724,'77buickCarbInfo.pdf',1,NULL,NULL,'2018-07-13 15:43:33'),(1327,'project_files','amu.txt','2018-07-13 15:44:54',724,'amu.txt',1,NULL,NULL,'2018-07-13 15:44:54'),(1328,'project_files','blocks.txt','2018-07-13 15:54:53',724,'blocks.txt',1,NULL,NULL,'2018-07-13 15:54:53'),(1329,'project_files','miri_story.txt','2018-07-13 20:45:53',724,'miri_story.txt',1,NULL,NULL,'2018-07-13 20:45:53'),(1330,'project_files','.gitconfig','2018-07-15 10:34:54',724,'.gitconfig',1,NULL,NULL,'2018-07-15 10:34:54'),(1333,'project_files','grant_taylor_networking.pdf','2018-08-05 21:53:55',724,'grant_taylor_networking.pdf',1,NULL,NULL,'2018-08-05 21:53:55'),(1334,'project_files','20180719-1083 HINES REV-1.pdf','2018-08-16 20:56:27',725,'20180719-1083 HINES REV-1.pdf',1,NULL,NULL,'2018-08-16 20:56:27'),(1335,'profile_images','Profile.jpg','2018-08-16 21:11:22',725,'Profile.jpg',1,NULL,NULL,'2018-08-16 21:11:22'),(1336,'profile_images','shoop.png','2018-08-29 15:57:48',724,'shoop.png',1,NULL,NULL,'2018-08-29 15:57:48');
 /*!40000 ALTER TABLE `user_files` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -214,4 +214,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-27 15:46:29
+-- Dump completed on 2019-02-22 14:18:46
