@@ -4,6 +4,8 @@
 <cfset voters = res.getEligibleVoters()>
 <cfset myVote = res.getMemberVote(session.current_association)>
 <cfset tally = res.getTally()>
+<cfset repeals = res.repeals()>
+<cfset repealedBy = res.repealedBy()>
 
 <cfoutput>
 <!--
@@ -45,7 +47,11 @@
                                 <dl class="row mb-0">
                                     <div class="col-sm-4 text-sm-right"><dt>Eligibility:</dt> </div>
                                     <div class="col-sm-8 text-sm-left"><dd class="mb-1">#res.getEligibility()#</dd> </div>
-                                </dl>                            
+                                </dl>     
+                                <dl class="row mb-0">
+                                    <div class="col-sm-4 text-sm-right"><dt>Quorum:</dt> </div>
+                                    <div class="col-sm-8 text-sm-left"><dd class="mb-1">#res.res_quorum#</dd> </div>
+                                </dl>                        
                             </div>
                             <div class="col-lg-4" id="cluster_info">
 
@@ -70,7 +76,13 @@
                                         <dt>Repeals:</dt>
                                     </div>
                                     <div class="col-sm-8 text-sm-left">
-                                        <dd class="mb-1">N/A</dd>
+                                        <dd class="mb-1">
+                                            <cfif repeals.result EQ true>
+                                                <a href="##" onclick="Prefiniti.Resolutions.view(#repeals.resolution.id#)">#repeals.resolution.res_title#</a>
+                                            <cfelse>
+                                                N/A
+                                            </cfif>                                
+                                        </dd>
                                     </div>
                                 </dl>       
                                 <dl class="row mb-0">
@@ -78,7 +90,13 @@
                                         <dt>Repealed By:</dt>
                                     </div>
                                     <div class="col-sm-8 text-sm-left">
-                                        <dd class="mb-1">N/A</dd>
+                                        <dd class="mb-1">
+                                            <cfif repealedBy.result EQ true>
+                                                <a href="##" onclick="Prefiniti.Resolutions.view(#repealedBy.resolution.id#)">#repealedBy.resolution.res_title#</a>
+                                            <cfelse>
+                                                N/A
+                                            </cfif>                                            
+                                        </dd>
                                     </div>
                                 </dl>                                
                             </div>
@@ -109,20 +127,8 @@
                                     <div class="panel-body">
 
                                         <div class="tab-content">
-                                            <div class="tab-pane active" id="tab-restext">
-
-                                                <div style="text-align: center;">
-                                                    <h2 style="text-transform: capitalize;"><strong>#res.res_title#</strong></h2>
-                                                    <h4><em>#site.SiteName# Draft Resolution #res.getResolutionNumber()#</em></h4>
-                                                    <p>
-                                                        Proposed by #sponsor.longName#<br/>
-                                                        #dateFormat(res.res_create_date, "mmmm d, yyyy")#
-                                                    </p>
-
-                                                </div>
-
-                                                #res.res_text#
-
+                                            <div class="tab-pane active" id="tab-restext">                                                
+                                                <cfmodule template="/resolutions/components/format_resolution.cfm" id="#res.id#">
                                             </div>
                                             <div class="tab-pane" id="tab-amendments">
 
@@ -170,48 +176,81 @@
                         </div>
                     </div>
                 <cfelse>
-                    <div class="row mt-6">
-                        <div class="col-sm-4"></div>
-                        <div class="col-sm-4">
-                            <button class="btn #myVote.class# btn-lg btn-block" disabled>
-                                <h1><i class="fa #myVote.icon#"></i></h1>
-                                <strong style="text-transform: capitalize;">#myVote.desc#</strong>
-                            </button>
-                        </div>
-                        <div class="col-sm-4"></div>
-                    </div>
+                    <cfif (NOT tally.carried) AND (NOT tally.failed)>
+                        <cfif res.inVotingWindow()>
+                            <div class="row mt-6">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+                                    <button class="btn #myVote.class# btn-lg btn-block" disabled>
+                                        <h1><i class="fa #myVote.icon#"></i></h1>
+                                        <strong style="text-transform: capitalize;">#myVote.desc#</strong>
+                                    </button>
+                                </div>
+                                <div class="col-sm-4"></div>
+                            </div>
+                        </cfif>
+                    <cfelse>
+                        <cfif repealedBy.result EQ false>
+                            <cfif tally.carried EQ true>
+                                <div class="row mt-6">
+                                    <div class="col-lg-12 text-center btn-success">
+                                        <h1><i class="fa fa-vote-yea"></i><br/><strong>Resolution Adopted</strong></h1>
+                                        <p style="text-transform: capitalize;"><em>#session.user.longName# #myVote.desc#</em></p>
+                                    </div>
+                                </div>
+                            </cfif>
+                            <cfif tally.failed EQ true>
+                                <div class="row mt-6">
+                                    <div class="col-lg-12 text-center btn-primary">
+                                        <h1><i class="fa fa-vote-nay"></i><br/><strong>Resolution Failed</strong></h1>
+                                        <p style="text-transform: capitalize;"><em>#session.user.longName# #myVote.desc#</em></p>
+                                    </div>
+                                </div>
+                            </cfif>
+                        <cfelse>
+                            <div class="row mt-6">
+                                <div class="col-lg-12 text-center btn-danger">
+                                    <h1><i class="fa fa-vote-nay"></i><br/><strong>Resolution Repealed</strong></h1>
+                                    <p><em>Repealed by <a href="##" onclick="Prefiniti.Resolutions.view(#repealedBy.resolution.id#);">#repealedBy.resolution.res_title#</a></em></p>
+                                </div>
+                            </div>
+                        </cfif>
+                    </cfif>
                 </cfif>
 
                 <div class="row mt-3 mb-5">
                     
                     <div class="col-lg-12">
-                        <cfif res.inVotingWindow()>
-                            <small class="text-center"><strong>Cannot propose amendments once voting has begun.</strong></small>
-                        <cfelse>
-                            <button class="btn btn-warning btn-lg btn-block">
-                                <strong>Propose Amendment</strong>
-                            </button>
-                        </cfif>    
-                        
+                        <cfif res.daysUntilOpen() GT 0>
+                            <cfif res.inVotingWindow()>
+                                <small class="text-center"><strong>Cannot propose amendments once voting has begun.</strong></small>
+                            <cfelse>
+                                <button class="btn btn-warning btn-lg btn-block">
+                                    <strong>Propose Amendment</strong>
+                                </button>
+                            </cfif>    
+                        </cfif>                        
                     </div>
                    
                 </div>
 
-                <h5>Sponsor Tools</h5>
-                <hr/>
+                <cfif res.sponsor_assoc_id EQ session.current_association>
+                    <h5>Sponsor Tools</h5>
+                    <hr/>
 
-                <div class="row mt-3 mb-5">
-                    <div class="col-lg-6">
-                        <button class="btn btn-secondary btn-lg btn-block">
-                            <strong>Table</strong> Resolution
-                        </button>
+                    <div class="row mt-3 mb-5">
+                        <div class="col-lg-6">
+                            <button class="btn btn-secondary btn-lg btn-block">
+                                <strong>Table</strong> Resolution
+                            </button>
+                        </div>
+                        <div class="col-lg-6">
+                            <button class="btn btn-secondary btn-lg btn-block">                            
+                                <strong>Withdraw</strong> Resolution
+                            </button>
+                        </div>
                     </div>
-                    <div class="col-lg-6">
-                        <button class="btn btn-secondary btn-lg btn-block">                            
-                            <strong>Withdraw</strong> Resolution
-                        </button>
-                    </div>
-                </div>
+                </cfif>
 
                 <h5>Roll Call</h5>
                 <hr/>

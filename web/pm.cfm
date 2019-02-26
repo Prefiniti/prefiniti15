@@ -29,6 +29,8 @@
     <!-- Morris -->
     <link href="css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
 
+    <!-- Google Fonts (for resolution text) -->
+    <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
 
     <link href="/css/animate.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">

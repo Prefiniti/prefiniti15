@@ -19,9 +19,9 @@ INSERT INTO permissions (name, perm_key) VALUES ("Create Resolutions", "RES_CREA
 INSERT INTO permissions (name, perm_key) VALUES ("Propose Amendments", "RES_AMEND");
 INSERT INTO permissions (name, perm_key) VALUES ("Vote on Resolutions", "RES_VOTE");
 
-DROP TABLE IF EXISTS res_resolutions;
-DROP TABLE IF EXISTS res_amendments;
 DROP TABLE IF EXISTS res_votes;
+DROP TABLE IF EXISTS res_amendments;
+DROP TABLE IF EXISTS res_resolutions;
 
 -- 
 -- res_resolutions
@@ -36,11 +36,13 @@ CREATE TABLE res_resolutions
     site_id BIGINT(20) UNSIGNED NOT NULL,
     sponsor_assoc_id BIGINT(20) UNSIGNED NOT NULL,
     res_carry_threshold TINYINT NOT NULL DEFAULT 100,
+    res_quorum INTEGER NOT NULL DEFAULT 0,
     res_eligibility TINYINT NOT NULL DEFAULT 0,
     res_tabled TINYINT NOT NULL DEFAULT 0,
     res_voting_open DATETIME NOT NULL,
     res_voting_close DATETIME NOT NULL,
     res_create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    res_repeals BIGINT(20) UNSIGNED NOT NULL DEFAULT 0,
     res_title VARCHAR(255) NOT NULL,
     res_text TEXT NOT NULL,
     create_id VARCHAR(255) NOT NULL,

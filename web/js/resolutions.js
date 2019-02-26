@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-22 10:41:03
+* @Last Modified time: 2019-02-25 14:09:18
 */
 
 Prefiniti.extend("Resolutions", {
@@ -55,6 +55,53 @@ Prefiniti.extend("Resolutions", {
         url += "&vote_type=" + vote_type;
 
         Prefiniti.dialog(url);
+    },
+
+    quorumChanged: function() {
+        let quorumVal = parseInt($("#res-quorum").val());
+        let max = parseInt($("#res-quorum").attr("max"));
+
+        if(quorumVal > 0) {
+            $("#quorum-value").val(quorumVal);       
+        }
+        else {
+            $("#quorum-value").val("Quorum Disabled");
+        }
+
+        if(quorumVal === max) {
+            $("#quorum-value").val("Full Participation");
+        }
+
+
+    },
+
+    voterPoolChanged: function() {
+        
+        $.get("/resolutions/components/voter_pool.cfm", (data) => {
+            let max = 0;
+            let voterPoolVal = parseInt($("#res-eligibility").val());
+
+            switch(voterPoolVal) {
+                case 0: // employees only                    
+                    max = data.employees;                    
+                    break;
+                case 1: // clients only                   
+                    max = data.clients;                    
+                    break;
+                case 2: // everyone                    
+                    max = data.everyone;                   
+                    break;
+            }
+
+            $("#res-quorum").attr("max", max);
+            let quorumVal = parseInt($("#res-quorum").val());
+
+            if(quorumVal > max) {
+                $("#res-quorum").val(max);
+                $("#quorum-value").val(max);
+            }
+        });
+
     }
 
 });

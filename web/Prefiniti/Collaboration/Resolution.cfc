@@ -8,6 +8,7 @@
             this.site_id = 0;
             this.sponsor_assoc_id = 0;
             this.res_carry_threshold = 0;
+            this.res_quorum = 0;
             this.res_eligibility = 0;
             this.res_tabled = 0;
             this.res_voting_open = createODBCDateTime(now());
@@ -15,6 +16,7 @@
             this.res_create_date = createODBCDateTime(now());
             this.res_title = "";
             this.res_text = "";
+            this.res_repeals = 0;
             this.create_id = createUUID();
             this.saved = false;
         </cfscript>
@@ -31,6 +33,7 @@
                     this.site_id = getResolution.site_id;
                     this.sponsor_assoc_id = getResolution.sponsor_assoc_id;
                     this.res_carry_threshold = getResolution.res_carry_threshold;
+                    this.res_quorum = getResolution.res_quorum;
                     this.res_eligibility = getResolution.res_eligibility;
                     this.res_tabled = getResolution.res_tabled;
                     this.res_voting_open = getResolution.res_voting_open;
@@ -38,6 +41,7 @@
                     this.res_create_date = getResolution.res_create_date;
                     this.res_title = getResolution.res_title;
                     this.res_text = getResolution.res_text;
+                    this.res_repeals = getResolution.res_repeals;
                     this.create_id = getResolution.create_id; 
                     this.saved = true;           
                 </cfscript>        
@@ -68,23 +72,27 @@
                 (site_id,
                 sponsor_assoc_id,
                 res_carry_threshold,
+                res_quorum,
                 res_eligibility,
                 res_tabled,
                 res_voting_open,
                 res_voting_close,
                 res_title,
                 res_text,
+                res_repeals,
                 create_id)
             VALUES
                 (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.site_id#">,
                 <cfqueryparam cfsqltype="cf_sql_bigint" value="#this.sponsor_assoc_id#">,
                 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.res_carry_threshold#">,
+                <cfqueryparam cfsqltype="cf_sql_integer" value="#this.res_quorum#">,
                 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.res_eligibility#">,
                 <cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.res_tabled#">,
                 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.res_voting_open#">,
                 <cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.res_voting_close#">,
                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#HTMLEditFormat(this.res_title)#" maxlength="255">,
                 <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#HTMLEditFormat(this.res_text)#">,
+                <cfqueryparam cfsqltype="cf_sql_bigint" value="#this.res_repeals#">,
                 <cfqueryparam cfsqltype="cf_sql_varchar" value="#this.create_id#" maxlength="255">)
         </cfquery>
 
@@ -110,18 +118,70 @@
             SET site_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.site_id#">,
                 sponsor_assoc_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.sponsor_assoc_id#">,
                 res_carry_threshold=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.res_carry_threshold#">,
+                res_quorum=<cfqueryparam cfsqltype="cf_sql_integer" value="#this.res_quorum#">,
                 res_eligibility=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.res_eligibility#">,
                 res_tabled=<cfqueryparam cfsqltype="cf_sql_tinyint" value="#this.res_tabled#">,
                 res_voting_open=<cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.res_voting_open#">,
                 res_voting_close=<cfqueryparam cfsqltype="cf_sql_timestamp" value="#this.res_voting_close#">,
                 res_title=<cfqueryparam cfsqltype="cf_sql_varchar" value="#htmlEditFormat(this.res_title)#" maxlength="255">,
-                res_text=<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#htmlEditFormat(this.res_text)#" maxlength="255">
+                res_text=<cfqueryparam cfsqltype="cf_sql_longvarchar" value="#htmlEditFormat(this.res_text)#" maxlength="255">,
+                res_repeals=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.res_repeals#">
             WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
         </cfquery>
 
         <cfset this.saved = true>
 
         <cfreturn this>
+    </cffunction>
+
+    <cffunction name="repeals" returntype="struct" access="public" output="false">
+
+        <cfif this.res_repeals NEQ 0>
+            <cfset rep = new Prefiniti.Collaboration.Resolution(this.res_repeals)>
+            <cfif rep.getTally().carried EQ true>
+                <cfreturn {
+                    result: true,
+                    resolution: rep
+                }>
+            <cfelse>
+                <cfreturn {
+                    result: false
+                }>
+            </cfif>
+        <cfelse>
+            <cfreturn {
+                result: false
+            }>
+        </cfif>
+
+    </cffunction>
+
+    <cffunction name="repealedBy" returntype="struct" access="public" output="false">
+
+        <cfquery name="rep_q" datasource="sites">
+            SELECT id 
+            FROM res_resolutions
+            WHERE res_repeals=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+        </cfquery>
+
+        <cfif rep_q.recordCount EQ 1>
+            <cfset rep = new Prefiniti.Collaboration.Resolution(rep_q.id)>
+            <cfif rep.getTally().carried EQ true>
+                <cfreturn {
+                    result: true,
+                    resolution: new Prefiniti.Collaboration.Resolution(rep_q.id)
+                }>
+            <cfelse>
+                <cfreturn {
+                    result: false
+                }>
+            </cfif>
+        <cfelse>
+            <cfreturn {
+                result: false
+            }>
+        </cfif>
+
     </cffunction>
 
     <cffunction name="canVote" returntype="boolean" access="public" output="false">
@@ -242,9 +302,16 @@
 
     </cffunction>
 
-    <cffunction name="getStatus" returntype="string" access="public" output="false">
-
+    <cffunction name="getStatus" returntype="string" access="public" output="false">       
         <cfset s = "">
+
+        <cfif this.repealedBy().result EQ true>
+            <cfreturn '<span class="label label-danger mr-2">Repealed</span>'>
+        </cfif>
+
+        <cfif this.getTally().carried>
+            <cfreturn '<span class="label label-primary mr-2">Adopted</span>'>
+        </cfif>
 
         <cfif this.res_tabled EQ 1>
             <cfset s = s & '<span class="label label-danger mr-2">Tabled</span>'>
@@ -259,6 +326,10 @@
             <cfelse>
                 <cfset s = s & '<span class="label label-warning mr-2">Voting Closed</span>'>
             </cfif>
+        </cfif>
+
+        <cfif (this.daysUntilOpen() LE 0) AND (this.getTally().carried EQ false) AND (this.inVotingWindow() EQ false)>
+            <cfreturn '<span class="label label-danger mr-2">Failed</span>'>
         </cfif>
 
         <cfreturn s>
@@ -362,9 +433,14 @@
             yea: 0,
             nay: 0,
             undecided: 0,
+            totalVoters: 0,
+            totalVotes: 0,
+            carried: false,
+            failed: false
         }>
 
         <cfset voters = this.getEligibleVoters()>
+        <cfset result.totalVoters = voters.len()>
 
         <cfloop array="#voters#" item="voter">
 
@@ -376,6 +452,7 @@
             </cfquery>
 
             <cfif get_vote.recordCount EQ 1>
+                <cfset result.totalVotes = result.totalVotes + 1>
                 <cfswitch expression="#get_vote.vote_type#">
                     <cfcase value="0">
                         <cfset result.abstain = result.abstain + 1>
@@ -391,6 +468,40 @@
                 <cfset result.undecided = result.undecided + 1>
             </cfif>
         </cfloop>
+
+        <cfif result.totalVotes GT 0>            
+            <cfset pctYea = int((result.yea * 100) / result.totalVotes)>
+            <cfset pctNay = int((result.nay * 100) / result.totalVotes)>     
+        <cfelse>
+            <cfset pctYea = 0>
+            <cfset pctNay = 0>
+        </cfif>
+
+        <cfif result.totalVotes GE this.res_quorum>    
+            <cfif this.res_carry_threshold LT 100>
+                <cfif (pctYea GT pctNay) AND (pctYea GE this.res_carry_threshold) AND (this.inVotingWindow() EQ false) AND (this.daysUntilOpen() LE 0)>
+                    <cfset result.carried = true>
+                <cfelse>
+                    <cfset result.carried = false>
+                </cfif>
+            <cfelse>
+                <cfif result.nay GT 0>
+                    <cfset result.carried = false>
+                <cfelse>
+                    <cfif (pctYea GT pctNay) AND (pctYea GE this.res_carry_threshold) AND (this.inVotingWindow() EQ false) AND (this.daysUntilOpen() LE 0)>
+                        <cfset result.carried = true>
+                    <cfelse>
+                        <cfset result.carried = false>
+                    </cfif>
+                </cfif>
+            </cfif>
+        <cfelse>
+            <cfset result.carried = false>
+        </cfif>
+
+        <cfif (this.inVotingWindow() EQ false) AND (this.daysUntilOpen() LE 0) AND (result.carried EQ false)>
+            <cfset result.failed = true>
+        </cfif>
 
         <cfreturn result>
     </cffunction>

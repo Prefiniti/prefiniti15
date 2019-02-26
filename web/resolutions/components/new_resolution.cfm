@@ -1,5 +1,8 @@
 <cfset startDate = dateFormat(dateAdd("d", 7, now()), "yyyy-mm-dd")>
 <cfset endDate = dateFormat(dateAdd("d", 7 * 3, now()), "yyyy-mm-dd")>
+<cfset site = new Prefiniti.Authentication.Site(session.current_site_id)>
+<cfset resolutions = site.getResolutions()>
+<cfset quorumMax = site.employees().len()>
 
 <div class="modal-header">
     <i class="fa fa-vote-yea modal-icon"></i>
@@ -25,7 +28,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>                
                 <div class="form-group row">
                     <label class="col-lg-3 col-form-label">Sponsor</label>
                     <div class="col-lg-9">
@@ -34,12 +37,35 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Voter Eligibility</label>
+                    <label class="col-lg-3 col-form-label">Voter Pool</label>
                     <div class="col-lg-9">
-                        <select name="res_eligibility" class="custom-select">
+                        <select name="res_eligibility" class="custom-select" id="res-eligibility" onchange="Prefiniti.Resolutions.voterPoolChanged();">
                             <option value="0" selected>Employees Only</option>
                             <option value="1">Clients Only</option>
                             <option value="2">Employees &amp; Clients</option>                                    
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">Quorum</label>
+                    <div class="col-lg-6">
+                        <input type="range" name="res_quorum" id="res-quorum" value="0" min="0" max="#quorumMax#" step="1" class="form-control" oninput="Prefiniti.Resolutions.quorumChanged();">
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="text" name="sp__bqx1" id="quorum-value" class="form-control" value="Quorum Disabled" readonly>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label">Repeals</label>
+                    <div class="col-lg-9">
+                        <select name="res_repeals" class="custom-select">
+                            <option value="0" selected>None</option>
+                            <cfoutput query="#resolutions#">
+                                <cfset res = new Prefiniti.Collaboration.Resolution(id)>
+                                <cfif res.repealedBy().result EQ false>
+                                    <option value="#id#">#site_id#-#id#: #res_title#</option>
+                                </cfif>
+                            </cfoutput>
                         </select>
                     </div>
                 </div>
@@ -53,9 +79,12 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-lg-3 col-form-label">Resolution Text</label>
+                    <label class="col-lg-3 col-form-label">
+                        Resolution Text<br/><br/>
+                        <em>Markdown supported</em>
+                    </label>
                     <div class="col-lg-9">
-                        <textarea class="form-control summernote" name="res_text" rows="8"></textarea>
+                        <textarea class="form-control summernote" name="res_text" rows="5"></textarea>
                     </div>
                 </div>
             </form>
