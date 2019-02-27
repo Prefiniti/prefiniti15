@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-25 14:09:18
+* @Last Modified time: 2019-02-26 15:59:46
 */
 
 Prefiniti.extend("Resolutions", {
@@ -55,6 +55,76 @@ Prefiniti.extend("Resolutions", {
         url += "&vote_type=" + vote_type;
 
         Prefiniti.dialog(url);
+    },
+
+    table: function(id) {
+        let url = "/resolutions/components/table_resolution.cfm?id=" + id;
+
+        $.get(url, (data) => {
+            if(data.ok) {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+
+                toastr.success(data.message);
+            }
+            else {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+                
+                
+                toastr.error(data.message);
+            }
+
+            Prefiniti.reload();
+        });
+    },
+
+    reopen: function(id) {
+        let url = "/resolutions/components/reopen_resolution.cfm?id=" + id;
+
+        $.get(url, (data) => {
+            if(data.ok) {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+
+                toastr.success(data.message);
+            }
+            else {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+                                
+                toastr.error(data.message);
+            }
+
+            Prefiniti.reload();
+        });
+    },
+
+    withdraw: function(id) {
+        let url = "/resolutions/components/withdraw_resolution.cfm?id=" + id;
+
+        Prefiniti.dialog(url);
+    },
+
+    withdrawn: function() {
+        $("#generic-window").modal('hide');
+        Prefiniti.Dashboard.load();
     },
 
     quorumChanged: function() {

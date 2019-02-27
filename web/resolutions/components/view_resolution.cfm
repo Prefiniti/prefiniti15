@@ -154,7 +154,7 @@
                     <img class="rounded-circle" src="#session.user.getPicture()#" width="75"><br>
                     <h5 class="text-center" style="text-transform: capitalize;"><strong>#session.user.longName#</strong></h5>
                 </p>
-                <cfif (myVote.code EQ -1) AND (res.inVotingWindow())>
+                <cfif (myVote.code EQ -1) AND (res.inVotingWindow()) AND (res.tabled EQ 0)>
                     <div class="row mt-6">
                         <div class="col-sm-4">
                             <button class="btn btn-success btn-lg btn-block" onclick="Prefiniti.Resolutions.castVote(#res.id#, 1);">
@@ -176,7 +176,7 @@
                         </div>
                     </div>
                 <cfelse>
-                    <cfif (NOT tally.carried) AND (NOT tally.failed)>
+                    <cfif (NOT tally.carried) AND (NOT tally.failed)>                        
                         <cfif res.inVotingWindow()>
                             <div class="row mt-6">
                                 <div class="col-sm-4"></div>
@@ -234,18 +234,24 @@
                    
                 </div>
 
-                <cfif res.sponsor_assoc_id EQ session.current_association>
+                <cfif (res.sponsor_assoc_id EQ session.current_association) AND (res.daysUntilOpen() GT 0)>
                     <h5>Sponsor Tools</h5>
                     <hr/>
 
                     <div class="row mt-3 mb-5">
                         <div class="col-lg-6">
-                            <button class="btn btn-secondary btn-lg btn-block">
-                                <strong>Table</strong> Resolution
-                            </button>
+                            <cfif res.res_tabled EQ 0>
+                                <button class="btn btn-secondary btn-lg btn-block" onclick="Prefiniti.Resolutions.table(#res.id#);">
+                                    <strong>Table</strong> Resolution
+                                </button>
+                            <cfelse>
+                                <button class="btn btn-secondary btn-lg btn-block" onclick="Prefiniti.Resolutions.reopen(#res.id#);">
+                                    <strong>Reopen</strong> Resolution
+                                </button>
+                            </cfif>
                         </div>
                         <div class="col-lg-6">
-                            <button class="btn btn-secondary btn-lg btn-block">                            
+                            <button class="btn btn-secondary btn-lg btn-block" onclick="Prefiniti.Resolutions.withdraw(#res.id#);">                            
                                 <strong>Withdraw</strong> Resolution
                             </button>
                         </div>

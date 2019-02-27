@@ -134,6 +134,25 @@
         <cfreturn this>
     </cffunction>
 
+    <cffunction name="withdraw" returntype="boolean" access="public" output="false">
+
+        <cfif session.current_association EQ this.sponsor_assoc_id>
+            <cfif (this.getTally().carried EQ false) AND (this.getTally().failed EQ false)>
+                <cfquery name="wdr_r" datasource="sites">
+                    DELETE FROM res_resolutions
+                    WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+                </cfquery>
+
+                <cfreturn true>
+            <cfelse>
+                <cfreturn false>
+            </cfif>
+        <cfelse>
+            <cfreturn false>
+        </cfif>
+
+    </cffunction>
+
     <cffunction name="repeals" returntype="struct" access="public" output="false">
 
         <cfif this.res_repeals NEQ 0>
@@ -220,6 +239,13 @@
             success: false,
             message: ""
         }>
+
+        <cfif this.res_tabled EQ 1>
+            <cfreturn {
+                success: false,
+                message: "Cannot vote on a tabled resolution."
+            }>
+        </cfif>
 
         <cfif (arguments.vote_type LT 0) OR (arguments.vote_type GT 2)>
             <cfset result.success = false>
@@ -314,12 +340,12 @@
         </cfif>
 
         <cfif this.res_tabled EQ 1>
-            <cfset s = s & '<span class="label label-danger mr-2">Tabled</span>'>
+            <cfset s = s & '<span class="label label-dark mr-2">Tabled</span>'>
             <cfreturn s>
         </cfif>        
 
         <cfif this.daysUntilOpen() GT 0>
-            <cfset s = s & '<span class="label label-warning mr-2">In Debate</span>'>
+            <cfset s = s & '<span class="label label-info mr-2">In Debate</span>'>
         <cfelse>
             <cfif this.inVotingWindow()>
                 <cfset s = s & '<span class="label label-primary mr-2">Voting Open</span>'>

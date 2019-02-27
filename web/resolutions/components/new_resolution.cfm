@@ -18,7 +18,7 @@
                     <label class="col-lg-3 col-form-label">Title &amp; Carry Threshold</label>
                     <div class="col-lg-9">
                         <div class="input-group">
-                            <input type="text" name="res_title" class="form-control" maxlength="255">
+                            <input type="text" name="res_title" class="form-control" maxlength="255" required>
                             <div class="input-group-append">
                                 <select name="res_carry_threshold" class="custom-select">
                                     <option value="0" selected>Simple Majority</option>
