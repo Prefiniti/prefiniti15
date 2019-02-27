@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-27 16:05:23
+* @Last Modified time: 2019-02-27 16:54:15
 */
 
 Prefiniti.extend("Resolutions", {
@@ -21,6 +21,23 @@ Prefiniti.extend("Resolutions", {
         let url = "/resolutions/components/view_resolution.cfm?id=" + id;
 
         Prefiniti.loadPage(url, Prefiniti.Resolutions.render);        
+    },
+
+    search: function() {
+
+        let searchTerms = $("#search-resolutions").val().toLowerCase();
+
+        $(".resolution-row").each(function(index) {
+
+            let name = $(this).attr("data-resolution-title").toLowerCase();
+          
+            if(name.includes(searchTerms)) {
+                $(this).show("slow");
+            }
+            else {
+                $(this).hide("slow");
+            }
+        });
     },
 
     render: function() {

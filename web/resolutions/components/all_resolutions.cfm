@@ -39,7 +39,7 @@
                             <cfset repeals = res.repeals()>
                             <cfset repealedBy = res.repealedBy()> 
                             <cfset tally = res.getTally()>                 
-                            <tr>
+                            <tr class="resolution-row" data-resolution-title="#res.res_title#">
                                 <td class="project-status">#res.getStatus()#</td>
                                 <td class="project-title">
                                     <a href="##" onclick="Prefiniti.Resolutions.view(#id#);">#res_title#</a>
