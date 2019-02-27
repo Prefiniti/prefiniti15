@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-27 15:35:07
+* @Last Modified time: 2019-02-27 16:05:23
 */
 
 Prefiniti.extend("Resolutions", {
@@ -12,7 +12,9 @@ Prefiniti.extend("Resolutions", {
     },
 
     viewAll: function() {
-        todo();
+        let url = "/resolutions/components/all_resolutions.cfm";
+
+        Prefiniti.loadPage(url);
     },
 
     view: function(id) {

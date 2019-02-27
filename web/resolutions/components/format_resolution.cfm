@@ -36,9 +36,9 @@
             </cfif>
         </div>
         <hr style="width: 470px;"/>
-        <h2>Comprising Amendments</h2>
+        <h3 class="text-center">Comprising Amendments</h3>
 
-        <ul>
+        <div class="text-center">
             <cfoutput query="#amendments#">
                 <cfif am_accepted EQ 1>
                     <cfif trim(am_title) EQ "">
@@ -47,13 +47,11 @@
                         <cfset title = am_title>
                     </cfif>
                     <cfset author = res.getUserByAssociationID(author_assoc_id)>
-                    <li><strong style="text-transform: capitalize;">#title#</strong> - <em>#author.longName#</em></li>
+                    <strong style="text-transform: capitalize;">#title#</strong> - <em>#author.longName#</em><br/>
                 </cfif>
             </cfoutput>
-        </ul>
-
-        <hr style="width: 470px;"/>
-        <h2>Resolution Text</h2>
+        </div>
+        <hr style="width: 470px;"/>        
         <div class="markdown">#latestAmendment.am_text#</div>
         <cfif tally.carried>
             <hr style="width: 470px;"/>
