@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-27 13:08:58
+* @Last Modified time: 2019-02-27 15:35:07
 */
 
 Prefiniti.extend("Resolutions", {
@@ -30,7 +30,7 @@ Prefiniti.extend("Resolutions", {
                 data: $("#vote-tally").attr("data-data").split(","),
                 backgroundColor: $("#vote-tally").attr("data-colors").split(",")
             }]
-        } ;            
+        };            
 
         var doughnutOptions = {
             responsive: true,
@@ -40,9 +40,10 @@ Prefiniti.extend("Resolutions", {
             }
         };
 
-
         var ctx4 = document.getElementById("vote-tally").getContext("2d");
         new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
+
+        Prefiniti.renderMarkdown();
     },
 
     itemCreated: function() {

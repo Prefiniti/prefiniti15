@@ -726,6 +726,16 @@ var Prefiniti = {
         $.get("/api/account/" + $("#acct-lookup-email").val(), (data) => {
             console.log(data);
         });
+    },
+
+    renderMarkdown: function() {
+        let converter = new showdown.Converter();
+
+        $(".markdown").each(function(index) {
+           var text = $(this).html();
+           var html = converter.makeHtml(text);
+           $(this).html(html);
+        });
     }
 
 

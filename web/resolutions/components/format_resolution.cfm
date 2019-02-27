@@ -54,7 +54,7 @@
 
         <hr style="width: 470px;"/>
         <h2>Resolution Text</h2>
-        #latestAmendment.am_text#
+        <div class="markdown">#latestAmendment.am_text#</div>
         <cfif tally.carried>
             <hr style="width: 470px;"/>
             <div style="text-align: center;">

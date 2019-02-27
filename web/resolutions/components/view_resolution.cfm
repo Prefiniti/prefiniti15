@@ -181,7 +181,7 @@
                                                             <tr class="amendment-text" style="display: none;" id="amendment_#id#">
                                                                 <td>&nbsp;</td>
                                                                 <td colspan="5" style="background-color: ##efefef;">
-                                                                    <p style="padding: 20px;">#am_text#</p>
+                                                                    <p style="padding: 20px;" class="markdown">#am_text#</p>
                                                                     <cfif am_accepted EQ 0>
                                                                         <cfmodule template="/socialnet/components/new_post_form.cfm" 
                                                                                     author_id="#session.user.id#" 

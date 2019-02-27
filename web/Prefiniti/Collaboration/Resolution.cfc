@@ -104,7 +104,7 @@
         <cfset this.res_create_date = get_r.res_create_date>
         <cfset this.saved = true>
 
-        <cfset initialAmendmentID = this.createAmendment(this.sponsor_assoc_id, "Initial Text", this.res_title, this.res_text)>
+        <cfset initialAmendmentID = this.createAmendment(this.sponsor_assoc_id, "Initial Text", this.res_text)>
         <cfset this.adoptAmendment(initialAmendmentID)>
 
         <cfreturn this>

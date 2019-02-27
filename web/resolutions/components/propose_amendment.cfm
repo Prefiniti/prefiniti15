@@ -47,6 +47,6 @@
 <div class="modal-footer">    
     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
     <cfoutput>
-        <button type="button" class="btn btn-primary" onclick="Prefiniti.submitForm('propose-amendment', Prefiniti.reload);">Propose Amendment</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Prefiniti.submitForm('propose-amendment', Prefiniti.reload);">Propose Amendment</button>
     </cfoutput>
 </div>
