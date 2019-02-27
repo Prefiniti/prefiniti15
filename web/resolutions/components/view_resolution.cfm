@@ -6,6 +6,9 @@
 <cfset tally = res.getTally()>
 <cfset repeals = res.repeals()>
 <cfset repealedBy = res.repealedBy()>
+<cfset amendments = res.getAmendments()>
+<cfset posts = res.getComments()>
+
 
 <cfoutput>
 <!--
@@ -131,11 +134,79 @@
                                                 <cfmodule template="/resolutions/components/format_resolution.cfm" id="#res.id#">
                                             </div>
                                             <div class="tab-pane" id="tab-amendments">
-
-
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <th>&nbsp;</th>
+                                                        <th>Title</th>
+                                                        <th>Author</th>
+                                                        <th>Created</th>
+                                                        <th>Status</th>
+                                                        <th>&nbsp;</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        <cfoutput query="amendments">
+                                                            <cfset author = res.getUserByAssociationID(author_assoc_id)>
+                                                            <cfset created = dateFormat(am_create_date, "m.dd.yyyy") & " " & timeFormat(am_create_date, "h:mm tt")>
+                                                            <cfset am_posts = res.getAmendmentComments(id)>
+                                                            <cfif am_accepted EQ 0>
+                                                                <cfset status = '<label class="label label-primary">Under Review</label>'>
+                                                            <cfelse>                                                            
+                                                                <cfset status = '<label class="label label-success">Adopted</label>'>
+                                                            </cfif>
+                                                            <tr>
+                                                                <td width="32">
+                                                                    <i class="fa fa-plus mr-3" 
+                                                                        id="am_toggle_#id#" 
+                                                                        onclick="Prefiniti.Resolutions.toggleAmendment(#id#);">                  
+                                                                    </i>
+                                                                </td>
+                                                                <td>#author.longName#</td>
+                                                                <td>#am_title#</td>
+                                                                <td>#created#</td>
+                                                                <td>#status#</td>
+                                                                <td class="text-right">
+                                                                    <button type="button" class="btn btn-white btn-sm dropdown-toggle" data-toggle="dropdown"><i class="fa fa-wrench"></i></button> 
+                                                                    <div class="dropdown-menu">
+                                                                        <button class="dropdown-item" 
+                                                                                type="button" 
+                                                                                onclick="todo();"><i class="fa fa-columns mr-3"></i> Compare...</button>
+                                                                        <cfif (res.sponsor_assoc_id EQ session.current_association) AND (am_accepted EQ 0)>
+                                                                            <button class="dropdown-item" 
+                                                                                    type="button" 
+                                                                                    onclick="Prefiniti.Resolutions.adoptAmendment(#res.id#, #id#);"><i class="fa fa-check mr-3"></i> Adopt Amendment</button>
+                                                                        </cfif>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="amendment-text" style="display: none;" id="amendment_#id#">
+                                                                <td>&nbsp;</td>
+                                                                <td colspan="5" style="background-color: ##efefef;">
+                                                                    <p style="padding: 20px;">#am_text#</p>
+                                                                    <cfif am_accepted EQ 0>
+                                                                        <cfmodule template="/socialnet/components/new_post_form.cfm" 
+                                                                                    author_id="#session.user.id#" 
+                                                                                    recipient_id="#id#" 
+                                                                                    post_class="AMND" 
+                                                                                    base_id="amendment-comment-#id#">
+                                                                    </cfif>
+                                                                    <cfloop array="#am_posts#" item="post">
+                                                                        <cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
+                                                                    </cfloop>
+                                                                </td>
+                                                            </tr> 
+                                                        </cfoutput>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                             <div class="tab-pane" id="tab-discussion">
-
+                                                <cfmodule template="/socialnet/components/new_post_form.cfm" 
+                                                            author_id="#session.user.id#" 
+                                                            recipient_id="#res.id#" 
+                                                            post_class="RESO" 
+                                                            base_id="resolution-#res.id#">
+                                                <cfloop array="#posts#" item="post">
+                                                    <cfmodule template="/socialnet/components/view_post.cfm" id="#post.id#">
+                                                </cfloop>
                                             </div>
                                         </div>
 
@@ -154,7 +225,7 @@
                     <img class="rounded-circle" src="#session.user.getPicture()#" width="75"><br>
                     <h5 class="text-center" style="text-transform: capitalize;"><strong>#session.user.longName#</strong></h5>
                 </p>
-                <cfif (myVote.code EQ -1) AND (res.inVotingWindow()) AND (res.tabled EQ 0)>
+                <cfif (myVote.code EQ -1) AND (res.inVotingWindow()) AND (res.res_tabled EQ 0)>
                     <div class="row mt-6">
                         <div class="col-sm-4">
                             <button class="btn btn-success btn-lg btn-block" onclick="Prefiniti.Resolutions.castVote(#res.id#, 1);">
@@ -225,7 +296,7 @@
                             <cfif res.inVotingWindow()>
                                 <small class="text-center"><strong>Cannot propose amendments once voting has begun.</strong></small>
                             <cfelse>
-                                <button class="btn btn-warning btn-lg btn-block">
+                                <button class="btn btn-warning btn-lg btn-block" onclick="Prefiniti.Resolutions.proposeAmendment(#res.id#);">
                                     <strong>Propose Amendment</strong>
                                 </button>
                             </cfif>    

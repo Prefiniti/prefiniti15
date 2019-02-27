@@ -104,6 +104,9 @@
         <cfset this.res_create_date = get_r.res_create_date>
         <cfset this.saved = true>
 
+        <cfset initialAmendmentID = this.createAmendment(this.sponsor_assoc_id, "Initial Text", this.res_title, this.res_text)>
+        <cfset this.adoptAmendment(initialAmendmentID)>
+
         <cfreturn this>
     </cffunction>
 
@@ -132,6 +135,156 @@
         <cfset this.saved = true>
 
         <cfreturn this>
+    </cffunction>
+
+    <cffunction name="getComments" returntype="array" output="false">
+        <cfset result = []>
+
+        <cfquery name="getComments" datasource="webwarecl">
+            SELECT id FROM posts WHERE recipient_id=#this.id# AND post_class="RESO" AND parent_post_id=0 ORDER BY post_date DESC
+        </cfquery>
+
+        <cfoutput query="getComments">
+            <cfset result.append(new Prefiniti.SocialNetworking.Post().retrieve(id))>
+        </cfoutput>
+
+        <cfreturn result>
+    </cffunction>
+
+    <cffunction name="getAmendmentComments" returntype="array" output="false">
+        <cfargument name="amendment_id" type="numeric" required="true">
+
+        <cfset result = []>
+
+        <cfquery name="getComments" datasource="webwarecl">
+            SELECT id FROM posts WHERE recipient_id=#arguments.amendment_id# AND post_class="AMND" AND parent_post_id=0 ORDER BY post_date DESC
+        </cfquery>
+
+        <cfoutput query="getComments">
+            <cfset result.append(new Prefiniti.SocialNetworking.Post().retrieve(id))>
+        </cfoutput>
+
+        <cfreturn result>
+    </cffunction>
+
+    <cffunction name="createAmendment" returntype="numeric" access="public" output="false">
+        <cfargument name="author_assoc_id" type="numeric" required="true">
+        <cfargument name="am_title" type="string" required="true">
+        <cfargument name="am_text" type="string" required="true">
+
+        <cfset create_id = createUUID()>
+
+        <cfquery name="am_c" datasource="sites">
+            INSERT INTO res_amendments
+                        (res_id,
+                        author_assoc_id,
+                        am_title,
+                        am_text,
+                        create_id)
+            VALUES      (<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">,
+                        <cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.author_assoc_id#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#arguments.am_title#" maxlength="255">,
+                        <cfqueryparam cfsqltype="cf_sql_longvarchar" value="#htmlEditFormat(arguments.am_text)#">,
+                        <cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">)
+        </cfquery>
+
+        <cfquery name="am_g" datasource="sites">
+            SELECT id
+            FROM res_amendments
+            WHERE create_id=<cfqueryparam cfsqltype="cf_sql_varchar" value="#create_id#" maxlength="255">
+        </cfquery>
+
+        <cfreturn am_g.id>
+    </cffunction>
+
+    <cffunction name="getAmendments" returntype="query" access="public" output="false">
+        <cfquery name="am_g" datasource="sites">
+            SELECT * FROM res_amendments 
+            WHERE res_id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#this.id#">
+            ORDER BY am_create_date
+            DESC
+        </cfquery>
+
+        <cfreturn am_g>
+    </cffunction>
+
+    <cffunction name="getAmendment" returntype="query" access="public" output="false">
+        <cfargument name="amendment_id" type="numeric" required="true">
+
+        <cfquery name="get_a" datasource="sites" maxrows="1">
+            SELECT *
+            FROM res_amendments
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.amendment_id#">
+        </cfquery>
+
+        <cfreturn get_a>
+    </cffunction>
+
+    <cffunction name="getLatestAmendment" returntype="numeric" access="public" output="false">
+
+        <cfquery name="am_l" datasource="sites" maxrows="1">
+            SELECT id
+            FROM res_amendments
+            WHERE am_accepted = 1
+            ORDER BY am_create_date
+            DESC
+        </cfquery>
+
+        <cfreturn am_l.id>
+    </cffunction>
+
+    <cffunction name="getPriorAmendment" returntype="numeric" access="public" output="false">
+        <cfargument name="amendment_id" type="numeric" required="true">
+
+        <cfquery name="am_this" datasource="sites">
+            SELECT am_create_date
+            FROM res_amendments
+            WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.amendment_id#">
+        </cfquery>
+
+        <cfset origDate = am_this.am_create_date>
+
+        <cfquery name="am_previous" datasource="sites" maxrows="1">
+            SELECT id
+            FROM res_amendments
+            WHERE am_create_date < <cfqueryparam cfsqltype="cf_sql_timestamp" value="#origDate#">
+            AND am_accepted = 1
+            ORDER BY am_create_date
+            DESC
+        </cfquery>
+
+        <cfreturn am_previous.id>
+    </cffunction>
+
+    <cffunction name="adoptAmendment" returntype="struct" access="public" output="false">
+        <cfargument name="id" type="numeric" required="true">
+
+        <cfif session.current_association EQ this.sponsor_assoc_id>
+            <cftry>
+                <cfquery name="am_ad" datasource="sites">
+                    UPDATE res_amendments
+                    SET am_accepted=1
+                    WHERE id=<cfqueryparam cfsqltype="cf_sql_bigint" value="#arguments.id#">
+                </cfquery>
+
+                <cfreturn {
+                    ok: true,
+                    message: "Amendment adopted."
+                }>
+
+                <cfcatch type="any">
+                    <cfreturn {
+                        ok: false,
+                        message: "Error adopting amendment."
+                    }>
+                </cfcatch>
+            </cftry>
+        <cfelse>
+            <cfreturn {
+                ok: false,
+                message: "Only the resolution sponsor may adopt an amendment."
+            }>
+        </cfif>
     </cffunction>
 
     <cffunction name="withdraw" returntype="boolean" access="public" output="false">

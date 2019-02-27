@@ -2,7 +2,7 @@
 * @Author: John P. Willis
 * @Date:   2019-02-20 15:02:57
 * @Last Modified by:   John P. Willis
-* @Last Modified time: 2019-02-26 15:59:46
+* @Last Modified time: 2019-02-27 13:08:58
 */
 
 Prefiniti.extend("Resolutions", {
@@ -55,6 +55,45 @@ Prefiniti.extend("Resolutions", {
         url += "&vote_type=" + vote_type;
 
         Prefiniti.dialog(url);
+    },
+
+    proposeAmendment: function(res_id) {
+        let url = "/resolutions/components/propose_amendment.cfm?id=" + res_id;
+
+        Prefiniti.dialog(url, () => {            
+
+        });
+    },
+
+    adoptAmendment: function(res_id, amendment_id) {
+        let url = "/resolutions/components/adopt_amendment.cfm?amendment_id=" + amendment_id + "&res_id=" + res_id;  
+        
+        $.get(url, (data) => {
+            if(data.ok) {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+
+                toastr.success(data.message);
+            }
+            else {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeout: 2000
+                };
+                
+                
+                toastr.error(data.message);
+            }
+
+            Prefiniti.reload();
+        });
+
     },
 
     table: function(id) {
@@ -172,6 +211,20 @@ Prefiniti.extend("Resolutions", {
             }
         });
 
+    },
+
+    toggleAmendment: function(id) {
+        let amendment = "#amendment_" + id;
+        let toggle = "#am_toggle_" + id;
+
+        $(amendment).toggle();
+
+        if($(amendment).is(":visible")) {
+            $(toggle).attr("class", "fa fa-minus mr-3");
+        }
+        else {
+            $(toggle).attr("class", "fa fa-plus mr-3");
+        }
     }
 
 });
