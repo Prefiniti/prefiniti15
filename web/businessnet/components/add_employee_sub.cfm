@@ -61,7 +61,7 @@
             <cfset result.ok = false>
             <cfset result.message = "Error adding employee.">
             <cfset result.tagContext = cfcatch.tagContext> 
-            <cfset result.message = cfcatch.message>
+            <cfset result.message = cfcatch.message & cfcatch.detail>
             <cfset result.detail = cfcatch.detail> 
 
             <cfif cfcatch.type EQ "database">
