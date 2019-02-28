@@ -519,6 +519,7 @@
     </cffunction>
 
     <cffunction name="inVotingWindow" returntype="boolean" access="public" output="false">
+        
         <cfscript>
 
             var today = now();
