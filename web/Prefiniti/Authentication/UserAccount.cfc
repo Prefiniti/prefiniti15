@@ -458,10 +458,13 @@ component extends="Prefiniti.Base" output="false" {
 
     public void function grantPermission(required numeric assoc_id, required string permission_key) {
 
-        cfstoredproc(procedure="grantPermission", datasource="sites") {
-            cfprocparam(cfsqltype="CF_SQL_BIGINT", value=arguments.assoc_id);
-            cfprocparam(cfsqltype="CF_SQL_VARCHAR", value=arguments.permission_key)
+        try {
+            cfstoredproc(procedure="grantPermission", datasource="sites") {
+                cfprocparam(cfsqltype="CF_SQL_BIGINT", value=arguments.assoc_id);
+                cfprocparam(cfsqltype="CF_SQL_VARCHAR", value=arguments.permission_key)
+            }
         }
+        catch(any ex) {}
 
     }
 
