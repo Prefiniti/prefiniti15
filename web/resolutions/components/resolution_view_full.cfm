@@ -30,8 +30,12 @@
 </head>
 
 <body onload="Prefiniti.renderMarkdown();">
-    <div class="wrapper">
-        <cfmodule template="/resolutions/components/format_resolution.cfm" id="#url.id#">
-    </div>
+    <cfif session.loggedin>
+        <div class="wrapper">
+            <cfmodule template="/resolutions/components/format_resolution.cfm" id="#url.id#">
+        </div>
+    <cfelse>
+        <cflocation url="/login" addtoken="false">
+    </cfif>
 </body>
                             
