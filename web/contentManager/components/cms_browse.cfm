@@ -6,7 +6,7 @@
     <wwafbreadcrumbs>Geodigraph Hub,Content Management,My Files</wwafbreadcrumbs>
 </div>
 
-<cfset userFiles = cmsGetUserFiles(session.userid)>
+<cfset userFiles = cmsGetUserFiles(session.user.id)>
 
 <div class="wrapper">    
 

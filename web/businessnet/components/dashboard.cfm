@@ -59,7 +59,7 @@
         <h2>Welcome, <cfoutput>#session.user.firstName#</cfoutput>!</h2>
         <small>You have <cfoutput>#session.user.getUnreadMessageCount()#</cfoutput> unread messages.</small>
         
-        <cfif prefiniti.getPermissionByKey("WF_EDIT", session.current_association)>
+        
             <ul class="list-group clear-list m-t">
                 <cfoutput query="getPriorityTasks" maxrows="5">
                     <li class="list-group-item fist-item">
@@ -74,7 +74,7 @@
                     </li>
                 </cfoutput>                
             </ul>
-        </cfif>
+        
     </div>
     <div class="col-md-6">
         <cfif prefiniti.getPermissionByKey("WF_VIEWSTATS", session.current_association)>

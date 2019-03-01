@@ -19,12 +19,12 @@
         <cfset basedir = "project_files">
     </cfif>
 
-    <cfset basePath = cmsUserBasePath(session.userid) & "/" & "/" & basedir>
+    <cfset basePath = cmsUserBasePath(session.user.id) & "/" & "/" & basedir>
 
     <cffile action="upload" filefield="fileData" destination="#basePath#"  nameconflict="makeunique">
 
     <cfset filename = cffile.serverFile>
-    <cfset cmsCreateUserFile(session.userid, filename, basedir, filename)>
+    <cfset cmsCreateUserFile(session.user.id, filename, basedir, filename)>
  
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
